@@ -31,9 +31,8 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMaster));
             this.panel1 = new System.Windows.Forms.Panel();
-            this.btDelete = new System.Windows.Forms.Button();
+            this.btImportMaster = new System.Windows.Forms.Button();
             this.pbSearch = new System.Windows.Forms.PictureBox();
-            this.btModify = new System.Windows.Forms.Button();
             this.tbSearchContent = new System.Windows.Forms.TextBox();
             this.cbSearchType = new System.Windows.Forms.ComboBox();
             this.cbSearchStock = new System.Windows.Forms.ComboBox();
@@ -59,9 +58,8 @@
             // 
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel1.Controls.Add(this.btDelete);
+            this.panel1.Controls.Add(this.btImportMaster);
             this.panel1.Controls.Add(this.pbSearch);
-            this.panel1.Controls.Add(this.btModify);
             this.panel1.Controls.Add(this.tbSearchContent);
             this.panel1.Controls.Add(this.cbSearchType);
             this.panel1.Controls.Add(this.cbSearchStock);
@@ -70,17 +68,17 @@
             this.panel1.Size = new System.Drawing.Size(983, 36);
             this.panel1.TabIndex = 2;
             // 
-            // btDelete
+            // btImportMaster
             // 
-            this.btDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btDelete.Font = new System.Drawing.Font("宋体", 12F);
-            this.btDelete.Location = new System.Drawing.Point(894, 8);
-            this.btDelete.Name = "btDelete";
-            this.btDelete.Size = new System.Drawing.Size(80, 27);
-            this.btDelete.TabIndex = 13;
-            this.btDelete.Text = "删除";
-            this.btDelete.UseVisualStyleBackColor = true;
-            this.btDelete.Click += new System.EventHandler(this.BtDelete_Click);
+            this.btImportMaster.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btImportMaster.Font = new System.Drawing.Font("宋体", 12F);
+            this.btImportMaster.Location = new System.Drawing.Point(835, 8);
+            this.btImportMaster.Name = "btImportMaster";
+            this.btImportMaster.Size = new System.Drawing.Size(139, 27);
+            this.btImportMaster.TabIndex = 13;
+            this.btImportMaster.Text = "导入Master文件";
+            this.btImportMaster.UseVisualStyleBackColor = true;
+            this.btImportMaster.Click += new System.EventHandler(this.BtImportMaster_Click);
             // 
             // pbSearch
             // 
@@ -91,18 +89,6 @@
             this.pbSearch.TabIndex = 4;
             this.pbSearch.TabStop = false;
             this.pbSearch.Click += new System.EventHandler(this.PbSearch_Click);
-            // 
-            // btModify
-            // 
-            this.btModify.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btModify.Font = new System.Drawing.Font("宋体", 12F);
-            this.btModify.Location = new System.Drawing.Point(800, 8);
-            this.btModify.Name = "btModify";
-            this.btModify.Size = new System.Drawing.Size(80, 27);
-            this.btModify.TabIndex = 10;
-            this.btModify.Text = "修改";
-            this.btModify.UseVisualStyleBackColor = true;
-            this.btModify.Click += new System.EventHandler(this.BtModify_Click);
             // 
             // tbSearchContent
             // 
@@ -274,9 +260,8 @@
         #endregion
 
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Button btDelete;
+        private System.Windows.Forms.Button btImportMaster;
         private System.Windows.Forms.PictureBox pbSearch;
-        private System.Windows.Forms.Button btModify;
         private System.Windows.Forms.TextBox tbSearchContent;
         private System.Windows.Forms.ComboBox cbSearchType;
         private System.Windows.Forms.ComboBox cbSearchStock;

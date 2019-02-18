@@ -163,7 +163,7 @@ namespace CoatingMgr
         /// <param name="values">插入的数值</param>
         public SQLiteDataReader InsertValues(string tableName, List<string> values)
         {
-            string queryString = "INSERT INTO " + tableName + " VALUES ('" + values[0] + "'";
+            string queryString = "INSERT INTO " + tableName + " VALUES ( null, '" + values[0] + "'";
             for (int i = 1; i < values.Count; i++)
             {
                 queryString += ", " + "'" + values[i] + "'";
@@ -315,6 +315,18 @@ namespace CoatingMgr
         }
 
         /// <summary>
+        /// 删除表
+        /// </summary>
+        /// <returns>The values.</returns>
+        /// <param name="TableName">数据表</param>
+        ///DROP TABLE TableName;
+        public SQLiteDataReader DeleteTable(string tableName)
+        {
+            string queryString = "DROP TABLE " + tableName;
+            return ExecuteQuery(queryString);
+        }
+
+        /// <summary>
         /// 清除表内所有数据
         /// </summary>
         /// <returns>The values.</returns>
@@ -372,17 +384,19 @@ namespace CoatingMgr
         {
             List<string> columnsName = new List<string>();
             List<string> columnsType = new List<string>();
+            columnsName.Add("id");
+            columnsType.Add("INTEGER PRIMARY KEY AUTOINCREMENT");
             foreach (DataColumn dc in dataTable.Columns)
             {
                 columnsName.Add(dc.ColumnName);
                 columnsType.Add("TEXT");
             }
-
+            DeleteTable(tableName);
             CreateTable(tableName, columnsName.ToArray(), columnsType.ToArray());
             foreach (DataRow dataRow in dataTable.Rows)
             {
                 List<string> values = new List<string>();
-                for (int i = 0; i < columnsName.Count; i++)
+                for (int i = 1; i < columnsName.Count; i++)
                 {
                     string value = dataRow[columnsName[i]].ToString();
                     values.Add(value);

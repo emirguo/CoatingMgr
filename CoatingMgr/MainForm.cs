@@ -103,7 +103,7 @@ namespace CoatingMgr
                 Dock = System.Windows.Forms.DockStyle.Fill
             };
 
-            formMaster = new FormMaster()
+            formMaster = new FormMaster(_userName)
             {
                 TopLevel = false,
                 FormBorderStyle = System.Windows.Forms.FormBorderStyle.None,
@@ -224,6 +224,7 @@ namespace CoatingMgr
             {
                 GetSqlLiteHelper().SaveDataTableToDB(datatable, Common.MASTERTABLENAME);
             }
+            formWarn.UpdateData();
         }
 
         private void TSMIWarning_Click(object sender, EventArgs e)

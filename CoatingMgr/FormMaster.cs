@@ -79,7 +79,10 @@ namespace CoatingMgr
                     DataSource = dataReader
                 };
                 dataGirdView.DataSource = bs;
-                dataGirdView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                if (dataGirdView.ColumnCount > 0)
+                {
+                    dataGirdView.Columns[0].Visible = false;
+                }
             }
             else
             {
@@ -179,21 +182,6 @@ namespace CoatingMgr
             }
         }
 
-        private void BtDelete_Click(object sender, EventArgs e)
-        {
-            if (dgvMasterData.SelectedCells.Count != 0)
-            {
-                string id = dgvMasterData.CurrentRow.Cells[0].Value.ToString();
-                GetSqlLiteHelper().DeleteValuesAND(_tableName, new string[] { "id" }, new string[] { id }, new string[] { "=" });
-                UpdateData();
-            }
-        }
-
-        private void BtModify_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void DgvMasterData_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
@@ -215,6 +203,16 @@ namespace CoatingMgr
                 GetSqlLiteHelper().DeleteValuesAND(_tableName, new string[] { "id" }, new string[] { id }, new string[] { "=" });
                 UpdateData();
             }
+        }
+
+        private void BtImportMaster_Click(object sender, EventArgs e)
+        {
+            DataTable datatable = ExcelHelper.ImportExcel();
+            if (datatable != null)
+            {
+                GetSqlLiteHelper().SaveDataTableToDB(datatable, Common.MASTERTABLENAME);
+            }
+            UpdateData();
         }
     }
 }

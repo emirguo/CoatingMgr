@@ -167,12 +167,12 @@
             this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.TSMIDeleteRow});
             this.contextMenuStrip.Name = "contextMenuStrip";
-            this.contextMenuStrip.Size = new System.Drawing.Size(181, 48);
+            this.contextMenuStrip.Size = new System.Drawing.Size(113, 26);
             // 
             // TSMIDeleteRow
             // 
             this.TSMIDeleteRow.Name = "TSMIDeleteRow";
-            this.TSMIDeleteRow.Size = new System.Drawing.Size(180, 22);
+            this.TSMIDeleteRow.Size = new System.Drawing.Size(112, 22);
             this.TSMIDeleteRow.Text = "删除行";
             this.TSMIDeleteRow.Click += new System.EventHandler(this.TSMIDeleteRow_Click);
             // 
