@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SQLite;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -60,5 +61,10 @@ namespace CoatingMgr
             get { return _masterTableName; }
         }
 
+        public static string FilterNum(string s)
+        {
+            string strRemoved = Regex.Replace(s, "[a-z]", "", RegexOptions.IgnoreCase);
+            return strRemoved;
+        }
     }
 }

@@ -42,14 +42,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CoatingMgr.exe" size="221160">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CoatingMgr.exe" size="222696">
       <assemblyIdentity name="CoatingMgr" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>5XvBxufyGSXy0zi7swz++WZYmYU+V8xt2PbIQCP1Gw0=</dsig:DigestValue>
+        <dsig:DigestValue>ItkQ8bhmx3IsoDj59fQ2GR483luTANdMXoSvhM7RrGo=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

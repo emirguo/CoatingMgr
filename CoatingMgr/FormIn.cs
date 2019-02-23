@@ -169,11 +169,11 @@ namespace CoatingMgr
             bool result = false;
             if (!barcode.Equals("") && barcode.Length > 10)
             {
-                tbName.Text = "四方";
-                tbType.Text = "涂料";
-                tbWeigth.Text = "5kg";
+                tbName.Text = "双虎";
+                tbType.Text = "固化剂";
+                tbWeigth.Text = "10kg";
                 tbModel.Text = "引擎盖";
-                tbDate.Text = "2020/6/8";
+                tbDate.Text = "2020/9/8";
                 result = true;
             }
             return result;

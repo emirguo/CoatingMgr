@@ -30,6 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormStock));
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btDelete = new System.Windows.Forms.Button();
             this.pbSearch = new System.Windows.Forms.PictureBox();
@@ -42,24 +44,28 @@
             this.lbTime = new System.Windows.Forms.Label();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.cbShowHistogram = new System.Windows.Forms.CheckBox();
             this.panel4 = new System.Windows.Forms.Panel();
             this.lbCount = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.dgvStockData = new System.Windows.Forms.DataGridView();
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.TSMIDeleteRow = new System.Windows.Forms.ToolStripMenuItem();
+            this.chartStock = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbSearch)).BeginInit();
             this.panel2.SuspendLayout();
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvStockData)).BeginInit();
             this.contextMenuStrip.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chartStock)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
             // 
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.Controls.Add(this.cbShowHistogram);
             this.panel1.Controls.Add(this.btDelete);
             this.panel1.Controls.Add(this.pbSearch);
             this.panel1.Controls.Add(this.btModify);
@@ -180,15 +186,28 @@
             this.panel2.Size = new System.Drawing.Size(982, 422);
             this.panel2.TabIndex = 1;
             // 
+            // cbShowHistogram
+            // 
+            this.cbShowHistogram.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbShowHistogram.AutoSize = true;
+            this.cbShowHistogram.Font = new System.Drawing.Font("宋体", 12F);
+            this.cbShowHistogram.Location = new System.Drawing.Point(671, 12);
+            this.cbShowHistogram.Name = "cbShowHistogram";
+            this.cbShowHistogram.Size = new System.Drawing.Size(107, 20);
+            this.cbShowHistogram.TabIndex = 55;
+            this.cbShowHistogram.Text = "显示柱状图";
+            this.cbShowHistogram.UseVisualStyleBackColor = true;
+            this.cbShowHistogram.CheckedChanged += new System.EventHandler(this.CbShowHistogram_CheckedChanged);
+            // 
             // panel4
             // 
             this.panel4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.panel4.Controls.Add(this.lbCount);
             this.panel4.Controls.Add(this.label4);
             this.panel4.Font = new System.Drawing.Font("宋体", 12F);
-            this.panel4.Location = new System.Drawing.Point(796, 394);
+            this.panel4.Location = new System.Drawing.Point(830, 394);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(187, 28);
+            this.panel4.Size = new System.Drawing.Size(153, 28);
             this.panel4.TabIndex = 16;
             // 
             // lbCount
@@ -196,7 +215,7 @@
             this.lbCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lbCount.AutoSize = true;
             this.lbCount.Font = new System.Drawing.Font("宋体", 12F);
-            this.lbCount.Location = new System.Drawing.Point(116, 6);
+            this.lbCount.Location = new System.Drawing.Point(82, 6);
             this.lbCount.Margin = new System.Windows.Forms.Padding(3);
             this.lbCount.Name = "lbCount";
             this.lbCount.Size = new System.Drawing.Size(16, 16);
@@ -209,7 +228,7 @@
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("宋体", 12F);
-            this.label4.Location = new System.Drawing.Point(56, 6);
+            this.label4.Location = new System.Drawing.Point(22, 6);
             this.label4.Margin = new System.Windows.Forms.Padding(3);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(72, 16);
@@ -236,20 +255,37 @@
             this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.TSMIDeleteRow});
             this.contextMenuStrip.Name = "contextMenuStrip";
-            this.contextMenuStrip.Size = new System.Drawing.Size(181, 48);
+            this.contextMenuStrip.Size = new System.Drawing.Size(113, 26);
             // 
             // TSMIDeleteRow
             // 
             this.TSMIDeleteRow.Name = "TSMIDeleteRow";
-            this.TSMIDeleteRow.Size = new System.Drawing.Size(180, 22);
+            this.TSMIDeleteRow.Size = new System.Drawing.Size(112, 22);
             this.TSMIDeleteRow.Text = "删除行";
             this.TSMIDeleteRow.Click += new System.EventHandler(this.TSMIDeleteRow_Click);
+            // 
+            // chartStock
+            // 
+            this.chartStock.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            chartArea1.Name = "ChartArea1";
+            this.chartStock.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.chartStock.Legends.Add(legend1);
+            this.chartStock.Location = new System.Drawing.Point(3, 44);
+            this.chartStock.Name = "chartStock";
+            this.chartStock.Size = new System.Drawing.Size(980, 392);
+            this.chartStock.TabIndex = 2;
+            this.chartStock.Text = "chart1";
+            this.chartStock.Visible = false;
             // 
             // FormStock
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(984, 462);
+            this.Controls.Add(this.chartStock);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Name = "FormStock";
@@ -264,6 +300,7 @@
             this.panel4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvStockData)).EndInit();
             this.contextMenuStrip.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.chartStock)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -288,5 +325,7 @@
         private System.Windows.Forms.Button btDelete;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem TSMIDeleteRow;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chartStock;
+        private System.Windows.Forms.CheckBox cbShowHistogram;
     }
 }

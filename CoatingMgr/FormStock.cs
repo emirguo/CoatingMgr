@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace CoatingMgr
 {
@@ -83,6 +84,9 @@ namespace CoatingMgr
                 {
                     dataGirdView.Columns[0].Visible = false;
                 }
+
+                SQLiteDataReader dr = GetSqlLiteHelper().ReadFullTable(table);
+                BindChartData(dr);
             }
             else
             {
@@ -105,12 +109,15 @@ namespace CoatingMgr
                 {
                     dataGirdView.Columns[0].Visible = false;
                 }
-                lbCount.Text = dataGirdView.RowCount + "";
+                
+                SQLiteDataReader dr = GetSqlLiteHelper().ReadTable(table, new string[] { "*" }, new string[] { type }, new string[] { "=" }, new string[] { content });
+                BindChartData(dr);
             }
             else
             {
                 MessageBox.Show("未查找到数据");
             }
+            lbCount.Text = dataGirdView.RowCount + "";
         }
 
         private void SetDefaultColumns(DataGridView dataGirdView, string[] columns)
@@ -205,7 +212,7 @@ namespace CoatingMgr
                 rowIndex = e.RowIndex;
                 this.dgvStockData.CurrentCell = this.dgvStockData.Rows[e.RowIndex].Cells[1];
                 this.contextMenuStrip.Show(this.dgvStockData, e.Location);
-                this.contextMenuStrip.Show(Cursor.Position);
+                this.contextMenuStrip.Show(System.Windows.Forms.Cursor.Position);
             }
         }
 
@@ -217,6 +224,36 @@ namespace CoatingMgr
                 this.dgvStockData.Rows.RemoveAt(rowIndex);
                 GetSqlLiteHelper().DeleteValuesAND(_tableName, new string[] { "id" }, new string[] { id }, new string[] { "=" });
                 UpdateData();
+            }
+        }
+
+        private void CbShowHistogram_CheckedChanged(object sender, EventArgs e)
+        {
+            if (this.cbShowHistogram.Checked)
+            {
+                this.chartStock.Visible = true;
+            }
+            else
+            {
+                this.chartStock.Visible = false;
+            }
+        }
+
+        
+
+        private void BindChartData(SQLiteDataReader dataReader)
+        {
+            chartStock.Series.Clear();
+            int x = 1;
+            while (dataReader.Read())
+            {
+                Series series = new Series();
+                series.LegendText = dataReader["名称"].ToString();
+                string w = dataReader["重量"].ToString();
+                float weight = Convert.ToSingle(Common.FilterNum(w));
+                series.Points.AddXY(x, weight);
+                x++;
+                chartStock.Series.Add(series);
             }
         }
     }

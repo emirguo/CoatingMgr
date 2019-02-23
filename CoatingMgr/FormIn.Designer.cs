@@ -283,7 +283,7 @@
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(72, 16);
             this.label9.TabIndex = 44;
-            this.label9.Text = "标准重量";
+            this.label9.Text = "重量";
             // 
             // tbDate
             // 

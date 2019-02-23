@@ -310,7 +310,7 @@ namespace CoatingMgr
         ///insert into stockmanager select null,条形码,名称,颜色,类型,标准重量,适用机型,生产日期,有效期,仓库名称,操作员,操作时间,操作类型,告警类型,备注 from instock
         public SQLiteDataReader InsertDataWithoutIdFromOtherTable(string tagTable, string sourceTable)
         {
-            string queryString = "INSERT INTO " + tagTable + " SELECT NULL, 条形码, 名称, 颜色, 类型, 标准重量, 适用机型, 生产日期, 有效期, 仓库名称, 操作员, 操作时间, 操作类型, 告警类型, 备注 FROM " + sourceTable;
+            string queryString = "INSERT INTO " + tagTable + " SELECT NULL, 条形码, 名称, 颜色, 类型, 重量, 适用机型, 生产日期, 有效期, 仓库名称, 操作员, 操作时间, 操作类型, 告警类型, 备注 FROM " + sourceTable;
             return ExecuteQuery(queryString);
         }
 

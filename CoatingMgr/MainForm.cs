@@ -123,19 +123,19 @@ namespace CoatingMgr
                 //创建账户数据表
                 GetSqlLiteHelper().CreateTable(Common.ACCOUNTTABLENAME, new string[] { "id","账号", "密码", "权限" }, new string[] { "INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT", "TEXT", "TEXT" });
                 //创建入库数据表
-                GetSqlLiteHelper().CreateTable(Common.INSTOCKTABLENAME, new string[] { "id","条形码", "名称", "颜色", "类型", "标准重量", "适用机型", "生产日期", "有效期", "仓库名称", "操作员", "操作时间", "操作类型", "告警类型", "备注" },
+                GetSqlLiteHelper().CreateTable(Common.INSTOCKTABLENAME, new string[] { "id","条形码", "名称", "颜色", "类型", "重量", "适用机型", "生产日期", "有效期", "仓库名称", "操作员", "操作时间", "操作类型", "告警类型", "备注" },
                             new string[] { "INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT" });
                 //创建出库数据表
-                GetSqlLiteHelper().CreateTable(Common.OUTSTOCKTABLENAME, new string[] { "id", "条形码", "名称", "颜色", "类型", "标准重量", "适用机型", "生产日期", "有效期", "仓库名称", "操作员", "操作时间", "操作类型", "告警类型", "备注" },
+                GetSqlLiteHelper().CreateTable(Common.OUTSTOCKTABLENAME, new string[] { "id", "条形码", "名称", "颜色", "类型", "重量", "适用机型", "生产日期", "有效期", "仓库名称", "操作员", "操作时间", "操作类型", "告警类型", "备注" },
                             new string[] { "INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT" });
                 //创建库存管理数据表
-                GetSqlLiteHelper().CreateTable(Common.STOCKMANAGERTABLENAME, new string[] { "id", "条形码", "名称", "颜色", "类型", "标准重量", "适用机型", "生产日期", "有效期", "仓库名称", "操作员", "操作时间", "操作类型", "告警类型", "备注" },
+                GetSqlLiteHelper().CreateTable(Common.STOCKMANAGERTABLENAME, new string[] { "id", "条形码", "名称", "颜色", "类型", "重量", "适用机型", "生产日期", "有效期", "仓库名称", "操作员", "操作时间", "操作类型", "告警类型", "备注" },
                             new string[] { "INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT" });
                 //创建告警数据表
                 GetSqlLiteHelper().CreateTable(Common.WARNMANAGERTABLENAME, new string[] { "id", "仓库", "产品", "颜色", "类型", "库存上限", "库存下限", "告警时间", "告警类型", "规则创建人", "规则创建时间"},
                             new string[] { "INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT" });
                 //创建日志数据表
-                GetSqlLiteHelper().CreateTable(Common.LOGTABLENAME, new string[] { "id", "条形码", "名称", "颜色", "类型", "标准重量", "适用机型", "生产日期", "有效期", "仓库名称", "操作员", "操作时间", "操作类型", "告警类型", "备注" },
+                GetSqlLiteHelper().CreateTable(Common.LOGTABLENAME, new string[] { "id", "条形码", "名称", "颜色", "类型", "重量", "适用机型", "生产日期", "有效期", "仓库名称", "操作员", "操作时间", "操作类型", "告警类型", "备注" },
                             new string[] { "INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT" });
 
             }
