@@ -28,22 +28,19 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormLog));
             this.dgvLogData = new System.Windows.Forms.DataGridView();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.pbSearch = new System.Windows.Forms.PictureBox();
-            this.tbSearchContent = new System.Windows.Forms.TextBox();
+            this.cbSearchContent = new System.Windows.Forms.ComboBox();
+            this.btShowAll = new System.Windows.Forms.Button();
             this.cbSearchType = new System.Windows.Forms.ComboBox();
-            this.cbSearchStock = new System.Windows.Forms.ComboBox();
+            this.btnExport = new System.Windows.Forms.Button();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
             this.lbCount = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.btnExport = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvLogData)).BeginInit();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbSearch)).BeginInit();
             this.panel2.SuspendLayout();
             this.panel4.SuspendLayout();
             this.SuspendLayout();
@@ -64,52 +61,59 @@
             // 
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel1.Controls.Add(this.btnExport);
-            this.panel1.Controls.Add(this.pbSearch);
-            this.panel1.Controls.Add(this.tbSearchContent);
+            this.panel1.Controls.Add(this.cbSearchContent);
+            this.panel1.Controls.Add(this.btShowAll);
             this.panel1.Controls.Add(this.cbSearchType);
-            this.panel1.Controls.Add(this.cbSearchStock);
+            this.panel1.Controls.Add(this.btnExport);
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(983, 36);
             this.panel1.TabIndex = 2;
             // 
-            // pbSearch
+            // cbSearchContent
             // 
-            this.pbSearch.Image = ((System.Drawing.Image)(resources.GetObject("pbSearch.Image")));
-            this.pbSearch.Location = new System.Drawing.Point(501, 9);
-            this.pbSearch.Name = "pbSearch";
-            this.pbSearch.Size = new System.Drawing.Size(28, 27);
-            this.pbSearch.TabIndex = 4;
-            this.pbSearch.TabStop = false;
-            this.pbSearch.Click += new System.EventHandler(this.PbSearch_Click);
+            this.cbSearchContent.Font = new System.Drawing.Font("宋体", 12F);
+            this.cbSearchContent.FormattingEnabled = true;
+            this.cbSearchContent.Location = new System.Drawing.Point(181, 8);
+            this.cbSearchContent.Name = "cbSearchContent";
+            this.cbSearchContent.Size = new System.Drawing.Size(158, 24);
+            this.cbSearchContent.TabIndex = 59;
+            this.cbSearchContent.Text = "选择过滤内容";
+            this.cbSearchContent.SelectedIndexChanged += new System.EventHandler(this.CbSearchContent_SelectedIndexChanged);
             // 
-            // tbSearchContent
+            // btShowAll
             // 
-            this.tbSearchContent.Font = new System.Drawing.Font("宋体", 12F);
-            this.tbSearchContent.Location = new System.Drawing.Point(327, 8);
-            this.tbSearchContent.Name = "tbSearchContent";
-            this.tbSearchContent.Size = new System.Drawing.Size(159, 26);
-            this.tbSearchContent.TabIndex = 2;
+            this.btShowAll.Font = new System.Drawing.Font("宋体", 12F);
+            this.btShowAll.Location = new System.Drawing.Point(358, 6);
+            this.btShowAll.Name = "btShowAll";
+            this.btShowAll.Size = new System.Drawing.Size(122, 27);
+            this.btShowAll.TabIndex = 58;
+            this.btShowAll.Text = "显示全部日志";
+            this.btShowAll.UseVisualStyleBackColor = true;
+            this.btShowAll.Click += new System.EventHandler(this.BtShowAll_Click);
             // 
             // cbSearchType
             // 
             this.cbSearchType.Font = new System.Drawing.Font("宋体", 12F);
             this.cbSearchType.FormattingEnabled = true;
-            this.cbSearchType.Location = new System.Drawing.Point(130, 9);
+            this.cbSearchType.Location = new System.Drawing.Point(5, 7);
             this.cbSearchType.Name = "cbSearchType";
-            this.cbSearchType.Size = new System.Drawing.Size(191, 24);
-            this.cbSearchType.TabIndex = 1;
+            this.cbSearchType.Size = new System.Drawing.Size(170, 24);
+            this.cbSearchType.TabIndex = 57;
+            this.cbSearchType.Text = "选择过滤种类";
+            this.cbSearchType.SelectedIndexChanged += new System.EventHandler(this.CbSearchType_SelectedIndexChanged);
             // 
-            // cbSearchStock
+            // btnExport
             // 
-            this.cbSearchStock.Font = new System.Drawing.Font("宋体", 12F);
-            this.cbSearchStock.FormattingEnabled = true;
-            this.cbSearchStock.Location = new System.Drawing.Point(3, 9);
-            this.cbSearchStock.Name = "cbSearchStock";
-            this.cbSearchStock.Size = new System.Drawing.Size(121, 24);
-            this.cbSearchStock.TabIndex = 0;
-            this.cbSearchStock.Text = "选择仓库";
+            this.btnExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnExport.Font = new System.Drawing.Font("宋体", 12F);
+            this.btnExport.Location = new System.Drawing.Point(839, 5);
+            this.btnExport.Name = "btnExport";
+            this.btnExport.Size = new System.Drawing.Size(133, 26);
+            this.btnExport.TabIndex = 5;
+            this.btnExport.Text = "导出Excel表格";
+            this.btnExport.UseVisualStyleBackColor = true;
+            this.btnExport.Click += new System.EventHandler(this.BtnExport_Click);
             // 
             // panel2
             // 
@@ -158,18 +162,6 @@
             this.label4.Text = "总数量：";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // btnExport
-            // 
-            this.btnExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnExport.Font = new System.Drawing.Font("宋体", 12F);
-            this.btnExport.Location = new System.Drawing.Point(884, 8);
-            this.btnExport.Name = "btnExport";
-            this.btnExport.Size = new System.Drawing.Size(88, 26);
-            this.btnExport.TabIndex = 5;
-            this.btnExport.Text = "导出表格";
-            this.btnExport.UseVisualStyleBackColor = true;
-            this.btnExport.Click += new System.EventHandler(this.BtnExport_Click);
-            // 
             // FormLog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -179,11 +171,10 @@
             this.Controls.Add(this.panel2);
             this.Name = "FormLog";
             this.Text = "日志查询";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.FormLog_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvLogData)).EndInit();
             this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbSearch)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
@@ -195,15 +186,14 @@
 
         private System.Windows.Forms.DataGridView dgvLogData;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.PictureBox pbSearch;
-        private System.Windows.Forms.TextBox tbSearchContent;
-        private System.Windows.Forms.ComboBox cbSearchType;
-        private System.Windows.Forms.ComboBox cbSearchStock;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Label lbCount;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button btnExport;
+        private System.Windows.Forms.ComboBox cbSearchContent;
+        private System.Windows.Forms.Button btShowAll;
+        private System.Windows.Forms.ComboBox cbSearchType;
     }
 }

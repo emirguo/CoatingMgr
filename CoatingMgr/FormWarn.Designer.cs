@@ -185,6 +185,7 @@
             this.Controls.Add(this.panel2);
             this.Name = "FormWarn";
             this.Text = "FormWarn";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.FormWarn_Load);
             this.panel2.ResumeLayout(false);
             this.panel5.ResumeLayout(false);

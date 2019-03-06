@@ -121,23 +121,19 @@ namespace CoatingMgr
             try
             {
                 //创建账户数据表
-                GetSqlLiteHelper().CreateTable(Common.ACCOUNTTABLENAME, new string[] { "id","账号", "密码", "权限" }, new string[] { "INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT", "TEXT", "TEXT" });
+                GetSqlLiteHelper().CreateTable(Common.ACCOUNTTABLENAME, Common.ACCOUNTTABLECOLUMNS, Common.ACCOUNTTABLECOLUMNSTYPE);
                 //创建入库数据表
-                GetSqlLiteHelper().CreateTable(Common.INSTOCKTABLENAME, new string[] { "id","条形码", "名称", "颜色", "类型", "重量", "适用机型", "生产日期", "有效期", "仓库名称", "操作员", "操作时间", "操作类型", "告警类型", "备注" },
-                            new string[] { "INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT" });
+                GetSqlLiteHelper().CreateTable(Common.INSTOCKTABLENAME, Common.INSTOCKTABLECOLUMNS, Common.INSTOCKTABLECOLUMNSTYPE);
                 //创建出库数据表
-                GetSqlLiteHelper().CreateTable(Common.OUTSTOCKTABLENAME, new string[] { "id", "条形码", "名称", "颜色", "类型", "重量", "适用机型", "生产日期", "有效期", "仓库名称", "操作员", "操作时间", "操作类型", "告警类型", "备注" },
-                            new string[] { "INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT" });
+                GetSqlLiteHelper().CreateTable(Common.OUTSTOCKTABLENAME, Common.OUTSTOCKTABLECOLUMNS, Common.OUTSTOCKTABLECOLUMNSTYPE);
                 //创建库存管理数据表
-                GetSqlLiteHelper().CreateTable(Common.STOCKMANAGERTABLENAME, new string[] { "id", "条形码", "名称", "颜色", "类型", "重量", "适用机型", "生产日期", "有效期", "仓库名称", "操作员", "操作时间", "操作类型", "告警类型", "备注" },
-                            new string[] { "INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT" });
+                GetSqlLiteHelper().CreateTable(Common.STOCKCOUNTTABLENAME, Common.STOCKCOUNTTABLECOLUMNS, Common.STOCKCOUNTTABLECOLUMNSTYPE);
                 //创建告警数据表
-                GetSqlLiteHelper().CreateTable(Common.WARNMANAGERTABLENAME, new string[] { "id", "仓库", "产品", "颜色", "类型", "库存上限", "库存下限", "告警时间", "告警类型", "规则创建人", "规则创建时间"},
-                            new string[] { "INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT" });
-                //创建日志数据表
-                GetSqlLiteHelper().CreateTable(Common.LOGTABLENAME, new string[] { "id", "条形码", "名称", "颜色", "类型", "重量", "适用机型", "生产日期", "有效期", "仓库名称", "操作员", "操作时间", "操作类型", "告警类型", "备注" },
-                            new string[] { "INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT" });
-
+                GetSqlLiteHelper().CreateTable(Common.WARNMANAGERTABLENAME, Common.WARNMANAGERTABLECOLUMNS, Common.WARNMANAGERTABLECOLUMNSTYPE);
+                //创建库存日志数据表
+                GetSqlLiteHelper().CreateTable(Common.STOCKLOGTABLENAME, Common.STOCKLOGTABLECOLUMNS, Common.STOCKLOGTABLECOLUMNSTYPE);
+                //创建调和日志数据表
+                GetSqlLiteHelper().CreateTable(Common.STIRLOGTABLENAME, Common.STIRLOGTABLECOLUMNS, Common.STIRLOGTABLECOLUMNSTYPE);
             }
             catch (Exception e)
             {
@@ -195,19 +191,22 @@ namespace CoatingMgr
             formAccountMgr.UpdateData();
         }
 
-        private void TSMILog_Click(object sender, EventArgs e)
+        private void TSMIStockLog_Click(object sender, EventArgs e)
         {
             this.mainPanel.Controls.Clear();
             this.mainPanel.Controls.Add(formLog);
+            formLog.InitData(Common.STOCKLOGTABLENAME);
             formLog.Show();
             formLog.UpdateData();
         }
 
-        private void TSMIExportLog_Click(object sender, EventArgs e)
+        private void TSMIStirLog_Click(object sender, EventArgs e)
         {
-            DataTable dt = new DataTable();
-            dt.Load(GetSqlLiteHelper().ReadFullTable(Common.LOGTABLENAME));
-            ExcelHelper.ExportExcel(dt);
+            this.mainPanel.Controls.Clear();
+            this.mainPanel.Controls.Add(formLog);
+            formLog.InitData(Common.STIRLOGTABLENAME);
+            formLog.Show();
+            formLog.UpdateData();
         }
 
         private void TSMIMaster_Click(object sender, EventArgs e)

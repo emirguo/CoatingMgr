@@ -63,25 +63,25 @@ namespace CoatingMgr
 
         private void InitData()
         {
-            _cbSearchStock = GetSqlLiteHelper().GetValueTypeByColumnFromTable(Common.STOCKMANAGERTABLENAME, "仓库");
+            _cbSearchStock = GetSqlLiteHelper().GetValueTypeByColumnFromTable(Common.STOCKCOUNTTABLENAME, "仓库");
             for (int i = 0; i < _cbSearchStock.Count; i++)
             {
                 cbStock.Items.Add(_cbSearchStock[i]);
             }
 
-            _cbSearchProduct = GetSqlLiteHelper().GetValueTypeByColumnFromTable(Common.STOCKMANAGERTABLENAME, "名称");
+            _cbSearchProduct = GetSqlLiteHelper().GetValueTypeByColumnFromTable(Common.STOCKCOUNTTABLENAME, "名称");
             for (int i = 0; i < _cbSearchProduct.Count; i++)
             {
                 cbProduct.Items.Add(_cbSearchProduct[i]);
             }
 
-            _cbSearchColor = GetSqlLiteHelper().GetValueTypeByColumnFromTable(Common.STOCKMANAGERTABLENAME, "颜色");
+            _cbSearchColor = GetSqlLiteHelper().GetValueTypeByColumnFromTable(Common.STOCKCOUNTTABLENAME, "颜色");
             for (int i = 0; i < _cbSearchColor.Count; i++)
             {
                 cbColor.Items.Add(_cbSearchColor[i]);
             }
 
-            _cbSearchType = GetSqlLiteHelper().GetValueTypeByColumnFromTable(Common.STOCKMANAGERTABLENAME, "类型");
+            _cbSearchType = GetSqlLiteHelper().GetValueTypeByColumnFromTable(Common.STOCKCOUNTTABLENAME, "类型");
             for (int i = 0; i < _cbSearchType.Count; i++)
             {
                 cbType.Items.Add(_cbSearchType[i]);

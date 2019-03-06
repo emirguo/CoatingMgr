@@ -61,3 +61,6 @@ E:\VSProjects\CoatingMgr\CoatingMgr\obj\Debug\CoatingMgr.FormMaster.resources
 E:\VSProjects\CoatingMgr\CoatingMgr\obj\Debug\CoatingMgr.FormSetWarn.resources
 E:\VSProjects\CoatingMgr\CoatingMgr\obj\Debug\CoatingMgr.exe.manifest
 E:\VSProjects\CoatingMgr\CoatingMgr\obj\Debug\CoatingMgr.application
+E:\VSProjects\CoatingMgr\CoatingMgr\obj\Debug\CoatingMgr.FormConfirmStirInfo.resources
+E:\VSProjects\CoatingMgr\CoatingMgr\obj\Debug\CoatingMgr.FormSetStirData.resources
+E:\VSProjects\CoatingMgr\CoatingMgr\obj\Debug\CoatingMgr.FormChartFillWindow.resources

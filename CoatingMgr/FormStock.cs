@@ -16,13 +16,11 @@ namespace CoatingMgr
     public partial class FormStock : Form
     {
         private static SqlLiteHelper sqlLiteHelper = null;
-        private static string _tableName = Common.STOCKMANAGERTABLENAME;
+        private static string _tableName = Common.STOCKCOUNTTABLENAME;
         private string _userName = "";
 
-        private static string[] _cbSearchStock = { "1号仓库", "2号仓库","3号仓库", "4号仓库" };
-
-        private static string[] _cbSearchType = { "按名称查找", "按颜色查找", "按类型查找", "按适用机型查找", "按生产日期查找", "按有效期查找", "按操作员查找", "按操作时间查找", "按告警类型查找" };
-        private static string[] _searchType = { "名称", "颜色", "类型", "适用机型", "生产日期", "有效期", "操作员", "操作时间", "告警类型" };
+        private static string[] _cbSearchType = {"按仓库查找", "按名称查找", "按颜色查找", "按类型查找", "按适用机型查找", "按生产日期查找", "按有效期查找", "按操作员查找", "按操作时间查找", "按告警类型查找" };
+        private static string[] _searchType = {"仓库", "名称", "颜色", "类型", "适用机型", "生产日期", "有效期", "操作员", "操作时间", "告警类型" };
         private int rowIndex = 0;
 
         public FormStock()
@@ -55,18 +53,13 @@ namespace CoatingMgr
             lbUser.Text = _userName;
             ShowTime();
 
-            for (int i = 0; i < _cbSearchStock.Length; i++)
-            {
-                cbSearchStock.Items.Add(_cbSearchStock[i]);
-                cbSearchStock.SelectedIndex = 0;
-            }
             for (int i = 0; i <_cbSearchType.Length; i++)
             {
                 cbSearchType.Items.Add(_cbSearchType[i]);
-                cbSearchType.SelectedIndex = 0;
             }
 
             BindDataGirdView(dgvStockData, _tableName);//绑定数据库表
+            this.chartStock.Visible = false;
         }
 
         private void BindDataGirdView(DataGridView dataGirdView, string table)
@@ -88,16 +81,12 @@ namespace CoatingMgr
                 SQLiteDataReader dr = GetSqlLiteHelper().ReadFullTable(table);
                 BindChartData(dr);
             }
-            else
-            {
-                //SetDefaultColumns(dataGirdView, new string[] { "id", "条形码", "名称", "颜色", "类型", "标准重量", "适用机型", "生产日期", "有效期", "仓库名称", "操作员", "操作时间", "操作类型", "告警类型", "备注" });
-            }
             lbCount.Text = dataGirdView.RowCount + "";
         }
 
         private void BindDataGirdViewBySearch(DataGridView dataGirdView, string table, string type, string content)
         {
-            SQLiteDataReader dataReader = GetSqlLiteHelper().ReadTable(table, new string[] { "*" }, new string[] { type }, new string[] { "=" }, new string[] { content });
+            SQLiteDataReader dataReader = GetSqlLiteHelper().ReadTable(table, new string[] { type }, new string[] { "=" }, new string[] { content });
             if (dataReader.HasRows)
             {
                 BindingSource bs = new BindingSource
@@ -110,7 +99,7 @@ namespace CoatingMgr
                     dataGirdView.Columns[0].Visible = false;
                 }
                 
-                SQLiteDataReader dr = GetSqlLiteHelper().ReadTable(table, new string[] { "*" }, new string[] { type }, new string[] { "=" }, new string[] { content });
+                SQLiteDataReader dr = GetSqlLiteHelper().ReadTable(table, new string[] { type }, new string[] { "=" }, new string[] { content });
                 BindChartData(dr);
             }
             else
@@ -177,33 +166,39 @@ namespace CoatingMgr
             { IsBackground = true }.Start();
         }
 
-        private void PbSearch_Click(object sender, EventArgs e)
+        private void CbSearchType_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (tbSearchContent.Text == null || tbSearchContent.Text.ToString().Equals(""))
+            if (cbSearchType.SelectedIndex >= 0)
             {
-                BindDataGirdView(dgvStockData, _tableName);
-            }
-            else
-            {
-                BindDataGirdViewBySearch(dgvStockData, _tableName, _searchType[cbSearchType.SelectedIndex], tbSearchContent.Text);
-            }
-        }
-
-        private void BtDelete_Click(object sender, EventArgs e)
-        {
-            if (dgvStockData.SelectedCells.Count != 0)
-            {
-                string id = dgvStockData.CurrentRow.Cells[0].Value.ToString();
-                GetSqlLiteHelper().DeleteValuesAND(_tableName, new string[] { "id" }, new string[] { id }, new string[] { "=" });
-                UpdateData();
+                cbSearchContent.Items.Clear();
+                List<string> searchContent = GetSqlLiteHelper().GetValueTypeByColumnFromTable(_tableName, _searchType[cbSearchType.SelectedIndex]);
+                for (int i = 0; i < searchContent.Count; i++)
+                {
+                    cbSearchContent.Items.Add(searchContent[i]);
+                }
             }
         }
 
-        private void BtModify_Click(object sender, EventArgs e)
+        private void CbSearchContent_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            if (cbSearchType.SelectedIndex >= 0 && cbSearchContent.SelectedIndex >= 0)
+            {
+                BindDataGirdViewBySearch(dgvStockData, _tableName, _searchType[cbSearchType.SelectedIndex], cbSearchContent.SelectedItem.ToString());
+            }
         }
 
+        //显示所有库存数据，清除过滤内容
+        private void BtShowAll_Click(object sender, EventArgs e)
+        {
+            cbSearchType.SelectedIndex = -1;
+            cbSearchType.Text = "选择过滤种类";
+            cbSearchContent.SelectedIndex = -1;
+            cbSearchContent.Text = "选择过滤内容";
+            cbSearchContent.Items.Clear();
+            BindDataGirdView(dgvStockData, _tableName);
+        }
+
+        //弹出右键菜单
         private void DgvStockData_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
@@ -216,6 +211,7 @@ namespace CoatingMgr
             }
         }
 
+        //右键选择删除
         private void TSMIDeleteRow_Click(object sender, EventArgs e)
         {
             if (!this.dgvStockData.Rows[rowIndex].IsNewRow)
@@ -227,6 +223,7 @@ namespace CoatingMgr
             }
         }
 
+        //显示柱状图
         private void CbShowHistogram_CheckedChanged(object sender, EventArgs e)
         {
             if (this.cbShowHistogram.Checked)
@@ -239,22 +236,39 @@ namespace CoatingMgr
             }
         }
 
-        
-
+        //绑定柱状图数据
         private void BindChartData(SQLiteDataReader dataReader)
         {
             chartStock.Series.Clear();
+            chartStock.ChartAreas[0].AxisX.Title = "色剂名";
+            chartStock.ChartAreas[0].AxisY.Title = "库存量(kg)";
             int x = 1;
             while (dataReader.Read())
             {
-                Series series = new Series();
-                series.LegendText = dataReader["名称"].ToString();
+                Series series = new Series
+                {
+                    LegendText = dataReader["名称"].ToString()
+                };
                 string w = dataReader["重量"].ToString();
-                float weight = Convert.ToSingle(Common.FilterNum(w));
+                float weight = Convert.ToSingle(Common.FilterChar(w));
                 series.Points.AddXY(x, weight);
                 x++;
                 chartStock.Series.Add(series);
             }
+        }
+
+        private void BtnExport_Click(object sender, EventArgs e)
+        {
+            DataTable dt = new DataTable();
+            dt.Load(GetSqlLiteHelper().ReadFullTable(_tableName));
+            ExcelHelper.ExportExcel(dt);
+        }
+
+        private void CbFillWindow_CheckedChanged(object sender, EventArgs e)
+        {
+            FormChartFillWindow formChartFillWindow = new FormChartFillWindow();
+            formChartFillWindow.Show();
+            this.cbFillWindow.CheckState = CheckState.Unchecked;
         }
     }
 }

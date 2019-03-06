@@ -19,21 +19,44 @@ namespace CoatingMgr
     public partial class FormLog : Form
     {
         private static SqlLiteHelper sqlLiteHelper = null;
-        private static string _tableName = Common.LOGTABLENAME;
+        private string _tableName = Common.STOCKLOGTABLENAME;
 
-        private static string[] _cbSearchStock = { "1号仓库", "2号仓库", "3号仓库", "4号仓库" };
+        private static string[] _cbStockSearchType = { "按仓库查找", "按名称查找", "按颜色查找", "按类型查找", "按适用机型查找", "按生产日期查找", "按有效期查找", "按操作员查找", "按操作时间查找", "按告警类型查找" };
+        private static string[] _stockSearchType = { "仓库", "名称", "颜色", "类型", "适用机型", "生产日期", "有效期", "操作员", "操作时间", "告警类型" };
 
-        private static string[] _cbSearchType = { "按名称查找", "按颜色查找", "按类型查找", "按适用机型查找", "按生产日期查找", "按有效期查找", "按操作员查找", "按操作时间查找", "按操作类型查找", "按告警类型查找" };
-        private static string[] _searchType = { "名称", "颜色", "类型", "适用机型", "生产日期", "有效期", "操作员", "操作时间", "操作类型", "告警类型" };
+        private static string[] _cbStirSearchType = { "按机型查找", "按部件查找", "按颜色查找", "按调和比例查找", "按涂料类型查找", "按涂料名称查找", "按操作员查找", "按操作时间查找", "按确认主管查找" };
+        private static string[] _stirSearchType = { "机型 ", "部件", "颜色", "比例", "类型", "名称", "操作员", "操作时间", "确认主管", };
 
         public FormLog()
         {
             InitializeComponent();
         }
 
+        public void InitData(string tableName)
+        {
+            _tableName = tableName;
+            cbSearchType.Items.Clear();
+            cbSearchContent.Items.Clear();
+
+            if (Common.STOCKLOGTABLENAME.Equals(_tableName))
+            {
+                for (int i = 0; i < _cbStockSearchType.Length; i++)
+                {
+                    cbSearchType.Items.Add(_cbStockSearchType[i]);
+                }
+            }
+            else if (Common.STIRLOGTABLENAME.Equals(_tableName))
+            {
+                for (int i = 0; i < _cbStirSearchType.Length; i++)
+                {
+                    cbSearchType.Items.Add(_cbStirSearchType[i]);
+                }
+            }
+        }
+
         private void FormLog_Load(object sender, EventArgs e)
         {
-            InitData();
+            BindDataGirdView(dgvLogData, _tableName);//绑定数据库表
         }
 
         private SqlLiteHelper GetSqlLiteHelper()
@@ -43,22 +66,6 @@ namespace CoatingMgr
                 sqlLiteHelper = SqlLiteHelper.GetInstance();
             }
             return sqlLiteHelper;
-        }
-
-        private void InitData()
-        {
-            for (int i = 0; i < _cbSearchStock.Length; i++)
-            {
-                cbSearchStock.Items.Add(_cbSearchStock[i]);
-                cbSearchStock.SelectedIndex = 0;
-            }
-            for (int i = 0; i < _cbSearchType.Length; i++)
-            {
-                cbSearchType.Items.Add(_cbSearchType[i]);
-                cbSearchType.SelectedIndex = 0;
-            }
-
-            BindDataGirdView(dgvLogData, _tableName);//绑定数据库表
         }
 
         private void BindDataGirdView(DataGridView dataGirdView, string table)
@@ -86,7 +93,7 @@ namespace CoatingMgr
 
         private void BindDataGirdViewBySearch(DataGridView dataGirdView, string table, string type, string content)
         {
-            SQLiteDataReader dataReader = GetSqlLiteHelper().ReadTable(table, new string[] { "*" }, new string[] { type }, new string[] { "=" }, new string[] { content });
+            SQLiteDataReader dataReader = GetSqlLiteHelper().ReadTable(table, new string[] { type }, new string[] { "=" }, new string[] { content });
             if (dataReader.HasRows)
             {
                 BindingSource bs = new BindingSource
@@ -143,18 +150,6 @@ namespace CoatingMgr
             }
         }
 
-        private void PbSearch_Click(object sender, EventArgs e)
-        {
-            if (tbSearchContent.Text == null || tbSearchContent.Text.ToString().Equals(""))
-            {
-                BindDataGirdView(dgvLogData, _tableName);
-            }
-            else
-            {
-                BindDataGirdViewBySearch(dgvLogData, _tableName, _searchType[cbSearchType.SelectedIndex], tbSearchContent.Text);
-            }
-        }
-
         private void BtnExport_Click(object sender, EventArgs e)
         {
             DataTable dt = new DataTable();
@@ -162,6 +157,56 @@ namespace CoatingMgr
             ExcelHelper.ExportExcel(dt);
         }
 
-        
+        private void CbSearchType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbSearchType.SelectedIndex >= 0)
+            {
+                cbSearchContent.Items.Clear();
+                string searchType = "";
+                if (Common.STOCKLOGTABLENAME.Equals(_tableName))
+                {
+                    searchType = _stockSearchType[cbSearchType.SelectedIndex];
+                }
+                else
+                {
+                    searchType = _stirSearchType[cbSearchType.SelectedIndex];
+                }
+
+                List<string> searchContent = GetSqlLiteHelper().GetValueTypeByColumnFromTable(_tableName, searchType);
+                for (int i = 0; i < searchContent.Count; i++)
+                {
+                    cbSearchContent.Items.Add(searchContent[i]);
+                }
+            }
+        }
+
+        private void CbSearchContent_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbSearchType.SelectedIndex >= 0 && cbSearchContent.SelectedIndex >= 0)
+            {
+                string searchType = "";
+                if (Common.STOCKLOGTABLENAME.Equals(_tableName))
+                {
+                    searchType = _stockSearchType[cbSearchType.SelectedIndex];
+                }
+                else
+                {
+                    searchType = _stirSearchType[cbSearchType.SelectedIndex];
+                }
+
+                BindDataGirdViewBySearch(dgvLogData, _tableName, searchType, cbSearchContent.SelectedItem.ToString());
+            }
+        }
+
+        //显示所有数据，清除过滤内容
+        private void BtShowAll_Click(object sender, EventArgs e)
+        {
+            cbSearchType.SelectedIndex = -1;
+            cbSearchType.Text = "选择过滤种类";
+            cbSearchContent.SelectedIndex = -1;
+            cbSearchContent.Text = "选择过滤内容";
+            cbSearchContent.Items.Clear();
+            BindDataGirdView(dgvLogData, _tableName);
+        }
     }
 }

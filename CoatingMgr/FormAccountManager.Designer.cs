@@ -201,12 +201,12 @@
             this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.TSMIDeleteRow});
             this.contextMenuStrip.Name = "contextMenuStrip1";
-            this.contextMenuStrip.Size = new System.Drawing.Size(181, 48);
+            this.contextMenuStrip.Size = new System.Drawing.Size(113, 26);
             // 
             // TSMIDeleteRow
             // 
             this.TSMIDeleteRow.Name = "TSMIDeleteRow";
-            this.TSMIDeleteRow.Size = new System.Drawing.Size(180, 22);
+            this.TSMIDeleteRow.Size = new System.Drawing.Size(112, 22);
             this.TSMIDeleteRow.Text = "删除行";
             this.TSMIDeleteRow.Click += new System.EventHandler(this.TSMIDeleteRow_Click);
             // 
@@ -219,6 +219,7 @@
             this.Controls.Add(this.panel1);
             this.Name = "FormAccountManager";
             this.Text = "账户管理";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.FormAccountManager_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvAccountData)).EndInit();
             this.panel2.ResumeLayout(false);

@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SQLite;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -14,10 +16,13 @@ namespace CoatingMgr
     public partial class FormStir : Form
     {
         private static SqlLiteHelper sqlLiteHelper = null;
+        private static string _tableName = Common.MASTERTABLENAME;
         private string _userName = "";
-        private static string[] _cbSearchModel = { "本田", "福特", "吉利", "长城" };
-        private static string[] _cbSearchColor = { "红色", "白色", "黑色", "蓝色" };
-        private double currentCount = 0.0;
+        private string _managerName = "";
+        private List<string> _cbSearchModel ;
+        private List<string> _cbSearchComponent;
+        private List<string> _cbSearchColor ;
+        private double currStirTime = 0.0;
         private enum Status
         {
             Stop,
@@ -25,13 +30,22 @@ namespace CoatingMgr
             CoatingPause,
             HardeningAgentStart,
             HardeningAgentPause,
-            thinnerAStart,
-            thinnerAPause,
-            thinnerBStart,
-            thinnerBPause
+            ThinnerAStart,
+            ThinnerAPause,
+            ThinnerBStart,
+            ThinnerBPause
+        }
+        private Status CurrStatus = Status.Stop;
+
+        private enum StirLogType
+        {
+            CoatingLog,
+            HardeningLog,
+            ThinnerALog,
+            ThinnerBLog,
         }
 
-        private Status CurrStatus = Status.Stop;
+        private bool isStirInfoConfirmed = false;
 
         public FormStir()
         {
@@ -61,22 +75,45 @@ namespace CoatingMgr
         private void InitData()
         {
             lbUser.Text = _userName;
+            ShowTime();
 
-            for (int i = 0; i < _cbSearchModel.Length; i++)
+            _cbSearchModel = GetSqlLiteHelper().GetValueTypeByColumnFromTable(_tableName, "机型");
+            for (int i = 0; i < _cbSearchModel.Count; i++)
             {
                 cbModel.Items.Add(_cbSearchModel[i]);
-                //cbModel.SelectedIndex = 0;
             }
-
-            for (int i = 0; i < _cbSearchColor.Length; i++)
+            _cbSearchComponent = GetSqlLiteHelper().GetValueTypeByColumnFromTable(_tableName, "部件");
+            for (int i = 0; i < _cbSearchComponent.Count; i++)
+            {
+                cbComponent.Items.Add(_cbSearchComponent[i]);
+            }
+            _cbSearchColor = GetSqlLiteHelper().GetValueTypeByColumnFromTable(_tableName, "颜色");
+            for (int i = 0; i < _cbSearchColor.Count; i++)
             {
                 cbColor.Items.Add(_cbSearchColor[i]);
-                //cbColor.SelectedIndex = 0;
             }
 
             GetTemperatureAndHumidity();
+        }
 
-
+        //显示当前时间
+        private void ShowTime()
+        {
+            lbTime.Text = "时间：" + DateTime.Now.ToString();
+            new Thread(() =>
+            {
+                while (true)
+                {
+                    try
+                    {
+                        lbTime.BeginInvoke(new MethodInvoker(() =>
+                            lbTime.Text = "时间：" + DateTime.Now.ToString()));
+                    }
+                    catch { }
+                    Thread.Sleep(1000);
+                }
+            })
+            { IsBackground = true }.Start();
         }
 
         private void GetTemperatureAndHumidity()
@@ -85,130 +122,323 @@ namespace CoatingMgr
             tbHumidity.Text = "64.7";
         }
 
-        private void BtnStart1_Click(object sender, EventArgs e)
+        private void ClearStirText()
         {
-            if (CurrStatus == Status.CoatingStart)
-            {
-                CurrStatus = Status.CoatingPause;
-                btnStart1.Text = "开始";
-                this.timer.Stop();
-            }
-            else
-            {
-                CurrStatus = Status.CoatingStart;
-                btnStart1.Text = "暂停";
-                btnStart2.Text = "开始";
-                btnStart3.Text = "开始";
-                btnStart4.Text = "开始";
-                if (tbMeasurementTime1.Text == null || tbMeasurementTime1.Text.Equals(""))
-                {
-                    currentCount = 0;
-                }
-                else
-                {
-                    currentCount = double.Parse(tbMeasurementTime1.Text); 
-                }
-                this.timer.Start();
-            }
+            tbRatio.Text = "";
+
+            tbName1.Text = "";
+            tbName2.Text = "";
+            tbName3.Text = "";
+            tbName4.Text = "";
+
+            tbMeasurementTime1.Text = null;
+            tbMeasurementTime2.Text = null;
+            tbMeasurementTime3.Text = null;
+            tbMeasurementTime4.Text = null;
+            this.btnPause.Text = "暂停";
+            this.lbCurrentStatus.Text = "停止";
         }
 
-        private void BtnStart2_Click(object sender, EventArgs e)
+        private void Timer_Tick(object sender, EventArgs e)
         {
-            if (CurrStatus == Status.HardeningAgentStart)
+            currStirTime += 0.1;
+            string str = currStirTime.ToString();
+            int index = str.IndexOf(".");
+            str = str.Substring(0, index + 2);
+            switch (CurrStatus)
             {
-                CurrStatus = Status.HardeningAgentPause;
-                btnStart2.Text = "开始";
-                this.timer.Stop();
+                case Status.CoatingStart:
+                    this.tbMeasurementTime1.Text = str;
+                    GetMeasurementWeight();
+                    int value1 = (int)(Convert.ToSingle(tbMeasurementValue1.Text) / Convert.ToSingle(tbSetValue1.Text) * 100);
+                    this.progressBar1.Value = value1 > 100?0: 100-value1;
+                    SetCountProgressBar();
+                    break;
+                case Status.HardeningAgentStart:
+                    this.tbMeasurementTime2.Text = str;
+                    GetMeasurementWeight();
+                    int value2 = (int)(Convert.ToSingle(tbMeasurementValue2.Text) / Convert.ToSingle(tbSetValue2.Text) * 100);
+                    this.progressBar2.Value = value2 > 100 ? 0 : 100-value2;
+                    SetCountProgressBar();
+                    break;
+                case Status.ThinnerAStart:
+                    this.tbMeasurementTime3.Text = str;
+                    GetMeasurementWeight();
+                    int value3 = (int)(Convert.ToSingle(tbMeasurementValue3.Text) / Convert.ToSingle(tbSetValue3.Text) * 100);
+                    this.progressBar3.Value = value3 > 100 ? 0 : 100-value3;
+                    SetCountProgressBar();
+                    break;
+                case Status.ThinnerBStart:
+                    this.tbMeasurementTime4.Text = str;
+                    GetMeasurementWeight();
+                    int value4 = (int)(Convert.ToSingle(tbMeasurementValue4.Text) / Convert.ToSingle(tbSetValue4.Text) * 100);
+                    this.progressBar4.Value = value4 > 100 ? 0 : 100-value4;
+                    SetCountProgressBar();
+                    break;
+                default:
+                    break;
             }
-            else
-            {
-                CurrStatus = Status.HardeningAgentStart;
-                btnStart2.Text = "暂停";
-                btnStart1.Text = "开始";
-                btnStart3.Text = "开始";
-                btnStart4.Text = "开始";
-                if (tbMeasurementTime2.Text == null || tbMeasurementTime2.Text.Equals(""))
-                {
-                    currentCount = 0;
-                }
-                else
-                {
-                    currentCount = double.Parse(tbMeasurementTime2.Text);
-                }
-                this.timer.Start();
-            }
+            
         }
 
-        private void BtnStart3_Click(object sender, EventArgs e)
+        //获取倒入重量
+        private void GetMeasurementWeight()
         {
-            if (CurrStatus == Status.thinnerAStart)
+            switch (CurrStatus)
             {
-                CurrStatus = Status.thinnerAPause;
-                btnStart3.Text = "开始";
-                this.timer.Stop();
+                case Status.CoatingStart:
+                    float setWeight1 = tbSetValue1.Text.Equals("") ? 0.00001f : Convert.ToSingle(tbSetValue1.Text);
+                    float putWeight1 = tbMeasurementValue1.Text.Equals("") ? 0.00001f : Convert.ToSingle(tbMeasurementValue1.Text);
+                    if (setWeight1 > putWeight1)
+                    {
+                        tbMeasurementValue1.Text = string.Format("{0:f2}", Convert.ToSingle(tbMeasurementTime1.Text) / 10 * setWeight1);//只取小数点后2位
+                    }
+                    else
+                    {
+                        CurrStatus = Status.CoatingPause;
+                        tbMeasurementValue1.Text = tbSetValue1.Text;
+                        progressBar1.Value = 100;
+                        SetCountProgressBar();
+                        DoStir();
+                    }
+                    break;
+                case Status.HardeningAgentStart:
+                    float setWeight2 = tbSetValue2.Text.Equals("") ? 0.00001f : Convert.ToSingle(tbSetValue2.Text);
+                    float putWeight2 = tbMeasurementValue2.Text.Equals("") ? 0.00001f : Convert.ToSingle(tbMeasurementValue2.Text);
+                    if (setWeight2 > putWeight2)
+                    {
+                        tbMeasurementValue2.Text = string.Format("{0:f2}", Convert.ToSingle(tbMeasurementTime2.Text) / 10 * setWeight2);
+                    }
+                    else
+                    {
+                        CurrStatus = Status.HardeningAgentPause;
+                        tbMeasurementValue2.Text = tbSetValue2.Text;
+                        progressBar2.Value = 100;
+                        SetCountProgressBar();
+                        DoStir();
+                    }
+                    break;
+                case Status.ThinnerAStart:
+                    float setWeight3 = tbSetValue3.Text.Equals("") ? 0.00001f : Convert.ToSingle(tbSetValue3.Text);
+                    float putWeight3 = tbMeasurementValue3.Text.Equals("") ? 0.00001f : Convert.ToSingle(tbMeasurementValue3.Text);
+                    if (setWeight3 > putWeight3)
+                    {
+                        tbMeasurementValue3.Text = string.Format("{0:f2}", Convert.ToSingle(tbMeasurementTime3.Text) / 10 * setWeight3);
+                    }
+                    else
+                    {
+                        CurrStatus = Status.ThinnerAPause;
+                        tbMeasurementValue3.Text = tbSetValue3.Text;
+                        progressBar3.Value = 100;
+                        SetCountProgressBar();
+                        DoStir();
+                    }
+                    break;
+                case Status.ThinnerBStart:
+                    float setWeight4 = tbSetValue4.Text.Equals("") ? 0.00001f : Convert.ToSingle(tbSetValue4.Text);
+                    float putWeight4 = tbMeasurementValue4.Text.Equals("") ? 0.00001f : Convert.ToSingle(tbMeasurementValue4.Text);
+                    if (setWeight4 > putWeight4)
+                    {
+                        tbMeasurementValue4.Text = string.Format("{0:f2}", Convert.ToSingle(tbMeasurementTime4.Text) / 10 * setWeight4);
+                    }
+                    else
+                    {
+                        CurrStatus = Status.ThinnerBPause;
+                        tbMeasurementValue4.Text = tbSetValue4.Text;
+                        progressBar4.Value = 100;
+                        SetCountProgressBar();
+                        DoStir();
+                    }
+                    break;
+                default:
+                    break;
             }
-            else
-            {
-                CurrStatus = Status.thinnerAStart;
-                btnStart3.Text = "暂停";
-                btnStart1.Text = "开始";
-                btnStart2.Text = "开始";
-                btnStart4.Text = "开始";
-                if (tbMeasurementTime3.Text == null || tbMeasurementTime3.Text.Equals(""))
-                {
-                    currentCount = 0;
-                }
-                else
-                {
-                    currentCount = double.Parse(tbMeasurementTime3.Text);
-                }
-                this.timer.Start();
-            }
+            
         }
 
-        private void BtnStart4_Click(object sender, EventArgs e)
+        //设置倒入总量进度
+        private void SetCountProgressBar()
         {
-            if (CurrStatus == Status.thinnerBStart)
-            {
-                CurrStatus = Status.thinnerBPause;
-                btnStart4.Text = "开始";
-                this.timer.Stop();
-            }
-            else
-            {
-                CurrStatus = Status.thinnerBStart;
-                btnStart4.Text = "暂停";
-                btnStart1.Text = "开始";
-                btnStart2.Text = "开始";
-                btnStart3.Text = "开始";
-                if (tbMeasurementTime4.Text == null || tbMeasurementTime4.Text.Equals(""))
-                {
-                    currentCount = 0;
-                }
-                else
-                {
-                    currentCount = double.Parse(tbMeasurementTime4.Text);
-                }
-                this.timer.Start();
-            }
+            float measurementWeight1 = tbMeasurementValue1.Text.Equals("") ? 0.00001f : Convert.ToSingle(tbMeasurementValue1.Text);
+            float measurementWeight2 = tbMeasurementValue2.Text.Equals("") ? 0.00001f : Convert.ToSingle(tbMeasurementValue2.Text);
+            float measurementWeight3 = tbMeasurementValue3.Text.Equals("") ? 0.00001f : Convert.ToSingle(tbMeasurementValue3.Text);
+            float measurementWeight4 = tbMeasurementValue4.Text.Equals("") ? 0.00001f : Convert.ToSingle(tbMeasurementValue4.Text);
+            float setWeight1 = tbSetValue1.Text.Equals("") ? 0.00001f : Convert.ToSingle(tbSetValue1.Text);
+            float setWeight2 = tbSetValue2.Text.Equals("") ? 0.00001f : Convert.ToSingle(tbSetValue2.Text);
+            float setWeight3 = tbSetValue3.Text.Equals("") ? 0.00001f : Convert.ToSingle(tbSetValue3.Text);
+            float setWeight4 = tbSetValue4.Text.Equals("") ? 0.00001f : Convert.ToSingle(tbSetValue4.Text);
+
+            int value5 = (int)((measurementWeight1 + measurementWeight2 + measurementWeight3 + measurementWeight4) / (setWeight1 + setWeight2 + setWeight3 + setWeight4) * 100);
+            this.progressBar5.Value = value5 > 100 ? 100 : value5;
         }
 
+        private bool IsStirInfoEnough()
+        {
+            bool result = false;
+            if (!tbName1.Text.Equals("") && !tbSetValue1.Text.Equals(""))
+            {
+                result = true;
+            }
+            return result;
+        }
+
+        private void BtnPause_Click(object sender, EventArgs e)
+        {
+            if (!IsStirInfoEnough())
+            {
+                MessageBox.Show("请先设置调和信息");
+                return;
+            }
+            if (!isStirInfoConfirmed)
+            {
+                ShowConfirmWindow();
+                return;
+            }
+            switch (CurrStatus)
+            {
+                case Status.CoatingStart:
+                    CurrStatus = Status.CoatingPause;
+                    break;
+                case Status.CoatingPause:
+                    CurrStatus = Status.CoatingStart;
+                    break;
+                case Status.HardeningAgentStart:
+                    CurrStatus = Status.HardeningAgentPause;
+                    break;
+                case Status.HardeningAgentPause:
+                    CurrStatus = Status.HardeningAgentStart;
+                    break;
+                case Status.ThinnerAStart:
+                    CurrStatus = Status.ThinnerAPause;
+                    break;
+                case Status.ThinnerAPause:
+                    CurrStatus = Status.ThinnerAStart;
+                    break;
+                case Status.ThinnerBStart:
+                    CurrStatus = Status.ThinnerBPause;
+                    break;
+                case Status.ThinnerBPause:
+                    CurrStatus = Status.ThinnerBStart;
+                    break;
+                default:
+                    break;
+            }
+            DoStir();
+        }
+        
         private void BtnStop_Click(object sender, EventArgs e)
         {
             CurrStatus = Status.Stop;
-            this.timer.Stop();
-            currentCount = 0;
-
-            btnStart1.Text = "开始";
-            tbMeasurementTime1.Text = null;
-            btnStart2.Text = "开始";
-            tbMeasurementTime2.Text = null;
-            btnStart3.Text = "开始";
-            tbMeasurementTime3.Text = null;
-            btnStart4.Text = "开始";
-            tbMeasurementTime4.Text = null;
+            DoStir();
+            SaveStirLog(StirLogType.CoatingLog);
+            SaveStirLog(StirLogType.HardeningLog);
+            SaveStirLog(StirLogType.ThinnerALog);
+            SaveStirLog(StirLogType.ThinnerBLog);
         }
 
+        /// <summary>
+        /// 根据状态实现各调和动作
+        /// </summary>
+        private void DoStir()
+        {
+            switch (CurrStatus)
+            {
+                case Status.CoatingStart:
+                    SetStartStirText(tbMeasurementTime1);
+                    this.lbCurrentStatus.Text = "正在倒入主剂";
+                    break;
+                case Status.CoatingPause:
+                    SetPauseStirText();
+                    this.lbCurrentStatus.Text = "暂停";
+                    break;
+                case Status.HardeningAgentStart:
+                    SetStartStirText(tbMeasurementTime2);
+                    this.lbCurrentStatus.Text = "正在倒入固化剂";
+                    break;
+                case Status.HardeningAgentPause:
+                    SetPauseStirText();
+                    this.lbCurrentStatus.Text = "暂停";
+                    break;
+                case Status.ThinnerAStart:
+                    SetStartStirText(tbMeasurementTime3);
+                    this.lbCurrentStatus.Text = "正在倒入稀释剂";
+                    break;
+                case Status.ThinnerAPause:
+                    SetPauseStirText();
+                    this.lbCurrentStatus.Text = "暂停";
+                    break;
+                case Status.ThinnerBStart:
+                    SetStartStirText(tbMeasurementTime4);
+                    this.lbCurrentStatus.Text = "正在倒入稀释剂";
+                    break;
+                case Status.ThinnerBPause:
+                    SetPauseStirText();
+                    this.lbCurrentStatus.Text = "暂停";
+                    break;
+                case Status.Stop:
+                    this.timer.Stop();
+                    currStirTime = 0;
+                    this.lbCurrentStatus.Text = "停止";
+                    this.btnPause.Text = "暂停";
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void SaveStirLog(StirLogType logType)
+        {
+            switch (logType)
+            {
+                case StirLogType.CoatingLog:
+                    InsertLogToDB("主剂", tbName1.Text, tbBarCode1.Text, tbSetValue1.Text, tbMeasurementValue1.Text, tbMeasurementTime1.Text);
+                    break;
+                case StirLogType.HardeningLog:
+                    InsertLogToDB("固化剂", tbName2.Text, tbBarCode2.Text, tbSetValue2.Text, tbMeasurementValue2.Text, tbMeasurementTime2.Text);
+                    break;
+                case StirLogType.ThinnerALog:
+                    InsertLogToDB("稀释剂A", tbName3.Text, tbBarCode3.Text, tbSetValue3.Text, tbMeasurementValue3.Text, tbMeasurementTime3.Text);
+                    break;
+                case StirLogType.ThinnerBLog:
+                    InsertLogToDB("稀释剂B", tbName4.Text, tbBarCode4.Text, tbSetValue4.Text, tbMeasurementValue4.Text, tbMeasurementTime4.Text);
+                    break;
+                default:
+                    break;
+            }
+            
+        }
+
+        private void InsertLogToDB(string type, string name, string barCode, string setWeight, string measurementWeight, string measurementTime)
+        {
+            GetSqlLiteHelper().InsertValues(Common.STIRLOGTABLENAME, new string[] { cbModel.Text, cbComponent.Text, cbColor.Text, tbTemperature.Text, tbHumidity.Text, tbRatio.Text, type, name, barCode, setWeight, measurementWeight, measurementTime, _userName, DateTime.Now.ToString("yyyy-MM-dd"), DateTime.Now.ToString("HH:mm:ss"), _managerName, " " });
+        }
+
+        private void SetPauseStirText()
+        {
+            this.timer.Stop();
+            btnPause.Text = "继续";
+        }
+
+        /// <summary>
+        /// 调和时设置计量时间
+        /// </summary>
+        private void SetStartStirText(TextBox tb)
+        {
+            if (tb.Text == null || tb.Text.Equals(""))
+            {
+                currStirTime = 0;
+            }
+            else
+            {
+                currStirTime = double.Parse(tb.Text);
+            }
+            this.timer.Start();
+            btnPause.Text = "暂停";
+        }
+
+        /// <summary>
+        /// 判断条形码是否有效
+        /// </summary>
         private bool IsBarCodeValid(string barcode)
         {
             bool result = false;
@@ -221,170 +451,238 @@ namespace CoatingMgr
 
         private void TbBarCode1_TextChanged(object sender, EventArgs e)
         {
+            if (!IsStirInfoEnough())
+            {
+                tbBarCode1.Text = "";
+                MessageBox.Show("请先设置调和信息");
+                return;
+            }
+            if (!isStirInfoConfirmed)
+            {
+                tbBarCode1.Text = "";
+                ShowConfirmWindow();
+                return;
+            }
             if (IsBarCodeValid(tbBarCode1.Text.ToString()))//条形码正确
             {
-                tbName1.Text = "一猪";
+                CurrStatus = Status.CoatingStart;
+                DoStir();
+                this.tbBarCode2.Focus();
             }
             else
             {
-                MessageBox.Show("条形码无效");
+                //MessageBox.Show("条形码无效");
             }
         }
 
         private void TbBarCode2_TextChanged(object sender, EventArgs e)
         {
+            if (!IsStirInfoEnough())
+            {
+                tbBarCode2.Text = "";
+                MessageBox.Show("请先设置调和信息");
+                return;
+            }
+            if (!isStirInfoConfirmed)
+            {
+                tbBarCode2.Text = "";
+                ShowConfirmWindow();
+                return;
+            }
             if (IsBarCodeValid(tbBarCode2.Text.ToString()))//条形码正确
             {
-                tbName2.Text = "双虎";
+                CurrStatus = Status.HardeningAgentStart;
+                DoStir();
+                this.tbBarCode3.Focus();
             }
             else
             {
-                MessageBox.Show("条形码无效");
+                //MessageBox.Show("条形码无效");
             }
         }
 
         private void TbBarCode3_TextChanged(object sender, EventArgs e)
         {
+            if (!IsStirInfoEnough())
+            {
+                tbBarCode3.Text = "";
+                MessageBox.Show("请先设置调和信息");
+                return;
+            }
+            if (!isStirInfoConfirmed)
+            {
+                tbBarCode3.Text = "";
+                ShowConfirmWindow();
+                return;
+            }
             if (IsBarCodeValid(tbBarCode3.Text.ToString()))//条形码正确
             {
-                tbName3.Text = "三鹿";
+                CurrStatus = Status.ThinnerAStart;
+                DoStir();
+                this.tbBarCode4.Focus();
             }
             else
             {
-                MessageBox.Show("条形码无效");
+                //MessageBox.Show("条形码无效");
             }
         }
 
         private void TbBarCode4_TextChanged(object sender, EventArgs e)
         {
+            if (!IsStirInfoEnough())
+            {
+                tbBarCode4.Text = "";
+                MessageBox.Show("请先设置调和信息");
+                return;
+            }
+            if (!isStirInfoConfirmed)
+            {
+                tbBarCode4.Text = "";
+                ShowConfirmWindow();
+                return;
+            }
             if (IsBarCodeValid(tbBarCode4.Text.ToString()))//条形码正确
             {
-                tbName4.Text = "四兔";
+                CurrStatus = Status.ThinnerBStart;
+                DoStir();
             }
             else
             {
-                MessageBox.Show("条形码无效");
+                //MessageBox.Show("条形码无效");
+
             }
         }
 
-        private void TbRatio1_TextChanged(object sender, EventArgs e)
+        private void BtnGetStirValues_Click(object sender, EventArgs e)
         {
-            SetWeight();
+            SetStirInfo();
         }
 
-        private void TbRatio2_TextChanged(object sender, EventArgs e)
+        private void BtnResetStirValues_Click(object sender, EventArgs e)
         {
-            SetWeight();
+            FormSetStirData formSetStirData = new FormSetStirData(this, tbTemperature.Text, tbHumidity.Text, tbRatio.Text);
+            formSetStirData.Show();
         }
 
-        private void TbRatio3_TextChanged(object sender, EventArgs e)
+        /// <summary>
+        /// 根据机型\部件\颜色等信息从Master文件中查找设置各色剂信息
+        /// </summary>
+        private void SetStirInfo()
         {
-            SetWeight();
+            if (cbModel.Text.Equals(""))
+            {
+                MessageBox.Show("请选择机型");
+                return;
+            }
+            if (cbComponent.Text.Equals(""))
+            {
+                MessageBox.Show("请选择部件");
+                return;
+            }
+            if (cbColor.Text.Equals(""))
+            {
+                MessageBox.Show("请选择颜色");
+                return;
+            }
+            if (tbInputWeight.Text.Equals(""))
+            {
+                MessageBox.Show("请输入主剂重量");
+                return;
+            }
+            if (!cbModel.Text.Equals("") && !cbComponent.Text.Equals("") && !cbColor.Text.Equals("") && !tbInputWeight.Text.Equals("") && !tbTemperature.Text.Equals("") && !tbHumidity.Text.Equals(""))
+            {
+                SQLiteDataReader dataReader = GetSqlLiteHelper().ReadTable(_tableName, new string[] { "机型","部件", "颜色" }, new string[] { "=", "=", "=" }, new string[] { cbModel.Text, cbComponent.Text, cbColor.Text });
+                if (dataReader.HasRows)
+                {
+                    isStirInfoConfirmed = false;
+                    ClearStirText();
+                    dataReader.Read();
+                    tbName1.Text = dataReader["主剂"].ToString();
+                    tbName2.Text = dataReader["固化剂"].ToString();
+                    tbName3.Text = dataReader["稀释剂1"].ToString();
+                    tbName4.Text = dataReader["稀释剂2"].ToString();
+                    tbRatio.Text = dataReader["比例"].ToString();
+                    SetWeight();
+                    ShowConfirmWindow();
+                }
+            }
         }
 
-        private void TbRatio4_TextChanged(object sender, EventArgs e)
-        {
-            SetWeight();
-        }
-
-        private void TbInputWeight_TextChanged(object sender, EventArgs e)
-        {
-            tbSetValue1.Text = tbInputWeight.Text;
-            SetWeight();
-        }
-
+        /// <summary>
+        /// 根据调和比例和主剂重量计算其他色剂重量
+        /// </summary>
         private void SetWeight()
         {
-            if (tbSetValue1.Text != null && !tbSetValue1.Text.Equals(""))
+            if (tbInputWeight.Text != null && !tbInputWeight.Text.Equals("") && !tbName1.Text.ToString().Equals("") && !tbName2.Text.ToString().Equals("") && !tbName3.Text.ToString().Equals(""))
             {
                 try
                 {
-                    float value1 = float.Parse(tbSetValue1.Text);
-                    if (tbRatio1.Text != null && !tbRatio1.Text.Equals(""))
+                    float weight1 = float.Parse(tbInputWeight.Text);
+                    string ratio1 = "",ratio2 = "", ratio3 = "",ratio4 = "";
+                    if (!tbRatio.Text.Equals(""))
                     {
-                        if (tbRatio2.Text != null && !tbRatio2.Text.Equals(""))
+                        string[] ratioArray = tbRatio.Text.Split(new char[2] { ':', '：' });
+                        ratio1 = ratioArray[0].ToString();
+                        ratio2 = ratioArray[1].ToString();
+                        ratio3 = ratioArray[2].ToString();
+                        if (ratioArray.Length >= 4)
                         {
-                            float value2 = value1 * float.Parse(tbRatio2.Text) / float.Parse(tbRatio1.Text);
-                            tbSetValue2.Text = value2.ToString();
+                            ratio4 = ratioArray[3].ToString();
                         }
-                        if (tbRatio2.Text != null && !tbRatio2.Text.Equals(""))
-                        {
-                            float value3 = value1 * float.Parse(tbRatio3.Text) / float.Parse(tbRatio1.Text);
-                            tbSetValue3.Text = value3.ToString();
-                        }
-                        if (tbRatio2.Text != null && !tbRatio2.Text.Equals(""))
-                        {
-                            float value4 = value1 * float.Parse(tbRatio4.Text) / float.Parse(tbRatio1.Text);
-                            tbSetValue4.Text = value4.ToString();
-                        }
+                        
+                    }
+
+                    tbSetValue1.Text = weight1.ToString();
+                    if (!ratio2.Equals(""))
+                    {
+                        float weight2 = weight1 * float.Parse(ratio2) / float.Parse(ratio1);
+                        tbSetValue2.Text = weight2.ToString();
+                    }
+                    if (!ratio3.Equals(""))
+                    {
+                        float weight3 = weight1 * float.Parse(ratio3) / float.Parse(ratio1);
+                        tbSetValue3.Text = weight3.ToString();
+                    }
+                    if (!ratio4.Equals(""))
+                    {
+                        float weight4 = weight1 * float.Parse(ratio4) / float.Parse(ratio1);
+                        tbSetValue4.Text = weight4.ToString();
                     }
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine(e.ToString());
                 }
-                
-            }
-        }
-
-        private void TbTemperature_TextChanged(object sender, EventArgs e)
-        {
-            SetRatio(cbModel.Text, cbColor.Text, tbTemperature.Text, tbHumidity.Text);
-        }
-
-        private void TbHumidity_TextChanged(object sender, EventArgs e)
-        {
-            SetRatio(cbModel.Text, cbColor.Text, tbTemperature.Text, tbHumidity.Text);
-        }
-
-        private void CbModel_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            SetRatio(cbModel.Text, cbColor.Text, tbTemperature.Text, tbHumidity.Text);
-        }
-
-        private void CbColor_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            SetRatio(cbModel.Text, cbColor.Text, tbTemperature.Text, tbHumidity.Text);
-        }
-
-        private void SetRatio(string model, string color, string temperature, string humidity)
-        {
-            if (!cbModel.Text.Equals("") && !cbColor.Text.Equals("") && !tbTemperature.Text.Equals("") && !tbHumidity.Text.Equals(""))
-            {
-                tbRatio1.Text = "6";
-                tbRatio2.Text = "2";
-                tbRatio3.Text = "1";
-                tbRatio4.Text = "1";
-            }
-        }
-
-        private void Timer_Tick(object sender, EventArgs e)
-        {
-            currentCount += 0.1;
-            string str = currentCount.ToString();
-            int index = str.IndexOf(".");
-            str = str.Substring(0, index + 2);
-            switch (CurrStatus)
-            {
-                case Status.CoatingStart:
-                    this.tbMeasurementTime1.Text = str;
-                    break;
-                case Status.HardeningAgentStart:
-                    this.tbMeasurementTime2.Text = str;
-                    break;
-                case Status.thinnerAStart:
-                    this.tbMeasurementTime3.Text = str;
-                    break;
-                case Status.thinnerBStart:
-                    this.tbMeasurementTime4.Text = str;
-                    break;
-                default:
-                    break;
 
             }
-            
         }
 
+        public void ResetRatioAndWeight(string temperature, string humidity, string ratio)
+        {
+            this.tbTemperature.Text = temperature;
+            this.tbHumidity.Text = humidity;
+            this.tbRatio.Text = ratio;
+            SetWeight();
+        }
+
+        public void ManagerConfirmStirInfo(string managerName)
+        {
+            _managerName = managerName;
+            isStirInfoConfirmed = true;
+        }
+
+        /// <summary>
+        /// 管理员确认调和数据窗口
+        /// </summary>
+        private void ShowConfirmWindow()
+        {
+            FormConfirmStirInfo formConfirmStirInfo = new FormConfirmStirInfo(this);
+            formConfirmStirInfo.Show();
+        }
+
+        /// <summary>
+        /// 画黑色边框
+        /// </summary>
         private void Panel3_Paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
@@ -392,15 +690,16 @@ namespace CoatingMgr
             Point point1 = new Point(0, 1);
             Point point2 = new Point(745, 1);
             g.DrawLine(pen, point1, point2);
-            Point point3 = new Point(0, 620);
-            Point point4 = new Point(745, 620);
+            Point point3 = new Point(0, 560);
+            Point point4 = new Point(745, 560);
             g.DrawLine(pen, point3, point4);
             Point point5 = new Point(0, 1);
-            Point point6 = new Point(0, 620);
+            Point point6 = new Point(0, 560);
             g.DrawLine(pen, point5, point6);
             Point point7 = new Point(745, 1);
-            Point point8 = new Point(745, 620);
+            Point point8 = new Point(745, 560);
             g.DrawLine(pen, point7, point8);
         }
     }
+
 }

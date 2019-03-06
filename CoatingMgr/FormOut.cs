@@ -96,7 +96,7 @@ namespace CoatingMgr
 
         private void BindDataGirdViewBySearch(DataGridView dataGirdView, string table, string type, string content)
         {
-            SQLiteDataReader dataReader = GetSqlLiteHelper().ReadTable(table, new string[] { "*" }, new string[] { type }, new string[] { "=" }, new string[] { content });
+            SQLiteDataReader dataReader = GetSqlLiteHelper().ReadTable(table, new string[] { type }, new string[] { "=" }, new string[] { content });
             if (dataReader.HasRows)
             {
                 BindingSource bs = new BindingSource
@@ -154,7 +154,7 @@ namespace CoatingMgr
         {
             if (IsBarCodeValid(tbBarCode.Text.ToString()))//条形码正确，插入数据到入库表中
             {
-                GetSqlLiteHelper().InsertValues(_tableName, new string[] { tbBarCode.Text, tbName.Text, " ", tbType.Text, tbWeight.Text, tbModel.Text, "2019.01.20", tbDate.Text, cbSearchStock.Text, _userName, DateTime.Now.ToString(), "出库", " ", " " });
+                GetSqlLiteHelper().InsertValues(_tableName, new string[] { tbBarCode.Text, tbName.Text, "红色", tbType.Text, tbWeight.Text, tbModel.Text, "2019.01.20", tbDate.Text, cbSearchStock.Text, _userName, DateTime.Now.ToString("yyyy-MM-dd"), DateTime.Now.ToString("HH:mm:ss"), "出库", " ", " " });
                 UpdateData();
             }
             else
@@ -214,7 +214,7 @@ namespace CoatingMgr
         {
             if (dgvOutStockData.RowCount > 0)
             {
-                GetSqlLiteHelper().InsertDataWithoutIdFromOtherTable(Common.LOGTABLENAME, _tableName);
+                GetSqlLiteHelper().InsertDataWithoutIdFromOtherTable(Common.STOCKLOGTABLENAME, _tableName);
                 GetSqlLiteHelper().ClearTable(_tableName);
                 GetSqlLiteHelper().ResetTableId(_tableName);
                 UpdateData();

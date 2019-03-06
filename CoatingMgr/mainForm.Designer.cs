@@ -40,8 +40,8 @@
             this.TSMIWarning = new System.Windows.Forms.ToolStripMenuItem();
             this.TSMISetWarning = new System.Windows.Forms.ToolStripMenuItem();
             this.日志ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.TSMILog = new System.Windows.Forms.ToolStripMenuItem();
-            this.TSMIExportLog = new System.Windows.Forms.ToolStripMenuItem();
+            this.TSMIStockLog = new System.Windows.Forms.ToolStripMenuItem();
+            this.TSMIStirLog = new System.Windows.Forms.ToolStripMenuItem();
             this.帮助ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TSMIAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -147,25 +147,25 @@
             // 日志ToolStripMenuItem
             // 
             this.日志ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.TSMILog,
-            this.TSMIExportLog});
+            this.TSMIStockLog,
+            this.TSMIStirLog});
             this.日志ToolStripMenuItem.Name = "日志ToolStripMenuItem";
             this.日志ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
             this.日志ToolStripMenuItem.Text = "日志";
             // 
-            // TSMILog
+            // TSMIStockLog
             // 
-            this.TSMILog.Name = "TSMILog";
-            this.TSMILog.Size = new System.Drawing.Size(124, 22);
-            this.TSMILog.Text = "查看日志";
-            this.TSMILog.Click += new System.EventHandler(this.TSMILog_Click);
+            this.TSMIStockLog.Name = "TSMIStockLog";
+            this.TSMIStockLog.Size = new System.Drawing.Size(148, 22);
+            this.TSMIStockLog.Text = "查看库存日志";
+            this.TSMIStockLog.Click += new System.EventHandler(this.TSMIStockLog_Click);
             // 
-            // TSMIExportLog
+            // TSMIStirLog
             // 
-            this.TSMIExportLog.Name = "TSMIExportLog";
-            this.TSMIExportLog.Size = new System.Drawing.Size(124, 22);
-            this.TSMIExportLog.Text = "导出日志";
-            this.TSMIExportLog.Click += new System.EventHandler(this.TSMIExportLog_Click);
+            this.TSMIStirLog.Name = "TSMIStirLog";
+            this.TSMIStirLog.Size = new System.Drawing.Size(148, 22);
+            this.TSMIStirLog.Text = "查看调和日志";
+            this.TSMIStirLog.Click += new System.EventHandler(this.TSMIStirLog_Click);
             // 
             // 帮助ToolStripMenuItem
             // 
@@ -282,6 +282,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
             this.Text = "武汉高木--涂料管理系统";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -311,8 +312,8 @@
         private System.Windows.Forms.Button btnStock;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.ToolStripMenuItem 日志ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem TSMILog;
-        private System.Windows.Forms.ToolStripMenuItem TSMIExportLog;
+        private System.Windows.Forms.ToolStripMenuItem TSMIStockLog;
+        private System.Windows.Forms.ToolStripMenuItem TSMIStirLog;
         private System.Windows.Forms.ToolStripMenuItem master文件ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem TSMIMaster;
         private System.Windows.Forms.ToolStripMenuItem TSMIImportMaster;

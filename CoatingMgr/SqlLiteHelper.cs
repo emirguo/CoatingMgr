@@ -152,6 +152,7 @@ namespace CoatingMgr
                 queryString += ", " + "'" + values[i] + "'";
             }
             queryString += " )";
+
             return ExecuteQuery(queryString);
         }
 
@@ -273,17 +274,12 @@ namespace CoatingMgr
         /// <param name="colNames">Col names.</param>
         /// <param name="operations">Operations.</param>
         /// <param name="colValues">Col values.</param>
-        public SQLiteDataReader ReadTable(string tableName, string[] items, string[] colNames, string[] operations, string[] colValues)
+        public SQLiteDataReader ReadTable(string tableName, string[] colNames, string[] operations, string[] colValues)
         {
-            string queryString = "SELECT " + items[0];
-            for (int i = 1; i < items.Length; i++)
-            {
-                queryString += ", " + items[i];
-            }
-            queryString += " FROM " + tableName + " WHERE " + colNames[0] + " " + operations[0] + " '" + colValues[0]+ "'";
+            string queryString = "SELECT * FROM " + tableName + " WHERE " + colNames[0] + " " + operations[0] + " '" + colValues[0]+ "'";
             for (int i = 1; i < colNames.Length; i++)
             {
-                queryString += " AND " + colNames[i] + " " + operations[i] + " '" + colValues[0] + "' ";
+                queryString += " AND " + colNames[i] + " " + operations[i] + " '" + colValues[i] + "' ";
             }
             return ExecuteQuery(queryString);
         }
@@ -310,7 +306,12 @@ namespace CoatingMgr
         ///insert into stockmanager select null,条形码,名称,颜色,类型,标准重量,适用机型,生产日期,有效期,仓库名称,操作员,操作时间,操作类型,告警类型,备注 from instock
         public SQLiteDataReader InsertDataWithoutIdFromOtherTable(string tagTable, string sourceTable)
         {
-            string queryString = "INSERT INTO " + tagTable + " SELECT NULL, 条形码, 名称, 颜色, 类型, 重量, 适用机型, 生产日期, 有效期, 仓库名称, 操作员, 操作时间, 操作类型, 告警类型, 备注 FROM " + sourceTable;
+            string queryString = "INSERT INTO " + tagTable + " SELECT NULL ";
+            for (int i = 1; i < Common.STOCKCOUNTTABLECOLUMNS.Length; i++)
+            {
+                queryString += ", "+ Common.STOCKCOUNTTABLECOLUMNS[i];
+            }
+            queryString += " FROM " + sourceTable;
             return ExecuteQuery(queryString);
         }
 
@@ -384,14 +385,15 @@ namespace CoatingMgr
         {
             List<string> columnsName = new List<string>();
             List<string> columnsType = new List<string>();
+            DeleteTable(tableName);
+
             columnsName.Add("id");
             columnsType.Add("INTEGER PRIMARY KEY AUTOINCREMENT");
             foreach (DataColumn dc in dataTable.Columns)
             {
                 columnsName.Add(dc.ColumnName);
                 columnsType.Add("TEXT");
-            }
-            DeleteTable(tableName);
+            }            
             CreateTable(tableName, columnsName.ToArray(), columnsType.ToArray());
             foreach (DataRow dataRow in dataTable.Rows)
             {

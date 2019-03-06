@@ -25,7 +25,7 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ProductName>武汉高木涂料管理系统</ProductName>
     <PublisherName>武汉高木</PublisherName>
-    <ApplicationRevision>9</ApplicationRevision>
+    <ApplicationRevision>10</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -105,6 +105,18 @@
     <Compile Include="FormAddAccount.Designer.cs">
       <DependentUpon>FormAddAccount.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormChartFillWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormChartFillWindow.Designer.cs">
+      <DependentUpon>FormChartFillWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormConfirmStirInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormConfirmStirInfo.Designer.cs">
+      <DependentUpon>FormConfirmStirInfo.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormLog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -117,13 +129,18 @@
     <Compile Include="FormMaster.Designer.cs">
       <DependentUpon>FormMaster.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormSetStirData.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSetStirData.Designer.cs">
+      <DependentUpon>FormSetStirData.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormSetWarn.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormSetWarn.Designer.cs">
       <DependentUpon>FormSetWarn.cs</DependentUpon>
     </Compile>
-    <Compile Include="PaintHistogram.cs" />
     <Compile Include="SqlLiteHelper.cs" />
     <Compile Include="FormIn.cs">
       <SubType>Form</SubType>
@@ -169,6 +186,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="VerticalProgressBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <EmbeddedResource Include="FormAbout.resx">
       <DependentUpon>FormAbout.cs</DependentUpon>
     </EmbeddedResource>
@@ -177,6 +197,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormAddAccount.resx">
       <DependentUpon>FormAddAccount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormChartFillWindow.resx">
+      <DependentUpon>FormChartFillWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormConfirmStirInfo.resx">
+      <DependentUpon>FormConfirmStirInfo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormIn.resx">
       <DependentUpon>FormIn.cs</DependentUpon>
@@ -189,6 +215,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormOut.resx">
       <DependentUpon>FormOut.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormSetStirData.resx">
+      <DependentUpon>FormSetStirData.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormSetWarn.resx">
       <DependentUpon>FormSetWarn.cs</DependentUpon>

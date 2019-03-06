@@ -243,6 +243,7 @@
             this.Controls.Add(this.panel2);
             this.Name = "FormMaster";
             this.Text = "FormMaster";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.FormMaster_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
