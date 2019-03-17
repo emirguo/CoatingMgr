@@ -53,6 +53,7 @@
             this.mainPanel = new System.Windows.Forms.Panel();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.TSMIMailInfo = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -110,14 +111,14 @@
             // TSMIManagerAccount
             // 
             this.TSMIManagerAccount.Name = "TSMIManagerAccount";
-            this.TSMIManagerAccount.Size = new System.Drawing.Size(124, 22);
+            this.TSMIManagerAccount.Size = new System.Drawing.Size(180, 22);
             this.TSMIManagerAccount.Text = "管理账户";
             this.TSMIManagerAccount.Click += new System.EventHandler(this.TSMIManagerAccount_Click);
             // 
             // TSMIAddAccount
             // 
             this.TSMIAddAccount.Name = "TSMIAddAccount";
-            this.TSMIAddAccount.Size = new System.Drawing.Size(124, 22);
+            this.TSMIAddAccount.Size = new System.Drawing.Size(180, 22);
             this.TSMIAddAccount.Text = "添加账户";
             this.TSMIAddAccount.Click += new System.EventHandler(this.TSMIAddAccount_Click);
             // 
@@ -125,7 +126,8 @@
             // 
             this.告警ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.TSMIWarning,
-            this.TSMISetWarning});
+            this.TSMISetWarning,
+            this.TSMIMailInfo});
             this.告警ToolStripMenuItem.Name = "告警ToolStripMenuItem";
             this.告警ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
             this.告警ToolStripMenuItem.Text = "告警";
@@ -133,14 +135,14 @@
             // TSMIWarning
             // 
             this.TSMIWarning.Name = "TSMIWarning";
-            this.TSMIWarning.Size = new System.Drawing.Size(148, 22);
+            this.TSMIWarning.Size = new System.Drawing.Size(180, 22);
             this.TSMIWarning.Text = "查看告警规则";
             this.TSMIWarning.Click += new System.EventHandler(this.TSMIWarning_Click);
             // 
             // TSMISetWarning
             // 
             this.TSMISetWarning.Name = "TSMISetWarning";
-            this.TSMISetWarning.Size = new System.Drawing.Size(148, 22);
+            this.TSMISetWarning.Size = new System.Drawing.Size(180, 22);
             this.TSMISetWarning.Text = "设置告警规则";
             this.TSMISetWarning.Click += new System.EventHandler(this.TSMISetWarning_Click);
             // 
@@ -272,6 +274,13 @@
             this.contextMenuStrip2.Name = "contextMenuStrip2";
             this.contextMenuStrip2.Size = new System.Drawing.Size(61, 4);
             // 
+            // TSMIMailInfo
+            // 
+            this.TSMIMailInfo.Name = "TSMIMailInfo";
+            this.TSMIMailInfo.Size = new System.Drawing.Size(180, 22);
+            this.TSMIMailInfo.Text = "设置告警邮件";
+            this.TSMIMailInfo.Click += new System.EventHandler(this.TSMIMailInfo_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -321,5 +330,6 @@
         private System.Windows.Forms.ToolStripMenuItem TSMIWarning;
         private System.Windows.Forms.ToolStripMenuItem TSMISetWarning;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
+        private System.Windows.Forms.ToolStripMenuItem TSMIMailInfo;
     }
 }

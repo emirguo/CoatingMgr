@@ -65,8 +65,20 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NPOI">
-      <HintPath>..\..\tools\NPOI.dll</HintPath>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=1.0.0.999, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpZipLib.1.0.0\lib\net45\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI, Version=2.4.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.4.1\lib\net45\NPOI.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OOXML, Version=2.4.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.4.1\lib\net45\NPOI.OOXML.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXml4Net, Version=2.4.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.4.1\lib\net45\NPOI.OpenXml4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXmlFormats, Version=2.4.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.4.1\lib\net45\NPOI.OpenXmlFormats.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -129,6 +141,12 @@
     <Compile Include="FormMaster.Designer.cs">
       <DependentUpon>FormMaster.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormModifyStock.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormModifyStock.Designer.cs">
+      <DependentUpon>FormModifyStock.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormSetStirData.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -140,6 +158,12 @@
     </Compile>
     <Compile Include="FormSetWarn.Designer.cs">
       <DependentUpon>FormSetWarn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormWarnMailInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormWarnMailInfo.Designer.cs">
+      <DependentUpon>FormWarnMailInfo.cs</DependentUpon>
     </Compile>
     <Compile Include="SqlLiteHelper.cs" />
     <Compile Include="FormIn.cs">
@@ -213,6 +237,9 @@
     <EmbeddedResource Include="FormMaster.resx">
       <DependentUpon>FormMaster.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormModifyStock.resx">
+      <DependentUpon>FormModifyStock.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormOut.resx">
       <DependentUpon>FormOut.cs</DependentUpon>
     </EmbeddedResource>
@@ -224,12 +251,16 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormStir.resx">
       <DependentUpon>FormStir.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="FormStock.resx">
       <DependentUpon>FormStock.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormWarn.resx">
       <DependentUpon>FormWarn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormWarnMailInfo.resx">
+      <DependentUpon>FormWarnMailInfo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
@@ -247,6 +278,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <None Include="CoatingMgr_TemporaryKey.pfx" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -256,6 +288,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Settings.settings" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

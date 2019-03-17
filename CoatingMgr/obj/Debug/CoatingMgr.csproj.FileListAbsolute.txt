@@ -64,3 +64,10 @@ E:\VSProjects\CoatingMgr\CoatingMgr\obj\Debug\CoatingMgr.application
 E:\VSProjects\CoatingMgr\CoatingMgr\obj\Debug\CoatingMgr.FormConfirmStirInfo.resources
 E:\VSProjects\CoatingMgr\CoatingMgr\obj\Debug\CoatingMgr.FormSetStirData.resources
 E:\VSProjects\CoatingMgr\CoatingMgr\obj\Debug\CoatingMgr.FormChartFillWindow.resources
+E:\VSProjects\CoatingMgr\CoatingMgr\bin\Debug\NPOI.OOXML.dll
+E:\VSProjects\CoatingMgr\CoatingMgr\bin\Debug\NPOI.OpenXml4Net.dll
+E:\VSProjects\CoatingMgr\CoatingMgr\bin\Debug\NPOI.OpenXmlFormats.dll
+E:\VSProjects\CoatingMgr\CoatingMgr\bin\Debug\ICSharpCode.SharpZipLib.dll
+E:\VSProjects\CoatingMgr\CoatingMgr\bin\Debug\ICSharpCode.SharpZipLib.xml
+E:\VSProjects\CoatingMgr\CoatingMgr\obj\Debug\CoatingMgr.FormWarnMailInfo.resources
+E:\VSProjects\CoatingMgr\CoatingMgr\obj\Debug\CoatingMgr.FormModifyStock.resources

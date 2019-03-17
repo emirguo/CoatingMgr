@@ -18,6 +18,7 @@ namespace CoatingMgr
         private static SqlLiteHelper sqlLiteHelper = null;
         private static string _tableName = Common.MASTERTABLENAME;
         private string _userName = "";
+        private string _userPermission = "";
         private string _managerName = "";
         private List<string> _cbSearchModel ;
         private List<string> _cbSearchComponent;
@@ -52,10 +53,11 @@ namespace CoatingMgr
             InitializeComponent();
         }
 
-        public FormStir(string userName)
+        public FormStir(string userName, string userPermission)
         {
             InitializeComponent();
             _userName = userName;
+            _userPermission = userPermission;
         }
 
         private void FormStir_Load(object sender, EventArgs e)
@@ -77,17 +79,17 @@ namespace CoatingMgr
             lbUser.Text = _userName;
             ShowTime();
 
-            _cbSearchModel = GetSqlLiteHelper().GetValueTypeByColumnFromTable(_tableName, "机型");
+            _cbSearchModel = GetSqlLiteHelper().GetValueTypeByColumnFromTable(_tableName, "适用机种");
             for (int i = 0; i < _cbSearchModel.Count; i++)
             {
                 cbModel.Items.Add(_cbSearchModel[i]);
             }
-            _cbSearchComponent = GetSqlLiteHelper().GetValueTypeByColumnFromTable(_tableName, "部件");
+            _cbSearchComponent = GetSqlLiteHelper().GetValueTypeByColumnFromTable(_tableName, "适用制品");
             for (int i = 0; i < _cbSearchComponent.Count; i++)
             {
                 cbComponent.Items.Add(_cbSearchComponent[i]);
             }
-            _cbSearchColor = GetSqlLiteHelper().GetValueTypeByColumnFromTable(_tableName, "颜色");
+            _cbSearchColor = GetSqlLiteHelper().GetValueTypeByColumnFromTable(_tableName, "色番");
             for (int i = 0; i < _cbSearchColor.Count; i++)
             {
                 cbColor.Items.Add(_cbSearchColor[i]);
@@ -187,8 +189,8 @@ namespace CoatingMgr
             switch (CurrStatus)
             {
                 case Status.CoatingStart:
-                    float setWeight1 = tbSetValue1.Text.Equals("") ? 0.00001f : Convert.ToSingle(tbSetValue1.Text);
-                    float putWeight1 = tbMeasurementValue1.Text.Equals("") ? 0.00001f : Convert.ToSingle(tbMeasurementValue1.Text);
+                    double setWeight1 = tbSetValue1.Text.Equals("") ? 0.00001f : Convert.ToSingle(tbSetValue1.Text);
+                    double putWeight1 = tbMeasurementValue1.Text.Equals("") ? 0.00001f : Convert.ToSingle(tbMeasurementValue1.Text);
                     if (setWeight1 > putWeight1)
                     {
                         tbMeasurementValue1.Text = string.Format("{0:f2}", Convert.ToSingle(tbMeasurementTime1.Text) / 10 * setWeight1);//只取小数点后2位
@@ -203,8 +205,8 @@ namespace CoatingMgr
                     }
                     break;
                 case Status.HardeningAgentStart:
-                    float setWeight2 = tbSetValue2.Text.Equals("") ? 0.00001f : Convert.ToSingle(tbSetValue2.Text);
-                    float putWeight2 = tbMeasurementValue2.Text.Equals("") ? 0.00001f : Convert.ToSingle(tbMeasurementValue2.Text);
+                    double setWeight2 = tbSetValue2.Text.Equals("") ? 0.00001f : Convert.ToSingle(tbSetValue2.Text);
+                    double putWeight2 = tbMeasurementValue2.Text.Equals("") ? 0.00001f : Convert.ToSingle(tbMeasurementValue2.Text);
                     if (setWeight2 > putWeight2)
                     {
                         tbMeasurementValue2.Text = string.Format("{0:f2}", Convert.ToSingle(tbMeasurementTime2.Text) / 10 * setWeight2);
@@ -219,8 +221,8 @@ namespace CoatingMgr
                     }
                     break;
                 case Status.ThinnerAStart:
-                    float setWeight3 = tbSetValue3.Text.Equals("") ? 0.00001f : Convert.ToSingle(tbSetValue3.Text);
-                    float putWeight3 = tbMeasurementValue3.Text.Equals("") ? 0.00001f : Convert.ToSingle(tbMeasurementValue3.Text);
+                    double setWeight3 = tbSetValue3.Text.Equals("") ? 0.00001f : Convert.ToSingle(tbSetValue3.Text);
+                    double putWeight3 = tbMeasurementValue3.Text.Equals("") ? 0.00001f : Convert.ToSingle(tbMeasurementValue3.Text);
                     if (setWeight3 > putWeight3)
                     {
                         tbMeasurementValue3.Text = string.Format("{0:f2}", Convert.ToSingle(tbMeasurementTime3.Text) / 10 * setWeight3);
@@ -235,8 +237,8 @@ namespace CoatingMgr
                     }
                     break;
                 case Status.ThinnerBStart:
-                    float setWeight4 = tbSetValue4.Text.Equals("") ? 0.00001f : Convert.ToSingle(tbSetValue4.Text);
-                    float putWeight4 = tbMeasurementValue4.Text.Equals("") ? 0.00001f : Convert.ToSingle(tbMeasurementValue4.Text);
+                    double setWeight4 = tbSetValue4.Text.Equals("") ? 0.00001f : Convert.ToSingle(tbSetValue4.Text);
+                    double putWeight4 = tbMeasurementValue4.Text.Equals("") ? 0.00001f : Convert.ToSingle(tbMeasurementValue4.Text);
                     if (setWeight4 > putWeight4)
                     {
                         tbMeasurementValue4.Text = string.Format("{0:f2}", Convert.ToSingle(tbMeasurementTime4.Text) / 10 * setWeight4);
@@ -259,14 +261,14 @@ namespace CoatingMgr
         //设置倒入总量进度
         private void SetCountProgressBar()
         {
-            float measurementWeight1 = tbMeasurementValue1.Text.Equals("") ? 0.00001f : Convert.ToSingle(tbMeasurementValue1.Text);
-            float measurementWeight2 = tbMeasurementValue2.Text.Equals("") ? 0.00001f : Convert.ToSingle(tbMeasurementValue2.Text);
-            float measurementWeight3 = tbMeasurementValue3.Text.Equals("") ? 0.00001f : Convert.ToSingle(tbMeasurementValue3.Text);
-            float measurementWeight4 = tbMeasurementValue4.Text.Equals("") ? 0.00001f : Convert.ToSingle(tbMeasurementValue4.Text);
-            float setWeight1 = tbSetValue1.Text.Equals("") ? 0.00001f : Convert.ToSingle(tbSetValue1.Text);
-            float setWeight2 = tbSetValue2.Text.Equals("") ? 0.00001f : Convert.ToSingle(tbSetValue2.Text);
-            float setWeight3 = tbSetValue3.Text.Equals("") ? 0.00001f : Convert.ToSingle(tbSetValue3.Text);
-            float setWeight4 = tbSetValue4.Text.Equals("") ? 0.00001f : Convert.ToSingle(tbSetValue4.Text);
+            double measurementWeight1 = tbMeasurementValue1.Text.Equals("") ? 0.00001f : Convert.ToSingle(tbMeasurementValue1.Text);
+            double measurementWeight2 = tbMeasurementValue2.Text.Equals("") ? 0.00001f : Convert.ToSingle(tbMeasurementValue2.Text);
+            double measurementWeight3 = tbMeasurementValue3.Text.Equals("") ? 0.00001f : Convert.ToSingle(tbMeasurementValue3.Text);
+            double measurementWeight4 = tbMeasurementValue4.Text.Equals("") ? 0.00001f : Convert.ToSingle(tbMeasurementValue4.Text);
+            double setWeight1 = tbSetValue1.Text.Equals("") ? 0.00001f : Convert.ToSingle(tbSetValue1.Text);
+            double setWeight2 = tbSetValue2.Text.Equals("") ? 0.00001f : Convert.ToSingle(tbSetValue2.Text);
+            double setWeight3 = tbSetValue3.Text.Equals("") ? 0.00001f : Convert.ToSingle(tbSetValue3.Text);
+            double setWeight4 = tbSetValue4.Text.Equals("") ? 0.00001f : Convert.ToSingle(tbSetValue4.Text);
 
             int value5 = (int)((measurementWeight1 + measurementWeight2 + measurementWeight3 + measurementWeight4) / (setWeight1 + setWeight2 + setWeight3 + setWeight4) * 100);
             this.progressBar5.Value = value5 > 100 ? 100 : value5;
@@ -591,7 +593,7 @@ namespace CoatingMgr
             }
             if (!cbModel.Text.Equals("") && !cbComponent.Text.Equals("") && !cbColor.Text.Equals("") && !tbInputWeight.Text.Equals("") && !tbTemperature.Text.Equals("") && !tbHumidity.Text.Equals(""))
             {
-                SQLiteDataReader dataReader = GetSqlLiteHelper().ReadTable(_tableName, new string[] { "机型","部件", "颜色" }, new string[] { "=", "=", "=" }, new string[] { cbModel.Text, cbComponent.Text, cbColor.Text });
+                SQLiteDataReader dataReader = GetSqlLiteHelper().ReadTable(_tableName, new string[] { "适用机种", "适用制品", "色番" }, new string[] { "=", "=", "=" }, new string[] { cbModel.Text, cbComponent.Text, cbColor.Text });
                 if (dataReader.HasRows)
                 {
                     isStirInfoConfirmed = false;
@@ -605,6 +607,10 @@ namespace CoatingMgr
                     SetWeight();
                     ShowConfirmWindow();
                 }
+                else
+                {
+                    MessageBox.Show("Master文件中未找到相关数据");
+                }
             }
         }
 
@@ -617,7 +623,7 @@ namespace CoatingMgr
             {
                 try
                 {
-                    float weight1 = float.Parse(tbInputWeight.Text);
+                    double weight1 = double.Parse(tbInputWeight.Text);
                     string ratio1 = "",ratio2 = "", ratio3 = "",ratio4 = "";
                     if (!tbRatio.Text.Equals(""))
                     {
@@ -635,17 +641,17 @@ namespace CoatingMgr
                     tbSetValue1.Text = weight1.ToString();
                     if (!ratio2.Equals(""))
                     {
-                        float weight2 = weight1 * float.Parse(ratio2) / float.Parse(ratio1);
+                        double weight2 = weight1 * double.Parse(ratio2) / double.Parse(ratio1);
                         tbSetValue2.Text = weight2.ToString();
                     }
                     if (!ratio3.Equals(""))
                     {
-                        float weight3 = weight1 * float.Parse(ratio3) / float.Parse(ratio1);
+                        double weight3 = weight1 * double.Parse(ratio3) / double.Parse(ratio1);
                         tbSetValue3.Text = weight3.ToString();
                     }
                     if (!ratio4.Equals(""))
                     {
-                        float weight4 = weight1 * float.Parse(ratio4) / float.Parse(ratio1);
+                        double weight4 = weight1 * double.Parse(ratio4) / double.Parse(ratio1);
                         tbSetValue4.Text = weight4.ToString();
                     }
                 }

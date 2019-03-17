@@ -84,10 +84,6 @@ namespace CoatingMgr
                     dataGirdView.Columns[0].Visible = false;
                 }
             }
-            else
-            {
-                //SetDefaultColumns(dataGirdView, new string[] { "id", "条形码", "名称", "颜色", "类型", "标准重量", "适用机型", "生产日期", "有效期", "仓库名称", "操作员", "操作时间", "操作类型", "告警类型", "备注" });
-            }
             lbCount.Text = dataGirdView.RowCount + "";
         }
 
@@ -202,7 +198,7 @@ namespace CoatingMgr
         private void BtShowAll_Click(object sender, EventArgs e)
         {
             cbSearchType.SelectedIndex = -1;
-            cbSearchType.Text = "选择过滤种类";
+            cbSearchType.Text = "选择过滤方式";
             cbSearchContent.SelectedIndex = -1;
             cbSearchContent.Text = "选择过滤内容";
             cbSearchContent.Items.Clear();

@@ -14,6 +14,8 @@ namespace CoatingMgr
 {
     public partial class LoginForm : Form
     {
+        string userPermission = "";
+
         public LoginForm()
         {
             InitializeComponent();
@@ -42,6 +44,7 @@ namespace CoatingMgr
             Boolean result = false;
             if (Properties.Settings.Default.user.Equals(name) && Properties.Settings.Default.pwd.Equals(pwd))
             {
+                userPermission = Common.USER_MANAGER;
                 return true;
             }
             try
@@ -49,8 +52,9 @@ namespace CoatingMgr
                 SqlLiteHelper sqlLiteHelper = SqlLiteHelper.GetInstance();
                 string query = "select * from account where 账号=" + "'" + name + "'" + " and 密码=" + "'" + pwd + "'";
                 SQLiteDataReader dataReader = sqlLiteHelper.ExecuteQuery(query);
-                if (dataReader.HasRows)
+                if (dataReader.HasRows && dataReader.Read())
                 {
+                    userPermission = dataReader["权限"].ToString();
                     result = true;
                 }
             }
@@ -78,7 +82,7 @@ namespace CoatingMgr
                 if (IsAccountValid(tbUserName.Text.ToString(), tbPwd.Text.ToString()))
                 {
                     this.Hide();
-                    MainForm mainForm = new MainForm(tbUserName.Text.ToString());
+                    MainForm mainForm = new MainForm(tbUserName.Text.ToString(), userPermission);
                     mainForm.Show();
                 }
                 else

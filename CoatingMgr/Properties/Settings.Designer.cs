@@ -58,5 +58,89 @@ namespace CoatingMgr.Properties {
                 this["pwd"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string MailCount {
+            get {
+                return ((string)(this["MailCount"]));
+            }
+            set {
+                this["MailCount"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string MailPassword {
+            get {
+                return ((string)(this["MailPassword"]));
+            }
+            set {
+                this["MailPassword"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string MailSMTP {
+            get {
+                return ((string)(this["MailSMTP"]));
+            }
+            set {
+                this["MailSMTP"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string MailPort {
+            get {
+                return ((string)(this["MailPort"]));
+            }
+            set {
+                this["MailPort"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string MailTo {
+            get {
+                return ((string)(this["MailTo"]));
+            }
+            set {
+                this["MailTo"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string MailCC {
+            get {
+                return ((string)(this["MailCC"]));
+            }
+            set {
+                this["MailCC"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string MailDate {
+            get {
+                return ((string)(this["MailDate"]));
+            }
+            set {
+                this["MailDate"] = value;
+            }
+        }
     }
 }

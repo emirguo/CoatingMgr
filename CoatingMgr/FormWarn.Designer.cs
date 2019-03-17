@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormWarn));
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel5 = new System.Windows.Forms.Panel();
             this.lbCount = new System.Windows.Forms.Label();
@@ -37,17 +36,17 @@
             this.dgvWarnMgr = new System.Windows.Forms.DataGridView();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.panel4 = new System.Windows.Forms.Panel();
-            this.pbSearch = new System.Windows.Forms.PictureBox();
-            this.tbSearch = new System.Windows.Forms.TextBox();
-            this.cbSelectType = new System.Windows.Forms.ComboBox();
-            this.cbSelectStock = new System.Windows.Forms.ComboBox();
+            this.btShowAll = new System.Windows.Forms.Button();
+            this.cbSearchContent = new System.Windows.Forms.ComboBox();
+            this.cbSearchType = new System.Windows.Forms.ComboBox();
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.TSMIDeleteRow = new System.Windows.Forms.ToolStripMenuItem();
+            this.TSMIModify = new System.Windows.Forms.ToolStripMenuItem();
+            this.TSMIDelete = new System.Windows.Forms.ToolStripMenuItem();
+            this.btAdd = new System.Windows.Forms.Button();
             this.panel2.SuspendLayout();
             this.panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvWarnMgr)).BeginInit();
             this.panel4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbSearch)).BeginInit();
             this.contextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -115,66 +114,81 @@
             // 
             this.panel4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel4.Controls.Add(this.pbSearch);
-            this.panel4.Controls.Add(this.tbSearch);
-            this.panel4.Controls.Add(this.cbSelectType);
-            this.panel4.Controls.Add(this.cbSelectStock);
+            this.panel4.Controls.Add(this.btAdd);
+            this.panel4.Controls.Add(this.btShowAll);
+            this.panel4.Controls.Add(this.cbSearchContent);
+            this.panel4.Controls.Add(this.cbSearchType);
             this.panel4.Location = new System.Drawing.Point(0, 0);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(983, 36);
             this.panel4.TabIndex = 39;
             // 
-            // pbSearch
+            // btShowAll
             // 
-            this.pbSearch.Image = ((System.Drawing.Image)(resources.GetObject("pbSearch.Image")));
-            this.pbSearch.Location = new System.Drawing.Point(498, 9);
-            this.pbSearch.Name = "pbSearch";
-            this.pbSearch.Size = new System.Drawing.Size(28, 27);
-            this.pbSearch.TabIndex = 4;
-            this.pbSearch.TabStop = false;
-            this.pbSearch.Click += new System.EventHandler(this.PbSearch_Click);
+            this.btShowAll.Font = new System.Drawing.Font("宋体", 12F);
+            this.btShowAll.Location = new System.Drawing.Point(563, 4);
+            this.btShowAll.Name = "btShowAll";
+            this.btShowAll.Size = new System.Drawing.Size(122, 27);
+            this.btShowAll.TabIndex = 11;
+            this.btShowAll.Text = "显示全部规则";
+            this.btShowAll.UseVisualStyleBackColor = true;
+            this.btShowAll.Click += new System.EventHandler(this.BtShowAll_Click);
             // 
-            // tbSearch
+            // cbSearchContent
             // 
-            this.tbSearch.Font = new System.Drawing.Font("宋体", 12F);
-            this.tbSearch.Location = new System.Drawing.Point(327, 8);
-            this.tbSearch.Name = "tbSearch";
-            this.tbSearch.Size = new System.Drawing.Size(159, 26);
-            this.tbSearch.TabIndex = 2;
+            this.cbSearchContent.Font = new System.Drawing.Font("宋体", 12F);
+            this.cbSearchContent.FormattingEnabled = true;
+            this.cbSearchContent.Location = new System.Drawing.Point(216, 6);
+            this.cbSearchContent.Name = "cbSearchContent";
+            this.cbSearchContent.Size = new System.Drawing.Size(330, 24);
+            this.cbSearchContent.TabIndex = 1;
+            this.cbSearchContent.Text = "选择过滤内容";
+            this.cbSearchContent.SelectedIndexChanged += new System.EventHandler(this.CbSearchContent_SelectedIndexChanged);
             // 
-            // cbSelectType
+            // cbSearchType
             // 
-            this.cbSelectType.Font = new System.Drawing.Font("宋体", 12F);
-            this.cbSelectType.FormattingEnabled = true;
-            this.cbSelectType.Location = new System.Drawing.Point(130, 9);
-            this.cbSelectType.Name = "cbSelectType";
-            this.cbSelectType.Size = new System.Drawing.Size(191, 24);
-            this.cbSelectType.TabIndex = 1;
-            this.cbSelectType.Text = "选择查找方式";
-            // 
-            // cbSelectStock
-            // 
-            this.cbSelectStock.Font = new System.Drawing.Font("宋体", 12F);
-            this.cbSelectStock.FormattingEnabled = true;
-            this.cbSelectStock.Location = new System.Drawing.Point(3, 9);
-            this.cbSelectStock.Name = "cbSelectStock";
-            this.cbSelectStock.Size = new System.Drawing.Size(121, 24);
-            this.cbSelectStock.TabIndex = 0;
-            this.cbSelectStock.Text = "选择仓库";
+            this.cbSearchType.Font = new System.Drawing.Font("宋体", 12F);
+            this.cbSearchType.FormattingEnabled = true;
+            this.cbSearchType.Location = new System.Drawing.Point(4, 6);
+            this.cbSearchType.Name = "cbSearchType";
+            this.cbSearchType.Size = new System.Drawing.Size(204, 24);
+            this.cbSearchType.TabIndex = 0;
+            this.cbSearchType.Text = "选择过滤方式";
+            this.cbSearchType.SelectedIndexChanged += new System.EventHandler(this.CbSearchType_SelectedIndexChanged);
             // 
             // contextMenuStrip
             // 
             this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.TSMIDeleteRow});
+            this.TSMIModify,
+            this.TSMIDelete});
             this.contextMenuStrip.Name = "contextMenuStrip";
-            this.contextMenuStrip.Size = new System.Drawing.Size(113, 26);
+            this.contextMenuStrip.Size = new System.Drawing.Size(101, 48);
             // 
-            // TSMIDeleteRow
+            // TSMIModify
             // 
-            this.TSMIDeleteRow.Name = "TSMIDeleteRow";
-            this.TSMIDeleteRow.Size = new System.Drawing.Size(112, 22);
-            this.TSMIDeleteRow.Text = "删除行";
-            this.TSMIDeleteRow.Click += new System.EventHandler(this.TSMIDeleteRow_Click);
+            this.TSMIModify.Name = "TSMIModify";
+            this.TSMIModify.Size = new System.Drawing.Size(100, 22);
+            this.TSMIModify.Text = "修改";
+            this.TSMIModify.Click += new System.EventHandler(this.TSMIModify_Click);
+            // 
+            // TSMIDelete
+            // 
+            this.TSMIDelete.Name = "TSMIDelete";
+            this.TSMIDelete.Size = new System.Drawing.Size(100, 22);
+            this.TSMIDelete.Text = "删除";
+            this.TSMIDelete.Click += new System.EventHandler(this.TSMIDelete_Click);
+            // 
+            // btAdd
+            // 
+            this.btAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btAdd.Font = new System.Drawing.Font("宋体", 12F);
+            this.btAdd.Location = new System.Drawing.Point(857, 4);
+            this.btAdd.Name = "btAdd";
+            this.btAdd.Size = new System.Drawing.Size(122, 27);
+            this.btAdd.TabIndex = 40;
+            this.btAdd.Text = "添加告警规则";
+            this.btAdd.UseVisualStyleBackColor = true;
+            this.btAdd.Click += new System.EventHandler(this.BtAdd_Click);
             // 
             // FormWarn
             // 
@@ -192,8 +206,6 @@
             this.panel5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvWarnMgr)).EndInit();
             this.panel4.ResumeLayout(false);
-            this.panel4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbSearch)).EndInit();
             this.contextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -204,14 +216,15 @@
         private System.Windows.Forms.DataGridView dgvWarnMgr;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.Panel panel4;
-        private System.Windows.Forms.PictureBox pbSearch;
-        private System.Windows.Forms.TextBox tbSearch;
-        private System.Windows.Forms.ComboBox cbSelectType;
-        private System.Windows.Forms.ComboBox cbSelectStock;
+        private System.Windows.Forms.ComboBox cbSearchContent;
+        private System.Windows.Forms.ComboBox cbSearchType;
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Label lbCount;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip;
-        private System.Windows.Forms.ToolStripMenuItem TSMIDeleteRow;
+        private System.Windows.Forms.ToolStripMenuItem TSMIDelete;
+        private System.Windows.Forms.ToolStripMenuItem TSMIModify;
+        private System.Windows.Forms.Button btShowAll;
+        private System.Windows.Forms.Button btAdd;
     }
 }

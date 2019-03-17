@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SQLite;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -13,27 +14,16 @@ namespace CoatingMgr
     public partial class FormSetWarn : Form
     {
         private static SqlLiteHelper sqlLiteHelper = null;
+        private static string _tableName = Common.WARNMANAGERTABLENAME;
         private string _userName = "";
         private FormWarn _fatherForm = null;
-        private static string _tableName = Common.WARNMANAGERTABLENAME;
+        private bool _modifyModel = false;
+        private string _modifyID, _modifyStock, _modifyProduct, _modifyColor, _modifyType, _modifyMaxmum, _modifyMinimum, _modifyWarnTime;
 
         private List<string> _cbSearchStock;
         private List<string> _cbSearchProduct;
         private List<string> _cbSearchColor;
         private List<string> _cbSearchType;
-
-        private static string[] _cbWarnDate = { "有效期前1天", "有效期前1周", "有效期前15天", "有效期前1月", "有效期前3月" };
-
-        private enum WARNTYPE
-        {
-            库存上限告警,
-            库存下限告警,
-            有效期告警,
-            库存上限告警和库存下限告警,
-            库存上限告警和有效期告警,
-            库存下限告警和有效期告警,
-            库存上限告警和库存下限告警和有效期告警
-        }
 
         public FormSetWarn()
         {
@@ -45,6 +35,22 @@ namespace CoatingMgr
             InitializeComponent();
             _userName = userName;
             _fatherForm = fatherForm;
+        }
+
+        public FormSetWarn(FormWarn fatherForm, string userName, bool modifyType, string id, string stock, string product, string color, string type, string warnMaxmum, string warnMinimum, string warnTime)
+        {
+            InitializeComponent();
+            _userName = userName;
+            _fatherForm = fatherForm;
+            _modifyModel = modifyType;
+            _modifyID = id;
+            _modifyStock = stock;
+            _modifyProduct = product;
+            _modifyColor = color;
+            _modifyType = type;
+            _modifyMaxmum = warnMaxmum;
+            _modifyMinimum = warnMinimum;
+            _modifyWarnTime = warnTime;
         }
 
         private void FormSetWarn_Load(object sender, EventArgs e)
@@ -67,40 +73,70 @@ namespace CoatingMgr
             for (int i = 0; i < _cbSearchStock.Count; i++)
             {
                 cbStock.Items.Add(_cbSearchStock[i]);
+                if (_modifyModel && _cbSearchStock[i].Equals(_modifyStock))
+                {
+                    cbStock.SelectedIndex = i;
+                }
             }
 
             _cbSearchProduct = GetSqlLiteHelper().GetValueTypeByColumnFromTable(Common.STOCKCOUNTTABLENAME, "名称");
             for (int i = 0; i < _cbSearchProduct.Count; i++)
             {
                 cbProduct.Items.Add(_cbSearchProduct[i]);
+                if (_modifyModel && _cbSearchProduct[i].Equals(_modifyProduct))
+                {
+                    cbProduct.SelectedIndex = i;
+                }
             }
 
             _cbSearchColor = GetSqlLiteHelper().GetValueTypeByColumnFromTable(Common.STOCKCOUNTTABLENAME, "颜色");
             for (int i = 0; i < _cbSearchColor.Count; i++)
             {
                 cbColor.Items.Add(_cbSearchColor[i]);
+                if (_modifyModel && _cbSearchColor[i].Equals(_modifyColor))
+                {
+                    cbColor.SelectedIndex = i;
+                }
             }
 
             _cbSearchType = GetSqlLiteHelper().GetValueTypeByColumnFromTable(Common.STOCKCOUNTTABLENAME, "类型");
             for (int i = 0; i < _cbSearchType.Count; i++)
             {
                 cbType.Items.Add(_cbSearchType[i]);
+                if (_modifyModel && _cbSearchType[i].Equals(_modifyType))
+                {
+                    cbType.SelectedIndex = i;
+                }
             }
 
-            for (int i = 0; i < _cbWarnDate.Length; i++)
+            for (int i = 0; i < Common.WARNDATES.Length; i++)
             {
-                cbWarnTime.Items.Add(_cbWarnDate[i]);
+                cbWarnTime.Items.Add(Common.WARNDATES[i]);
+                if (_modifyModel && Common.WARNDATES[i].Equals(_modifyWarnTime))
+                {
+                    cbWarnTime.SelectedIndex = i;
+                }
             }
 
+            if (_modifyModel)
+            {
+                tbMaximum.Text = _modifyMaxmum;
+                tbMinimum.Text = _modifyMinimum;
+                lbTitle.Text = "修改告警";
+                btnSave.Text = "修改";
+            }
         }
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
-            if (SaveWarn())
+            if (_modifyModel)
             {
-                Close();
+                ModifyWarn();
             }
-            
+            else
+            {
+                SaveWarn();
+            }
         }
 
         private void BtnCancel_Click(object sender, EventArgs e)
@@ -108,65 +144,51 @@ namespace CoatingMgr
             Close();
         }
 
-        private Boolean SaveWarn()
+        private void SaveWarn()
         {
-            bool result = false;
-            WARNTYPE warnType = WARNTYPE.库存上限告警和库存下限告警和有效期告警;
             if (tbMaximum.Text.Length == 0 && tbMinimum.Text.Length == 0 && cbWarnTime.Text.Length == 0)
             {
                 MessageBox.Show("请设置告警类型");
-                return result;
+                return ;
             }
-            else if (tbMaximum.Text != null && tbMaximum.Text.Length > 0 && int.Parse(tbMaximum.Text) > 0 
-                && tbMinimum.Text!= null && tbMinimum.Text.Length > 0 && int.Parse(tbMinimum.Text) > 0 
-                && cbWarnTime.Text != null && cbWarnTime.Text.Length > 0 && cbWarnTime.Text.Length > 0)
+
+            //保存告警规则到告警规则表
+            SQLiteDataReader dataReader = GetSqlLiteHelper().ReadTable(_tableName, new string[] { "仓库", "名称", "颜色", "类型" }, new string[] { "=", "=", "=", "=" }, new string[] { cbStock.Text, cbProduct.Text, cbColor.Text, cbType.Text });
+            if (dataReader.HasRows && dataReader.Read())//告警规则已经存在
             {
-                warnType = WARNTYPE.库存上限告警和库存下限告警和有效期告警;
+                string id = dataReader["id"].ToString();
+                GetSqlLiteHelper().UpdateValues(_tableName, Common.WARNMANAGERTABLECOLUMNS, new string[] { id, cbStock.Text, cbProduct.Text, cbColor.Text, cbType.Text, tbMaximum.Text, tbMinimum.Text, cbWarnTime.Text, _userName, DateTime.Now.ToString() }, "id", id);
             }
-            else if (tbMaximum.Text != null && tbMaximum.Text.Length > 0 && int.Parse(tbMaximum.Text) > 0 
-                && tbMinimum.Text != null && tbMinimum.Text.Length > 0 && int.Parse(tbMinimum.Text) > 0 
-                && cbWarnTime.Text.Length == 0)
+            else
             {
-                warnType = WARNTYPE.库存上限告警和库存下限告警;
+                GetSqlLiteHelper().InsertValues(_tableName, new string[] { cbStock.Text, cbProduct.Text, cbColor.Text, cbType.Text, tbMaximum.Text, tbMinimum.Text, cbWarnTime.Text, _userName, DateTime.Now.ToString() });
             }
-            else if (tbMaximum.Text != null && tbMaximum.Text.Length > 0 && int.Parse(tbMaximum.Text) > 0 
-                && tbMinimum.Text.Length == 0
-                && cbWarnTime.Text != null && cbWarnTime.Text.Length > 0 && cbWarnTime.Text.Length > 0)
-            {
-                warnType = WARNTYPE.库存上限告警和有效期告警;
-            }
-            else if (tbMaximum.Text.Length == 0 
-                && tbMinimum.Text != null && tbMinimum.Text.Length > 0 && int.Parse(tbMinimum.Text) > 0
-                && cbWarnTime.Text != null && cbWarnTime.Text.Length > 0 && cbWarnTime.Text.Length > 0)
-            {
-                warnType = WARNTYPE.库存下限告警和有效期告警;
-            }
-            else if (tbMaximum.Text != null && tbMaximum.Text.Length > 0 && int.Parse(tbMaximum.Text) > 0
-                && tbMinimum.Text.Length == 0 
-                && cbWarnTime.Text.Length == 0)
-            {
-                warnType = WARNTYPE.库存上限告警;
-            }
-            else if (tbMaximum.Text.Length == 0 
-                && tbMinimum.Text != null && tbMinimum.Text.Length > 0 && int.Parse(tbMinimum.Text) > 0 
-                && cbWarnTime.Text.Length == 0)
-            {
-                warnType = WARNTYPE.库存下限告警;
-            }
-            else if (tbMaximum.Text.Length == 0 
-                && tbMinimum.Text.Length == 0 
-                && cbWarnTime.Text != null && cbWarnTime.Text.Length > 0 && cbWarnTime.Text.Length > 0)
-            {
-                warnType = WARNTYPE.有效期告警;
-            }
-            GetSqlLiteHelper().InsertValues(_tableName, new string[] { cbStock.Text, cbProduct.Text, cbColor.Text, cbType.Text, tbMaximum.Text, tbMinimum.Text, cbWarnTime.Text, warnType.ToString(), _userName, DateTime.Now.ToString() });
+
+            //更新库存告警数据
+            Common.UpdateStockCountWarn(cbProduct.Text, cbStock.Text, cbColor.Text, cbType.Text, tbMaximum.Text, tbMinimum.Text, cbWarnTime.Text);
 
             if (_fatherForm != null)
             {
                 _fatherForm.UpdateData();
             }
-            result = true;
-            return result;
+
+            Close();
+        }
+
+        private void ModifyWarn()
+        {
+            //更新告警规则到告警规则表
+            GetSqlLiteHelper().UpdateValues(_tableName, Common.WARNMANAGERTABLECOLUMNS, new string[] { _modifyID, cbStock.Text, cbProduct.Text, cbColor.Text, cbType.Text, tbMaximum.Text, tbMinimum.Text, cbWarnTime.Text, _userName, DateTime.Now.ToString() }, "id", _modifyID + "");
+
+            //更新库存告警数据
+            Common.UpdateStockCountWarn(cbProduct.Text, cbStock.Text, cbColor.Text, cbType.Text, tbMaximum.Text,tbMinimum.Text, cbWarnTime.Text);
+
+            if (_fatherForm != null)
+            {
+                _fatherForm.UpdateData();
+            }
+
+            Close();
         }
     }
 }

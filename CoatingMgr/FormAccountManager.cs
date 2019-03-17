@@ -18,45 +18,10 @@ namespace CoatingMgr
 
         private static string[] _cbSearchType = {"按账号查找","按权限查找"};
         private static string[] _searchType = { "账号", "权限" };
-        private int rowIndex = 0;
 
         public FormAccountManager()
         {
             InitializeComponent();
-        }
-
-        private void BtAdd_Click(object sender, EventArgs e)
-        {
-            FormAddAccount formAddAccount = new FormAddAccount(this);
-            formAddAccount.Show();
-        }
-
-        private void BtModify_Click(object sender, EventArgs e)
-        {
-            if (dgvAccountData.SelectedCells.Count != 0)
-            {
-                int id = Convert.ToInt32(dgvAccountData.CurrentRow.Cells[0].Value);
-                string name = dgvAccountData.CurrentRow.Cells[1].Value.ToString();
-                string pwd = dgvAccountData.CurrentRow.Cells[2].Value.ToString();
-                string permission = dgvAccountData.CurrentRow.Cells[3].Value.ToString();
-                FormAddAccount formAddAccount = new FormAddAccount(this, id, name, pwd, permission);
-                formAddAccount.Show();
-            }
-            else
-            {
-                MessageBox.Show("请选择要修改的账户");
-            }
-
-        }
-
-        private void BtDelete_Click(object sender, EventArgs e)
-        {
-            if (dgvAccountData.SelectedCells.Count != 0)
-            {
-                string id = dgvAccountData.CurrentRow.Cells[0].Value.ToString();
-                GetSqlLiteHelper().DeleteValuesAND(_tableName, new string[] { "id" }, new string[] { id }, new string[] { "=" });
-                UpdateData();
-            }
         }
 
         private void FormAccountManager_Load(object sender, EventArgs e)
@@ -75,9 +40,10 @@ namespace CoatingMgr
 
         private void InitData()
         {
-            cbQueryType.Items.Add(_cbSearchType[0]);
-            cbQueryType.Items.Add(_cbSearchType[1]);
-            cbQueryType.SelectedIndex = 0;
+            for (int i = 0; i < _cbSearchType.Length; i++)
+            {
+                cbSearchType.Items.Add(_cbSearchType[i]);
+            }
 
             BindDataGirdView(dgvAccountData, _tableName);//绑定account表
         }
@@ -97,10 +63,6 @@ namespace CoatingMgr
                 {
                     dataGirdView.Columns[0].Visible = false;
                 }
-            }
-            else
-            {
-                //SetDefaultColumns(dataGirdView,new string[] { "id", "账号", "密码", "权限" });
             }
             lbCount.Text = dataGirdView.RowCount + "";
         }
@@ -164,39 +126,86 @@ namespace CoatingMgr
             }
         }
 
-        private void PbQuery_Click(object sender, EventArgs e)
+        private void BtAdd_Click(object sender, EventArgs e)
         {
-            if (tbQueryContent.Text == null || tbQueryContent.Text.ToString().Equals(""))
-            {
-                BindDataGirdView(dgvAccountData, _tableName);
-            }
-            else
-            {
-                BindDataGirdViewBySearch(dgvAccountData, _tableName, _searchType[cbQueryType.SelectedIndex], tbQueryContent.Text);
-            }
+            FormAddAccount formAddAccount = new FormAddAccount(this);
+            formAddAccount.Show();
         }
 
         private void DgvAccountData_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
             {
-                this.dgvAccountData.Rows[e.RowIndex].Selected = true;
-                rowIndex = e.RowIndex;
-                this.dgvAccountData.CurrentCell = this.dgvAccountData.Rows[e.RowIndex].Cells[1];
                 this.contextMenuStrip.Show(this.dgvAccountData, e.Location);
                 this.contextMenuStrip.Show(Cursor.Position);
+                if (dgvAccountData.SelectedRows.Count == 1)
+                {
+                    this.TSMIModify.Visible = true;
+                }
+                else
+                {
+                    this.TSMIModify.Visible = false;
+                }
+                
+            }
+        }
+        private void TSMIModify_Click(object sender, EventArgs e)
+        {
+            int id = Convert.ToInt32(dgvAccountData.CurrentRow.Cells[0].Value);
+            string name = dgvAccountData.CurrentRow.Cells[1].Value.ToString();
+            string pwd = dgvAccountData.CurrentRow.Cells[2].Value.ToString();
+            string permission = dgvAccountData.CurrentRow.Cells[3].Value.ToString();
+            FormAddAccount formAddAccount = new FormAddAccount(this, id, name, pwd, permission);
+            formAddAccount.Show();
+        }
+
+        private void TSMIDelete_Click(object sender, EventArgs e)
+        {
+            if (dgvAccountData.SelectedCells.Count > 0)
+            {
+                foreach (DataGridViewRow row in dgvAccountData.SelectedRows)
+                {
+                    if (!row.IsNewRow)
+                    {
+                        string id = row.Cells[0].Value.ToString();
+                        GetSqlLiteHelper().DeleteValuesAND(_tableName, new string[] { "id" }, new string[] { id }, new string[] { "=" });
+                        dgvAccountData.Rows.Remove(row);
+                    }
+                }
+                lbCount.Text = dgvAccountData.Rows.Count + "";
             }
         }
 
-        private void TSMIDeleteRow_Click(object sender, EventArgs e)
+        private void CbSearchType_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (!this.dgvAccountData.Rows[rowIndex].IsNewRow)
+            if (cbSearchType.SelectedIndex >= 0)
             {
-                string id = dgvAccountData.Rows[rowIndex].Cells[0].Value.ToString();
-                this.dgvAccountData.Rows.RemoveAt(rowIndex);
-                GetSqlLiteHelper().DeleteValuesAND(_tableName, new string[] { "id" }, new string[] { id }, new string[] { "=" });
-                UpdateData();
+                cbSearchContent.Items.Clear();
+                List<string> searchContent = GetSqlLiteHelper().GetValueTypeByColumnFromTable(_tableName, _searchType[cbSearchType.SelectedIndex]);
+                for (int i = 0; i < searchContent.Count; i++)
+                {
+                    cbSearchContent.Items.Add(searchContent[i]);
+                }
+                cbSearchContent.Text = "选择过滤内容";
             }
+        }
+
+        private void CbSearchContent_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbSearchType.SelectedIndex >= 0 && cbSearchContent.SelectedIndex >= 0)
+            {
+                BindDataGirdViewBySearch(dgvAccountData, _tableName, _searchType[cbSearchType.SelectedIndex], cbSearchContent.SelectedItem.ToString());
+            }
+        }
+
+        private void BtShowAll_Click(object sender, EventArgs e)
+        {
+            cbSearchType.SelectedIndex = -1;
+            cbSearchType.Text = "选择过滤方式";
+            cbSearchContent.SelectedIndex = -1;
+            cbSearchContent.Text = "选择过滤内容";
+            cbSearchContent.Items.Clear();
+            BindDataGirdView(dgvAccountData, _tableName);
         }
     }
 }

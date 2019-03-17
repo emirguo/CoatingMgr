@@ -15,10 +15,7 @@ namespace CoatingMgr
     public partial class FormOut : Form
     {
         private static SqlLiteHelper sqlLiteHelper = null;
-        private static string _tableName = Common.OUTSTOCKTABLENAME;
         private string _userName = "";
-        private static string[] _cbSearchStock = { "1号仓库", "2号仓库", "3号仓库", "4号仓库" };
-        private int rowIndex = 0;
 
         public FormOut()
         {
@@ -45,80 +42,22 @@ namespace CoatingMgr
             return sqlLiteHelper;
         }
 
-        private string GetBarCodeDetails(string barCode)
-        {
-            string result = "";
-            string title = "【条形码明细】\n";
-            string barCodeType = "1.代码种类" + "DataMartrix码" + "\n";
-            string constitute = "涂料名称：" + "双虎" + "\n" + "重量：" + "1.5kg" + "\n" + "厂商名：" + "双虎涂料有限公司" + "\n" + "生产日期：" + "2018.12.23";
-            result = title + barCodeType + constitute;
-            return result;
-        }
-
         private void InitData()
         {
             lbUser.Text = _userName;
             ShowTime();
 
-            for (int i = 0; i < _cbSearchStock.Length; i++)
+            for (int i = 0; i < Common.STOCKSNAME.Length; i++)
             {
-                cbSearchStock.Items.Add(_cbSearchStock[i]);
+                cbSearchStock.Items.Add(Common.STOCKSNAME[i]);
                 cbSearchStock.SelectedIndex = 0;
             }
-            BindDataGirdView(dgvOutStockData, _tableName);//绑定数据库表
 
-            this.lbProDescription.Text = GetBarCodeDetails("121212");
-
-        }
-
-        private void BindDataGirdView(DataGridView dataGirdView, string table)
-        {
-            dataGirdView.Rows.Clear();
-            SQLiteDataReader dataReader = GetSqlLiteHelper().ReadFullTable(table);
-            if (dataReader.HasRows)
-            {
-                BindingSource bs = new BindingSource
-                {
-                    DataSource = dataReader
-                };
-                dataGirdView.DataSource = bs;
-                if (dataGirdView.ColumnCount > 0)
-                {
-                    dataGirdView.Columns[0].Visible = false;
-                }
-            }
-            else
-            {
-                //SetDefaultColumns(dataGirdView, new string[] { "id", "条形码", "名称", "颜色", "类型", "标准重量", "适用机型", "生产日期", "有效期", "仓库名称", "操作员", "操作时间", "操作类型", "告警类型", "备注" });
-            }
-            lbNumCount.Text = dataGirdView.RowCount + "";
-        }
-
-        private void BindDataGirdViewBySearch(DataGridView dataGirdView, string table, string type, string content)
-        {
-            SQLiteDataReader dataReader = GetSqlLiteHelper().ReadTable(table, new string[] { type }, new string[] { "=" }, new string[] { content });
-            if (dataReader.HasRows)
-            {
-                BindingSource bs = new BindingSource
-                {
-                    DataSource = dataReader
-                };
-                dataGirdView.DataSource = bs;
-                if (dataGirdView.ColumnCount > 0)
-                {
-                    dataGirdView.Columns[0].Visible = false;
-                }
-                lbNumCount.Text = dataGirdView.RowCount + "";
-            }
-            else
-            {
-                MessageBox.Show("未查找到数据");
-            }
+            SetDefaultColumns(dgvStockData, Common.INSTOCKTABLECOLUMNS);
         }
 
         private void SetDefaultColumns(DataGridView dataGirdView, string[] columns)
         {
-            dataGirdView.DataSource = null;
             for (int i = 0; i < columns.Length; i++)
             {
                 DataGridViewTextBoxColumn column = new DataGridViewTextBoxColumn
@@ -129,6 +68,7 @@ namespace CoatingMgr
             }
 
             dataGirdView.Columns[0].Visible = false;
+            dataGirdView.Columns[14].Visible = false;
         }
 
         private void ShowTime()
@@ -152,10 +92,12 @@ namespace CoatingMgr
 
         private void TbBarCode_TextChanged(object sender, EventArgs e)
         {
-            if (IsBarCodeValid(tbBarCode.Text.ToString()))//条形码正确，插入数据到入库表中
+            if (AnalysisBarCode(tbBarCode.Text.ToString()))
             {
-                GetSqlLiteHelper().InsertValues(_tableName, new string[] { tbBarCode.Text, tbName.Text, "红色", tbType.Text, tbWeight.Text, tbModel.Text, "2019.01.20", tbDate.Text, cbSearchStock.Text, _userName, DateTime.Now.ToString("yyyy-MM-dd"), DateTime.Now.ToString("HH:mm:ss"), "出库", " ", " " });
-                UpdateData();
+                this.dgvStockData.Rows.Add(0, tbBarCode.Text, tbName.Text, tbColor.Text, tbType.Text, tbWeight.Text, tbModel.Text, cbSearchStock.Text, tbProductionDate.Text, tbExpiryDate.Text, _userName, DateTime.Now.ToString("yyyy-MM-dd"), DateTime.Now.ToString("HH:mm:ss"), "出库", " ", " ");
+                int count = this.dgvStockData.RowCount;
+                this.dgvStockData.CurrentCell = this.dgvStockData[1, (count > 1) ? (count - 1) : 0];
+                lbCount.Text = count + "";
             }
             else
             {
@@ -163,89 +105,125 @@ namespace CoatingMgr
             }
         }
 
-        private bool IsBarCodeValid(string barcode)
+        //涂料名*种类*厂家*重量*批次号*连番*使用期限,例如：R-241(KAI) YR-614P(TAP)*A*G1000*18*20190219*0001*20190818
+        private bool AnalysisBarCode(string barcode)
         {
             bool result = false;
-            if (!barcode.Equals("") && barcode.Length > 10)
+            if (!barcode.Equals(""))
             {
-                tbName.Text = "三鹿";
-                tbType.Text = "固化剂";
-                tbWeight.Text = "1kg";
-                tbModel.Text = "门";
-                tbDate.Text = "2020/1/8";
-                result = true;
+                string[] sArray = barcode.Split('*');
+                if (sArray.Length >= 7)
+                {
+                    tbName.Text = sArray[0];
+                    tbType.Text = Common.COATINGTYPE[sArray[1]];
+                    tbWeight.Text = sArray[3];
+                    tbProductionDate.Text = sArray[4];
+                    tbExpiryDate.Text = sArray[6];
+
+                    SQLiteDataReader dataReader = GetSqlLiteHelper().ReadTable(Common.MASTERTABLENAME, new string[] { "涂料名" }, new string[] { "=" }, new string[] { tbName.Text });
+                    if (dataReader.HasRows && dataReader.Read())
+                    {
+                        tbColor.Text = dataReader["色番"].ToString();
+                        tbModel.Text = dataReader["适用机种"].ToString();
+                    }
+                    else
+                    {
+                        tbColor.Text = "";
+                        tbModel.Text = "";
+                        MessageBox.Show("Master文件中未找到此涂料");
+                    }
+
+                    string title = "【产品明细】\n";
+                    string name = "名称：" + tbName.Text + "\n";
+                    string type = "类型：" + tbType.Text + "\n";
+                    string weight = "重量：" + tbWeight.Text + "kg" + "\n";
+                    string color = "颜色：" + tbColor.Text + "\n";
+                    string model = "适用机种：" + tbModel.Text + "\n";
+                    string manufacturer = "厂商：" + sArray[2] + "\n";
+                    string productionDate = "生产日期：" + tbProductionDate.Text + "\n";
+                    string expiryDate = "有效期：" + tbExpiryDate.Text + "\n";
+                    this.lbProDescription.Text = title + name + type + color + weight + model + manufacturer + productionDate + expiryDate;
+                    result = true;
+                }
+                else
+                {
+                    result = false;
+                }
             }
             return result;
         }
 
-        private void UpdateData()
-        {
-            int index = 0;
-            if (dgvOutStockData.RowCount > 0 && dgvOutStockData.CurrentRow != null)
-            {
-                index = dgvOutStockData.CurrentRow.Index;
-            }
-            BindDataGirdView(dgvOutStockData, _tableName);
-            if (dgvOutStockData.RowCount <= 0)
-            {
-                return;
-            }
-            else if ((dgvOutStockData.RowCount - 1) > index)
-            {
-                this.dgvOutStockData.CurrentCell = this.dgvOutStockData[1, index];
-            }
-            else
-            {
-                this.dgvOutStockData.CurrentCell = this.dgvOutStockData[1, (dgvOutStockData.RowCount - 1)];
-            }
-        }
-
-        private void BtnDelete_Click(object sender, EventArgs e)
-        {
-            if (dgvOutStockData.SelectedCells.Count != 0)
-            {
-                string id = dgvOutStockData.CurrentRow.Cells[0].Value.ToString();
-                GetSqlLiteHelper().DeleteValuesAND(_tableName, new string[] { "id" }, new string[] { id }, new string[] { "=" });
-                UpdateData();
-            }
-        }
-
         private void BtnOk_Click(object sender, EventArgs e)
         {
-            if (dgvOutStockData.RowCount > 0)
+            if (dgvStockData.RowCount > 0)
             {
-                GetSqlLiteHelper().InsertDataWithoutIdFromOtherTable(Common.STOCKLOGTABLENAME, _tableName);
-                GetSqlLiteHelper().ClearTable(_tableName);
-                GetSqlLiteHelper().ResetTableId(_tableName);
-                UpdateData();
+                foreach (DataGridViewRow dataRow in dgvStockData.Rows)
+                {
+                    string barcode = dataRow.Cells[1].Value.ToString();
+                    string name = dataRow.Cells[2].Value.ToString();
+                    string color = dataRow.Cells[3].Value.ToString();
+                    string type = dataRow.Cells[4].Value.ToString();
+                    string weight = dataRow.Cells[5].Value.ToString();
+                    string model = dataRow.Cells[6].Value.ToString();
+                    string stock = dataRow.Cells[7].Value.ToString();
+                    //从库存数量中减去出库
+                    SQLiteDataReader dataReader = GetSqlLiteHelper().ReadTable(Common.STOCKCOUNTTABLENAME, new string[] { "类型", "名称", "颜色", "适用机型" }, new string[] { "=", "=", "=", "=" }, new string[] { type, name, color, model });
+                    if (dataReader.HasRows && dataReader.Read())//色剂已经存在
+                    {
+                        double inStockWeight = Convert.ToSingle(Common.FilterChar(dataReader["重量"].ToString()));
+                        double inputWeight = Convert.ToSingle(Common.FilterChar(weight));
+                        inStockWeight -= inputWeight;
+                        if (inStockWeight < 0.000001)//总量 < 0，删除
+                        {
+                            GetSqlLiteHelper().DeleteValuesAND(Common.STOCKCOUNTTABLENAME, new string[] { "类型", "名称", "颜色", "适用机型" }, new string[] { type, name, color, model }, new string[] { "=", "=", "=", "=" });
+                        }
+                        else
+                        {
+                            GetSqlLiteHelper().UpdateValues(Common.STOCKCOUNTTABLENAME, new string[] { "重量" }, new string[] { inStockWeight.ToString() }, "id", dataReader["id"].ToString());
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("色剂"+name+"不在库存中");
+                    }
+
+                    //从在库表中删除
+                    GetSqlLiteHelper().DeleteValuesAND(Common.INSTOCKTABLENAME, new string[] { "条形码" }, new string[] { barcode }, new string[] { "=" });
+
+                    //存入日志 
+                    List<string> values = new List<string>();
+                    for (int i = 1; i < dataRow.Cells.Count; i++)
+                    {
+                        values.Add(dataRow.Cells[i].Value.ToString());
+                    }
+                    GetSqlLiteHelper().InsertValues(Common.STOCKLOGTABLENAME, values);
+                }
+                dgvStockData.Rows.Clear();
+                lbCount.Text = 0 + "";
             }
-        }
-
-        private void BtModify_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void DgvOutStockData_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
             {
-                this.dgvOutStockData.Rows[e.RowIndex].Selected = true;
-                rowIndex = e.RowIndex;
-                this.dgvOutStockData.CurrentCell = this.dgvOutStockData.Rows[e.RowIndex].Cells[1];
-                this.contextMenuStrip.Show(this.dgvOutStockData, e.Location);
+                this.contextMenuStrip.Show(this.dgvStockData, e.Location);
                 this.contextMenuStrip.Show(Cursor.Position);
             }
         }
 
-        private void TSMIDeleteRow_Click(object sender, EventArgs e)
+        private void TSMIDelete_Click(object sender, EventArgs e)
         {
-            if (!this.dgvOutStockData.Rows[rowIndex].IsNewRow)
+            if (dgvStockData.SelectedCells.Count > 0)
             {
-                string id = dgvOutStockData.Rows[rowIndex].Cells[0].Value.ToString();
-                this.dgvOutStockData.Rows.RemoveAt(rowIndex);
-                GetSqlLiteHelper().DeleteValuesAND(_tableName, new string[] { "id" }, new string[] { id }, new string[] { "=" });
-                UpdateData();
+                foreach (DataGridViewRow row in dgvStockData.SelectedRows)
+                {
+                    if (!row.IsNewRow)
+                    {
+                        dgvStockData.Rows.Remove(row);
+                    }
+                }
+                lbCount.Text = dgvStockData.Rows.Count + "";
             }
         }
     }

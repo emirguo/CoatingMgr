@@ -88,7 +88,7 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(48, 16);
             this.label3.TabIndex = 25;
-            this.label3.Text = "产 品";
+            this.label3.Text = "名 称";
             // 
             // label2
             // 

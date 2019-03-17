@@ -30,32 +30,33 @@
         {
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnExport = new System.Windows.Forms.Button();
-            this.cbFillWindow = new System.Windows.Forms.CheckBox();
             this.cbSearchContent = new System.Windows.Forms.ComboBox();
             this.cbShowHistogram = new System.Windows.Forms.CheckBox();
             this.btShowAll = new System.Windows.Forms.Button();
             this.cbSearchType = new System.Windows.Forms.ComboBox();
+            this.cbFillWindow = new System.Windows.Forms.CheckBox();
             this.lbUser = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.lbTime = new System.Windows.Forms.Label();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.chartStock = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.panel4 = new System.Windows.Forms.Panel();
             this.lbCount = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.dgvStockData = new System.Windows.Forms.DataGridView();
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.TSMIDeleteRow = new System.Windows.Forms.ToolStripMenuItem();
-            this.chartStock = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.TSMIModify = new System.Windows.Forms.ToolStripMenuItem();
+            this.TSMIDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chartStock)).BeginInit();
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvStockData)).BeginInit();
             this.contextMenuStrip.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.chartStock)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -63,7 +64,6 @@
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.Controls.Add(this.btnExport);
-            this.panel1.Controls.Add(this.cbFillWindow);
             this.panel1.Controls.Add(this.cbSearchContent);
             this.panel1.Controls.Add(this.cbShowHistogram);
             this.panel1.Controls.Add(this.btShowAll);
@@ -84,19 +84,6 @@
             this.btnExport.UseVisualStyleBackColor = true;
             this.btnExport.Click += new System.EventHandler(this.BtnExport_Click);
             // 
-            // cbFillWindow
-            // 
-            this.cbFillWindow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cbFillWindow.AutoSize = true;
-            this.cbFillWindow.Font = new System.Drawing.Font("宋体", 12F);
-            this.cbFillWindow.Location = new System.Drawing.Point(880, 9);
-            this.cbFillWindow.Name = "cbFillWindow";
-            this.cbFillWindow.Size = new System.Drawing.Size(91, 20);
-            this.cbFillWindow.TabIndex = 57;
-            this.cbFillWindow.Text = "全屏显示";
-            this.cbFillWindow.UseVisualStyleBackColor = true;
-            this.cbFillWindow.CheckedChanged += new System.EventHandler(this.CbFillWindow_CheckedChanged);
-            // 
             // cbSearchContent
             // 
             this.cbSearchContent.Font = new System.Drawing.Font("宋体", 12F);
@@ -113,7 +100,7 @@
             this.cbShowHistogram.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cbShowHistogram.AutoSize = true;
             this.cbShowHistogram.Font = new System.Drawing.Font("宋体", 12F);
-            this.cbShowHistogram.Location = new System.Drawing.Point(752, 9);
+            this.cbShowHistogram.Location = new System.Drawing.Point(873, 10);
             this.cbShowHistogram.Name = "cbShowHistogram";
             this.cbShowHistogram.Size = new System.Drawing.Size(107, 20);
             this.cbShowHistogram.TabIndex = 55;
@@ -140,8 +127,23 @@
             this.cbSearchType.Name = "cbSearchType";
             this.cbSearchType.Size = new System.Drawing.Size(170, 24);
             this.cbSearchType.TabIndex = 1;
-            this.cbSearchType.Text = "选择过滤种类";
+            this.cbSearchType.Text = "选择过滤方式";
             this.cbSearchType.SelectedIndexChanged += new System.EventHandler(this.CbSearchType_SelectedIndexChanged);
+            // 
+            // cbFillWindow
+            // 
+            this.cbFillWindow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbFillWindow.AutoSize = true;
+            this.cbFillWindow.BackColor = System.Drawing.Color.White;
+            this.cbFillWindow.Font = new System.Drawing.Font("宋体", 12F);
+            this.cbFillWindow.Location = new System.Drawing.Point(921, 3);
+            this.cbFillWindow.Name = "cbFillWindow";
+            this.cbFillWindow.Size = new System.Drawing.Size(59, 20);
+            this.cbFillWindow.TabIndex = 57;
+            this.cbFillWindow.Text = "全屏";
+            this.cbFillWindow.UseVisualStyleBackColor = false;
+            this.cbFillWindow.Visible = false;
+            this.cbFillWindow.CheckedChanged += new System.EventHandler(this.CbFillWindow_CheckedChanged);
             // 
             // lbUser
             // 
@@ -181,6 +183,7 @@
             this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel2.Controls.Add(this.cbFillWindow);
             this.panel2.Controls.Add(this.lbUser);
             this.panel2.Controls.Add(this.chartStock);
             this.panel2.Controls.Add(this.label13);
@@ -191,6 +194,25 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(982, 422);
             this.panel2.TabIndex = 1;
+            // 
+            // chartStock
+            // 
+            this.chartStock.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            chartArea1.Name = "ChartArea1";
+            this.chartStock.ChartAreas.Add(chartArea1);
+            this.chartStock.Location = new System.Drawing.Point(1, 2);
+            this.chartStock.Name = "chartStock";
+            this.chartStock.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.None;
+            this.chartStock.Size = new System.Drawing.Size(980, 392);
+            this.chartStock.TabIndex = 2;
+            title1.Alignment = System.Drawing.ContentAlignment.TopCenter;
+            title1.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            title1.Name = "库存统计";
+            title1.Text = "库存统计";
+            this.chartStock.Titles.Add(title1);
+            this.chartStock.Visible = false;
             // 
             // panel4
             // 
@@ -248,32 +270,24 @@
             // contextMenuStrip
             // 
             this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.TSMIDeleteRow});
+            this.TSMIModify,
+            this.TSMIDelete});
             this.contextMenuStrip.Name = "contextMenuStrip";
-            this.contextMenuStrip.Size = new System.Drawing.Size(113, 26);
+            this.contextMenuStrip.Size = new System.Drawing.Size(101, 48);
             // 
-            // TSMIDeleteRow
+            // TSMIModify
             // 
-            this.TSMIDeleteRow.Name = "TSMIDeleteRow";
-            this.TSMIDeleteRow.Size = new System.Drawing.Size(112, 22);
-            this.TSMIDeleteRow.Text = "删除行";
-            this.TSMIDeleteRow.Click += new System.EventHandler(this.TSMIDeleteRow_Click);
+            this.TSMIModify.Name = "TSMIModify";
+            this.TSMIModify.Size = new System.Drawing.Size(100, 22);
+            this.TSMIModify.Text = "修改";
+            this.TSMIModify.Click += new System.EventHandler(this.TSMIModify_Click);
             // 
-            // chartStock
+            // TSMIDelete
             // 
-            this.chartStock.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            chartArea1.Name = "ChartArea1";
-            this.chartStock.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            this.chartStock.Legends.Add(legend1);
-            this.chartStock.Location = new System.Drawing.Point(1, 2);
-            this.chartStock.Name = "chartStock";
-            this.chartStock.Size = new System.Drawing.Size(980, 392);
-            this.chartStock.TabIndex = 2;
-            this.chartStock.Text = "chart1";
-            this.chartStock.Visible = false;
+            this.TSMIDelete.Name = "TSMIDelete";
+            this.TSMIDelete.Size = new System.Drawing.Size(100, 22);
+            this.TSMIDelete.Text = "删除";
+            this.TSMIDelete.Click += new System.EventHandler(this.TSMIDelete_Click);
             // 
             // FormStock
             // 
@@ -289,11 +303,11 @@
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chartStock)).EndInit();
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvStockData)).EndInit();
             this.contextMenuStrip.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.chartStock)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -304,7 +318,6 @@
         private System.Windows.Forms.ComboBox cbSearchType;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.DataGridView dgvStockData;
         private System.Windows.Forms.Label lbUser;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label lbTime;
@@ -312,12 +325,14 @@
         private System.Windows.Forms.Label lbCount;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip;
-        private System.Windows.Forms.ToolStripMenuItem TSMIDeleteRow;
+        private System.Windows.Forms.ToolStripMenuItem TSMIDelete;
         private System.Windows.Forms.DataVisualization.Charting.Chart chartStock;
         private System.Windows.Forms.CheckBox cbShowHistogram;
         private System.Windows.Forms.CheckBox cbFillWindow;
         private System.Windows.Forms.ComboBox cbSearchContent;
         private System.Windows.Forms.Button btShowAll;
         private System.Windows.Forms.Button btnExport;
+        private System.Windows.Forms.ToolStripMenuItem TSMIModify;
+        private System.Windows.Forms.DataGridView dgvStockData;
     }
 }

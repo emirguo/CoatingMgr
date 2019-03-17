@@ -25,6 +25,7 @@ namespace CoatingMgr
 
         private SqlLiteHelper sqlLiteHelper = null;
         private string _userName = "";
+        private string _userPermission = "";
 
         public MainForm()
         {
@@ -34,11 +35,12 @@ namespace CoatingMgr
             InitDataBase();
         }
 
-        public MainForm(string userName)
+        public MainForm(string userName, string userPermission)
         {
             InitializeComponent();
             this.WindowState = FormWindowState.Maximized;
             _userName = userName;
+            _userPermission = userPermission;
             InitView();
             InitDataBase();
         }
@@ -54,7 +56,7 @@ namespace CoatingMgr
 
         private void InitView()
         {
-            formStock = new FormStock(_userName)
+            formStock = new FormStock(_userName, _userPermission)
             {
                 TopLevel = false,
                 FormBorderStyle = System.Windows.Forms.FormBorderStyle.None,
@@ -75,7 +77,7 @@ namespace CoatingMgr
                 Dock = System.Windows.Forms.DockStyle.Fill
             };
 
-            formStir = new FormStir(_userName)
+            formStir = new FormStir(_userName, _userPermission)
             {
                 TopLevel = false,
                 FormBorderStyle = System.Windows.Forms.FormBorderStyle.None,
@@ -103,7 +105,7 @@ namespace CoatingMgr
                 Dock = System.Windows.Forms.DockStyle.Fill
             };
 
-            formMaster = new FormMaster(_userName)
+            formMaster = new FormMaster(_userName, _userPermission)
             {
                 TopLevel = false,
                 FormBorderStyle = System.Windows.Forms.FormBorderStyle.None,
@@ -113,6 +115,8 @@ namespace CoatingMgr
             this.mainPanel.Controls.Clear();
             this.mainPanel.Controls.Add(formStock);
             formStock.Show();
+
+            //Common.SendMailLocalhost();
 
         }
 
@@ -125,7 +129,7 @@ namespace CoatingMgr
                 //创建入库数据表
                 GetSqlLiteHelper().CreateTable(Common.INSTOCKTABLENAME, Common.INSTOCKTABLECOLUMNS, Common.INSTOCKTABLECOLUMNSTYPE);
                 //创建出库数据表
-                GetSqlLiteHelper().CreateTable(Common.OUTSTOCKTABLENAME, Common.OUTSTOCKTABLECOLUMNS, Common.OUTSTOCKTABLECOLUMNSTYPE);
+                //GetSqlLiteHelper().CreateTable(Common.OUTSTOCKTABLENAME, Common.OUTSTOCKTABLECOLUMNS, Common.OUTSTOCKTABLECOLUMNSTYPE);
                 //创建库存管理数据表
                 GetSqlLiteHelper().CreateTable(Common.STOCKCOUNTTABLENAME, Common.STOCKCOUNTTABLECOLUMNS, Common.STOCKCOUNTTABLECOLUMNSTYPE);
                 //创建告警数据表
@@ -177,12 +181,14 @@ namespace CoatingMgr
             formWarn.Show();
         }
 
+        //添加账号
         private void TSMIAddAccount_Click(object sender, EventArgs e)
         {
             Form formAddAccount = new FormAddAccount(this.formAccountMgr);
             formAddAccount.Show();
         }
 
+        //账号管理
         private void TSMIManagerAccount_Click(object sender, EventArgs e)
         {
             this.mainPanel.Controls.Clear();
@@ -191,6 +197,7 @@ namespace CoatingMgr
             formAccountMgr.UpdateData();
         }
 
+        //查看库存日志
         private void TSMIStockLog_Click(object sender, EventArgs e)
         {
             this.mainPanel.Controls.Clear();
@@ -200,6 +207,7 @@ namespace CoatingMgr
             formLog.UpdateData();
         }
 
+        //查看调和日志
         private void TSMIStirLog_Click(object sender, EventArgs e)
         {
             this.mainPanel.Controls.Clear();
@@ -209,6 +217,7 @@ namespace CoatingMgr
             formLog.UpdateData();
         }
 
+        //查看master文件
         private void TSMIMaster_Click(object sender, EventArgs e)
         {
             this.mainPanel.Controls.Clear();
@@ -216,6 +225,7 @@ namespace CoatingMgr
             formMaster.Show();
         }
 
+        //导入master文件
         private void TSMIImportMaster_Click(object sender, EventArgs e)
         {
             DataTable datatable = ExcelHelper.ImportExcel();
@@ -226,6 +236,7 @@ namespace CoatingMgr
             formWarn.UpdateData();
         }
 
+        //查看告警规则
         private void TSMIWarning_Click(object sender, EventArgs e)
         {
             this.mainPanel.Controls.Clear();
@@ -234,12 +245,21 @@ namespace CoatingMgr
             formWarn.UpdateData();
         }
 
+        //设置告警规则
         private void TSMISetWarning_Click(object sender, EventArgs e)
         {
             FormSetWarn formSetWarn = new FormSetWarn(formWarn, _userName);
             formSetWarn.Show();
         }
 
+        //设置告警邮件信息
+        private void TSMIMailInfo_Click(object sender, EventArgs e)
+        {
+            FormWarnMailInfo formWarnMailInfo = new FormWarnMailInfo();
+            formWarnMailInfo.Show();
+        }
+
+        //关于
         private void TSMIAbout_Click(object sender, EventArgs e)
         {
             FormAbout formAbout = new FormAbout();
@@ -250,5 +270,6 @@ namespace CoatingMgr
         {
             GetSqlLiteHelper().CloseConnection();
         }
+                
     }
 }

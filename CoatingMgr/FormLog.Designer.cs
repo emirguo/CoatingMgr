@@ -54,6 +54,7 @@
             this.dgvLogData.Location = new System.Drawing.Point(2, 2);
             this.dgvLogData.Name = "dgvLogData";
             this.dgvLogData.RowTemplate.Height = 23;
+            this.dgvLogData.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvLogData.Size = new System.Drawing.Size(978, 392);
             this.dgvLogData.TabIndex = 0;
             // 
@@ -100,7 +101,7 @@
             this.cbSearchType.Name = "cbSearchType";
             this.cbSearchType.Size = new System.Drawing.Size(170, 24);
             this.cbSearchType.TabIndex = 57;
-            this.cbSearchType.Text = "选择过滤种类";
+            this.cbSearchType.Text = "选择过滤方式";
             this.cbSearchType.SelectedIndexChanged += new System.EventHandler(this.CbSearchType_SelectedIndexChanged);
             // 
             // btnExport
