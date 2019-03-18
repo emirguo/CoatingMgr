@@ -27,6 +27,8 @@ namespace CoatingMgr
         /// </summary>
         public SQLiteDataReader dataReader;
 
+        private readonly Object thisLock = new Object();
+
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -84,17 +86,19 @@ namespace CoatingMgr
         /// <param name="queryString">SQL命令字符串</param>
         public SQLiteDataReader ExecuteQuery(string queryString)
         {
-            try
+            lock(thisLock)
             {
-                dbCommand = dbConnection.CreateCommand();
-                dbCommand.CommandText = queryString;
-                dataReader = dbCommand.ExecuteReader();
+                try
+                {
+                    dbCommand = dbConnection.CreateCommand();
+                    dbCommand.CommandText = queryString;
+                    dataReader = dbCommand.ExecuteReader();
+                }
+                catch (Exception e)
+                {
+                    Log(e.Message);
+                }
             }
-            catch (Exception e)
-            {
-                Log(e.Message);
-            }
-
             return dataReader;
             
         }

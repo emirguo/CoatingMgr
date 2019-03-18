@@ -109,10 +109,10 @@ namespace CoatingMgr
                 }
             }
 
-            for (int i = 0; i < Common.WARNDATES.Length; i++)
+            for (int i = 0; i < Common.WARNDATETYPE.Length; i++)
             {
-                cbWarnTime.Items.Add(Common.WARNDATES[i]);
-                if (_modifyModel && Common.WARNDATES[i].Equals(_modifyWarnTime))
+                cbWarnTime.Items.Add(Common.WARNDATETYPE[i]);
+                if (_modifyModel && Common.WARNDATETYPE[i].Equals(_modifyWarnTime))
                 {
                     cbWarnTime.SelectedIndex = i;
                 }

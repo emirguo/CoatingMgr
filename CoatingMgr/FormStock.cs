@@ -24,7 +24,6 @@ namespace CoatingMgr
 
         private static string[] _cbSearchType = {"按仓库查找", "按名称查找", "按颜色查找", "按类型查找", "按适用机型查找", "按生产日期查找", "按有效期查找", "按操作员查找", "按操作时间查找", "按告警类型查找" };
         private static string[] _searchType = {"仓库", "名称", "颜色", "类型", "适用机型", "生产日期", "有效期", "操作员", "操作时间", "告警类型" };
-        private int rowIndex = 0;
 
         public FormStock()
         {
@@ -244,7 +243,7 @@ namespace CoatingMgr
                             GetSqlLiteHelper().DeleteValuesAND(_tableName, new string[] { "id" }, new string[] { id }, new string[] { "=" });
 
                             //记录删除日志
-                            GetSqlLiteHelper().InsertValues(Common.STOCKLOGTABLENAME, new string[] { "", row.Cells[2].Value.ToString(), row.Cells[3].Value.ToString(), row.Cells[1].Value.ToString(), row.Cells[6].Value.ToString(), row.Cells[4].Value.ToString(), row.Cells[5].Value.ToString(), "", "", _userName, DateTime.Now.ToString("yyyy-MM-dd"), DateTime.Now.ToString("HH:mm:ss"), "删除", "", "" });
+                            GetSqlLiteHelper().InsertValues(Common.STOCKLOGTABLENAME, new string[] { "", row.Cells[2].Value.ToString(), row.Cells[3].Value.ToString(), row.Cells[1].Value.ToString(), row.Cells[6].Value.ToString(), row.Cells[4].Value.ToString(), row.Cells[5].Value.ToString(), "", "", _userName, DateTime.Now.ToString("yyyyMMdd"), DateTime.Now.ToString("HH:mm:ss"), "删除", "", "" });
 
                             this.dgvStockData.Rows.Remove(row);
                         }
@@ -306,7 +305,7 @@ namespace CoatingMgr
                         {
                             stockLogTip += "库存重量从" + curWeight + "kg修改为" + weight + "kg";
                         }
-                        GetSqlLiteHelper().InsertValues(Common.STOCKLOGTABLENAME, new string[] { "", name, color, type, weight, model, stock, "", "", _userName, DateTime.Now.ToString("yyyy-MM-dd"), DateTime.Now.ToString("HH:mm:ss"), "修改", "", stockLogTip });
+                        GetSqlLiteHelper().InsertValues(Common.STOCKLOGTABLENAME, new string[] { "", name, color, type, weight, model, stock, "", "", _userName, DateTime.Now.ToString("yyyyMMdd"), DateTime.Now.ToString("HH:mm:ss"), "修改", "", stockLogTip });
                     }
 
                     //如果修改了告警数据，则更新告警规则表

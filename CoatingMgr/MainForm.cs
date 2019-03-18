@@ -43,6 +43,14 @@ namespace CoatingMgr
             _userPermission = userPermission;
             InitView();
             InitDataBase();
+
+            Task task = new Task(AnalysisWarn);
+            task.Start();
+        }
+
+        private void AnalysisWarn()
+        {
+            Common.AnalysisWarn();
         }
 
         private SqlLiteHelper GetSqlLiteHelper()
@@ -115,9 +123,6 @@ namespace CoatingMgr
             this.mainPanel.Controls.Clear();
             this.mainPanel.Controls.Add(formStock);
             formStock.Show();
-
-            //Common.SendMailLocalhost();
-
         }
 
         private void InitDataBase()
@@ -143,8 +148,8 @@ namespace CoatingMgr
             {
                 Console.WriteLine(e.Message);
             }
-            
         }
+
         private void BtnStock_Click(object sender, EventArgs e)
         {
             this.mainPanel.Controls.Clear();

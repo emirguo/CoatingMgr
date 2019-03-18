@@ -142,7 +142,8 @@ namespace CoatingMgr
 
         public static readonly Dictionary<string, string> COATINGTYPE = new Dictionary<string, string> { { "A", "涂料" }, { "B", "固化剂" }, { "C", "C稀释剂" }, { "D", "清洗剂" } };
 
-        public static readonly string[] WARNDATES = { "有效期前1天", "有效期前1周", "有效期前15天", "有效期前1月", "有效期前3月" };
+        public static readonly string[] WARNDATETYPE = { "有效期前1天", "有效期前1周", "有效期前15天", "有效期前30天", "有效期前100天" };
+        public static readonly Dictionary<string, string> WARNDATE = new Dictionary<string, string> { { "有效期前1天", "-1" }, { "有效期前1周", "-7" }, { "有效期前15天", "-15" }, { "有效期前30天", "-30" }, { "有效期前100天", "-100" } };
 
         public static readonly string[] STOCKSNAME = { "1号仓库", "2号仓库", "3号仓库", "4号仓库" };
 
@@ -163,38 +164,47 @@ namespace CoatingMgr
         }
 
         //根据告警规则更新在库有效期告警
-        public static void UpdateExpiryDateWarn()
+        private static void UpdateExpiryDateWarn()
         {
             SQLiteDataReader warnDR = SqlLiteHelper.GetInstance().ReadFullTable(WARNMANAGERTABLENAME);
-            if (warnDR.HasRows && warnDR.Read())
+            while (warnDR.Read())
             {
-                string expiryDate = warnDR["告警时间"].ToString();
-                if (!expiryDate.Equals(""))
+                string warnDate = warnDR["告警时间"].ToString();
+                if (!warnDate.Equals(""))
                 {
                     string name = warnDR["名称"].ToString();
                     string stock = warnDR["仓库"].ToString();
                     string color = warnDR["颜色"].ToString();
                     string type = warnDR["类型"].ToString();
+                    SQLiteDataReader dataReader = SqlLiteHelper.GetInstance().ReadTable(Common.INSTOCKTABLENAME, new string[] { "名称", "颜色", "类型", "仓库" }, new string[] { "=", "=", "=", "=" }, new string[] { name, color, type, stock });
+                    while (dataReader.Read())
+                    {
+                        DateTime expiryDate = DateTime.ParseExact(dataReader["有效期"].ToString(), "yyyyMMdd", null);
+                        DateTime date = expiryDate.AddDays(Convert.ToInt32(WARNDATE[warnDate]));
+                        if (!date.ToString("yyyyMMdd").Equals(dataReader["告警时间"].ToString()))
+                        {
+                            SqlLiteHelper.GetInstance().UpdateValues(Common.INSTOCKTABLENAME, new string[] { "告警时间" }, new string[] { date.ToString("yyyyMMdd") }, "id", dataReader["id"].ToString());
+                        }
+                    }
                 }
             }
         }
 
-        public static void AnalysisAllStockWarn()
+        public static void AnalysisWarn()
         {
+            if (!DateTime.Now.ToString("yyyyMMdd").Equals(Properties.Settings.Default.MailDate))
+            {
+                UpdateExpiryDateWarn();
+                SendWarnMail();
+                Properties.Settings.Default.MailDate = DateTime.Now.ToString("yyyyMMdd");
+                Properties.Settings.Default.Save();
+            }
         }
 
-        public static void AnalysisAllExpiryDateWarn()
-        {
-
-        }
 
         //发送邮件
-        public static void SendMailLocalhost()
+        private static void SendWarnMail()
         {
-            if (DateTime.Now.ToString("yyyy-MM-dd").Equals(Properties.Settings.Default.MailDate))
-            {
-                return;
-            }
             string mailCount = Properties.Settings.Default.MailCount;
             string mailpassword = Properties.Settings.Default.MailPassword;
             string mailSMTP = Properties.Settings.Default.MailSMTP;
@@ -236,11 +246,13 @@ namespace CoatingMgr
             msg.IsBodyHtml = false;//是否是HTML邮件  
             msg.Priority = MailPriority.High;//邮件优先级 
 
-            SmtpClient client = new SmtpClient();
-            client.DeliveryMethod = SmtpDeliveryMethod.Network;
-            client.Host = mailSMTP;
-            client.Port = Convert.ToInt32(mailPort);
-            client.Credentials = new System.Net.NetworkCredential(mailCount, mailpassword);//邮箱账号、密码
+            SmtpClient client = new SmtpClient
+            {
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                Host = mailSMTP,
+                Port = Convert.ToInt32(mailPort),
+                Credentials = new System.Net.NetworkCredential(mailCount, mailpassword)//邮箱账号、密码
+            };
 
             object userState = msg;
             try
@@ -251,8 +263,6 @@ namespace CoatingMgr
             {
                 Console.WriteLine(ex.Message);
             }
-            Properties.Settings.Default.MailDate = DateTime.Now.ToString("yyyy-MM-dd");
-            Properties.Settings.Default.Save();
         }
     }
 }

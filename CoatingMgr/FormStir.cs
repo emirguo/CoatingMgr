@@ -412,7 +412,7 @@ namespace CoatingMgr
 
         private void InsertLogToDB(string type, string name, string barCode, string setWeight, string measurementWeight, string measurementTime)
         {
-            GetSqlLiteHelper().InsertValues(Common.STIRLOGTABLENAME, new string[] { cbModel.Text, cbComponent.Text, cbColor.Text, tbTemperature.Text, tbHumidity.Text, tbRatio.Text, type, name, barCode, setWeight, measurementWeight, measurementTime, _userName, DateTime.Now.ToString("yyyy-MM-dd"), DateTime.Now.ToString("HH:mm:ss"), _managerName, " " });
+            GetSqlLiteHelper().InsertValues(Common.STIRLOGTABLENAME, new string[] { cbModel.Text, cbComponent.Text, cbColor.Text, tbTemperature.Text, tbHumidity.Text, tbRatio.Text, type, name, barCode, setWeight, measurementWeight, measurementTime, _userName, DateTime.Now.ToString("yyyyMMdd"), DateTime.Now.ToString("HH:mm:ss"), _managerName, " " });
         }
 
         private void SetPauseStirText()
