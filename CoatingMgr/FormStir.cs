@@ -79,17 +79,17 @@ namespace CoatingMgr
             lbUser.Text = _userName;
             ShowTime();
 
-            _cbSearchModel = GetSqlLiteHelper().GetValueTypeByColumnFromTable(_tableName, "适用机种");
+            _cbSearchModel = GetSqlLiteHelper().GetValueTypeByColumnFromTable(_tableName, "适用机种", null, null, null);
             for (int i = 0; i < _cbSearchModel.Count; i++)
             {
                 cbModel.Items.Add(_cbSearchModel[i]);
             }
-            _cbSearchComponent = GetSqlLiteHelper().GetValueTypeByColumnFromTable(_tableName, "适用制品");
+            _cbSearchComponent = GetSqlLiteHelper().GetValueTypeByColumnFromTable(_tableName, "适用制品", null, null, null);
             for (int i = 0; i < _cbSearchComponent.Count; i++)
             {
                 cbComponent.Items.Add(_cbSearchComponent[i]);
             }
-            _cbSearchColor = GetSqlLiteHelper().GetValueTypeByColumnFromTable(_tableName, "色番");
+            _cbSearchColor = GetSqlLiteHelper().GetValueTypeByColumnFromTable(_tableName, "色番", null, null, null);
             for (int i = 0; i < _cbSearchColor.Count; i++)
             {
                 cbColor.Items.Add(_cbSearchColor[i]);

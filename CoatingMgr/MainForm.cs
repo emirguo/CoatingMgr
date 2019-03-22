@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
+using System.Data.SQLite;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -44,12 +45,18 @@ namespace CoatingMgr
             InitView();
             InitDataBase();
 
-            Task task = new Task(AnalysisWarn);
+            Task task = new Task(AnalysisWarn);//启线程分析告警数据并发通知邮件
             task.Start();
         }
 
         private void AnalysisWarn()
         {
+            SQLiteDataReader dataReader = GetSqlLiteHelper().ReadFullTable(Common.MASTERTABLENAME);
+            if (dataReader == null || !dataReader.HasRows)
+            {
+                MessageBox.Show("Master文件不存在，请先导入Master文件！");
+            }
+
             Common.AnalysisWarn();
         }
 
@@ -231,14 +238,33 @@ namespace CoatingMgr
         }
 
         //导入master文件
+        private SynchronizationContext m_SyncContext = null;
         private void TSMIImportMaster_Click(object sender, EventArgs e)
         {
-            DataTable datatable = ExcelHelper.ImportExcel();
-            if (datatable != null)
+            OpenFileDialog fileDialog = new OpenFileDialog
             {
-                GetSqlLiteHelper().SaveDataTableToDB(datatable, Common.MASTERTABLENAME);
+                Filter = "Excel文件|*.xls;*.xlsx"
+            };
+            if (fileDialog.ShowDialog() == DialogResult.OK)
+            {
+                m_SyncContext = SynchronizationContext.Current;
+                Common.ShowProgress();
+                string fileName = fileDialog.FileName;//得到文件所在位置。
+                Thread t = new Thread(new ParameterizedThreadStart(ImportExceAndSaveToDB));//起线程导入excel并存表
+                t.Start(fileName);//线程传递文件名
             }
-            formWarn.UpdateData();
+        }
+
+        private void ImportExceAndSaveToDB(object fileName)
+        {
+            ExcelHelper.ImportExcel(fileName.ToString());
+            m_SyncContext.Post(UpdateUIAfterThread, "");//线程结束后更新UI
+        }
+
+        private void UpdateUIAfterThread(object obj)
+        {
+            Common.CloseProgress();
+            formMaster.UpdateData();
         }
 
         //查看告警规则
@@ -274,7 +300,7 @@ namespace CoatingMgr
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             GetSqlLiteHelper().CloseConnection();
+            Application.Exit();
         }
-                
     }
 }

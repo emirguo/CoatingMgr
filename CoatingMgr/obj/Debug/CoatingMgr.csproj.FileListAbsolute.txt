@@ -71,3 +71,4 @@ E:\VSProjects\CoatingMgr\CoatingMgr\bin\Debug\ICSharpCode.SharpZipLib.dll
 E:\VSProjects\CoatingMgr\CoatingMgr\bin\Debug\ICSharpCode.SharpZipLib.xml
 E:\VSProjects\CoatingMgr\CoatingMgr\obj\Debug\CoatingMgr.FormWarnMailInfo.resources
 E:\VSProjects\CoatingMgr\CoatingMgr\obj\Debug\CoatingMgr.FormModifyStock.resources
+E:\VSProjects\CoatingMgr\CoatingMgr\obj\Debug\CoatingMgr.FormProgress.resources

@@ -1,13 +1,13 @@
 ﻿using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
+using NPOI.SS.Util;
 using NPOI.XSSF.UserModel;
 using System;
-using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
+using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace CoatingMgr
@@ -125,11 +125,14 @@ namespace CoatingMgr
                         for (int j = row.FirstCellNum; j < cellCount; ++j)
                         {
                             if (row.GetCell(j) != null) //同理，没有数据的单元格都默认是null
+                            {
                                 dataRow[j] = row.GetCell(j).ToString();
+                            }
                         }
                         data.Rows.Add(dataRow);
                     }
                 }
+
             }
             catch (Exception ex)
             {
@@ -170,9 +173,10 @@ namespace CoatingMgr
                     }
                     fileSaved = true;
                 }
-                catch (Exception ex)
+                catch (Exception e)
                 {
                     fileSaved = false;
+                    Console.WriteLine(e.Message);
                 }
             }
             else
@@ -189,19 +193,44 @@ namespace CoatingMgr
             }
         }
 
-        public static DataTable ImportExcel()
+        public static void ImportExcel(String fileName)
         {
-            DataTable dt = null;
-            OpenFileDialog fileDialog = new OpenFileDialog
+            DataTable dt = RenderDataTableFromExcel(fileName, 0, true);
+            if (dt != null)
             {
-                Filter = "Excel文件|*.xls;*.xlsx"
-            };
-            if (fileDialog.ShowDialog() == DialogResult.OK)
-            {
-                string fileName = fileDialog.FileName;//得到文件所在位置。
-                dt = RenderDataTableFromExcel(fileName, 0, true);
+                SqlLiteHelper.GetInstance().SaveDataTableToDB(dt, Common.MASTERTABLENAME);
             }
-            return dt; 
+        }
+
+        /// <summary>
+        /// 获取当前单元格所在的合并单元格的位置
+        /// </summary>
+        /// <param name="sheet">sheet表单</param>
+        /// <param name="rowIndex">行索引 0开始</param>
+        /// <param name="colIndex">列索引 0开始</param>
+        /// <param name="start">合并单元格左上角坐标</param>
+        /// <param name="end">合并单元格右下角坐标</param>
+        /// <returns>返回false表示非合并单元格</returns>
+        private static bool IsMergeCell(ISheet sheet, int rowIndex, int colIndex, out Point start, out Point end)
+        {
+            bool result = false;
+            start = new Point(0, 0);
+            end = new Point(0, 0);
+            if ((rowIndex < 0) || (colIndex < 0)) return result;
+            int regionsCount = sheet.NumMergedRegions;
+            for (int i = 0; i < regionsCount; i++)
+            {
+                CellRangeAddress range = sheet.GetMergedRegion(i);
+                //sheet.IsMergedRegion(range); 
+                if (rowIndex >= range.FirstRow && rowIndex <= range.LastRow && colIndex >= range.FirstColumn && colIndex <= range.LastColumn)
+                {
+                    start = new Point(range.FirstRow, range.FirstColumn);
+                    end = new Point(range.LastRow, range.LastColumn);
+                    result = true;
+                    break;
+                }
+            }
+            return result;
         }
     }
 }

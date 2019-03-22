@@ -84,7 +84,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label3.Location = new System.Drawing.Point(296, 47);
+            this.label3.Location = new System.Drawing.Point(32, 95);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(48, 16);
             this.label3.TabIndex = 25;
@@ -121,30 +121,33 @@
             this.cbStock.Name = "cbStock";
             this.cbStock.Size = new System.Drawing.Size(174, 24);
             this.cbStock.TabIndex = 30;
+            this.cbStock.SelectedIndexChanged += new System.EventHandler(this.CbStock_SelectedIndexChanged);
             // 
             // cbProduct
             // 
             this.cbProduct.Font = new System.Drawing.Font("宋体", 12F);
             this.cbProduct.FormattingEnabled = true;
-            this.cbProduct.Location = new System.Drawing.Point(354, 44);
+            this.cbProduct.Location = new System.Drawing.Point(90, 92);
             this.cbProduct.Name = "cbProduct";
             this.cbProduct.Size = new System.Drawing.Size(174, 24);
             this.cbProduct.TabIndex = 31;
+            this.cbProduct.SelectedIndexChanged += new System.EventHandler(this.CbProduct_SelectedIndexChanged);
             // 
             // cbType
             // 
             this.cbType.Font = new System.Drawing.Font("宋体", 12F);
             this.cbType.FormattingEnabled = true;
-            this.cbType.Location = new System.Drawing.Point(354, 89);
+            this.cbType.Location = new System.Drawing.Point(354, 44);
             this.cbType.Name = "cbType";
             this.cbType.Size = new System.Drawing.Size(174, 24);
             this.cbType.TabIndex = 39;
+            this.cbType.SelectedIndexChanged += new System.EventHandler(this.CbType_SelectedIndexChanged);
             // 
             // cbColor
             // 
             this.cbColor.Font = new System.Drawing.Font("宋体", 12F);
             this.cbColor.FormattingEnabled = true;
-            this.cbColor.Location = new System.Drawing.Point(90, 89);
+            this.cbColor.Location = new System.Drawing.Point(354, 92);
             this.cbColor.Name = "cbColor";
             this.cbColor.Size = new System.Drawing.Size(174, 24);
             this.cbColor.TabIndex = 38;
@@ -155,7 +158,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label6.Location = new System.Drawing.Point(296, 92);
+            this.label6.Location = new System.Drawing.Point(296, 47);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(48, 16);
             this.label6.TabIndex = 37;
@@ -167,7 +170,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label7.Location = new System.Drawing.Point(32, 92);
+            this.label7.Location = new System.Drawing.Point(296, 95);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(48, 16);
             this.label7.TabIndex = 36;

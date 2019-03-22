@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btShowAll = new System.Windows.Forms.Button();
             this.btImportMaster = new System.Windows.Forms.Button();
@@ -43,7 +44,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.lbTime = new System.Windows.Forms.Label();
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.TSMIDeleteRow = new System.Windows.Forms.ToolStripMenuItem();
+            this.TSMIDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMasterData)).BeginInit();
             this.panel2.SuspendLayout();
@@ -111,11 +112,20 @@
             // 
             // dgvMasterData
             // 
+            this.dgvMasterData.AllowUserToAddRows = false;
             this.dgvMasterData.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvMasterData.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvMasterData.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvMasterData.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvMasterData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvMasterData.Location = new System.Drawing.Point(2, 2);
             this.dgvMasterData.Name = "dgvMasterData";
@@ -213,16 +223,16 @@
             // contextMenuStrip
             // 
             this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.TSMIDeleteRow});
+            this.TSMIDelete});
             this.contextMenuStrip.Name = "contextMenuStrip";
-            this.contextMenuStrip.Size = new System.Drawing.Size(113, 26);
+            this.contextMenuStrip.Size = new System.Drawing.Size(181, 48);
             // 
-            // TSMIDeleteRow
+            // TSMIDelete
             // 
-            this.TSMIDeleteRow.Name = "TSMIDeleteRow";
-            this.TSMIDeleteRow.Size = new System.Drawing.Size(112, 22);
-            this.TSMIDeleteRow.Text = "删除行";
-            this.TSMIDeleteRow.Click += new System.EventHandler(this.TSMIDelete_Click);
+            this.TSMIDelete.Name = "TSMIDelete";
+            this.TSMIDelete.Size = new System.Drawing.Size(180, 22);
+            this.TSMIDelete.Text = "删除";
+            this.TSMIDelete.Click += new System.EventHandler(this.TSMIDelete_Click);
             // 
             // FormMaster
             // 
@@ -261,7 +271,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label lbTime;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip;
-        private System.Windows.Forms.ToolStripMenuItem TSMIDeleteRow;
+        private System.Windows.Forms.ToolStripMenuItem TSMIDelete;
         private System.Windows.Forms.Button btShowAll;
     }
 }

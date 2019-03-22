@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.master文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TSMIMaster = new System.Windows.Forms.ToolStripMenuItem();
@@ -39,21 +38,18 @@
             this.告警ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TSMIWarning = new System.Windows.Forms.ToolStripMenuItem();
             this.TSMISetWarning = new System.Windows.Forms.ToolStripMenuItem();
+            this.TSMIMailInfo = new System.Windows.Forms.ToolStripMenuItem();
             this.日志ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TSMIStockLog = new System.Windows.Forms.ToolStripMenuItem();
             this.TSMIStirLog = new System.Windows.Forms.ToolStripMenuItem();
             this.帮助ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TSMIAbout = new System.Windows.Forms.ToolStripMenuItem();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.btnStock = new System.Windows.Forms.Button();
             this.btnStir = new System.Windows.Forms.Button();
             this.btnOut = new System.Windows.Forms.Button();
             this.btnIn = new System.Windows.Forms.Button();
             this.mainPanel = new System.Windows.Forms.Panel();
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.TSMIMailInfo = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -111,14 +107,14 @@
             // TSMIManagerAccount
             // 
             this.TSMIManagerAccount.Name = "TSMIManagerAccount";
-            this.TSMIManagerAccount.Size = new System.Drawing.Size(180, 22);
+            this.TSMIManagerAccount.Size = new System.Drawing.Size(124, 22);
             this.TSMIManagerAccount.Text = "管理账户";
             this.TSMIManagerAccount.Click += new System.EventHandler(this.TSMIManagerAccount_Click);
             // 
             // TSMIAddAccount
             // 
             this.TSMIAddAccount.Name = "TSMIAddAccount";
-            this.TSMIAddAccount.Size = new System.Drawing.Size(180, 22);
+            this.TSMIAddAccount.Size = new System.Drawing.Size(124, 22);
             this.TSMIAddAccount.Text = "添加账户";
             this.TSMIAddAccount.Click += new System.EventHandler(this.TSMIAddAccount_Click);
             // 
@@ -135,16 +131,23 @@
             // TSMIWarning
             // 
             this.TSMIWarning.Name = "TSMIWarning";
-            this.TSMIWarning.Size = new System.Drawing.Size(180, 22);
+            this.TSMIWarning.Size = new System.Drawing.Size(148, 22);
             this.TSMIWarning.Text = "查看告警规则";
             this.TSMIWarning.Click += new System.EventHandler(this.TSMIWarning_Click);
             // 
             // TSMISetWarning
             // 
             this.TSMISetWarning.Name = "TSMISetWarning";
-            this.TSMISetWarning.Size = new System.Drawing.Size(180, 22);
+            this.TSMISetWarning.Size = new System.Drawing.Size(148, 22);
             this.TSMISetWarning.Text = "设置告警规则";
             this.TSMISetWarning.Click += new System.EventHandler(this.TSMISetWarning_Click);
+            // 
+            // TSMIMailInfo
+            // 
+            this.TSMIMailInfo.Name = "TSMIMailInfo";
+            this.TSMIMailInfo.Size = new System.Drawing.Size(148, 22);
+            this.TSMIMailInfo.Text = "设置告警邮件";
+            this.TSMIMailInfo.Click += new System.EventHandler(this.TSMIMailInfo_Click);
             // 
             // 日志ToolStripMenuItem
             // 
@@ -180,14 +183,9 @@
             // TSMIAbout
             // 
             this.TSMIAbout.Name = "TSMIAbout";
-            this.TSMIAbout.Size = new System.Drawing.Size(100, 22);
+            this.TSMIAbout.Size = new System.Drawing.Size(180, 22);
             this.TSMIAbout.Text = "关于";
             this.TSMIAbout.Click += new System.EventHandler(this.TSMIAbout_Click);
-            // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
             // splitContainer1
             // 
@@ -269,18 +267,6 @@
             this.mainPanel.Size = new System.Drawing.Size(681, 411);
             this.mainPanel.TabIndex = 0;
             // 
-            // contextMenuStrip2
-            // 
-            this.contextMenuStrip2.Name = "contextMenuStrip2";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(61, 4);
-            // 
-            // TSMIMailInfo
-            // 
-            this.TSMIMailInfo.Name = "TSMIMailInfo";
-            this.TSMIMailInfo.Size = new System.Drawing.Size(180, 22);
-            this.TSMIMailInfo.Text = "设置告警邮件";
-            this.TSMIMailInfo.Click += new System.EventHandler(this.TSMIMailInfo_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -307,7 +293,6 @@
         #endregion
 
         private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.Button btnIn;
         private System.Windows.Forms.Button btnOut;
@@ -319,7 +304,6 @@
         private System.Windows.Forms.ToolStripMenuItem TSMIAbout;
         private System.Windows.Forms.Panel mainPanel;
         private System.Windows.Forms.Button btnStock;
-        private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.ToolStripMenuItem 日志ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem TSMIStockLog;
         private System.Windows.Forms.ToolStripMenuItem TSMIStirLog;
@@ -329,7 +313,6 @@
         private System.Windows.Forms.ToolStripMenuItem 告警ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem TSMIWarning;
         private System.Windows.Forms.ToolStripMenuItem TSMISetWarning;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
         private System.Windows.Forms.ToolStripMenuItem TSMIMailInfo;
     }
 }

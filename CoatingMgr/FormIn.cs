@@ -106,7 +106,7 @@ namespace CoatingMgr
             }
         }
 
-        //涂料名*种类*厂家*重量*批次号*连番*使用期限,例如：R-241(KAI) YR-614P(TAP)*A*G1000*18*20190219*0001*20190818
+        //涂料名*种类*厂家*重量*批次号*连番*使用期限,例如：R-241(KAI) YR-614P(TAP)*A*G1000*18*20180219*0001*20190318
         private bool AnalysisBarCode(string barcode)
         {
             bool result = false;
@@ -154,7 +154,19 @@ namespace CoatingMgr
             return result;
         }
 
+        private SynchronizationContext m_SyncContext = null;
         private void BtnOk_Click(object sender, EventArgs e)
+        {
+            if (dgvStockData.RowCount > 0)
+            {
+                m_SyncContext = SynchronizationContext.Current;
+                Common.ShowProgress();
+                Thread t = new Thread(new ThreadStart(SaveDataToDB));//起线程保存数据
+                t.Start();
+            }
+        }
+
+        private void SaveDataToDB()
         {
             if (dgvStockData.RowCount > 0)
             {
@@ -168,17 +180,17 @@ namespace CoatingMgr
                     string stock = dataRow.Cells[7].Value.ToString();
                     string tip = dataRow.Cells[15].Value.ToString();
                     //从库存数量中增加入库
-                    SQLiteDataReader dataReader = GetSqlLiteHelper().ReadTable(Common.STOCKCOUNTTABLENAME, new string[] { "类型", "名称", "颜色", "适用机型" }, new string[] { "=", "=", "=", "=" }, new string[] {type,name,color,model });
+                    SQLiteDataReader dataReader = GetSqlLiteHelper().ReadTable(Common.STOCKCOUNTTABLENAME, new string[] { "类型", "名称", "颜色", "适用机型" }, new string[] { "=", "=", "=", "=" }, new string[] { type, name, color, model });
                     if (dataReader.HasRows && dataReader.Read())//色剂已经存在
                     {
                         double inStockWeight = Convert.ToSingle(Common.FilterChar(dataReader["重量"].ToString()));
                         double inputWeight = Convert.ToSingle(Common.FilterChar(weight));
                         inStockWeight += inputWeight;
-                        GetSqlLiteHelper().UpdateValues(Common.STOCKCOUNTTABLENAME, new string[] { "重量" }, new string[] { inStockWeight.ToString() }, "id", dataReader["id"].ToString() );
+                        GetSqlLiteHelper().UpdateValues(Common.STOCKCOUNTTABLENAME, new string[] { "重量" }, new string[] { inStockWeight.ToString() }, "id", dataReader["id"].ToString());
                     }
                     else
                     {
-                        GetSqlLiteHelper().InsertValues(Common.STOCKCOUNTTABLENAME, new string[] { type,name,color,model,stock,weight,"", "","", tip });
+                        GetSqlLiteHelper().InsertValues(Common.STOCKCOUNTTABLENAME, new string[] { type, name, color, model, stock, weight, "", "", "", tip });
                     }
 
                     List<string> values = new List<string>();
@@ -190,12 +202,16 @@ namespace CoatingMgr
                     GetSqlLiteHelper().InsertValues(Common.INSTOCKTABLENAME, values);
                     //存入日志 
                     GetSqlLiteHelper().InsertValues(Common.STOCKLOGTABLENAME, values);
-
                 }
-                dgvStockData.Rows.Clear();
-                lbCount.Text = 0 + "";
             }
-            
+            m_SyncContext.Post(UpdateUIAfterThread, "");//线程结束后更新UI
+        }
+
+        private void UpdateUIAfterThread(object obj)
+        {
+            Common.CloseProgress();
+            dgvStockData.Rows.Clear();
+            lbCount.Text = 0 + "";
         }
 
         private void DgvInStockData_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)

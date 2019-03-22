@@ -30,6 +30,12 @@
         {
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.LegendItem legendItem1 = new System.Windows.Forms.DataVisualization.Charting.LegendItem();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.LegendItem legendItem2 = new System.Windows.Forms.DataVisualization.Charting.LegendItem();
+            System.Windows.Forms.DataVisualization.Charting.LegendItem legendItem3 = new System.Windows.Forms.DataVisualization.Charting.LegendItem();
+            System.Windows.Forms.DataVisualization.Charting.LegendItem legendItem4 = new System.Windows.Forms.DataVisualization.Charting.LegendItem();
             System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnExport = new System.Windows.Forms.Button();
@@ -43,6 +49,7 @@
             this.lbTime = new System.Windows.Forms.Label();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.cbShowWarn = new System.Windows.Forms.CheckBox();
             this.chartStock = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.panel4 = new System.Windows.Forms.Panel();
             this.lbCount = new System.Windows.Forms.Label();
@@ -183,6 +190,7 @@
             this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel2.Controls.Add(this.cbShowWarn);
             this.panel2.Controls.Add(this.cbFillWindow);
             this.panel2.Controls.Add(this.lbUser);
             this.panel2.Controls.Add(this.chartStock);
@@ -195,6 +203,21 @@
             this.panel2.Size = new System.Drawing.Size(982, 422);
             this.panel2.TabIndex = 1;
             // 
+            // cbShowWarn
+            // 
+            this.cbShowWarn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbShowWarn.AutoSize = true;
+            this.cbShowWarn.BackColor = System.Drawing.Color.White;
+            this.cbShowWarn.Font = new System.Drawing.Font("宋体", 12F);
+            this.cbShowWarn.Location = new System.Drawing.Point(824, 3);
+            this.cbShowWarn.Name = "cbShowWarn";
+            this.cbShowWarn.Size = new System.Drawing.Size(91, 20);
+            this.cbShowWarn.TabIndex = 58;
+            this.cbShowWarn.Text = "显示告警";
+            this.cbShowWarn.UseVisualStyleBackColor = false;
+            this.cbShowWarn.Visible = false;
+            this.cbShowWarn.CheckedChanged += new System.EventHandler(this.CbShowWarn_CheckedChanged);
+            // 
             // chartStock
             // 
             this.chartStock.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -202,6 +225,28 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             chartArea1.Name = "ChartArea1";
             this.chartStock.ChartAreas.Add(chartArea1);
+            legend1.Alignment = System.Drawing.StringAlignment.Center;
+            legendItem1.Color = System.Drawing.Color.Green;
+            legendItem1.Name = "库存重量";
+            legend1.CustomItems.Add(legendItem1);
+            legend1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top;
+            legend1.LegendStyle = System.Windows.Forms.DataVisualization.Charting.LegendStyle.Row;
+            legend1.Name = "LegendWeight";
+            legend2.Alignment = System.Drawing.StringAlignment.Center;
+            legendItem2.Color = System.Drawing.Color.Yellow;
+            legendItem2.Name = "库存上限";
+            legendItem3.Color = System.Drawing.Color.Green;
+            legendItem3.Name = "库存重量";
+            legendItem4.Color = System.Drawing.Color.DarkRed;
+            legendItem4.Name = "库存下限";
+            legend2.CustomItems.Add(legendItem2);
+            legend2.CustomItems.Add(legendItem3);
+            legend2.CustomItems.Add(legendItem4);
+            legend2.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top;
+            legend2.Enabled = false;
+            legend2.Name = "LegendMulti";
+            this.chartStock.Legends.Add(legend1);
+            this.chartStock.Legends.Add(legend2);
             this.chartStock.Location = new System.Drawing.Point(1, 2);
             this.chartStock.Name = "chartStock";
             this.chartStock.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.None;
@@ -334,5 +379,6 @@
         private System.Windows.Forms.Button btnExport;
         private System.Windows.Forms.ToolStripMenuItem TSMIModify;
         private System.Windows.Forms.DataGridView dgvStockData;
+        private System.Windows.Forms.CheckBox cbShowWarn;
     }
 }

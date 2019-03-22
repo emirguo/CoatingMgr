@@ -18,8 +18,8 @@ namespace CoatingMgr
         private static string _tableName = Common.WARNMANAGERTABLENAME;
         private string _userName = "";
         
-        private static string[] _cbSearchType = { "按仓库查找", "按名称查找", "按颜色查找", "按类型查找", "按库存上限查找", "按库存下限查找", "按告警时间查找", "按告警类型查找", "按规则创建人查找", "按规则创建时间查找" };
-        private static string[] _searchType = { "仓库", "名称", "颜色", "类型", "库存上限", "库存下限", "告警时间", "告警类型", "规则创建人", "规则创建时间" };
+        private static string[] _cbSearchType = { "按仓库查找", "按名称查找", "按颜色查找", "按类型查找", "按库存上限查找", "按库存下限查找", "按告警时间查找", "按规则创建人查找", "按规则创建时间查找" };
+        private static string[] _searchType = { "仓库", "名称", "颜色", "类型", "库存上限", "库存下限", "告警时间", "规则创建人", "规则创建时间" };
 
         public FormWarn()
         {
@@ -188,7 +188,7 @@ namespace CoatingMgr
             if (cbSearchType.SelectedIndex >= 0)
             {
                 cbSearchContent.Items.Clear();
-                List<string> searchContent = GetSqlLiteHelper().GetValueTypeByColumnFromTable(_tableName, _searchType[cbSearchType.SelectedIndex]);
+                List<string> searchContent = GetSqlLiteHelper().GetValueTypeByColumnFromTable(_tableName, _searchType[cbSearchType.SelectedIndex], null, null, null);
                 for (int i = 0; i < searchContent.Count; i++)
                 {
                     cbSearchContent.Items.Add(searchContent[i]);

@@ -168,7 +168,7 @@ namespace CoatingMgr
                     searchType = _stirSearchType[cbSearchType.SelectedIndex];
                 }
 
-                List<string> searchContent = GetSqlLiteHelper().GetValueTypeByColumnFromTable(_tableName, searchType);
+                List<string> searchContent = GetSqlLiteHelper().GetValueTypeByColumnFromTable(_tableName, searchType, null, null, null);
                 for (int i = 0; i < searchContent.Count; i++)
                 {
                     cbSearchContent.Items.Add(searchContent[i]);

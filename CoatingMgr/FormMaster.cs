@@ -184,13 +184,32 @@ namespace CoatingMgr
             }
         }
 
+        private SynchronizationContext m_SyncContext = null;
         private void BtImportMaster_Click(object sender, EventArgs e)
         {
-            DataTable datatable = ExcelHelper.ImportExcel();
-            if (datatable != null)
+            OpenFileDialog fileDialog = new OpenFileDialog
             {
-                GetSqlLiteHelper().SaveDataTableToDB(datatable, Common.MASTERTABLENAME);
+                Filter = "Excel文件|*.xls;*.xlsx"
+            };
+            if (fileDialog.ShowDialog() == DialogResult.OK)
+            {
+                m_SyncContext = SynchronizationContext.Current;
+                Common.ShowProgress();
+                string fileName = fileDialog.FileName;//得到文件所在位置。
+                Thread t = new Thread(new ParameterizedThreadStart(ImportExceAndSaveToDB));//起线程导入excel并存表
+                t.Start(fileName);//线程传递文件名
             }
+        }
+
+        private void ImportExceAndSaveToDB(object fileName)
+        {
+            ExcelHelper.ImportExcel(fileName.ToString());
+            m_SyncContext.Post(UpdateUIAfterThread, "");//线程结束后更新UI
+        }
+
+        private void UpdateUIAfterThread(object obj)
+        {
+            Common.CloseProgress();
             UpdateData();
         }
 
@@ -199,7 +218,7 @@ namespace CoatingMgr
             if (cbSearchType.SelectedIndex >= 0)
             {
                 cbSearchContent.Items.Clear();
-                List<string> searchContent = GetSqlLiteHelper().GetValueTypeByColumnFromTable(_tableName, _searchType[cbSearchType.SelectedIndex]);
+                List<string> searchContent = GetSqlLiteHelper().GetValueTypeByColumnFromTable(_tableName, _searchType[cbSearchType.SelectedIndex], null, null, null);
                 for (int i = 0; i < searchContent.Count; i++)
                 {
                     cbSearchContent.Items.Add(searchContent[i]);

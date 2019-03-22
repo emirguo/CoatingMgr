@@ -69,43 +69,27 @@ namespace CoatingMgr
 
         private void InitData()
         {
-            _cbSearchStock = GetSqlLiteHelper().GetValueTypeByColumnFromTable(Common.STOCKCOUNTTABLENAME, "仓库");
-            for (int i = 0; i < _cbSearchStock.Count; i++)
+            if (_modifyModel)
             {
-                cbStock.Items.Add(_cbSearchStock[i]);
-                if (_modifyModel && _cbSearchStock[i].Equals(_modifyStock))
-                {
-                    cbStock.SelectedIndex = i;
-                }
+                cbStock.Text = _modifyStock;
+                cbStock.Enabled = false;
+                cbProduct.Text = _modifyProduct;
+                cbProduct.Enabled = false;
+                cbColor.Text = _modifyColor;
+                cbColor.Enabled = false;
+                cbType.Text = _modifyType;
+                cbType.Enabled = false;
+                tbMaximum.Text = _modifyMaxmum;
+                tbMinimum.Text = _modifyMinimum;
+                lbTitle.Text = "修改告警";
+                btnSave.Text = "修改";
             }
-
-            _cbSearchProduct = GetSqlLiteHelper().GetValueTypeByColumnFromTable(Common.STOCKCOUNTTABLENAME, "名称");
-            for (int i = 0; i < _cbSearchProduct.Count; i++)
+            else
             {
-                cbProduct.Items.Add(_cbSearchProduct[i]);
-                if (_modifyModel && _cbSearchProduct[i].Equals(_modifyProduct))
+                _cbSearchStock = GetSqlLiteHelper().GetValueTypeByColumnFromTable(Common.STOCKCOUNTTABLENAME, "仓库", null, null, null);
+                for (int i = 0; i < _cbSearchStock.Count; i++)
                 {
-                    cbProduct.SelectedIndex = i;
-                }
-            }
-
-            _cbSearchColor = GetSqlLiteHelper().GetValueTypeByColumnFromTable(Common.STOCKCOUNTTABLENAME, "颜色");
-            for (int i = 0; i < _cbSearchColor.Count; i++)
-            {
-                cbColor.Items.Add(_cbSearchColor[i]);
-                if (_modifyModel && _cbSearchColor[i].Equals(_modifyColor))
-                {
-                    cbColor.SelectedIndex = i;
-                }
-            }
-
-            _cbSearchType = GetSqlLiteHelper().GetValueTypeByColumnFromTable(Common.STOCKCOUNTTABLENAME, "类型");
-            for (int i = 0; i < _cbSearchType.Count; i++)
-            {
-                cbType.Items.Add(_cbSearchType[i]);
-                if (_modifyModel && _cbSearchType[i].Equals(_modifyType))
-                {
-                    cbType.SelectedIndex = i;
+                    cbStock.Items.Add(_cbSearchStock[i]);
                 }
             }
 
@@ -117,13 +101,53 @@ namespace CoatingMgr
                     cbWarnTime.SelectedIndex = i;
                 }
             }
+        }
 
-            if (_modifyModel)
+        private void CbStock_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbStock.SelectedIndex >= 0)
             {
-                tbMaximum.Text = _modifyMaxmum;
-                tbMinimum.Text = _modifyMinimum;
-                lbTitle.Text = "修改告警";
-                btnSave.Text = "修改";
+                cbType.Items.Clear();
+                cbProduct.Items.Clear();
+                cbColor.Items.Clear();
+                cbType.Text = "请选择类型";
+                cbProduct.Text = "请选择涂料";
+                cbColor.Text = "请选择颜色";
+                _cbSearchType = GetSqlLiteHelper().GetValueTypeByColumnFromTable(Common.STOCKCOUNTTABLENAME, "类型", new string[] { "仓库" }, new string[] { "=" }, new string[] { cbStock.Text.ToString() });
+                for (int i = 0; i < _cbSearchType.Count; i++)
+                {
+                    cbType.Items.Add(_cbSearchType[i]);
+                }
+            }
+        }
+
+        private void CbType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbType.SelectedIndex >= 0)
+            {
+                cbProduct.Items.Clear();
+                cbColor.Items.Clear();
+                cbProduct.Text = "请选择涂料";
+                cbColor.Text = "请选择颜色";
+                _cbSearchProduct = GetSqlLiteHelper().GetValueTypeByColumnFromTable(Common.STOCKCOUNTTABLENAME, "名称", new string[] { "仓库", "类型" }, new string[] { "=", "=" }, new string[] { cbStock.Text.ToString(), cbType.Text.ToString() });
+                for (int i = 0; i < _cbSearchProduct.Count; i++)
+                {
+                    cbProduct.Items.Add(_cbSearchProduct[i]);
+                }
+            }
+        }
+
+        private void CbProduct_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbProduct.SelectedIndex >= 0)
+            {
+                cbColor.Items.Clear();
+                cbColor.Text = "请选择颜色";
+                _cbSearchColor = GetSqlLiteHelper().GetValueTypeByColumnFromTable(Common.STOCKCOUNTTABLENAME, "颜色", new string[] { "仓库", "类型", "名称" }, new string[] { "=", "=", "=" }, new string[] { cbStock.Text.ToString(), cbType.Text.ToString(), cbProduct.Text.ToString() });
+                for (int i = 0; i < _cbSearchColor.Count; i++)
+                {
+                    cbColor.Items.Add(_cbSearchColor[i]);
+                }
             }
         }
 

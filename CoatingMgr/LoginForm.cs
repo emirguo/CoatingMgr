@@ -19,11 +19,8 @@ namespace CoatingMgr
         public LoginForm()
         {
             InitializeComponent();
-        }
-
-        private void LoginForm_Load(object sender, EventArgs e)
-        {
-            InitDBPath();
+            Task task = new Task(InitDBPath);//线程判断并设置DB路径
+            task.Start();
         }
 
         private void InitDBPath()

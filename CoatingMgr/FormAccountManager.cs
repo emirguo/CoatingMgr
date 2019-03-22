@@ -181,7 +181,7 @@ namespace CoatingMgr
             if (cbSearchType.SelectedIndex >= 0)
             {
                 cbSearchContent.Items.Clear();
-                List<string> searchContent = GetSqlLiteHelper().GetValueTypeByColumnFromTable(_tableName, _searchType[cbSearchType.SelectedIndex]);
+                List<string> searchContent = GetSqlLiteHelper().GetValueTypeByColumnFromTable(_tableName, _searchType[cbSearchType.SelectedIndex], null, null, null);
                 for (int i = 0; i < searchContent.Count; i++)
                 {
                     cbSearchContent.Items.Add(searchContent[i]);

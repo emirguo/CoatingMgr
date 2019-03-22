@@ -153,7 +153,19 @@ namespace CoatingMgr
             return result;
         }
 
+        private SynchronizationContext m_SyncContext = null;
         private void BtnOk_Click(object sender, EventArgs e)
+        {
+            if (dgvStockData.RowCount > 0)
+            {
+                m_SyncContext = SynchronizationContext.Current;
+                Common.ShowProgress();
+                Thread t = new Thread(new ThreadStart(SaveDataToDB));//起线程保存数据
+                t.Start();
+            }
+        }
+
+        private void SaveDataToDB()
         {
             if (dgvStockData.RowCount > 0)
             {
@@ -184,7 +196,7 @@ namespace CoatingMgr
                     }
                     else
                     {
-                        MessageBox.Show("色剂"+name+"不在库存中");
+                        MessageBox.Show("色剂" + name + "不在库存中");
                     }
 
                     //从在库表中删除
@@ -198,9 +210,15 @@ namespace CoatingMgr
                     }
                     GetSqlLiteHelper().InsertValues(Common.STOCKLOGTABLENAME, values);
                 }
-                dgvStockData.Rows.Clear();
-                lbCount.Text = 0 + "";
             }
+            m_SyncContext.Post(UpdateUIAfterThread, "");//线程结束后更新UI
+        }
+
+        private void UpdateUIAfterThread(object obj)
+        {
+            Common.CloseProgress();
+            dgvStockData.Rows.Clear();
+            lbCount.Text = 0 + "";
         }
 
         private void DgvOutStockData_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)

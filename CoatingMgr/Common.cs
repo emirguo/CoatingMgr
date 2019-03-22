@@ -8,6 +8,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
 
 namespace CoatingMgr
 {
@@ -69,23 +70,7 @@ namespace CoatingMgr
         {
             get { return _inStockTableColumnsType; }
         }
-        /*
-        private static readonly string _outStockTableName = "outstock";
-        public static string OUTSTOCKTABLENAME
-        {
-            get { return _outStockTableName; }
-        }
-        private static readonly string[] _outStockTableColumns = { "id", "条形码", "名称", "颜色", "类型", "重量", "适用机型", "生产日期", "有效期", "仓库", "操作员", "操作日期", "操作时间", "操作类型", "告警类型", "备注" };
-        public static string[] OUTSTOCKTABLECOLUMNS
-        {
-            get { return _outStockTableColumns; }
-        }
-        private static readonly string[] _outStockTableColumnsType = { "INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT" };
-        public static string[] OUTSTOCKTABLECOLUMNSTYPE
-        {
-            get { return _outStockTableColumnsType; }
-        }
-        */
+       
         private static readonly string _warnManagerTableName = "warnManager";
         public static string WARNMANAGERTABLENAME
         {
@@ -149,8 +134,7 @@ namespace CoatingMgr
 
         public static string FilterChar(string s)
         {
-            string strRemoved = Regex.Replace(s, "[a-z]", "", RegexOptions.IgnoreCase);
-            return strRemoved;
+            return Regex.Replace(s, "[a-z]", "", RegexOptions.IgnoreCase);
         }
 
         //根据告警规则更新库存上、下限告警数据
@@ -190,21 +174,24 @@ namespace CoatingMgr
             }
         }
 
+        //分析告警数据并发送邮件，每天第一次进入MainForm时执行一次
         public static void AnalysisWarn()
         {
             if (!DateTime.Now.ToString("yyyyMMdd").Equals(Properties.Settings.Default.MailDate))
             {
                 UpdateExpiryDateWarn();
-                SendWarnMail();
-                Properties.Settings.Default.MailDate = DateTime.Now.ToString("yyyyMMdd");
-                Properties.Settings.Default.Save();
+                if (SendWarnMail())
+                {
+                    Properties.Settings.Default.MailDate = DateTime.Now.ToString("yyyyMMdd");
+                    Properties.Settings.Default.Save();
+                }
             }
         }
 
-
         //发送邮件
-        private static void SendWarnMail()
+        private static Boolean SendWarnMail()
         {
+            bool result = false;
             string mailCount = Properties.Settings.Default.MailCount;
             string mailpassword = Properties.Settings.Default.MailPassword;
             string mailSMTP = Properties.Settings.Default.MailSMTP;
@@ -218,7 +205,7 @@ namespace CoatingMgr
                 || mailPort == null || mailPort.Equals("") 
                 || mailTo == null || mailTo.Equals(""))
             {
-                return;
+                return false;
             }
 
             System.Net.Mail.MailMessage msg = new System.Net.Mail.MailMessage();
@@ -241,9 +228,9 @@ namespace CoatingMgr
 
             msg.Subject = "涂料告警信息";//邮件标题  
             msg.SubjectEncoding = System.Text.Encoding.UTF8;//邮件标题编码  
-            msg.Body = "邮件内容";//邮件内容  
+            msg.Body = SetMailBody();//邮件内容  
             msg.BodyEncoding = System.Text.Encoding.UTF8;//邮件内容编码  
-            msg.IsBodyHtml = false;//是否是HTML邮件  
+            msg.IsBodyHtml = true;//是否是HTML邮件  
             msg.Priority = MailPriority.High;//邮件优先级 
 
             SmtpClient client = new SmtpClient
@@ -258,11 +245,97 @@ namespace CoatingMgr
             try
             {
                 client.SendAsync(msg, userState);
+                result = true;
             }
             catch (System.Net.Mail.SmtpException ex)
             {
                 Console.WriteLine(ex.Message);
+                result = false;
             }
+            return result;
+        }
+
+        //以HTML表格形式填充邮件内容
+        private static string SetMailBody()
+        {
+            string MailBody = "<p style=\"font-size: 10pt\">以下内容为系统自动发送，请勿直接回复，谢谢。</p>";
+
+            //库存上、下限告警数据
+            DataTable stockWarnData = new DataTable();
+            SQLiteDataReader stockWarnDataReader = SqlLiteHelper.GetInstance().ReadStockWarnFromTable(STOCKCOUNTTABLENAME, new string[] { "重量", "库存上限", "重量", "库存下限" }, new string[] { ">", "!=", "<", "!=" }, new string[] { "库存上限", "''", "库存下限", "''" }, new string[] { "AND", "OR", "AND" });
+            stockWarnData.Load(stockWarnDataReader);
+            MailBody += "<p style=\"font-size: 10pt\">库存告警：</p>";
+            MailBody += "<table cellspacing=\"1\" cellpadding=\"3\" border=\"0\" bgcolor=\"000000\" style=\"font-size: 10pt;line-height: 15px;\">";
+            MailBody += "<div align=\"center\">";
+            MailBody += "<tr>";
+            for (int hcol = 0; hcol < stockWarnData.Columns.Count; hcol++)
+            {
+                MailBody += "<td bgcolor=\"999999\">&nbsp;&nbsp;&nbsp;";
+                MailBody += stockWarnData.Columns[hcol].ColumnName;
+                MailBody += "&nbsp;&nbsp;&nbsp;</td>";
+            }
+            MailBody += "</tr>";
+
+            for (int row = 0; row < stockWarnData.Rows.Count; row++)
+            {
+                MailBody += "<tr>";
+                for (int col = 0; col < stockWarnData.Columns.Count; col++)
+                {
+                    MailBody += "<td bgcolor=\"dddddd\">&nbsp;&nbsp;&nbsp;";
+                    MailBody += stockWarnData.Rows[row][col].ToString();
+                    MailBody += "&nbsp;&nbsp;&nbsp;</td>";
+                }
+                MailBody += "</tr>";
+            }
+            MailBody += "</table>";
+            MailBody += "</div>";
+
+            //有效期告警数据
+            DataTable expiryWarnData = new DataTable();
+            SQLiteDataReader expiryWarnDataReader = SqlLiteHelper.GetInstance().ReadTable(INSTOCKTABLENAME, new string[] { "告警时间", "告警时间" }, new string[] { ">", "<=" }, new string[] { "0", DateTime.Now.ToString("yyyyMMdd") });
+            expiryWarnData.Load(expiryWarnDataReader);
+            MailBody += "<p style=\"font-size: 10pt\">有效期告警：</p>";
+            MailBody += "<table cellspacing=\"1\" cellpadding=\"3\" border=\"0\" bgcolor=\"000000\" style=\"font-size: 10pt;line-height: 15px;\">";
+            MailBody += "<div align=\"center\">";
+            MailBody += "<tr>";
+            for (int hcol = 0; hcol < expiryWarnData.Columns.Count; hcol++)
+            {
+                MailBody += "<td bgcolor=\"999999\">&nbsp;&nbsp;&nbsp;";
+                MailBody += expiryWarnData.Columns[hcol].ColumnName;
+                MailBody += "&nbsp;&nbsp;&nbsp;</td>";
+            }
+            MailBody += "</tr>";
+
+            for (int row = 0; row < expiryWarnData.Rows.Count; row++)
+            {
+                MailBody += "<tr>";
+                for (int col = 0; col < expiryWarnData.Columns.Count; col++)
+                {
+                    MailBody += "<td bgcolor=\"dddddd\">&nbsp;&nbsp;&nbsp;";
+                    MailBody += expiryWarnData.Rows[row][col].ToString();
+                    MailBody += "&nbsp;&nbsp;&nbsp;</td>";
+                }
+                MailBody += "</tr>";
+            }
+            MailBody += "</table>";
+            MailBody += "</div>";
+            return MailBody;
+        }
+
+        private static FormProgress formProgress = null;
+        public static void ShowProgress()
+        {
+            if (formProgress == null)
+            {
+                formProgress = new FormProgress();
+            }
+            formProgress.Show();
+        }
+
+        public static void CloseProgress()
+        {
+            formProgress.Close();
+            formProgress = null;
         }
     }
 }

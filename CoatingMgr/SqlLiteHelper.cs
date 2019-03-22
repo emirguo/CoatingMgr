@@ -260,10 +260,10 @@ namespace CoatingMgr
         /// <param name="colTypes">字段名类型</param>   
         public SQLiteDataReader CreateTable(string tableName, string[] colNames, string[] colTypes)
         {
-            string queryString = "CREATE TABLE IF NOT EXISTS " + tableName + "( " + colNames[0] + " " + colTypes[0];
+            string queryString = "CREATE TABLE IF NOT EXISTS " + tableName + "( '" + colNames[0] + "' " + colTypes[0];
             for (int i = 1; i < colNames.Length; i++)
             {
-                queryString += ", " + colNames[i] + " " + colTypes[i];
+                queryString += ", '" + colNames[i] + "' " + colTypes[i];
             }
             queryString += "  ) ";
             return ExecuteQuery(queryString);
@@ -285,6 +285,27 @@ namespace CoatingMgr
             {
                 queryString += " AND " + colNames[i] + " " + operations[i] + " '" + colValues[i] + "' ";
             }
+            return ExecuteQuery(queryString);
+        }
+
+        /// <summary>
+        /// Reads the table.
+        /// </summary>
+        /// <returns>The table.</returns>
+        /// <param name="tableName">Table name.</param>
+        /// <param name="items">Items.</param>
+        /// <param name="colNames">Col names.</param>
+        /// <param name="operations">Operations.</param>
+        /// <param name="colValues">Col values.</param>
+        /// select*from stockcount where (重量>库存上限 AND 库存上限!='') OR (重量<库存下限 AND 库存下限!='')
+        public SQLiteDataReader ReadStockWarnFromTable(string tableName, string[] colNames, string[] operations, string[] colValues, string[]orAnds)
+        {
+            string queryString = "SELECT * FROM " + tableName + " WHERE ( " + colNames[0] + " " + operations[0] + " " + colValues[0] + " " ;
+            for (int i = 1; i < colNames.Length; i++)
+            {
+                queryString += (orAnds[i-1].Equals("OR")?" ) "+ orAnds[i-1] +" ( " : orAnds[i-1] + " ") + colNames[i] + " " + operations[i] + " " + colValues[i] + " ";
+            }
+            queryString += ")";
             return ExecuteQuery(queryString);
         }
 
@@ -362,10 +383,19 @@ namespace CoatingMgr
         /// <param name="TableName">数据表</param>
         /// <param name="column">字段</param>
         ///SELECT column FROM TableName;
-        public List<string> GetValueTypeByColumnFromTable(string tableName, string column)
+        ///SELECT column FROM TableName WHERE 色番='YR-614P' AND 涂层='下涂'
+        public List<string> GetValueTypeByColumnFromTable(string tableName, string column, string[] colNames, string[] operations, string[] colValues)
         {
             List<string> list = new List<string>();
             string queryString = "SELECT " + column + " FROM " + tableName;
+            if (colNames != null && colNames.Length > 0)
+            {
+                queryString += " WHERE " + colNames[0] + " " + operations[0] + " '" + colValues[0] + "' ";
+                for (int i = 1; i < colNames.Length; i++)
+                {
+                    queryString += " AND " + colNames[i] + " " + operations[i] + " '" + colValues[i] + "' ";
+                }
+            }
             SQLiteDataReader dataReader = ExecuteQuery(queryString);
             while (dataReader.Read())
             {

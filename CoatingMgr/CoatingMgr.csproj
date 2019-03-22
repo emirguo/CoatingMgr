@@ -147,6 +147,12 @@
     <Compile Include="FormModifyStock.Designer.cs">
       <DependentUpon>FormModifyStock.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormProgress.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormProgress.Designer.cs">
+      <DependentUpon>FormProgress.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormSetStirData.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -242,6 +248,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormOut.resx">
       <DependentUpon>FormOut.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormProgress.resx">
+      <DependentUpon>FormProgress.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormSetStirData.resx">
       <DependentUpon>FormSetStirData.cs</DependentUpon>
