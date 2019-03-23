@@ -108,12 +108,12 @@ namespace CoatingMgr
         {
             get { return _stirLogTableName; }
         }
-        private static readonly string[] _stirlogTableColumns = { "id", "机型 ", "部件", "颜色", "温度", "湿度", "比例", "类型", "名称", "条形码", "设定重量", "倒入重量", "计量时间", "操作员", "操作日期", "操作时间", "确认主管", "备注" };
+        private static readonly string[] _stirlogTableColumns = { "id", "机种 ", "製品", "色番", "涂层", "温度", "湿度", "调和比例", "类型", "名称", "条形码", "设定重量", "倒入重量", "计量时间", "操作员", "操作日期", "操作时间", "确认主管", "备注" };
         public static string[] STIRLOGTABLECOLUMNS
         {
             get { return _stirlogTableColumns; }
         }
-        private static readonly string[] _stirLogTableColumnsType = { "INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT ", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT" };
+        private static readonly string[] _stirLogTableColumnsType = { "INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT ", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT" };
         public static string[] STIRLOGTABLECOLUMNSTYPE
         {
             get { return _stirLogTableColumnsType; }
@@ -322,6 +322,9 @@ namespace CoatingMgr
             return MailBody;
         }
 
+        /// <summary>
+        ///等待提示界面
+        /// </summary>
         private static FormProgress formProgress = null;
         public static void ShowProgress()
         {

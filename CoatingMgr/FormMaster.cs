@@ -66,7 +66,7 @@ namespace CoatingMgr
         {
             dataGirdView.Rows.Clear();
             SQLiteDataReader dataReader = GetSqlLiteHelper().ReadFullTable(table);
-            if (dataReader.HasRows)
+            if (dataReader != null && dataReader.HasRows)
             {
                 BindingSource bs = new BindingSource
                 {

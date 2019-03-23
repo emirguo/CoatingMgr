@@ -60,6 +60,7 @@
             this.Controls.Add(this.lbVersion);
             this.Controls.Add(this.label1);
             this.Name = "FormAbout";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "关于";
             this.Load += new System.EventHandler(this.FormAbout_Load);
             this.ResumeLayout(false);

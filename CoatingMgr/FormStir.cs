@@ -20,10 +20,8 @@ namespace CoatingMgr
         private string _userName = "";
         private string _userPermission = "";
         private string _managerName = "";
-        private List<string> _cbSearchModel ;
-        private List<string> _cbSearchComponent;
-        private List<string> _cbSearchColor ;
         private double currStirTime = 0.0;
+        private string ratio1 = "", ratio2 = "", ratio3 = "", ratio4 = "";
         private enum Status
         {
             Stop,
@@ -78,24 +76,35 @@ namespace CoatingMgr
         {
             lbUser.Text = _userName;
             ShowTime();
-
-            _cbSearchModel = GetSqlLiteHelper().GetValueTypeByColumnFromTable(_tableName, "适用机种", null, null, null);
+                        
+            List<string> _cbSearchModel = GetSqlLiteHelper().GetValueTypeByColumnFromTable(_tableName, "适用机种", null, null, null);
             for (int i = 0; i < _cbSearchModel.Count; i++)
             {
                 cbModel.Items.Add(_cbSearchModel[i]);
             }
-            _cbSearchComponent = GetSqlLiteHelper().GetValueTypeByColumnFromTable(_tableName, "适用制品", null, null, null);
-            for (int i = 0; i < _cbSearchComponent.Count; i++)
-            {
-                cbComponent.Items.Add(_cbSearchComponent[i]);
-            }
-            _cbSearchColor = GetSqlLiteHelper().GetValueTypeByColumnFromTable(_tableName, "色番", null, null, null);
-            for (int i = 0; i < _cbSearchColor.Count; i++)
-            {
-                cbColor.Items.Add(_cbSearchColor[i]);
-            }
 
             GetTemperatureAndHumidity();
+        }
+
+        /// <summary>
+        /// 画黑色边框
+        /// </summary>
+        private void Panel3_Paint(object sender, PaintEventArgs e)
+        {
+            Graphics g = e.Graphics;
+            Pen pen = new Pen(Color.Black, 1);
+            Point point1 = new Point(0, 1);
+            Point point2 = new Point(745, 1);
+            g.DrawLine(pen, point1, point2);
+            Point point3 = new Point(0, 560);
+            Point point4 = new Point(745, 560);
+            g.DrawLine(pen, point3, point4);
+            Point point5 = new Point(0, 1);
+            Point point6 = new Point(0, 560);
+            g.DrawLine(pen, point5, point6);
+            Point point7 = new Point(745, 1);
+            Point point8 = new Point(745, 560);
+            g.DrawLine(pen, point7, point8);
         }
 
         //显示当前时间
@@ -124,19 +133,157 @@ namespace CoatingMgr
             tbHumidity.Text = "64.7";
         }
 
+        private void CbModel_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbModel.SelectedIndex >= 0)
+            {
+                cbComponent.Items.Clear();
+                cbComponent.Text = "";
+                cbColor.Items.Clear();
+                cbColor.Text = "";
+                cbCoating.Items.Clear();
+                cbCoating.Text = "";
+                List<string> _cbSearchComponent = GetSqlLiteHelper().GetValueTypeByColumnFromTable(_tableName, "適用製品", new string[] { "适用机种" }, new string[] { "=" }, new string[] { cbModel.Text });
+                for (int i = 0; i < _cbSearchComponent.Count; i++)
+                {
+                    cbComponent.Items.Add(_cbSearchComponent[i]);
+                }
+            }
+        }
+
+        private void CbComponent_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbComponent.SelectedIndex >= 0)
+            {
+                cbColor.Items.Clear();
+                cbColor.Text = "";
+                cbCoating.Items.Clear();
+                cbCoating.Text = "";
+                List<string> _cbSearchColor = GetSqlLiteHelper().GetValueTypeByColumnFromTable(_tableName, "色番", new string[] { "适用机种", "適用製品" }, new string[] { "=", "=" }, new string[] { cbModel.Text, cbComponent.Text });
+                for (int i = 0; i < _cbSearchColor.Count; i++)
+                {
+                    cbColor.Items.Add(_cbSearchColor[i]);
+                }
+            }
+        }
+
+        private void CbColor_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbColor.SelectedIndex >= 0)
+            {
+                cbCoating.Items.Clear();
+                cbCoating.Text = "";
+                List<string> _cbSearchCoating = GetSqlLiteHelper().GetValueTypeByColumnFromTable(_tableName, "涂层", new string[] { "适用机种", "適用製品", "色番" }, new string[] { "=", "=", "=" }, new string[] { cbModel.Text, cbComponent.Text, cbColor.Text });
+                for (int i = 0; i < _cbSearchCoating.Count; i++)
+                {
+                    cbCoating.Items.Add(_cbSearchCoating[i]);
+                }
+            }
+        }
+
+        private void BtnGetStirValues_Click(object sender, EventArgs e)
+        {
+            SetStirInfo();
+        }
+
+        private void BtnResetStirValues_Click(object sender, EventArgs e)
+        {
+            FormSetStirData formSetStirData = new FormSetStirData(this, tbTemperature.Text, tbHumidity.Text, tbRatio.Text);
+            formSetStirData.Show();
+        }
+
+        /// <summary>
+        /// 根据机型\部件\颜色等信息从Master文件中查找设置各色剂信息
+        /// </summary>
+        private void SetStirInfo()
+        {
+            if (cbModel.Text.Equals(""))
+            {
+                MessageBox.Show("请选择机型");
+                return;
+            }
+            if (cbComponent.Text.Equals(""))
+            {
+                MessageBox.Show("请选择製品");
+                return;
+            }
+            if (cbColor.Text.Equals(""))
+            {
+                MessageBox.Show("请选择色番");
+                return;
+            }
+            if (cbCoating.Text.Equals(""))
+            {
+                MessageBox.Show("请选择涂层");
+                return;
+            }
+            if (tbInputWeight.Text.Equals(""))
+            {
+                MessageBox.Show("请输入主剂重量");
+                return;
+            }
+            if (!cbModel.Text.Equals("") && !cbComponent.Text.Equals("") && !cbColor.Text.Equals("") && !cbCoating.Text.Equals("") && !tbInputWeight.Text.Equals("") && !tbTemperature.Text.Equals("") && !tbHumidity.Text.Equals(""))
+            {
+                SQLiteDataReader dataReader = GetSqlLiteHelper().ReadTable(_tableName, new string[] { "适用机种", "適用製品", "色番", "涂层" }, new string[] { "=", "=", "=", "=", }, new string[] { cbModel.Text, cbComponent.Text, cbColor.Text, cbCoating.Text });
+                if (dataReader.HasRows)
+                {
+                    isStirInfoConfirmed = false;
+                    ClearStirText();
+                    while (dataReader.Read())
+                    {
+                        if (dataReader["种类"].ToString().Equals("色漆") || dataReader["种类"].ToString().Equals("涂料"))
+                        {
+                            tbName1.Text = dataReader["涂料名"].ToString();
+                            ratio1 = dataReader["调和比例"].ToString();
+                        }
+                        else if (dataReader["种类"].ToString().Equals("固化剂"))
+                        {
+                            tbName2.Text = dataReader["涂料名"].ToString();
+                            ratio2 = dataReader["调和比例"].ToString();
+                        }
+                        else if (dataReader["种类"].ToString().Equals("稀释剂"))
+                        {
+                            if (tbName3.Text.Equals(""))
+                            {
+                                tbName3.Text = dataReader["涂料名"].ToString();
+                                ratio3 = dataReader["调和比例"].ToString();
+                            }
+                            else
+                            {
+                                tbName4.Text = dataReader["涂料名"].ToString();
+                                ratio4 = dataReader["调和比例"].ToString();
+                            }
+                        }
+                    }
+                    tbRatio.Text = ratio1 + ":" + ratio2 + ":" + ratio3 + (ratio4.Equals("")?"" : ":" + ratio4 + "");
+                    SetWeight();
+                    ShowConfirmWindow();
+                }
+                else
+                {
+                    MessageBox.Show("Master文件中未找到相关数据");
+                }
+            }
+        }
+
         private void ClearStirText()
         {
+            ratio1 = "";
+            ratio2 = "";
+            ratio3 = "";
+            ratio4 = "";
             tbRatio.Text = "";
 
             tbName1.Text = "";
             tbName2.Text = "";
             tbName3.Text = "";
             tbName4.Text = "";
-
+            
             tbMeasurementTime1.Text = null;
             tbMeasurementTime2.Text = null;
             tbMeasurementTime3.Text = null;
             tbMeasurementTime4.Text = null;
+            
             this.btnPause.Text = "暂停";
             this.lbCurrentStatus.Text = "停止";
         }
@@ -347,7 +494,7 @@ namespace CoatingMgr
             {
                 case Status.CoatingStart:
                     SetStartStirText(tbMeasurementTime1);
-                    this.lbCurrentStatus.Text = "正在倒入主剂";
+                    this.lbCurrentStatus.Text = "正在倒入涂料";
                     break;
                 case Status.CoatingPause:
                     SetPauseStirText();
@@ -393,26 +540,21 @@ namespace CoatingMgr
             switch (logType)
             {
                 case StirLogType.CoatingLog:
-                    InsertLogToDB("主剂", tbName1.Text, tbBarCode1.Text, tbSetValue1.Text, tbMeasurementValue1.Text, tbMeasurementTime1.Text);
+                    GetSqlLiteHelper().InsertValues(Common.STIRLOGTABLENAME, new string[] { cbModel.Text, cbComponent.Text, cbColor.Text, cbCoating.Text, tbTemperature.Text, tbHumidity.Text, tbRatio.Text, "涂料", tbName1.Text, tbBarCode1.Text, tbSetValue1.Text, tbMeasurementValue1.Text, tbMeasurementTime1.Text, _userName, DateTime.Now.ToString("yyyyMMdd"), DateTime.Now.ToString("HH:mm:ss"), _managerName, " " });
                     break;
                 case StirLogType.HardeningLog:
-                    InsertLogToDB("固化剂", tbName2.Text, tbBarCode2.Text, tbSetValue2.Text, tbMeasurementValue2.Text, tbMeasurementTime2.Text);
+                    GetSqlLiteHelper().InsertValues(Common.STIRLOGTABLENAME, new string[] { cbModel.Text, cbComponent.Text, cbColor.Text, cbCoating.Text, tbTemperature.Text, tbHumidity.Text, tbRatio.Text, "固化剂", tbName2.Text, tbBarCode2.Text, tbSetValue2.Text, tbMeasurementValue2.Text, tbMeasurementTime2.Text, _userName, DateTime.Now.ToString("yyyyMMdd"), DateTime.Now.ToString("HH:mm:ss"), _managerName, " " });
                     break;
                 case StirLogType.ThinnerALog:
-                    InsertLogToDB("稀释剂A", tbName3.Text, tbBarCode3.Text, tbSetValue3.Text, tbMeasurementValue3.Text, tbMeasurementTime3.Text);
+                    GetSqlLiteHelper().InsertValues(Common.STIRLOGTABLENAME, new string[] { cbModel.Text, cbComponent.Text, cbColor.Text, cbCoating.Text, tbTemperature.Text, tbHumidity.Text, tbRatio.Text, "稀释剂A", tbName3.Text, tbBarCode3.Text, tbSetValue3.Text, tbMeasurementValue3.Text, tbMeasurementTime3.Text, _userName, DateTime.Now.ToString("yyyyMMdd"), DateTime.Now.ToString("HH:mm:ss"), _managerName, " " });
                     break;
                 case StirLogType.ThinnerBLog:
-                    InsertLogToDB("稀释剂B", tbName4.Text, tbBarCode4.Text, tbSetValue4.Text, tbMeasurementValue4.Text, tbMeasurementTime4.Text);
+                    GetSqlLiteHelper().InsertValues(Common.STIRLOGTABLENAME, new string[] { cbModel.Text, cbComponent.Text, cbColor.Text, cbCoating.Text, tbTemperature.Text, tbHumidity.Text, tbRatio.Text, "稀释剂B", tbName4.Text, tbBarCode4.Text, tbSetValue4.Text, tbMeasurementValue4.Text, tbMeasurementTime4.Text, _userName, DateTime.Now.ToString("yyyyMMdd"), DateTime.Now.ToString("HH:mm:ss"), _managerName, " " });
                     break;
                 default:
                     break;
             }
             
-        }
-
-        private void InsertLogToDB(string type, string name, string barCode, string setWeight, string measurementWeight, string measurementTime)
-        {
-            GetSqlLiteHelper().InsertValues(Common.STIRLOGTABLENAME, new string[] { cbModel.Text, cbComponent.Text, cbColor.Text, tbTemperature.Text, tbHumidity.Text, tbRatio.Text, type, name, barCode, setWeight, measurementWeight, measurementTime, _userName, DateTime.Now.ToString("yyyyMMdd"), DateTime.Now.ToString("HH:mm:ss"), _managerName, " " });
         }
 
         private void SetPauseStirText()
@@ -441,12 +583,35 @@ namespace CoatingMgr
         /// <summary>
         /// 判断条形码是否有效
         /// </summary>
-        private bool IsBarCodeValid(string barcode)
+        /// 涂料名*种类*厂家*重量*批次号*连番*使用期限,例如：R-241(KAI) YR-614P(TAP)*A*G1000*18*20180219*0001*20190318
+        private bool IsBarCodeValid(string barcode, string name)
         {
             bool result = false;
-            if (!barcode.Equals("") && barcode.Length > 10)
+            if (!barcode.Equals(""))
             {
-                result = true;
+                string[] sArray = barcode.Split('*');
+                if (sArray.Length >= 7)
+                {
+                    if (!name.Equals(sArray[0]))//判断涂料名称是否一致
+                    {
+                        MessageBox.Show("涂料错误！");
+                        return false;
+                    }
+                    if (DateTime.Compare(DateTime.Now, DateTime.ParseExact(sArray[6], "yyyyMMdd", System.Globalization.CultureInfo.InvariantCulture)) > 0)
+                    {
+                        MessageBox.Show("涂料超过有效期！");
+                        return false;
+                    }
+                    result = true;
+                }
+                else
+                {
+                    MessageBox.Show("条形码无效");
+                }
+            }
+            else
+            {
+                MessageBox.Show("条形码无效");
             }
             return result;
         }
@@ -465,15 +630,11 @@ namespace CoatingMgr
                 ShowConfirmWindow();
                 return;
             }
-            if (IsBarCodeValid(tbBarCode1.Text.ToString()))//条形码正确
+            if (IsBarCodeValid(tbBarCode1.Text.ToString(), tbName1.Text))//条形码正确
             {
                 CurrStatus = Status.CoatingStart;
                 DoStir();
                 this.tbBarCode2.Focus();
-            }
-            else
-            {
-                //MessageBox.Show("条形码无效");
             }
         }
 
@@ -491,15 +652,11 @@ namespace CoatingMgr
                 ShowConfirmWindow();
                 return;
             }
-            if (IsBarCodeValid(tbBarCode2.Text.ToString()))//条形码正确
+            if (IsBarCodeValid(tbBarCode2.Text.ToString(), tbName2.Text))//条形码正确
             {
                 CurrStatus = Status.HardeningAgentStart;
                 DoStir();
                 this.tbBarCode3.Focus();
-            }
-            else
-            {
-                //MessageBox.Show("条形码无效");
             }
         }
 
@@ -517,15 +674,11 @@ namespace CoatingMgr
                 ShowConfirmWindow();
                 return;
             }
-            if (IsBarCodeValid(tbBarCode3.Text.ToString()))//条形码正确
+            if (IsBarCodeValid(tbBarCode3.Text.ToString(), tbName3.Text))//条形码正确
             {
                 CurrStatus = Status.ThinnerAStart;
                 DoStir();
                 this.tbBarCode4.Focus();
-            }
-            else
-            {
-                //MessageBox.Show("条形码无效");
             }
         }
 
@@ -543,74 +696,10 @@ namespace CoatingMgr
                 ShowConfirmWindow();
                 return;
             }
-            if (IsBarCodeValid(tbBarCode4.Text.ToString()))//条形码正确
+            if (IsBarCodeValid(tbBarCode4.Text.ToString(), tbName4.Text))//条形码正确
             {
                 CurrStatus = Status.ThinnerBStart;
                 DoStir();
-            }
-            else
-            {
-                //MessageBox.Show("条形码无效");
-
-            }
-        }
-
-        private void BtnGetStirValues_Click(object sender, EventArgs e)
-        {
-            SetStirInfo();
-        }
-
-        private void BtnResetStirValues_Click(object sender, EventArgs e)
-        {
-            FormSetStirData formSetStirData = new FormSetStirData(this, tbTemperature.Text, tbHumidity.Text, tbRatio.Text);
-            formSetStirData.Show();
-        }
-
-        /// <summary>
-        /// 根据机型\部件\颜色等信息从Master文件中查找设置各色剂信息
-        /// </summary>
-        private void SetStirInfo()
-        {
-            if (cbModel.Text.Equals(""))
-            {
-                MessageBox.Show("请选择机型");
-                return;
-            }
-            if (cbComponent.Text.Equals(""))
-            {
-                MessageBox.Show("请选择部件");
-                return;
-            }
-            if (cbColor.Text.Equals(""))
-            {
-                MessageBox.Show("请选择颜色");
-                return;
-            }
-            if (tbInputWeight.Text.Equals(""))
-            {
-                MessageBox.Show("请输入主剂重量");
-                return;
-            }
-            if (!cbModel.Text.Equals("") && !cbComponent.Text.Equals("") && !cbColor.Text.Equals("") && !tbInputWeight.Text.Equals("") && !tbTemperature.Text.Equals("") && !tbHumidity.Text.Equals(""))
-            {
-                SQLiteDataReader dataReader = GetSqlLiteHelper().ReadTable(_tableName, new string[] { "适用机种", "适用制品", "色番" }, new string[] { "=", "=", "=" }, new string[] { cbModel.Text, cbComponent.Text, cbColor.Text });
-                if (dataReader.HasRows)
-                {
-                    isStirInfoConfirmed = false;
-                    ClearStirText();
-                    dataReader.Read();
-                    tbName1.Text = dataReader["主剂"].ToString();
-                    tbName2.Text = dataReader["固化剂"].ToString();
-                    tbName3.Text = dataReader["稀释剂1"].ToString();
-                    tbName4.Text = dataReader["稀释剂2"].ToString();
-                    tbRatio.Text = dataReader["比例"].ToString();
-                    SetWeight();
-                    ShowConfirmWindow();
-                }
-                else
-                {
-                    MessageBox.Show("Master文件中未找到相关数据");
-                }
             }
         }
 
@@ -624,20 +713,6 @@ namespace CoatingMgr
                 try
                 {
                     double weight1 = double.Parse(tbInputWeight.Text);
-                    string ratio1 = "",ratio2 = "", ratio3 = "",ratio4 = "";
-                    if (!tbRatio.Text.Equals(""))
-                    {
-                        string[] ratioArray = tbRatio.Text.Split(new char[2] { ':', '：' });
-                        ratio1 = ratioArray[0].ToString();
-                        ratio2 = ratioArray[1].ToString();
-                        ratio3 = ratioArray[2].ToString();
-                        if (ratioArray.Length >= 4)
-                        {
-                            ratio4 = ratioArray[3].ToString();
-                        }
-                        
-                    }
-
                     tbSetValue1.Text = weight1.ToString();
                     if (!ratio2.Equals(""))
                     {
@@ -659,7 +734,6 @@ namespace CoatingMgr
                 {
                     Console.WriteLine(e.ToString());
                 }
-
             }
         }
 
@@ -668,6 +742,30 @@ namespace CoatingMgr
             this.tbTemperature.Text = temperature;
             this.tbHumidity.Text = humidity;
             this.tbRatio.Text = ratio;
+            ratio1 = "";
+            ratio2 = "";
+            ratio3 = "";
+            ratio4 = "";
+            if (!this.tbRatio.Text.Equals(""))
+            {
+                string[] ratioArray = tbRatio.Text.Split(new char[2] { ':', '：' });
+                if (ratioArray[0] != null && !ratioArray[0].Equals(""))
+                {
+                    ratio1 = ratioArray[0];
+                }
+                if (ratioArray[1] != null && !ratioArray[1].Equals(""))
+                {
+                    ratio2 = ratioArray[1];
+                }
+                if (ratioArray[2] != null && !ratioArray[2].Equals(""))
+                {
+                    ratio3 = ratioArray[2];
+                }
+                if (ratioArray[3] != null && !ratioArray[3].Equals(""))
+                {
+                    ratio4 = ratioArray[3];
+                }
+            }
             SetWeight();
         }
 
@@ -685,27 +783,5 @@ namespace CoatingMgr
             FormConfirmStirInfo formConfirmStirInfo = new FormConfirmStirInfo(this);
             formConfirmStirInfo.Show();
         }
-
-        /// <summary>
-        /// 画黑色边框
-        /// </summary>
-        private void Panel3_Paint(object sender, PaintEventArgs e)
-        {
-            Graphics g = e.Graphics;
-            Pen pen = new Pen(Color.Black, 1);
-            Point point1 = new Point(0, 1);
-            Point point2 = new Point(745, 1);
-            g.DrawLine(pen, point1, point2);
-            Point point3 = new Point(0, 560);
-            Point point4 = new Point(745, 560);
-            g.DrawLine(pen, point3, point4);
-            Point point5 = new Point(0, 1);
-            Point point6 = new Point(0, 560);
-            g.DrawLine(pen, point5, point6);
-            Point point7 = new Point(745, 1);
-            Point point8 = new Point(745, 560);
-            g.DrawLine(pen, point7, point8);
-        }
     }
-
 }

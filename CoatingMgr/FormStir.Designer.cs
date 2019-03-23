@@ -31,6 +31,8 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormStir));
             this.panel2 = new System.Windows.Forms.Panel();
+            this.cbCoating = new System.Windows.Forms.ComboBox();
+            this.label31 = new System.Windows.Forms.Label();
             this.btnResetStirValues = new System.Windows.Forms.Button();
             this.btnGetStirValues = new System.Windows.Forms.Button();
             this.cbComponent = new System.Windows.Forms.ComboBox();
@@ -142,6 +144,8 @@
             // 
             this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel2.Controls.Add(this.cbCoating);
+            this.panel2.Controls.Add(this.label31);
             this.panel2.Controls.Add(this.btnResetStirValues);
             this.panel2.Controls.Add(this.btnGetStirValues);
             this.panel2.Controls.Add(this.cbComponent);
@@ -161,10 +165,29 @@
             this.panel2.Size = new System.Drawing.Size(985, 40);
             this.panel2.TabIndex = 1;
             // 
+            // cbCoating
+            // 
+            this.cbCoating.Font = new System.Drawing.Font("宋体", 12F);
+            this.cbCoating.FormattingEnabled = true;
+            this.cbCoating.Location = new System.Drawing.Point(427, 10);
+            this.cbCoating.Name = "cbCoating";
+            this.cbCoating.Size = new System.Drawing.Size(56, 24);
+            this.cbCoating.TabIndex = 61;
+            // 
+            // label31
+            // 
+            this.label31.AutoSize = true;
+            this.label31.Font = new System.Drawing.Font("宋体", 12F);
+            this.label31.Location = new System.Drawing.Point(388, 14);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(40, 16);
+            this.label31.TabIndex = 60;
+            this.label31.Text = "涂层";
+            // 
             // btnResetStirValues
             // 
             this.btnResetStirValues.Font = new System.Drawing.Font("宋体", 12F);
-            this.btnResetStirValues.Location = new System.Drawing.Point(759, 8);
+            this.btnResetStirValues.Location = new System.Drawing.Point(763, 8);
             this.btnResetStirValues.Name = "btnResetStirValues";
             this.btnResetStirValues.Size = new System.Drawing.Size(112, 29);
             this.btnResetStirValues.TabIndex = 59;
@@ -175,7 +198,7 @@
             // btnGetStirValues
             // 
             this.btnGetStirValues.Font = new System.Drawing.Font("宋体", 12F);
-            this.btnGetStirValues.Location = new System.Drawing.Point(628, 8);
+            this.btnGetStirValues.Location = new System.Drawing.Point(639, 8);
             this.btnGetStirValues.Name = "btnGetStirValues";
             this.btnGetStirValues.Size = new System.Drawing.Size(118, 29);
             this.btnGetStirValues.TabIndex = 58;
@@ -187,20 +210,21 @@
             // 
             this.cbComponent.Font = new System.Drawing.Font("宋体", 12F);
             this.cbComponent.FormattingEnabled = true;
-            this.cbComponent.Location = new System.Drawing.Point(223, 10);
+            this.cbComponent.Location = new System.Drawing.Point(168, 10);
             this.cbComponent.Name = "cbComponent";
-            this.cbComponent.Size = new System.Drawing.Size(99, 24);
+            this.cbComponent.Size = new System.Drawing.Size(82, 24);
             this.cbComponent.TabIndex = 54;
+            this.cbComponent.SelectedIndexChanged += new System.EventHandler(this.CbComponent_SelectedIndexChanged);
             // 
             // label50
             // 
             this.label50.AutoSize = true;
             this.label50.Font = new System.Drawing.Font("宋体", 12F);
-            this.label50.Location = new System.Drawing.Point(184, 14);
+            this.label50.Location = new System.Drawing.Point(129, 14);
             this.label50.Name = "label50";
             this.label50.Size = new System.Drawing.Size(40, 16);
             this.label50.TabIndex = 53;
-            this.label50.Text = "部件";
+            this.label50.Text = "製品";
             // 
             // tbTemperature
             // 
@@ -229,16 +253,16 @@
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("宋体", 12F);
-            this.label8.Location = new System.Drawing.Point(589, 14);
+            this.label8.Location = new System.Drawing.Point(613, 14);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(24, 16);
             this.label8.TabIndex = 9;
-            this.label8.Text = "kg";
+            this.label8.Text = "Kg";
             // 
             // tbInputWeight
             // 
             this.tbInputWeight.Font = new System.Drawing.Font("宋体", 12F);
-            this.tbInputWeight.Location = new System.Drawing.Point(539, 10);
+            this.tbInputWeight.Location = new System.Drawing.Point(563, 10);
             this.tbInputWeight.MaxLength = 4;
             this.tbInputWeight.Name = "tbInputWeight";
             this.tbInputWeight.Size = new System.Drawing.Size(47, 26);
@@ -249,7 +273,7 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("宋体", 12F);
-            this.label7.Location = new System.Drawing.Point(465, 14);
+            this.label7.Location = new System.Drawing.Point(489, 14);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(72, 16);
             this.label7.TabIndex = 7;
@@ -270,39 +294,41 @@
             // 
             this.cbColor.Font = new System.Drawing.Font("宋体", 12F);
             this.cbColor.FormattingEnabled = true;
-            this.cbColor.Location = new System.Drawing.Point(372, 10);
+            this.cbColor.Location = new System.Drawing.Point(293, 10);
             this.cbColor.Name = "cbColor";
             this.cbColor.Size = new System.Drawing.Size(91, 24);
             this.cbColor.TabIndex = 3;
+            this.cbColor.SelectedIndexChanged += new System.EventHandler(this.CbColor_SelectedIndexChanged);
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("宋体", 12F);
-            this.label3.Location = new System.Drawing.Point(333, 14);
+            this.label3.Location = new System.Drawing.Point(254, 14);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(40, 16);
             this.label3.TabIndex = 2;
-            this.label3.Text = "颜色";
+            this.label3.Text = "色番";
             // 
             // cbModel
             // 
             this.cbModel.Font = new System.Drawing.Font("宋体", 12F);
             this.cbModel.FormattingEnabled = true;
-            this.cbModel.Location = new System.Drawing.Point(78, 10);
+            this.cbModel.Location = new System.Drawing.Point(43, 10);
             this.cbModel.Name = "cbModel";
-            this.cbModel.Size = new System.Drawing.Size(94, 24);
+            this.cbModel.Size = new System.Drawing.Size(81, 24);
             this.cbModel.TabIndex = 1;
+            this.cbModel.SelectedIndexChanged += new System.EventHandler(this.CbModel_SelectedIndexChanged);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("宋体", 12F);
-            this.label2.Location = new System.Drawing.Point(8, 14);
+            this.label2.Location = new System.Drawing.Point(3, 14);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(72, 16);
+            this.label2.Size = new System.Drawing.Size(40, 16);
             this.label2.TabIndex = 0;
-            this.label2.Text = "生产机种";
+            this.label2.Text = "机种";
             // 
             // tbHumidity
             // 
@@ -355,11 +381,11 @@
             // tbRatio
             // 
             this.tbRatio.Font = new System.Drawing.Font("宋体", 18F);
-            this.tbRatio.Location = new System.Drawing.Point(403, 10);
+            this.tbRatio.Location = new System.Drawing.Point(342, 10);
             this.tbRatio.MaxLength = 2;
             this.tbRatio.Name = "tbRatio";
             this.tbRatio.ReadOnly = true;
-            this.tbRatio.Size = new System.Drawing.Size(158, 35);
+            this.tbRatio.Size = new System.Drawing.Size(224, 35);
             this.tbRatio.TabIndex = 41;
             this.tbRatio.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -1029,7 +1055,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("宋体", 18F);
-            this.label6.Location = new System.Drawing.Point(299, 13);
+            this.label6.Location = new System.Drawing.Point(238, 13);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(106, 24);
             this.label6.TabIndex = 5;
@@ -1350,5 +1376,7 @@
         private VerticalProgressBar progressBar4;
         private VerticalProgressBar progressBar3;
         private VerticalProgressBar progressBar2;
+        private System.Windows.Forms.ComboBox cbCoating;
+        private System.Windows.Forms.Label label31;
     }
 }
