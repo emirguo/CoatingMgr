@@ -54,27 +54,35 @@ namespace CoatingMgr
             chartStock.ChartAreas[0].AxisY.TitleFont = new Font("微软雅黑", 12f, FontStyle.Regular);
 
             //重量柱状图
-            Series weightSerie = new Series();
-            weightSerie.ChartType = SeriesChartType.Column;
-            weightSerie.Enabled = true;
-            weightSerie.IsVisibleInLegend = false;
+            Series weightSerie = new Series
+            {
+                ChartType = SeriesChartType.Column,
+                Enabled = true,
+                IsVisibleInLegend = false
+            };
             chartStock.Series.Add(weightSerie);
 
 
             //重量、上限、下限叠加柱状图
-            Series minSerie = new Series();
-            minSerie.ChartType = SeriesChartType.StackedColumn;
-            minSerie.Enabled = false;
+            Series minSerie = new Series
+            {
+                ChartType = SeriesChartType.StackedColumn,
+                Enabled = false
+            };
             chartStock.Series.Add(minSerie);
 
-            Series midSerie = new Series();
-            midSerie.ChartType = SeriesChartType.StackedColumn;
-            midSerie.Enabled = false;
+            Series midSerie = new Series
+            {
+                ChartType = SeriesChartType.StackedColumn,
+                Enabled = false
+            };
             chartStock.Series.Add(midSerie);
 
-            Series maxSerie = new Series();
-            maxSerie.ChartType = SeriesChartType.StackedColumn;
-            maxSerie.Enabled = false;
+            Series maxSerie = new Series
+            {
+                ChartType = SeriesChartType.StackedColumn,
+                Enabled = false
+            };
             chartStock.Series.Add(maxSerie);
 
             int i = 0;
