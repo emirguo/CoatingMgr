@@ -41,7 +41,10 @@ namespace CoatingMgr
             {
                 dr = SqlLiteHelper.GetInstance().ReadTable(_tableName, new string[] { _searchType }, new string[] { "=" }, new string[] { _searchContent });
             }
-            BindChartData(dr);
+            if (dr != null && dr.HasRows)
+            {
+                BindChartData(dr);
+            }
         }
 
         //绑定柱状图数据

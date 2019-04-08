@@ -92,6 +92,10 @@ namespace CoatingMgr
 
         private void TbBarCode_TextChanged(object sender, EventArgs e)
         {
+            if (!IsBarCodeFromStock(tbBarCode.Text.ToString()))
+            {
+                return;
+            }
             if (AnalysisBarCode(tbBarCode.Text.ToString()))
             {
                 this.dgvStockData.Rows.Add(0, tbBarCode.Text, tbName.Text, tbColor.Text, tbType.Text, tbWeight.Text, tbModel.Text, cbSearchStock.Text, tbProductionDate.Text, tbExpiryDate.Text, _userName, DateTime.Now.ToString("yyyyMMdd"), DateTime.Now.ToString("HH:mm:ss"), "出库", " ", " ");
@@ -103,6 +107,33 @@ namespace CoatingMgr
             {
                 MessageBox.Show("条形码无效");
             }
+        }
+
+        private bool IsBarCodeFromStock(string barcode)
+        {
+            bool result = false;
+            SQLiteDataReader dataReader = GetSqlLiteHelper().ReadTable(Common.STOCKLOGTABLENAME, new string[] { "条形码" }, new string[] { "=" }, new string[] { barcode });
+            if (dataReader != null && dataReader.HasRows)
+            {
+                while (dataReader.Read())
+                {
+                    if (dataReader["操作类型"].ToString().Equals("入库"))
+                    {
+                        result = true;
+                    }
+                    else if (dataReader["操作类型"].ToString().Equals("出库"))
+                    {
+                        MessageBox.Show("此条形码涂料已出库，无法再次出库");
+                        result = false;
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("此条形码涂料还未入库，请先入库");
+            }
+            return result;
         }
 
         //涂料名*种类*厂家*重量*批次号*连番*使用期限,例如：R-241(KAI) YR-614P(TAP)*A*G1000*18*20190219*0001*20190818
@@ -121,7 +152,7 @@ namespace CoatingMgr
                     tbExpiryDate.Text = sArray[6];
 
                     SQLiteDataReader dataReader = GetSqlLiteHelper().ReadTable(Common.MASTERTABLENAME, new string[] { "涂料名" }, new string[] { "=" }, new string[] { tbName.Text });
-                    if (dataReader.HasRows && dataReader.Read())
+                    if (dataReader != null && dataReader.HasRows && dataReader.Read())
                     {
                         tbColor.Text = dataReader["色番"].ToString();
                         tbModel.Text = dataReader["适用机种"].ToString();
@@ -180,7 +211,7 @@ namespace CoatingMgr
                     string stock = dataRow.Cells[7].Value.ToString();
                     //从库存数量中减去出库
                     SQLiteDataReader dataReader = GetSqlLiteHelper().ReadTable(Common.STOCKCOUNTTABLENAME, new string[] { "类型", "名称", "颜色", "适用机型" }, new string[] { "=", "=", "=", "=" }, new string[] { type, name, color, model });
-                    if (dataReader.HasRows && dataReader.Read())//色剂已经存在
+                    if (dataReader != null && dataReader.HasRows && dataReader.Read())//色剂已经存在
                     {
                         double inStockWeight = Convert.ToSingle(Common.FilterChar(dataReader["重量"].ToString()));
                         double inputWeight = Convert.ToSingle(Common.FilterChar(weight));

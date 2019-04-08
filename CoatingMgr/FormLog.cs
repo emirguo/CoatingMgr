@@ -21,11 +21,11 @@ namespace CoatingMgr
         private static SqlLiteHelper sqlLiteHelper = null;
         private string _tableName = Common.STOCKLOGTABLENAME;
 
-        private static string[] _cbStockSearchType = { "按仓库查找", "按名称查找", "按颜色查找", "按类型查找", "按适用机型查找", "按生产日期查找", "按有效期查找", "按操作员查找", "按操作时间查找", "按告警类型查找" };
-        private static string[] _stockSearchType = { "仓库", "名称", "颜色", "类型", "适用机型", "生产日期", "有效期", "操作员", "操作时间", "告警类型" };
+        private static string[] _cbStockSearchType = { "按仓库查找", "按名称查找", "按颜色查找", "按类型查找", "按适用机型查找", "按生产日期查找", "按有效期查找", "按操作员查找", "按操作日期查找", "按操作类型查找" };
+        private static string[] _stockSearchType = { "仓库", "名称", "颜色", "类型", "适用机型", "生产日期", "有效期", "操作员", "操作日期", "操作类型" };
 
-        private static string[] _cbStirSearchType = { "按机型查找", "按部件查找", "按颜色查找", "按调和比例查找", "按涂料类型查找", "按涂料名称查找", "按操作员查找", "按操作时间查找", "按确认主管查找" };
-        private static string[] _stirSearchType = { "机型 ", "部件", "颜色", "比例", "类型", "名称", "操作员", "操作时间", "确认主管", };
+        private static string[] _cbStirSearchType = { "按机种查找", "按製品查找", "按色番查找", "按涂层查找", "按调和比例查找", "按类型查找", "按名称查找", "按操作员查找", "按操作日期查找", "按确认主管查找" };
+        private static string[] _stirSearchType = { "机种", "製品", "色番", "涂层", "调和比例", "类型", "名称", "操作员", "操作日期", "确认主管", };
 
         public FormLog()
         {
@@ -72,7 +72,7 @@ namespace CoatingMgr
         {
             dataGirdView.Rows.Clear();
             SQLiteDataReader dataReader = GetSqlLiteHelper().ReadFullTable(table);
-            if (dataReader.HasRows)
+            if (dataReader != null && dataReader.HasRows)
             {
                 BindingSource bs = new BindingSource
                 {
@@ -90,7 +90,7 @@ namespace CoatingMgr
         private void BindDataGirdViewBySearch(DataGridView dataGirdView, string table, string type, string content)
         {
             SQLiteDataReader dataReader = GetSqlLiteHelper().ReadTable(table, new string[] { type }, new string[] { "=" }, new string[] { content });
-            if (dataReader.HasRows)
+            if (dataReader != null && dataReader.HasRows)
             {
                 BindingSource bs = new BindingSource
                 {

@@ -122,7 +122,7 @@ namespace CoatingMgr
                     tbExpiryDate.Text = sArray[6];
 
                     SQLiteDataReader dataReader = GetSqlLiteHelper().ReadTable(Common.MASTERTABLENAME, new string[] { "涂料名"}, new string[] { "=" }, new string[] { tbName.Text });
-                    if (dataReader.HasRows && dataReader.Read())
+                    if (dataReader != null && dataReader.HasRows && dataReader.Read())
                     {
                         tbColor.Text = dataReader["色番"].ToString();
                         tbModel.Text = dataReader["适用机种"].ToString();
@@ -181,7 +181,7 @@ namespace CoatingMgr
                     string tip = dataRow.Cells[15].Value.ToString();
                     //从库存数量中增加入库
                     SQLiteDataReader dataReader = GetSqlLiteHelper().ReadTable(Common.STOCKCOUNTTABLENAME, new string[] { "类型", "名称", "颜色", "适用机型" }, new string[] { "=", "=", "=", "=" }, new string[] { type, name, color, model });
-                    if (dataReader.HasRows && dataReader.Read())//色剂已经存在
+                    if (dataReader != null && dataReader.HasRows && dataReader.Read())//色剂已经存在
                     {
                         double inStockWeight = Convert.ToSingle(Common.FilterChar(dataReader["重量"].ToString()));
                         double inputWeight = Convert.ToSingle(Common.FilterChar(weight));

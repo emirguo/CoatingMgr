@@ -92,6 +92,7 @@
             this.tbPwd.Name = "tbPwd";
             this.tbPwd.Size = new System.Drawing.Size(249, 26);
             this.tbPwd.TabIndex = 11;
+            this.tbPwd.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TbPwd_KeyDown);
             // 
             // tbUserName
             // 

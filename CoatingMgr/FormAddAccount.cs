@@ -92,7 +92,7 @@ namespace CoatingMgr
             else
             {
                 SQLiteDataReader dataReader = sqlLiteHelper.ReadTable(_tableName, new string[] { "账号" }, new string[] { "=" }, new string[] { tbUserName.Text.ToString() });
-                if (dataReader.HasRows)//判断账号是否已经存在
+                if (dataReader != null && dataReader.HasRows)//判断账号是否已经存在
                 {
                     MessageBox.Show("账户已经存在");
                     return;

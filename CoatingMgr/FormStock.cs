@@ -69,7 +69,7 @@ namespace CoatingMgr
         {
             dataGirdView.Rows.Clear();
             SQLiteDataReader dataReader = GetSqlLiteHelper().ReadFullTable(table);
-            if (dataReader.HasRows)
+            if (dataReader != null && dataReader.HasRows)
             {
                 BindingSource bs = new BindingSource
                 {
@@ -83,6 +83,7 @@ namespace CoatingMgr
 
                 SQLiteDataReader dr = GetSqlLiteHelper().ReadFullTable(table);
                 BindChartData(dr);
+                cbShowHistogram.Visible = true;
                 _chartSearchType = "";
                 _chartSearchContent = "";
             }
@@ -92,7 +93,7 @@ namespace CoatingMgr
         private void BindDataGirdViewBySearch(DataGridView dataGirdView, string table, string type, string content)
         {
             SQLiteDataReader dataReader = GetSqlLiteHelper().ReadTable(table, new string[] { type }, new string[] { "=" }, new string[] { content });
-            if (dataReader.HasRows)
+            if (dataReader != null && dataReader.HasRows)
             {
                 BindingSource bs = new BindingSource
                 {
@@ -312,7 +313,7 @@ namespace CoatingMgr
                     if (!curMaximum.Equals(maximum) || !curMinimum.Equals(minimum) || !curWarnTime.Equals(warnTime))
                     {
                         SQLiteDataReader dataReader = GetSqlLiteHelper().ReadTable(Common.WARNMANAGERTABLENAME, new string[] { "仓库", "名称", "颜色", "类型", }, new string[] { "=", "=", "=", "=" }, new string[] { stock, name, color, type });
-                        if (dataReader.HasRows && dataReader.Read())//告警规则存在，更新告警规则
+                        if (dataReader != null && dataReader.HasRows && dataReader.Read())//告警规则存在，更新告警规则
                         {
                             GetSqlLiteHelper().UpdateValues(Common.WARNMANAGERTABLENAME, new string[] { "库存上限", "库存下限", "告警时间" }, new string[] { maximum, minimum, warnTime }, "id", dataReader["id"].ToString());
                         }
@@ -328,7 +329,7 @@ namespace CoatingMgr
         //显示柱状图
         private void CbShowHistogram_CheckedChanged(object sender, EventArgs e)
         {
-            if (this.cbShowHistogram.Checked)
+            if (this.cbShowHistogram.Checked && dgvStockData.DataSource != null)
             {
                 this.chartStock.Visible = true;
                 this.cbFillWindow.Visible = true;

@@ -108,7 +108,7 @@ namespace CoatingMgr
         {
             get { return _stirLogTableName; }
         }
-        private static readonly string[] _stirlogTableColumns = { "id", "机种 ", "製品", "色番", "涂层", "温度", "湿度", "调和比例", "类型", "名称", "条形码", "设定重量", "倒入重量", "计量时间", "操作员", "操作日期", "操作时间", "确认主管", "备注" };
+        private static readonly string[] _stirlogTableColumns = { "id", "机种", "製品", "色番", "涂层", "温度", "湿度", "调和比例", "类型", "名称", "条形码", "设定重量", "倒入重量", "计量时间", "操作员", "操作日期", "操作时间", "确认主管", "备注" };
         public static string[] STIRLOGTABLECOLUMNS
         {
             get { return _stirlogTableColumns; }
@@ -141,7 +141,7 @@ namespace CoatingMgr
         public static void UpdateStockCountWarn(string name, string stock, string color, string type, string maximum, string minimum, string expirydate)
         {
             SQLiteDataReader dataReader = SqlLiteHelper.GetInstance().ReadTable(Common.STOCKCOUNTTABLENAME, new string[] { "名称", "颜色", "仓库", "类型" }, new string[] { "=", "=", "=", "=" }, new string[] { name, color, stock, type });
-            if (dataReader.HasRows && dataReader.Read())//色剂已经存在
+            if (dataReader != null && dataReader.HasRows && dataReader.Read())//色剂已经存在
             {
                 SqlLiteHelper.GetInstance().UpdateValues(Common.STOCKCOUNTTABLENAME, new string[] { "库存上限", "库存下限", "告警时间" }, new string[] { maximum, minimum, expirydate }, "id", dataReader["id"].ToString());
             }
@@ -151,23 +151,26 @@ namespace CoatingMgr
         private static void UpdateExpiryDateWarn()
         {
             SQLiteDataReader warnDR = SqlLiteHelper.GetInstance().ReadFullTable(WARNMANAGERTABLENAME);
-            while (warnDR.Read())
+            if (warnDR != null && warnDR.HasRows)
             {
-                string warnDate = warnDR["告警时间"].ToString();
-                if (!warnDate.Equals(""))
+                while (warnDR.Read())
                 {
-                    string name = warnDR["名称"].ToString();
-                    string stock = warnDR["仓库"].ToString();
-                    string color = warnDR["颜色"].ToString();
-                    string type = warnDR["类型"].ToString();
-                    SQLiteDataReader dataReader = SqlLiteHelper.GetInstance().ReadTable(Common.INSTOCKTABLENAME, new string[] { "名称", "颜色", "类型", "仓库" }, new string[] { "=", "=", "=", "=" }, new string[] { name, color, type, stock });
-                    while (dataReader.Read())
+                    string warnDate = warnDR["告警时间"].ToString();
+                    if (!warnDate.Equals(""))
                     {
-                        DateTime expiryDate = DateTime.ParseExact(dataReader["有效期"].ToString(), "yyyyMMdd", null);
-                        DateTime date = expiryDate.AddDays(Convert.ToInt32(WARNDATE[warnDate]));
-                        if (!date.ToString("yyyyMMdd").Equals(dataReader["告警时间"].ToString()))
+                        string name = warnDR["名称"].ToString();
+                        string stock = warnDR["仓库"].ToString();
+                        string color = warnDR["颜色"].ToString();
+                        string type = warnDR["类型"].ToString();
+                        SQLiteDataReader dataReader = SqlLiteHelper.GetInstance().ReadTable(Common.INSTOCKTABLENAME, new string[] { "名称", "颜色", "类型", "仓库" }, new string[] { "=", "=", "=", "=" }, new string[] { name, color, type, stock });
+                        while (dataReader.Read())
                         {
-                            SqlLiteHelper.GetInstance().UpdateValues(Common.INSTOCKTABLENAME, new string[] { "告警时间" }, new string[] { date.ToString("yyyyMMdd") }, "id", dataReader["id"].ToString());
+                            DateTime expiryDate = DateTime.ParseExact(dataReader["有效期"].ToString(), "yyyyMMdd", null);
+                            DateTime date = expiryDate.AddDays(Convert.ToInt32(WARNDATE[warnDate]));
+                            if (!date.ToString("yyyyMMdd").Equals(dataReader["告警时间"].ToString()))
+                            {
+                                SqlLiteHelper.GetInstance().UpdateValues(Common.INSTOCKTABLENAME, new string[] { "告警时间" }, new string[] { date.ToString("yyyyMMdd") }, "id", dataReader["id"].ToString());
+                            }
                         }
                     }
                 }
@@ -263,62 +266,68 @@ namespace CoatingMgr
             //库存上、下限告警数据
             DataTable stockWarnData = new DataTable();
             SQLiteDataReader stockWarnDataReader = SqlLiteHelper.GetInstance().ReadStockWarnFromTable(STOCKCOUNTTABLENAME, new string[] { "重量", "库存上限", "重量", "库存下限" }, new string[] { ">", "!=", "<", "!=" }, new string[] { "库存上限", "''", "库存下限", "''" }, new string[] { "AND", "OR", "AND" });
-            stockWarnData.Load(stockWarnDataReader);
-            MailBody += "<p style=\"font-size: 10pt\">库存告警：</p>";
-            MailBody += "<table cellspacing=\"1\" cellpadding=\"3\" border=\"0\" bgcolor=\"000000\" style=\"font-size: 10pt;line-height: 15px;\">";
-            MailBody += "<div align=\"center\">";
-            MailBody += "<tr>";
-            for (int hcol = 0; hcol < stockWarnData.Columns.Count; hcol++)
+            if (stockWarnDataReader != null && stockWarnDataReader.HasRows)
             {
-                MailBody += "<td bgcolor=\"999999\">&nbsp;&nbsp;&nbsp;";
-                MailBody += stockWarnData.Columns[hcol].ColumnName;
-                MailBody += "&nbsp;&nbsp;&nbsp;</td>";
-            }
-            MailBody += "</tr>";
-
-            for (int row = 0; row < stockWarnData.Rows.Count; row++)
-            {
+                stockWarnData.Load(stockWarnDataReader);
+                MailBody += "<p style=\"font-size: 10pt\">库存告警：</p>";
+                MailBody += "<table cellspacing=\"1\" cellpadding=\"3\" border=\"0\" bgcolor=\"000000\" style=\"font-size: 10pt;line-height: 15px;\">";
+                MailBody += "<div align=\"center\">";
                 MailBody += "<tr>";
-                for (int col = 0; col < stockWarnData.Columns.Count; col++)
+                for (int hcol = 0; hcol < stockWarnData.Columns.Count; hcol++)
                 {
-                    MailBody += "<td bgcolor=\"dddddd\">&nbsp;&nbsp;&nbsp;";
-                    MailBody += stockWarnData.Rows[row][col].ToString();
+                    MailBody += "<td bgcolor=\"999999\">&nbsp;&nbsp;&nbsp;";
+                    MailBody += stockWarnData.Columns[hcol].ColumnName;
                     MailBody += "&nbsp;&nbsp;&nbsp;</td>";
                 }
                 MailBody += "</tr>";
+
+                for (int row = 0; row < stockWarnData.Rows.Count; row++)
+                {
+                    MailBody += "<tr>";
+                    for (int col = 0; col < stockWarnData.Columns.Count; col++)
+                    {
+                        MailBody += "<td bgcolor=\"dddddd\">&nbsp;&nbsp;&nbsp;";
+                        MailBody += stockWarnData.Rows[row][col].ToString();
+                        MailBody += "&nbsp;&nbsp;&nbsp;</td>";
+                    }
+                    MailBody += "</tr>";
+                }
+                MailBody += "</table>";
+                MailBody += "</div>";
             }
-            MailBody += "</table>";
-            MailBody += "</div>";
 
             //有效期告警数据
             DataTable expiryWarnData = new DataTable();
             SQLiteDataReader expiryWarnDataReader = SqlLiteHelper.GetInstance().ReadTable(INSTOCKTABLENAME, new string[] { "告警时间", "告警时间" }, new string[] { ">", "<=" }, new string[] { "0", DateTime.Now.ToString("yyyyMMdd") });
-            expiryWarnData.Load(expiryWarnDataReader);
-            MailBody += "<p style=\"font-size: 10pt\">有效期告警：</p>";
-            MailBody += "<table cellspacing=\"1\" cellpadding=\"3\" border=\"0\" bgcolor=\"000000\" style=\"font-size: 10pt;line-height: 15px;\">";
-            MailBody += "<div align=\"center\">";
-            MailBody += "<tr>";
-            for (int hcol = 0; hcol < expiryWarnData.Columns.Count; hcol++)
+            if (expiryWarnDataReader != null && expiryWarnDataReader.HasRows)
             {
-                MailBody += "<td bgcolor=\"999999\">&nbsp;&nbsp;&nbsp;";
-                MailBody += expiryWarnData.Columns[hcol].ColumnName;
-                MailBody += "&nbsp;&nbsp;&nbsp;</td>";
-            }
-            MailBody += "</tr>";
-
-            for (int row = 0; row < expiryWarnData.Rows.Count; row++)
-            {
+                expiryWarnData.Load(expiryWarnDataReader);
+                MailBody += "<p style=\"font-size: 10pt\">有效期告警：</p>";
+                MailBody += "<table cellspacing=\"1\" cellpadding=\"3\" border=\"0\" bgcolor=\"000000\" style=\"font-size: 10pt;line-height: 15px;\">";
+                MailBody += "<div align=\"center\">";
                 MailBody += "<tr>";
-                for (int col = 0; col < expiryWarnData.Columns.Count; col++)
+                for (int hcol = 0; hcol < expiryWarnData.Columns.Count; hcol++)
                 {
-                    MailBody += "<td bgcolor=\"dddddd\">&nbsp;&nbsp;&nbsp;";
-                    MailBody += expiryWarnData.Rows[row][col].ToString();
+                    MailBody += "<td bgcolor=\"999999\">&nbsp;&nbsp;&nbsp;";
+                    MailBody += expiryWarnData.Columns[hcol].ColumnName;
                     MailBody += "&nbsp;&nbsp;&nbsp;</td>";
                 }
                 MailBody += "</tr>";
+
+                for (int row = 0; row < expiryWarnData.Rows.Count; row++)
+                {
+                    MailBody += "<tr>";
+                    for (int col = 0; col < expiryWarnData.Columns.Count; col++)
+                    {
+                        MailBody += "<td bgcolor=\"dddddd\">&nbsp;&nbsp;&nbsp;";
+                        MailBody += expiryWarnData.Rows[row][col].ToString();
+                        MailBody += "&nbsp;&nbsp;&nbsp;</td>";
+                    }
+                    MailBody += "</tr>";
+                }
+                MailBody += "</table>";
+                MailBody += "</div>";
             }
-            MailBody += "</table>";
-            MailBody += "</div>";
             return MailBody;
         }
 

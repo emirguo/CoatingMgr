@@ -28,7 +28,7 @@ namespace CoatingMgr
             if (IsDBPathValid(Properties.Settings.Default.DBPath))
             {
                 Common.DBPath = Properties.Settings.Default.DBPath;
-            }        
+            }
         }
 
         private void BtnExit_Click(object sender, EventArgs e)
@@ -49,7 +49,7 @@ namespace CoatingMgr
                 SqlLiteHelper sqlLiteHelper = SqlLiteHelper.GetInstance();
                 string query = "select * from account where 账号=" + "'" + name + "'" + " and 密码=" + "'" + pwd + "'";
                 SQLiteDataReader dataReader = sqlLiteHelper.ExecuteQuery(query);
-                if (dataReader.HasRows && dataReader.Read())
+                if (dataReader != null && dataReader.HasRows && dataReader.Read())
                 {
                     userPermission = dataReader["权限"].ToString();
                     result = true;
@@ -62,7 +62,7 @@ namespace CoatingMgr
             return result;
         }
 
-        private void BtnLogin_Click(object sender, EventArgs e)
+        private void Login()
         {
             if (tbUserName.Text.Length == 0)
             {
@@ -86,7 +86,11 @@ namespace CoatingMgr
                 {
                     MessageBox.Show("账号或密码错误！");
                 }
-            } 
+            }
+        }
+        private void BtnLogin_Click(object sender, EventArgs e)
+        {
+            Login();
         }
 
         private void TslDBPath_Click(object sender, EventArgs e)
@@ -126,6 +130,14 @@ namespace CoatingMgr
             }
 
             return result;
+        }
+
+        private void TbPwd_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                Login();
+            }
         }
     }
 }

@@ -113,6 +113,7 @@
             this.cbShowHistogram.TabIndex = 55;
             this.cbShowHistogram.Text = "显示柱状图";
             this.cbShowHistogram.UseVisualStyleBackColor = true;
+            this.cbShowHistogram.Visible = false;
             this.cbShowHistogram.CheckedChanged += new System.EventHandler(this.CbShowHistogram_CheckedChanged);
             // 
             // btShowAll

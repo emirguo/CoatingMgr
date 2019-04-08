@@ -225,7 +225,7 @@ namespace CoatingMgr
             if (!cbModel.Text.Equals("") && !cbComponent.Text.Equals("") && !cbColor.Text.Equals("") && !cbCoating.Text.Equals("") && !tbInputWeight.Text.Equals("") && !tbTemperature.Text.Equals("") && !tbHumidity.Text.Equals(""))
             {
                 SQLiteDataReader dataReader = GetSqlLiteHelper().ReadTable(_tableName, new string[] { "适用机种", "適用製品", "色番", "涂层" }, new string[] { "=", "=", "=", "=", }, new string[] { cbModel.Text, cbComponent.Text, cbColor.Text, cbCoating.Text });
-                if (dataReader.HasRows)
+                if (dataReader != null && dataReader.HasRows)
                 {
                     isStirInfoConfirmed = false;
                     ClearStirText();
@@ -278,7 +278,12 @@ namespace CoatingMgr
             tbName2.Text = "";
             tbName3.Text = "";
             tbName4.Text = "";
-            
+
+            tbSetValue1.Text = "";
+            tbSetValue2.Text = "";
+            tbSetValue3.Text = "";
+            tbSetValue4.Text = "";
+
             tbMeasurementTime1.Text = null;
             tbMeasurementTime2.Text = null;
             tbMeasurementTime3.Text = null;
@@ -483,6 +488,7 @@ namespace CoatingMgr
             SaveStirLog(StirLogType.HardeningLog);
             SaveStirLog(StirLogType.ThinnerALog);
             SaveStirLog(StirLogType.ThinnerBLog);
+            ClearStirText();
         }
 
         /// <summary>
@@ -540,16 +546,28 @@ namespace CoatingMgr
             switch (logType)
             {
                 case StirLogType.CoatingLog:
-                    GetSqlLiteHelper().InsertValues(Common.STIRLOGTABLENAME, new string[] { cbModel.Text, cbComponent.Text, cbColor.Text, cbCoating.Text, tbTemperature.Text, tbHumidity.Text, tbRatio.Text, "涂料", tbName1.Text, tbBarCode1.Text, tbSetValue1.Text, tbMeasurementValue1.Text, tbMeasurementTime1.Text, _userName, DateTime.Now.ToString("yyyyMMdd"), DateTime.Now.ToString("HH:mm:ss"), _managerName, " " });
+                    if (!tbName1.Text.Equals("") && !tbBarCode1.Text.Equals("") && !tbSetValue1.Text.Equals("") && !tbMeasurementValue1.Text.Equals("") && !tbMeasurementTime1.Text.Equals(""))
+                    {
+                        GetSqlLiteHelper().InsertValues(Common.STIRLOGTABLENAME, new string[] { cbModel.Text, cbComponent.Text, cbColor.Text, cbCoating.Text, tbTemperature.Text, tbHumidity.Text, tbRatio.Text, "涂料", tbName1.Text, tbBarCode1.Text, tbSetValue1.Text, tbMeasurementValue1.Text, tbMeasurementTime1.Text, _userName, DateTime.Now.ToString("yyyyMMdd"), DateTime.Now.ToString("HH:mm:ss"), _managerName, " " });
+                    }
                     break;
                 case StirLogType.HardeningLog:
-                    GetSqlLiteHelper().InsertValues(Common.STIRLOGTABLENAME, new string[] { cbModel.Text, cbComponent.Text, cbColor.Text, cbCoating.Text, tbTemperature.Text, tbHumidity.Text, tbRatio.Text, "固化剂", tbName2.Text, tbBarCode2.Text, tbSetValue2.Text, tbMeasurementValue2.Text, tbMeasurementTime2.Text, _userName, DateTime.Now.ToString("yyyyMMdd"), DateTime.Now.ToString("HH:mm:ss"), _managerName, " " });
+                    if (!tbName2.Text.Equals("") && !tbBarCode2.Text.Equals("") && !tbSetValue2.Text.Equals("") && !tbMeasurementValue2.Text.Equals("") && !tbMeasurementTime2.Text.Equals(""))
+                    {
+                        GetSqlLiteHelper().InsertValues(Common.STIRLOGTABLENAME, new string[] { cbModel.Text, cbComponent.Text, cbColor.Text, cbCoating.Text, tbTemperature.Text, tbHumidity.Text, tbRatio.Text, "固化剂", tbName2.Text, tbBarCode2.Text, tbSetValue2.Text, tbMeasurementValue2.Text, tbMeasurementTime2.Text, _userName, DateTime.Now.ToString("yyyyMMdd"), DateTime.Now.ToString("HH:mm:ss"), _managerName, " " });
+                    }
                     break;
                 case StirLogType.ThinnerALog:
-                    GetSqlLiteHelper().InsertValues(Common.STIRLOGTABLENAME, new string[] { cbModel.Text, cbComponent.Text, cbColor.Text, cbCoating.Text, tbTemperature.Text, tbHumidity.Text, tbRatio.Text, "稀释剂A", tbName3.Text, tbBarCode3.Text, tbSetValue3.Text, tbMeasurementValue3.Text, tbMeasurementTime3.Text, _userName, DateTime.Now.ToString("yyyyMMdd"), DateTime.Now.ToString("HH:mm:ss"), _managerName, " " });
+                    if (!tbName3.Text.Equals("") && !tbBarCode3.Text.Equals("") && !tbSetValue3.Text.Equals("") && !tbMeasurementValue3.Text.Equals("") && !tbMeasurementTime3.Text.Equals(""))
+                    {
+                        GetSqlLiteHelper().InsertValues(Common.STIRLOGTABLENAME, new string[] { cbModel.Text, cbComponent.Text, cbColor.Text, cbCoating.Text, tbTemperature.Text, tbHumidity.Text, tbRatio.Text, "稀释剂A", tbName3.Text, tbBarCode3.Text, tbSetValue3.Text, tbMeasurementValue3.Text, tbMeasurementTime3.Text, _userName, DateTime.Now.ToString("yyyyMMdd"), DateTime.Now.ToString("HH:mm:ss"), _managerName, " " });
+                    }
                     break;
                 case StirLogType.ThinnerBLog:
-                    GetSqlLiteHelper().InsertValues(Common.STIRLOGTABLENAME, new string[] { cbModel.Text, cbComponent.Text, cbColor.Text, cbCoating.Text, tbTemperature.Text, tbHumidity.Text, tbRatio.Text, "稀释剂B", tbName4.Text, tbBarCode4.Text, tbSetValue4.Text, tbMeasurementValue4.Text, tbMeasurementTime4.Text, _userName, DateTime.Now.ToString("yyyyMMdd"), DateTime.Now.ToString("HH:mm:ss"), _managerName, " " });
+                    if (!tbName4.Text.Equals("") && !tbBarCode4.Text.Equals("") && !tbSetValue4.Text.Equals("") && !tbMeasurementValue4.Text.Equals("") && !tbMeasurementTime4.Text.Equals(""))
+                    {
+                        GetSqlLiteHelper().InsertValues(Common.STIRLOGTABLENAME, new string[] { cbModel.Text, cbComponent.Text, cbColor.Text, cbCoating.Text, tbTemperature.Text, tbHumidity.Text, tbRatio.Text, "稀释剂B", tbName4.Text, tbBarCode4.Text, tbSetValue4.Text, tbMeasurementValue4.Text, tbMeasurementTime4.Text, _userName, DateTime.Now.ToString("yyyyMMdd"), DateTime.Now.ToString("HH:mm:ss"), _managerName, " " });
+                    }
                     break;
                 default:
                     break;
@@ -578,6 +596,45 @@ namespace CoatingMgr
             }
             this.timer.Start();
             btnPause.Text = "暂停";
+        }
+
+        private bool IsBarCodeFromStock(string barcode)
+        {
+            bool result = false;
+            bool hadInStock = false;
+            bool hadOutStock = false;
+            SQLiteDataReader dataReader = GetSqlLiteHelper().ReadTable(Common.STOCKLOGTABLENAME, new string[] { "条形码" }, new string[] { "=" }, new string[] { barcode });
+            if (dataReader != null && dataReader.HasRows)
+            {
+                while (dataReader.Read())
+                {
+                    if (dataReader["操作类型"].ToString().Equals("入库"))
+                    {
+                        hadInStock = true;
+                    }
+                    else if (dataReader["操作类型"].ToString().Equals("出库"))
+                    {
+                        hadOutStock = true;
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("此条形码涂料还未入库，请先入库");
+            }
+            if (hadInStock && hadOutStock)
+            {
+                result = true;
+            }
+            else if (!hadInStock)
+            {
+                MessageBox.Show("此条形码涂料还未入库，请先入库");
+            }
+            else if (!hadOutStock)
+            {
+                MessageBox.Show("此条形码涂料还未出库，请先出库");
+            }
+            return result;
         }
 
         /// <summary>
@@ -630,6 +687,10 @@ namespace CoatingMgr
                 ShowConfirmWindow();
                 return;
             }
+            if (!IsBarCodeFromStock(tbBarCode1.Text.ToString()))
+            {
+                return;
+            }
             if (IsBarCodeValid(tbBarCode1.Text.ToString(), tbName1.Text))//条形码正确
             {
                 CurrStatus = Status.CoatingStart;
@@ -650,6 +711,10 @@ namespace CoatingMgr
             {
                 tbBarCode2.Text = "";
                 ShowConfirmWindow();
+                return;
+            }
+            if (!IsBarCodeFromStock(tbBarCode2.Text.ToString()))
+            {
                 return;
             }
             if (IsBarCodeValid(tbBarCode2.Text.ToString(), tbName2.Text))//条形码正确
@@ -674,6 +739,10 @@ namespace CoatingMgr
                 ShowConfirmWindow();
                 return;
             }
+            if (!IsBarCodeFromStock(tbBarCode3.Text.ToString()))
+            {
+                return;
+            }
             if (IsBarCodeValid(tbBarCode3.Text.ToString(), tbName3.Text))//条形码正确
             {
                 CurrStatus = Status.ThinnerAStart;
@@ -694,6 +763,10 @@ namespace CoatingMgr
             {
                 tbBarCode4.Text = "";
                 ShowConfirmWindow();
+                return;
+            }
+            if (!IsBarCodeFromStock(tbBarCode4.Text.ToString()))
+            {
                 return;
             }
             if (IsBarCodeValid(tbBarCode4.Text.ToString(), tbName4.Text))//条形码正确

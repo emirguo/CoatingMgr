@@ -60,7 +60,7 @@ namespace CoatingMgr
         {
             dataGirdView.Rows.Clear();
             SQLiteDataReader dataReader = GetSqlLiteHelper().ReadFullTable(table);
-            if (dataReader.HasRows)
+            if (dataReader != null && dataReader.HasRows)
             {
                 BindingSource bs = new BindingSource
                 {
@@ -79,7 +79,7 @@ namespace CoatingMgr
         private void BindDataGirdViewBySearch(DataGridView dataGirdView, string table, string type, string content)
         {
             SQLiteDataReader dataReader = GetSqlLiteHelper().ReadTable(table, new string[] { type }, new string[] { "=" }, new string[] { content });
-            if (dataReader.HasRows)
+            if (dataReader != null && dataReader.HasRows)
             {
                 BindingSource bs = new BindingSource
                 {

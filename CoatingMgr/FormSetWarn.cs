@@ -178,7 +178,7 @@ namespace CoatingMgr
 
             //保存告警规则到告警规则表
             SQLiteDataReader dataReader = GetSqlLiteHelper().ReadTable(_tableName, new string[] { "仓库", "名称", "颜色", "类型" }, new string[] { "=", "=", "=", "=" }, new string[] { cbStock.Text, cbProduct.Text, cbColor.Text, cbType.Text });
-            if (dataReader.HasRows && dataReader.Read())//告警规则已经存在
+            if (dataReader != null && dataReader.HasRows && dataReader.Read())//告警规则已经存在
             {
                 string id = dataReader["id"].ToString();
                 GetSqlLiteHelper().UpdateValues(_tableName, Common.WARNMANAGERTABLECOLUMNS, new string[] { id, cbStock.Text, cbProduct.Text, cbColor.Text, cbType.Text, tbMaximum.Text, tbMinimum.Text, cbWarnTime.Text, _userName, DateTime.Now.ToString() }, "id", id);
