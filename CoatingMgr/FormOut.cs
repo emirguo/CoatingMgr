@@ -102,6 +102,7 @@ namespace CoatingMgr
                 int count = this.dgvStockData.RowCount;
                 this.dgvStockData.CurrentCell = this.dgvStockData[1, (count > 1) ? (count - 1) : 0];
                 lbCount.Text = count + "";
+                SaveRowToDB(dgvStockData.CurrentRow);
             }
             else
             {
@@ -194,6 +195,48 @@ namespace CoatingMgr
                 Thread t = new Thread(new ThreadStart(SaveDataToDB));//起线程保存数据
                 t.Start();
             }
+        }
+
+        private void SaveRowToDB(DataGridViewRow dataRow)
+        {
+            string barcode = dataRow.Cells[1].Value.ToString();
+            string name = dataRow.Cells[2].Value.ToString();
+            string color = dataRow.Cells[3].Value.ToString();
+            string type = dataRow.Cells[4].Value.ToString();
+            string weight = dataRow.Cells[5].Value.ToString();
+            string model = dataRow.Cells[6].Value.ToString();
+            string stock = dataRow.Cells[7].Value.ToString();
+            //从库存数量中减去出库
+            SQLiteDataReader dataReader = GetSqlLiteHelper().ReadTable(Common.STOCKCOUNTTABLENAME, new string[] { "类型", "名称", "颜色", "适用机型" }, new string[] { "=", "=", "=", "=" }, new string[] { type, name, color, model });
+            if (dataReader != null && dataReader.HasRows && dataReader.Read())//色剂已经存在
+            {
+                double inStockWeight = Convert.ToSingle(Common.FilterChar(dataReader["重量"].ToString()));
+                double inputWeight = Convert.ToSingle(Common.FilterChar(weight));
+                inStockWeight -= inputWeight;
+                if (inStockWeight < 0.000001)//总量 < 0，删除
+                {
+                    GetSqlLiteHelper().DeleteValuesAND(Common.STOCKCOUNTTABLENAME, new string[] { "类型", "名称", "颜色", "适用机型" }, new string[] { type, name, color, model }, new string[] { "=", "=", "=", "=" });
+                }
+                else
+                {
+                    GetSqlLiteHelper().UpdateValues(Common.STOCKCOUNTTABLENAME, new string[] { "重量" }, new string[] { inStockWeight.ToString() }, "id", dataReader["id"].ToString());
+                }
+            }
+            else
+            {
+                MessageBox.Show("色剂" + name + "不在库存中");
+            }
+
+            //从在库表中删除
+            GetSqlLiteHelper().DeleteValuesAND(Common.INSTOCKTABLENAME, new string[] { "条形码" }, new string[] { barcode }, new string[] { "=" });
+
+            //存入日志 
+            List<string> values = new List<string>();
+            for (int i = 1; i < dataRow.Cells.Count; i++)
+            {
+                values.Add(dataRow.Cells[i].Value.ToString());
+            }
+            GetSqlLiteHelper().InsertValues(Common.STOCKLOGTABLENAME, values);
         }
 
         private void SaveDataToDB()

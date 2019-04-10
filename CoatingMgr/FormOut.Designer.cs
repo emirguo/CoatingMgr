@@ -34,7 +34,6 @@
             this.panel5 = new System.Windows.Forms.Panel();
             this.lbCount = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
-            this.btnOk = new System.Windows.Forms.Button();
             this.lbUser = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.lbTime = new System.Windows.Forms.Label();
@@ -108,7 +107,6 @@
             this.panel5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.panel5.Controls.Add(this.lbCount);
             this.panel5.Controls.Add(this.label11);
-            this.panel5.Controls.Add(this.btnOk);
             this.panel5.Location = new System.Drawing.Point(677, 456);
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(263, 35);
@@ -119,7 +117,7 @@
             this.lbCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lbCount.AutoSize = true;
             this.lbCount.Font = new System.Drawing.Font("宋体", 12F);
-            this.lbCount.Location = new System.Drawing.Point(94, 9);
+            this.lbCount.Location = new System.Drawing.Point(210, 9);
             this.lbCount.Name = "lbCount";
             this.lbCount.Size = new System.Drawing.Size(16, 16);
             this.lbCount.TabIndex = 33;
@@ -130,23 +128,11 @@
             this.label11.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("宋体", 12F);
-            this.label11.Location = new System.Drawing.Point(18, 9);
+            this.label11.Location = new System.Drawing.Point(134, 9);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(88, 16);
             this.label11.TabIndex = 30;
             this.label11.Text = "合计数量：";
-            // 
-            // btnOk
-            // 
-            this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOk.Font = new System.Drawing.Font("宋体", 12F);
-            this.btnOk.Location = new System.Drawing.Point(177, 3);
-            this.btnOk.Name = "btnOk";
-            this.btnOk.Size = new System.Drawing.Size(83, 29);
-            this.btnOk.TabIndex = 29;
-            this.btnOk.Text = "确认出库";
-            this.btnOk.UseVisualStyleBackColor = true;
-            this.btnOk.Click += new System.EventHandler(this.BtnOk_Click);
             // 
             // lbUser
             // 
@@ -231,7 +217,7 @@
             // TSMIDelete
             // 
             this.TSMIDelete.Name = "TSMIDelete";
-            this.TSMIDelete.Size = new System.Drawing.Size(180, 22);
+            this.TSMIDelete.Size = new System.Drawing.Size(100, 22);
             this.TSMIDelete.Text = "删除";
             this.TSMIDelete.Click += new System.EventHandler(this.TSMIDelete_Click);
             // 
@@ -478,7 +464,6 @@
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Label lbCount;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Button btnOk;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem TSMIDelete;
         private System.Windows.Forms.Panel panel4;

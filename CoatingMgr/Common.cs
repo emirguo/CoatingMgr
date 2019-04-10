@@ -125,7 +125,7 @@ namespace CoatingMgr
             get { return _masterTableName; }
         }
 
-        public static readonly Dictionary<string, string> COATINGTYPE = new Dictionary<string, string> { { "A", "涂料" }, { "B", "固化剂" }, { "C", "C稀释剂" }, { "D", "清洗剂" } };
+        public static readonly Dictionary<string, string> COATINGTYPE = new Dictionary<string, string> { { "A", "涂料" }, { "B", "固化剂" }, { "C", "稀释剂" }, { "D", "清洗剂" } };
 
         public static readonly string[] WARNDATETYPE = { "有效期前1天", "有效期前1周", "有效期前15天", "有效期前30天", "有效期前100天" };
         public static readonly Dictionary<string, string> WARNDATE = new Dictionary<string, string> { { "有效期前1天", "-1" }, { "有效期前1周", "-7" }, { "有效期前15天", "-15" }, { "有效期前30天", "-30" }, { "有效期前100天", "-100" } };
