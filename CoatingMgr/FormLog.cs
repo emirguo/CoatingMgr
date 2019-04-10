@@ -21,11 +21,11 @@ namespace CoatingMgr
         private static SqlLiteHelper sqlLiteHelper = null;
         private string _tableName = Common.STOCKLOGTABLENAME;
 
-        private static string[] _cbStockSearchType = { "按仓库查找", "按名称查找", "按颜色查找", "按类型查找", "按适用机型查找", "按生产日期查找", "按有效期查找", "按操作员查找", "按操作日期查找", "按操作类型查找" };
-        private static string[] _stockSearchType = { "仓库", "名称", "颜色", "类型", "适用机型", "生产日期", "有效期", "操作员", "操作日期", "操作类型" };
+        private static string[] _cbStockSearchType = { "按仓库查找", "按名称查找", "按颜色查找", "按类型查找", "按适用机型查找", "按生产日期查找", "按有效期查找", "按操作员查找", "按操作类型查找" };
+        private static string[] _stockSearchType = { "仓库", "名称", "颜色", "类型", "适用机型", "生产日期", "有效期", "操作员", "操作类型" };
 
-        private static string[] _cbStirSearchType = { "按机种查找", "按製品查找", "按色番查找", "按涂层查找", "按调和比例查找", "按类型查找", "按名称查找", "按操作员查找", "按操作日期查找", "按确认主管查找" };
-        private static string[] _stirSearchType = { "机种", "製品", "色番", "涂层", "调和比例", "类型", "名称", "操作员", "操作日期", "确认主管", };
+        private static string[] _cbStirSearchType = { "按机种查找", "按製品查找", "按色番查找", "按涂层查找", "按调和比例查找", "按类型查找", "按名称查找", "按操作员查找", "按确认主管查找" };
+        private static string[] _stirSearchType = { "机种", "製品", "色番", "涂层", "调和比例", "类型", "名称", "操作员", "确认主管", };
 
         public FormLog()
         {
@@ -35,6 +35,12 @@ namespace CoatingMgr
         public void InitData(string tableName)
         {
             _tableName = tableName;
+
+            this.dateTimePickerStart.Format = DateTimePickerFormat.Custom;
+            this.dateTimePickerStart.CustomFormat = " ";//必须为空格，为空时显示当前时间
+            this.dateTimePickerEnd.Format = DateTimePickerFormat.Custom;
+            this.dateTimePickerEnd.CustomFormat = " ";
+
             cbSearchType.Items.Clear();
             cbSearchContent.Items.Clear();
 
@@ -87,9 +93,39 @@ namespace CoatingMgr
             lbCount.Text = dataGirdView.RowCount + "";
         }
 
-        private void BindDataGirdViewBySearch(DataGridView dataGirdView, string table, string type, string content)
+        private void BindDataGirdViewBySearch(DataGridView dataGirdView, string table)
         {
-            SQLiteDataReader dataReader = GetSqlLiteHelper().ReadTable(table, new string[] { type }, new string[] { "=" }, new string[] { content });
+            string type = "";
+            if (cbSearchType.SelectedIndex >= 0 && cbSearchContent.SelectedIndex >= 0)
+            {
+                if (Common.STOCKLOGTABLENAME.Equals(_tableName))
+                {
+                    type = _stockSearchType[cbSearchType.SelectedIndex];
+                }
+                else
+                {
+                    type = _stirSearchType[cbSearchType.SelectedIndex];
+                }
+            }
+            string startDate = dateTimePickerStart.CustomFormat.Equals(" ") ? " " : dateTimePickerStart.Value.ToString("yyyyMMdd");
+            string endDate = dateTimePickerEnd.CustomFormat.Equals(" ") ? " " : dateTimePickerEnd.Value.ToString("yyyyMMdd");
+            SQLiteDataReader dataReader = null;
+            if (!type.Equals("") && !startDate.Equals(" ") && !endDate.Equals(" "))
+            {
+                dataReader = GetSqlLiteHelper().ReadTable(table, new string[] { type, "操作日期", "操作日期" }, new string[] { "=", ">=", "<=" }, new string[] { cbSearchContent.SelectedItem.ToString(), startDate, endDate });
+            }
+            else if (type.Equals("") && !startDate.Equals(" ") && !endDate.Equals(" "))
+            {
+                dataReader = GetSqlLiteHelper().ReadTable(table, new string[] { "操作日期", "操作日期" }, new string[] { ">=", "<=" }, new string[] { startDate, endDate });
+            }
+            else if (!type.Equals("") && startDate.Equals(" ") && endDate.Equals(" "))
+            {
+                dataReader = GetSqlLiteHelper().ReadTable(table, new string[] { type }, new string[] { "=" }, new string[] { cbSearchContent.SelectedItem.ToString() });
+            }
+            else
+            {
+                return;
+            }
             if (dataReader != null && dataReader.HasRows)
             {
                 BindingSource bs = new BindingSource
@@ -148,8 +184,40 @@ namespace CoatingMgr
 
         private void BtnExport_Click(object sender, EventArgs e)
         {
+            string type = "";
+            if (cbSearchType.SelectedIndex >= 0 && cbSearchContent.SelectedIndex >= 0)
+            {
+                if (Common.STOCKLOGTABLENAME.Equals(_tableName))
+                {
+                    type = _stockSearchType[cbSearchType.SelectedIndex];
+                }
+                else
+                {
+                    type = _stirSearchType[cbSearchType.SelectedIndex];
+                }
+            }
+            string startDate = dateTimePickerStart.CustomFormat.Equals(" ") ? " " : dateTimePickerStart.Value.ToString("yyyyMMdd");
+            string endDate = dateTimePickerEnd.CustomFormat.Equals(" ") ? " " : dateTimePickerEnd.Value.ToString("yyyyMMdd");
+            SQLiteDataReader dataReader = null;
+            if (!type.Equals("") && !startDate.Equals(" ") && !endDate.Equals(" "))
+            {
+                dataReader = GetSqlLiteHelper().ReadTable(_tableName, new string[] { type, "操作日期", "操作日期" }, new string[] { "=", ">=", "<=" }, new string[] { cbSearchContent.SelectedItem.ToString(), startDate, endDate });
+            }
+            else if (type.Equals("") && !startDate.Equals(" ") && !endDate.Equals(" "))
+            {
+                dataReader = GetSqlLiteHelper().ReadTable(_tableName, new string[] { "操作日期", "操作日期" }, new string[] { ">=", "<=" }, new string[] { startDate, endDate });
+            }
+            else if (!type.Equals("") && startDate.Equals(" ") && endDate.Equals(" "))
+            {
+                dataReader = GetSqlLiteHelper().ReadTable(_tableName, new string[] { type }, new string[] { "=" }, new string[] { cbSearchContent.SelectedItem.ToString() });
+            }
+            else
+            {
+                dataReader = GetSqlLiteHelper().ReadFullTable(_tableName);
+            }
+
             DataTable dt = new DataTable();
-            dt.Load(GetSqlLiteHelper().ReadFullTable(_tableName));
+            dt.Load(dataReader);
             ExcelHelper.ExportExcel(dt);
         }
 
@@ -180,17 +248,7 @@ namespace CoatingMgr
         {
             if (cbSearchType.SelectedIndex >= 0 && cbSearchContent.SelectedIndex >= 0)
             {
-                string searchType = "";
-                if (Common.STOCKLOGTABLENAME.Equals(_tableName))
-                {
-                    searchType = _stockSearchType[cbSearchType.SelectedIndex];
-                }
-                else
-                {
-                    searchType = _stirSearchType[cbSearchType.SelectedIndex];
-                }
-
-                BindDataGirdViewBySearch(dgvLogData, _tableName, searchType, cbSearchContent.SelectedItem.ToString());
+                BindDataGirdViewBySearch(dgvLogData, _tableName);
             }
         }
 
@@ -202,7 +260,25 @@ namespace CoatingMgr
             cbSearchContent.SelectedIndex = -1;
             cbSearchContent.Text = "选择过滤内容";
             cbSearchContent.Items.Clear();
+            dateTimePickerStart.CustomFormat = " ";
+            dateTimePickerEnd.CustomFormat = " ";
             BindDataGirdView(dgvLogData, _tableName);
+        }
+
+        private void DateTimePickerStart_ValueChanged(object sender, EventArgs e)
+        {
+            dateTimePickerStart.CustomFormat = "yyyyMMdd";
+        }
+
+        private void DateTimePickerEnd_ValueChanged(object sender, EventArgs e)
+        {
+            if (dateTimePickerStart.Value.Equals(" "))
+            {
+                MessageBox.Show("请先设置开始时间");
+                return;
+            }
+            dateTimePickerEnd.CustomFormat = "yyyyMMdd";
+            BindDataGirdViewBySearch(dgvLogData, _tableName);
         }
     }
 }

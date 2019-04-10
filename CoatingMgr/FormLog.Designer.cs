@@ -30,6 +30,10 @@
         {
             this.dgvLogData = new System.Windows.Forms.DataGridView();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.dateTimePickerEnd = new System.Windows.Forms.DateTimePicker();
+            this.dateTimePickerStart = new System.Windows.Forms.DateTimePicker();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.cbSearchContent = new System.Windows.Forms.ComboBox();
             this.btShowAll = new System.Windows.Forms.Button();
             this.cbSearchType = new System.Windows.Forms.ComboBox();
@@ -62,6 +66,10 @@
             // 
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.Controls.Add(this.dateTimePickerEnd);
+            this.panel1.Controls.Add(this.dateTimePickerStart);
+            this.panel1.Controls.Add(this.label2);
+            this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.cbSearchContent);
             this.panel1.Controls.Add(this.btShowAll);
             this.panel1.Controls.Add(this.cbSearchType);
@@ -71,11 +79,57 @@
             this.panel1.Size = new System.Drawing.Size(983, 36);
             this.panel1.TabIndex = 2;
             // 
+            // dateTimePickerEnd
+            // 
+            this.dateTimePickerEnd.Font = new System.Drawing.Font("宋体", 12F);
+            this.dateTimePickerEnd.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dateTimePickerEnd.Location = new System.Drawing.Point(573, 6);
+            this.dateTimePickerEnd.MaxDate = new System.DateTime(2099, 12, 31, 0, 0, 0, 0);
+            this.dateTimePickerEnd.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
+            this.dateTimePickerEnd.Name = "dateTimePickerEnd";
+            this.dateTimePickerEnd.Size = new System.Drawing.Size(120, 26);
+            this.dateTimePickerEnd.TabIndex = 65;
+            this.dateTimePickerEnd.Value = new System.DateTime(2019, 4, 10, 23, 20, 15, 0);
+            this.dateTimePickerEnd.ValueChanged += new System.EventHandler(this.DateTimePickerEnd_ValueChanged);
+            // 
+            // dateTimePickerStart
+            // 
+            this.dateTimePickerStart.Font = new System.Drawing.Font("宋体", 12F);
+            this.dateTimePickerStart.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dateTimePickerStart.Location = new System.Drawing.Point(422, 6);
+            this.dateTimePickerStart.MaxDate = new System.DateTime(2099, 12, 31, 0, 0, 0, 0);
+            this.dateTimePickerStart.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
+            this.dateTimePickerStart.Name = "dateTimePickerStart";
+            this.dateTimePickerStart.Size = new System.Drawing.Size(120, 26);
+            this.dateTimePickerStart.TabIndex = 64;
+            this.dateTimePickerStart.Value = new System.DateTime(2019, 4, 10, 23, 17, 23, 0);
+            this.dateTimePickerStart.ValueChanged += new System.EventHandler(this.DateTimePickerStart_ValueChanged);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("宋体", 12F);
+            this.label2.Location = new System.Drawing.Point(548, 10);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(24, 16);
+            this.label2.TabIndex = 62;
+            this.label2.Text = "至";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("宋体", 12F);
+            this.label1.Location = new System.Drawing.Point(345, 10);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(88, 16);
+            this.label1.TabIndex = 60;
+            this.label1.Text = "操作时间：";
+            // 
             // cbSearchContent
             // 
             this.cbSearchContent.Font = new System.Drawing.Font("宋体", 12F);
             this.cbSearchContent.FormattingEnabled = true;
-            this.cbSearchContent.Location = new System.Drawing.Point(181, 8);
+            this.cbSearchContent.Location = new System.Drawing.Point(181, 6);
             this.cbSearchContent.Name = "cbSearchContent";
             this.cbSearchContent.Size = new System.Drawing.Size(158, 24);
             this.cbSearchContent.TabIndex = 59;
@@ -85,9 +139,9 @@
             // btShowAll
             // 
             this.btShowAll.Font = new System.Drawing.Font("宋体", 12F);
-            this.btShowAll.Location = new System.Drawing.Point(358, 6);
+            this.btShowAll.Location = new System.Drawing.Point(703, 6);
             this.btShowAll.Name = "btShowAll";
-            this.btShowAll.Size = new System.Drawing.Size(122, 27);
+            this.btShowAll.Size = new System.Drawing.Size(122, 26);
             this.btShowAll.TabIndex = 58;
             this.btShowAll.Text = "显示全部日志";
             this.btShowAll.UseVisualStyleBackColor = true;
@@ -97,7 +151,7 @@
             // 
             this.cbSearchType.Font = new System.Drawing.Font("宋体", 12F);
             this.cbSearchType.FormattingEnabled = true;
-            this.cbSearchType.Location = new System.Drawing.Point(5, 7);
+            this.cbSearchType.Location = new System.Drawing.Point(5, 6);
             this.cbSearchType.Name = "cbSearchType";
             this.cbSearchType.Size = new System.Drawing.Size(170, 24);
             this.cbSearchType.TabIndex = 57;
@@ -108,9 +162,9 @@
             // 
             this.btnExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnExport.Font = new System.Drawing.Font("宋体", 12F);
-            this.btnExport.Location = new System.Drawing.Point(839, 5);
+            this.btnExport.Location = new System.Drawing.Point(857, 6);
             this.btnExport.Name = "btnExport";
-            this.btnExport.Size = new System.Drawing.Size(133, 26);
+            this.btnExport.Size = new System.Drawing.Size(121, 26);
             this.btnExport.TabIndex = 5;
             this.btnExport.Text = "导出Excel表格";
             this.btnExport.UseVisualStyleBackColor = true;
@@ -176,6 +230,7 @@
             this.Load += new System.EventHandler(this.FormLog_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvLogData)).EndInit();
             this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
@@ -196,5 +251,9 @@
         private System.Windows.Forms.ComboBox cbSearchContent;
         private System.Windows.Forms.Button btShowAll;
         private System.Windows.Forms.ComboBox cbSearchType;
+        private System.Windows.Forms.DateTimePicker dateTimePickerEnd;
+        private System.Windows.Forms.DateTimePicker dateTimePickerStart;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
     }
 }
