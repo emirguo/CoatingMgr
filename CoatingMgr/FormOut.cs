@@ -137,7 +137,7 @@ namespace CoatingMgr
             return result;
         }
 
-        //涂料名*种类*厂家*重量*批次号*连番*使用期限,例如：R-241(KAI) YR-614P(TAP)*A*G1000*18*20190219*0001*20190818
+        //涂料名*种类*厂家*重量*批次号*连番*使用期限,例如：R-255 HARDENER  (TAP)*A*G1000*18*20190219*0001*20190818
         private bool AnalysisBarCode(string barcode)
         {
             bool result = false;
@@ -308,11 +308,51 @@ namespace CoatingMgr
         {
             if (dgvStockData.SelectedCells.Count > 0)
             {
-                foreach (DataGridViewRow row in dgvStockData.SelectedRows)
+                foreach (DataGridViewRow dataRow in dgvStockData.SelectedRows)
                 {
-                    if (!row.IsNewRow)
+                    if (!dataRow.IsNewRow)
                     {
-                        dgvStockData.Rows.Remove(row);
+                        string barCode = dataRow.Cells[1].Value.ToString();
+                        string name = dataRow.Cells[2].Value.ToString();
+                        string color = dataRow.Cells[3].Value.ToString();
+                        string type = dataRow.Cells[4].Value.ToString();
+                        string weight = dataRow.Cells[5].Value.ToString();
+                        string model = dataRow.Cells[6].Value.ToString();
+                        string stock = dataRow.Cells[7].Value.ToString();
+                        string tip = dataRow.Cells[15].Value.ToString();
+
+                        //从库存数量中还原已出库数据
+                        SQLiteDataReader dataReader = GetSqlLiteHelper().ReadTable(Common.STOCKCOUNTTABLENAME, new string[] { "类型", "名称", "颜色", "适用机型" }, new string[] { "=", "=", "=", "=" }, new string[] { type, name, color, model });
+                        if (dataReader != null && dataReader.HasRows && dataReader.Read())//色剂已经存在
+                        {
+                            double inStockWeight = Convert.ToSingle(Common.FilterChar(dataReader["重量"].ToString()));
+                            double inputWeight = Convert.ToSingle(Common.FilterChar(weight));
+                            inStockWeight += inputWeight;
+                            GetSqlLiteHelper().UpdateValues(Common.STOCKCOUNTTABLENAME, new string[] { "重量" }, new string[] { inStockWeight.ToString() }, "id", dataReader["id"].ToString());
+                        }
+                        else
+                        {
+                            GetSqlLiteHelper().InsertValues(Common.STOCKCOUNTTABLENAME, new string[] { type, name, color, model, stock, weight, "", "", "", tip });
+                        }
+                        
+                        List<string> values = new List<string>();
+                        for (int i = 1; i < dataRow.Cells.Count; i++)
+                        {
+                            values.Add(dataRow.Cells[i].Value.ToString());
+                        }
+                        int index = values.LastIndexOf("出库");
+                        values.RemoveAt(index);
+                        values.Insert(index, "入库");
+                        //添加到入库表中
+                        GetSqlLiteHelper().InsertValues(Common.INSTOCKTABLENAME, values);
+                        //存入日志
+                        values.RemoveAt(index);
+                        values.Insert(index, "删除");
+                        values.RemoveAt(14);
+                        values.Insert(14, "出库后删除出库");
+                        GetSqlLiteHelper().InsertValues(Common.STOCKLOGTABLENAME, values);
+
+                        dgvStockData.Rows.Remove(dataRow);
                     }
                 }
                 lbCount.Text = dgvStockData.Rows.Count + "";
