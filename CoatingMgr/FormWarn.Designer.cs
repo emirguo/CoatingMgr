@@ -36,13 +36,14 @@
             this.dgvWarnMgr = new System.Windows.Forms.DataGridView();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.btAdd = new System.Windows.Forms.Button();
             this.btShowAll = new System.Windows.Forms.Button();
             this.cbSearchContent = new System.Windows.Forms.ComboBox();
             this.cbSearchType = new System.Windows.Forms.ComboBox();
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.TSMIModify = new System.Windows.Forms.ToolStripMenuItem();
             this.TSMIDelete = new System.Windows.Forms.ToolStripMenuItem();
-            this.btAdd = new System.Windows.Forms.Button();
+            this.label14 = new System.Windows.Forms.Label();
             this.panel2.SuspendLayout();
             this.panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvWarnMgr)).BeginInit();
@@ -57,9 +58,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel2.Controls.Add(this.panel5);
             this.panel2.Controls.Add(this.dgvWarnMgr);
-            this.panel2.Location = new System.Drawing.Point(0, 39);
+            this.panel2.Location = new System.Drawing.Point(0, 84);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(979, 422);
+            this.panel2.Size = new System.Drawing.Size(1180, 472);
             this.panel2.TabIndex = 35;
             // 
             // panel5
@@ -67,7 +68,7 @@
             this.panel5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.panel5.Controls.Add(this.lbCount);
             this.panel5.Controls.Add(this.label5);
-            this.panel5.Location = new System.Drawing.Point(3, 391);
+            this.panel5.Location = new System.Drawing.Point(204, 441);
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(972, 28);
             this.panel5.TabIndex = 30;
@@ -102,11 +103,11 @@
             this.dgvWarnMgr.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvWarnMgr.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgvWarnMgr.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvWarnMgr.Location = new System.Drawing.Point(3, 3);
+            this.dgvWarnMgr.Location = new System.Drawing.Point(2, 0);
             this.dgvWarnMgr.Name = "dgvWarnMgr";
             this.dgvWarnMgr.RowTemplate.Height = 23;
             this.dgvWarnMgr.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvWarnMgr.Size = new System.Drawing.Size(972, 388);
+            this.dgvWarnMgr.Size = new System.Drawing.Size(1179, 438);
             this.dgvWarnMgr.TabIndex = 29;
             this.dgvWarnMgr.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DgvWarnMgr_CellMouseUp);
             // 
@@ -114,19 +115,33 @@
             // 
             this.panel4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel4.Controls.Add(this.label14);
             this.panel4.Controls.Add(this.btAdd);
             this.panel4.Controls.Add(this.btShowAll);
             this.panel4.Controls.Add(this.cbSearchContent);
             this.panel4.Controls.Add(this.cbSearchType);
             this.panel4.Location = new System.Drawing.Point(0, 0);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(983, 36);
+            this.panel4.Size = new System.Drawing.Size(1183, 80);
             this.panel4.TabIndex = 39;
+            this.panel4.Paint += new System.Windows.Forms.PaintEventHandler(this.BorderLine_Paint);
+            // 
+            // btAdd
+            // 
+            this.btAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btAdd.Font = new System.Drawing.Font("宋体", 12F);
+            this.btAdd.Location = new System.Drawing.Point(1043, 38);
+            this.btAdd.Name = "btAdd";
+            this.btAdd.Size = new System.Drawing.Size(122, 27);
+            this.btAdd.TabIndex = 40;
+            this.btAdd.Text = "添加告警规则";
+            this.btAdd.UseVisualStyleBackColor = true;
+            this.btAdd.Click += new System.EventHandler(this.BtAdd_Click);
             // 
             // btShowAll
             // 
             this.btShowAll.Font = new System.Drawing.Font("宋体", 12F);
-            this.btShowAll.Location = new System.Drawing.Point(563, 4);
+            this.btShowAll.Location = new System.Drawing.Point(579, 38);
             this.btShowAll.Name = "btShowAll";
             this.btShowAll.Size = new System.Drawing.Size(122, 27);
             this.btShowAll.TabIndex = 11;
@@ -138,7 +153,7 @@
             // 
             this.cbSearchContent.Font = new System.Drawing.Font("宋体", 12F);
             this.cbSearchContent.FormattingEnabled = true;
-            this.cbSearchContent.Location = new System.Drawing.Point(216, 6);
+            this.cbSearchContent.Location = new System.Drawing.Point(232, 40);
             this.cbSearchContent.Name = "cbSearchContent";
             this.cbSearchContent.Size = new System.Drawing.Size(330, 24);
             this.cbSearchContent.TabIndex = 1;
@@ -149,7 +164,7 @@
             // 
             this.cbSearchType.Font = new System.Drawing.Font("宋体", 12F);
             this.cbSearchType.FormattingEnabled = true;
-            this.cbSearchType.Location = new System.Drawing.Point(4, 6);
+            this.cbSearchType.Location = new System.Drawing.Point(20, 40);
             this.cbSearchType.Name = "cbSearchType";
             this.cbSearchType.Size = new System.Drawing.Size(204, 24);
             this.cbSearchType.TabIndex = 0;
@@ -178,23 +193,21 @@
             this.TSMIDelete.Text = "删除";
             this.TSMIDelete.Click += new System.EventHandler(this.TSMIDelete_Click);
             // 
-            // btAdd
+            // label14
             // 
-            this.btAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btAdd.Font = new System.Drawing.Font("宋体", 12F);
-            this.btAdd.Location = new System.Drawing.Point(857, 4);
-            this.btAdd.Name = "btAdd";
-            this.btAdd.Size = new System.Drawing.Size(122, 27);
-            this.btAdd.TabIndex = 40;
-            this.btAdd.Text = "添加告警规则";
-            this.btAdd.UseVisualStyleBackColor = true;
-            this.btAdd.Click += new System.EventHandler(this.BtAdd_Click);
+            this.label14.AutoSize = true;
+            this.label14.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label14.Location = new System.Drawing.Point(536, 4);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(110, 24);
+            this.label14.TabIndex = 55;
+            this.label14.Text = "告警规则";
             // 
             // FormWarn
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(984, 462);
+            this.ClientSize = new System.Drawing.Size(1184, 562);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.panel2);
             this.Name = "FormWarn";
@@ -206,6 +219,7 @@
             this.panel5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvWarnMgr)).EndInit();
             this.panel4.ResumeLayout(false);
+            this.panel4.PerformLayout();
             this.contextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -226,5 +240,6 @@
         private System.Windows.Forms.ToolStripMenuItem TSMIModify;
         private System.Windows.Forms.Button btShowAll;
         private System.Windows.Forms.Button btAdd;
+        private System.Windows.Forms.Label label14;
     }
 }

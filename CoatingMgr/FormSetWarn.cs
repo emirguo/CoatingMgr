@@ -58,6 +58,24 @@ namespace CoatingMgr
             InitData();
         }
 
+        private void Panel_Paint(object sender, PaintEventArgs e)
+        {
+            ControlPaint.DrawBorder(e.Graphics, this.panel1.ClientRectangle,
+                    Color.Black, 1, ButtonBorderStyle.Solid,
+                    Color.Black, 1, ButtonBorderStyle.Solid,
+                    Color.Black, 1, ButtonBorderStyle.Solid,
+                    Color.Black, 1, ButtonBorderStyle.Solid);
+        }
+
+        private void Pane2_Paint(object sender, PaintEventArgs e)
+        {
+            ControlPaint.DrawBorder(e.Graphics, this.panel2.ClientRectangle,
+                    Color.DarkRed, 1, ButtonBorderStyle.Solid,
+                    Color.DarkRed, 1, ButtonBorderStyle.Solid,
+                    Color.DarkRed, 1, ButtonBorderStyle.Solid,
+                    Color.DarkRed, 1, ButtonBorderStyle.Solid);
+        }
+
         private SqlLiteHelper GetSqlLiteHelper()
         {
             if (sqlLiteHelper == null)

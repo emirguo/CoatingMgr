@@ -30,6 +30,7 @@
         {
             this.dgvLogData = new System.Windows.Forms.DataGridView();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.lbTitle = new System.Windows.Forms.Label();
             this.dateTimePickerEnd = new System.Windows.Forms.DateTimePicker();
             this.dateTimePickerStart = new System.Windows.Forms.DateTimePicker();
             this.label2 = new System.Windows.Forms.Label();
@@ -55,17 +56,18 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvLogData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvLogData.Location = new System.Drawing.Point(2, 2);
+            this.dgvLogData.Location = new System.Drawing.Point(2, 0);
             this.dgvLogData.Name = "dgvLogData";
             this.dgvLogData.RowTemplate.Height = 23;
             this.dgvLogData.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvLogData.Size = new System.Drawing.Size(978, 392);
+            this.dgvLogData.Size = new System.Drawing.Size(1178, 448);
             this.dgvLogData.TabIndex = 0;
             // 
             // panel1
             // 
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.Controls.Add(this.lbTitle);
             this.panel1.Controls.Add(this.dateTimePickerEnd);
             this.panel1.Controls.Add(this.dateTimePickerStart);
             this.panel1.Controls.Add(this.label2);
@@ -76,14 +78,25 @@
             this.panel1.Controls.Add(this.btnExport);
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(983, 36);
+            this.panel1.Size = new System.Drawing.Size(1183, 80);
             this.panel1.TabIndex = 2;
+            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.BorderLine_Paint);
+            // 
+            // lbTitle
+            // 
+            this.lbTitle.AutoSize = true;
+            this.lbTitle.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lbTitle.Location = new System.Drawing.Point(519, 4);
+            this.lbTitle.Name = "lbTitle";
+            this.lbTitle.Size = new System.Drawing.Size(160, 24);
+            this.lbTitle.TabIndex = 13;
+            this.lbTitle.Text = "库存日志查询";
             // 
             // dateTimePickerEnd
             // 
             this.dateTimePickerEnd.Font = new System.Drawing.Font("宋体", 12F);
             this.dateTimePickerEnd.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePickerEnd.Location = new System.Drawing.Point(573, 6);
+            this.dateTimePickerEnd.Location = new System.Drawing.Point(573, 40);
             this.dateTimePickerEnd.MaxDate = new System.DateTime(2099, 12, 31, 0, 0, 0, 0);
             this.dateTimePickerEnd.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
             this.dateTimePickerEnd.Name = "dateTimePickerEnd";
@@ -96,7 +109,7 @@
             // 
             this.dateTimePickerStart.Font = new System.Drawing.Font("宋体", 12F);
             this.dateTimePickerStart.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePickerStart.Location = new System.Drawing.Point(422, 6);
+            this.dateTimePickerStart.Location = new System.Drawing.Point(422, 40);
             this.dateTimePickerStart.MaxDate = new System.DateTime(2099, 12, 31, 0, 0, 0, 0);
             this.dateTimePickerStart.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
             this.dateTimePickerStart.Name = "dateTimePickerStart";
@@ -109,7 +122,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("宋体", 12F);
-            this.label2.Location = new System.Drawing.Point(548, 10);
+            this.label2.Location = new System.Drawing.Point(548, 44);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(24, 16);
             this.label2.TabIndex = 62;
@@ -119,7 +132,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("宋体", 12F);
-            this.label1.Location = new System.Drawing.Point(345, 10);
+            this.label1.Location = new System.Drawing.Point(345, 44);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(88, 16);
             this.label1.TabIndex = 60;
@@ -129,7 +142,7 @@
             // 
             this.cbSearchContent.Font = new System.Drawing.Font("宋体", 12F);
             this.cbSearchContent.FormattingEnabled = true;
-            this.cbSearchContent.Location = new System.Drawing.Point(181, 6);
+            this.cbSearchContent.Location = new System.Drawing.Point(180, 40);
             this.cbSearchContent.Name = "cbSearchContent";
             this.cbSearchContent.Size = new System.Drawing.Size(158, 24);
             this.cbSearchContent.TabIndex = 59;
@@ -139,7 +152,7 @@
             // btShowAll
             // 
             this.btShowAll.Font = new System.Drawing.Font("宋体", 12F);
-            this.btShowAll.Location = new System.Drawing.Point(703, 6);
+            this.btShowAll.Location = new System.Drawing.Point(703, 40);
             this.btShowAll.Name = "btShowAll";
             this.btShowAll.Size = new System.Drawing.Size(122, 26);
             this.btShowAll.TabIndex = 58;
@@ -151,9 +164,9 @@
             // 
             this.cbSearchType.Font = new System.Drawing.Font("宋体", 12F);
             this.cbSearchType.FormattingEnabled = true;
-            this.cbSearchType.Location = new System.Drawing.Point(5, 6);
+            this.cbSearchType.Location = new System.Drawing.Point(18, 40);
             this.cbSearchType.Name = "cbSearchType";
-            this.cbSearchType.Size = new System.Drawing.Size(170, 24);
+            this.cbSearchType.Size = new System.Drawing.Size(152, 24);
             this.cbSearchType.TabIndex = 57;
             this.cbSearchType.Text = "选择过滤方式";
             this.cbSearchType.SelectedIndexChanged += new System.EventHandler(this.CbSearchType_SelectedIndexChanged);
@@ -162,7 +175,7 @@
             // 
             this.btnExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnExport.Font = new System.Drawing.Font("宋体", 12F);
-            this.btnExport.Location = new System.Drawing.Point(857, 6);
+            this.btnExport.Location = new System.Drawing.Point(1043, 40);
             this.btnExport.Name = "btnExport";
             this.btnExport.Size = new System.Drawing.Size(121, 26);
             this.btnExport.TabIndex = 5;
@@ -177,9 +190,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel2.Controls.Add(this.panel4);
             this.panel2.Controls.Add(this.dgvLogData);
-            this.panel2.Location = new System.Drawing.Point(0, 40);
+            this.panel2.Location = new System.Drawing.Point(0, 84);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(982, 422);
+            this.panel2.Size = new System.Drawing.Size(1182, 478);
             this.panel2.TabIndex = 3;
             // 
             // panel4
@@ -188,7 +201,7 @@
             this.panel4.Controls.Add(this.lbCount);
             this.panel4.Controls.Add(this.label4);
             this.panel4.Font = new System.Drawing.Font("宋体", 12F);
-            this.panel4.Location = new System.Drawing.Point(0, 394);
+            this.panel4.Location = new System.Drawing.Point(200, 450);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(983, 28);
             this.panel4.TabIndex = 16;
@@ -221,7 +234,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(984, 462);
+            this.ClientSize = new System.Drawing.Size(1184, 562);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panel2);
             this.Name = "FormLog";
@@ -255,5 +268,6 @@
         private System.Windows.Forms.DateTimePicker dateTimePickerStart;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lbTitle;
     }
 }

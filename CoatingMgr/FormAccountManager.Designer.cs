@@ -37,6 +37,7 @@
             this.cbSearchType = new System.Windows.Forms.ComboBox();
             this.btAdd = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
             this.btShowAll = new System.Windows.Forms.Button();
             this.cbSearchContent = new System.Windows.Forms.ComboBox();
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -64,7 +65,7 @@
             this.dgvAccountData.Name = "dgvAccountData";
             this.dgvAccountData.RowTemplate.Height = 23;
             this.dgvAccountData.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvAccountData.Size = new System.Drawing.Size(978, 392);
+            this.dgvAccountData.Size = new System.Drawing.Size(1178, 448);
             this.dgvAccountData.TabIndex = 0;
             this.dgvAccountData.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DgvAccountData_CellMouseUp);
             // 
@@ -75,9 +76,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel2.Controls.Add(this.panel4);
             this.panel2.Controls.Add(this.dgvAccountData);
-            this.panel2.Location = new System.Drawing.Point(1, 40);
+            this.panel2.Location = new System.Drawing.Point(1, 84);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(982, 422);
+            this.panel2.Size = new System.Drawing.Size(1182, 478);
             this.panel2.TabIndex = 3;
             // 
             // panel4
@@ -86,7 +87,7 @@
             this.panel4.Controls.Add(this.lbCount);
             this.panel4.Controls.Add(this.label4);
             this.panel4.Font = new System.Drawing.Font("宋体", 12F);
-            this.panel4.Location = new System.Drawing.Point(0, 394);
+            this.panel4.Location = new System.Drawing.Point(200, 450);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(983, 28);
             this.panel4.TabIndex = 15;
@@ -119,9 +120,9 @@
             // 
             this.cbSearchType.Font = new System.Drawing.Font("宋体", 12F);
             this.cbSearchType.FormattingEnabled = true;
-            this.cbSearchType.Location = new System.Drawing.Point(4, 9);
+            this.cbSearchType.Location = new System.Drawing.Point(22, 40);
             this.cbSearchType.Name = "cbSearchType";
-            this.cbSearchType.Size = new System.Drawing.Size(160, 24);
+            this.cbSearchType.Size = new System.Drawing.Size(168, 24);
             this.cbSearchType.TabIndex = 0;
             this.cbSearchType.Text = "选择过滤方式";
             this.cbSearchType.SelectedIndexChanged += new System.EventHandler(this.CbSearchType_SelectedIndexChanged);
@@ -130,9 +131,9 @@
             // 
             this.btAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btAdd.Font = new System.Drawing.Font("宋体", 12F);
-            this.btAdd.Location = new System.Drawing.Point(855, 6);
+            this.btAdd.Location = new System.Drawing.Point(1047, 37);
             this.btAdd.Name = "btAdd";
-            this.btAdd.Size = new System.Drawing.Size(116, 27);
+            this.btAdd.Size = new System.Drawing.Size(113, 27);
             this.btAdd.TabIndex = 5;
             this.btAdd.Text = "添加账户";
             this.btAdd.UseVisualStyleBackColor = true;
@@ -142,19 +143,31 @@
             // 
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.btShowAll);
             this.panel1.Controls.Add(this.cbSearchContent);
             this.panel1.Controls.Add(this.btAdd);
             this.panel1.Controls.Add(this.cbSearchType);
             this.panel1.Location = new System.Drawing.Point(1, 1);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(983, 36);
+            this.panel1.Size = new System.Drawing.Size(1183, 80);
             this.panel1.TabIndex = 2;
+            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.BorderLine_Paint);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label1.Location = new System.Drawing.Point(536, 4);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(110, 24);
+            this.label1.TabIndex = 12;
+            this.label1.Text = "账户管理";
             // 
             // btShowAll
             // 
             this.btShowAll.Font = new System.Drawing.Font("宋体", 12F);
-            this.btShowAll.Location = new System.Drawing.Point(350, 8);
+            this.btShowAll.Location = new System.Drawing.Point(406, 39);
             this.btShowAll.Name = "btShowAll";
             this.btShowAll.Size = new System.Drawing.Size(122, 27);
             this.btShowAll.TabIndex = 11;
@@ -166,9 +179,9 @@
             // 
             this.cbSearchContent.Font = new System.Drawing.Font("宋体", 12F);
             this.cbSearchContent.FormattingEnabled = true;
-            this.cbSearchContent.Location = new System.Drawing.Point(176, 9);
+            this.cbSearchContent.Location = new System.Drawing.Point(206, 40);
             this.cbSearchContent.Name = "cbSearchContent";
-            this.cbSearchContent.Size = new System.Drawing.Size(160, 24);
+            this.cbSearchContent.Size = new System.Drawing.Size(184, 24);
             this.cbSearchContent.TabIndex = 6;
             this.cbSearchContent.Text = "选择过滤内容";
             this.cbSearchContent.SelectedIndexChanged += new System.EventHandler(this.CbSearchContent_SelectedIndexChanged);
@@ -179,19 +192,19 @@
             this.TSMIModify,
             this.TSMIDelete});
             this.contextMenuStrip.Name = "contextMenuStrip1";
-            this.contextMenuStrip.Size = new System.Drawing.Size(181, 70);
+            this.contextMenuStrip.Size = new System.Drawing.Size(101, 48);
             // 
             // TSMIModify
             // 
             this.TSMIModify.Name = "TSMIModify";
-            this.TSMIModify.Size = new System.Drawing.Size(180, 22);
+            this.TSMIModify.Size = new System.Drawing.Size(100, 22);
             this.TSMIModify.Text = "修改";
             this.TSMIModify.Click += new System.EventHandler(this.TSMIModify_Click);
             // 
             // TSMIDelete
             // 
             this.TSMIDelete.Name = "TSMIDelete";
-            this.TSMIDelete.Size = new System.Drawing.Size(180, 22);
+            this.TSMIDelete.Size = new System.Drawing.Size(100, 22);
             this.TSMIDelete.Text = "删除";
             this.TSMIDelete.Click += new System.EventHandler(this.TSMIDelete_Click);
             // 
@@ -199,7 +212,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(984, 462);
+            this.ClientSize = new System.Drawing.Size(1184, 562);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Name = "FormAccountManager";
@@ -211,6 +224,7 @@
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
             this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.contextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -233,5 +247,6 @@
         private System.Windows.Forms.ComboBox cbSearchContent;
         private System.Windows.Forms.Button btShowAll;
         private System.Windows.Forms.ToolStripMenuItem TSMIModify;
+        private System.Windows.Forms.Label label1;
     }
 }
