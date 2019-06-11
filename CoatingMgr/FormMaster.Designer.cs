@@ -29,12 +29,14 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.btShowAll = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.panel3 = new System.Windows.Forms.Panel();
             this.btImportMaster = new System.Windows.Forms.Button();
-            this.cbSearchContent = new System.Windows.Forms.ComboBox();
+            this.btShowAll = new System.Windows.Forms.Button();
             this.cbSearchType = new System.Windows.Forms.ComboBox();
+            this.cbSearchContent = new System.Windows.Forms.ComboBox();
             this.dgvMasterData = new System.Windows.Forms.DataGridView();
             this.panel2 = new System.Windows.Forms.Panel();
             this.lbUser = new System.Windows.Forms.Label();
@@ -45,8 +47,8 @@
             this.lbTime = new System.Windows.Forms.Label();
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.TSMIDelete = new System.Windows.Forms.ToolStripMenuItem();
-            this.label1 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
+            this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMasterData)).BeginInit();
             this.panel2.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -58,32 +60,40 @@
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.btShowAll);
-            this.panel1.Controls.Add(this.btImportMaster);
-            this.panel1.Controls.Add(this.cbSearchContent);
-            this.panel1.Controls.Add(this.cbSearchType);
-            this.panel1.Location = new System.Drawing.Point(1, 1);
+            this.panel1.Controls.Add(this.panel3);
+            this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1183, 80);
+            this.panel1.Size = new System.Drawing.Size(1184, 82);
             this.panel1.TabIndex = 2;
-            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.BorderLine_Paint);
             // 
-            // btShowAll
+            // label1
             // 
-            this.btShowAll.Font = new System.Drawing.Font("宋体", 12F);
-            this.btShowAll.Location = new System.Drawing.Point(418, 39);
-            this.btShowAll.Name = "btShowAll";
-            this.btShowAll.Size = new System.Drawing.Size(122, 27);
-            this.btShowAll.TabIndex = 11;
-            this.btShowAll.Text = "显示全部";
-            this.btShowAll.UseVisualStyleBackColor = true;
-            this.btShowAll.Click += new System.EventHandler(this.BtShowAll_Click);
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label1.Location = new System.Drawing.Point(495, 4);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(188, 24);
+            this.label1.TabIndex = 14;
+            this.label1.Text = "查看Master文件";
+            // 
+            // panel3
+            // 
+            this.panel3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel3.Controls.Add(this.btImportMaster);
+            this.panel3.Controls.Add(this.btShowAll);
+            this.panel3.Controls.Add(this.cbSearchType);
+            this.panel3.Controls.Add(this.cbSearchContent);
+            this.panel3.Location = new System.Drawing.Point(3, 16);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(1176, 64);
+            this.panel3.TabIndex = 54;
             // 
             // btImportMaster
             // 
-            this.btImportMaster.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btImportMaster.Font = new System.Drawing.Font("宋体", 12F);
-            this.btImportMaster.Location = new System.Drawing.Point(1020, 39);
+            this.btImportMaster.Location = new System.Drawing.Point(1016, 24);
             this.btImportMaster.Name = "btImportMaster";
             this.btImportMaster.Size = new System.Drawing.Size(148, 27);
             this.btImportMaster.TabIndex = 13;
@@ -91,27 +101,38 @@
             this.btImportMaster.UseVisualStyleBackColor = true;
             this.btImportMaster.Click += new System.EventHandler(this.BtImportMaster_Click);
             // 
-            // cbSearchContent
+            // btShowAll
             // 
-            this.cbSearchContent.Font = new System.Drawing.Font("宋体", 12F);
-            this.cbSearchContent.FormattingEnabled = true;
-            this.cbSearchContent.Location = new System.Drawing.Point(180, 40);
-            this.cbSearchContent.Name = "cbSearchContent";
-            this.cbSearchContent.Size = new System.Drawing.Size(226, 24);
-            this.cbSearchContent.TabIndex = 1;
-            this.cbSearchContent.Text = "选择过滤内容";
-            this.cbSearchContent.SelectedIndexChanged += new System.EventHandler(this.CbSearchContent_SelectedIndexChanged);
+            this.btShowAll.Font = new System.Drawing.Font("宋体", 12F);
+            this.btShowAll.Location = new System.Drawing.Point(417, 24);
+            this.btShowAll.Name = "btShowAll";
+            this.btShowAll.Size = new System.Drawing.Size(122, 27);
+            this.btShowAll.TabIndex = 11;
+            this.btShowAll.Text = "显示全部";
+            this.btShowAll.UseVisualStyleBackColor = true;
+            this.btShowAll.Click += new System.EventHandler(this.BtShowAll_Click);
             // 
             // cbSearchType
             // 
             this.cbSearchType.Font = new System.Drawing.Font("宋体", 12F);
             this.cbSearchType.FormattingEnabled = true;
-            this.cbSearchType.Location = new System.Drawing.Point(13, 40);
+            this.cbSearchType.Location = new System.Drawing.Point(12, 25);
             this.cbSearchType.Name = "cbSearchType";
             this.cbSearchType.Size = new System.Drawing.Size(161, 24);
             this.cbSearchType.TabIndex = 0;
             this.cbSearchType.Text = "选择过滤方式";
             this.cbSearchType.SelectedIndexChanged += new System.EventHandler(this.CbSearchType_SelectedIndexChanged);
+            // 
+            // cbSearchContent
+            // 
+            this.cbSearchContent.Font = new System.Drawing.Font("宋体", 12F);
+            this.cbSearchContent.FormattingEnabled = true;
+            this.cbSearchContent.Location = new System.Drawing.Point(179, 25);
+            this.cbSearchContent.Name = "cbSearchContent";
+            this.cbSearchContent.Size = new System.Drawing.Size(226, 24);
+            this.cbSearchContent.TabIndex = 1;
+            this.cbSearchContent.Text = "选择过滤内容";
+            this.cbSearchContent.SelectedIndexChanged += new System.EventHandler(this.CbSearchContent_SelectedIndexChanged);
             // 
             // dgvMasterData
             // 
@@ -121,20 +142,20 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvMasterData.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvMasterData.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvMasterData.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvMasterData.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvMasterData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvMasterData.Location = new System.Drawing.Point(2, 0);
+            this.dgvMasterData.Location = new System.Drawing.Point(2, 2);
             this.dgvMasterData.Name = "dgvMasterData";
             this.dgvMasterData.RowTemplate.Height = 23;
             this.dgvMasterData.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvMasterData.Size = new System.Drawing.Size(1178, 448);
+            this.dgvMasterData.Size = new System.Drawing.Size(1176, 446);
             this.dgvMasterData.TabIndex = 0;
             this.dgvMasterData.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DgvMasterData_CellMouseUp);
             // 
@@ -237,16 +258,6 @@
             this.TSMIDelete.Text = "删除";
             this.TSMIDelete.Click += new System.EventHandler(this.TSMIDelete_Click);
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label1.Location = new System.Drawing.Point(499, 4);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(188, 24);
-            this.label1.TabIndex = 14;
-            this.label1.Text = "查看Master文件";
-            // 
             // FormMaster
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -260,6 +271,7 @@
             this.Load += new System.EventHandler(this.FormMaster_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.panel3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvMasterData)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
@@ -288,5 +300,6 @@
         private System.Windows.Forms.ToolStripMenuItem TSMIDelete;
         private System.Windows.Forms.Button btShowAll;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Panel panel3;
     }
 }

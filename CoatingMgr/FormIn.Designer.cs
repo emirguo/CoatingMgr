@@ -65,12 +65,14 @@
             this.label3 = new System.Windows.Forms.Label();
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.TSMIDelete = new System.Windows.Forms.ToolStripMenuItem();
+            this.panel3 = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvStockData)).BeginInit();
             this.panel4.SuspendLayout();
             this.contextMenuStrip.SuspendLayout();
+            this.panel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -97,13 +99,13 @@
             // 
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.lbProDescription);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Location = new System.Drawing.Point(948, 108);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(231, 413);
             this.panel1.TabIndex = 18;
-            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.Panel_Paint);
             // 
             // lbProDescription
             // 
@@ -215,31 +217,12 @@
             this.panel4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel4.Controls.Add(this.label14);
-            this.panel4.Controls.Add(this.tbProductionDate);
-            this.panel4.Controls.Add(this.label12);
-            this.panel4.Controls.Add(this.label10);
-            this.panel4.Controls.Add(this.tbColor);
-            this.panel4.Controls.Add(this.label2);
-            this.panel4.Controls.Add(this.tbWeight);
-            this.panel4.Controls.Add(this.label9);
-            this.panel4.Controls.Add(this.tbExpiryDate);
-            this.panel4.Controls.Add(this.label8);
-            this.panel4.Controls.Add(this.tbModel);
-            this.panel4.Controls.Add(this.label7);
-            this.panel4.Controls.Add(this.tbType);
-            this.panel4.Controls.Add(this.label6);
-            this.panel4.Controls.Add(this.tbName);
-            this.panel4.Controls.Add(this.label5);
-            this.panel4.Controls.Add(this.tbBarCode);
-            this.panel4.Controls.Add(this.label4);
-            this.panel4.Controls.Add(this.cbSearchStock);
-            this.panel4.Controls.Add(this.label3);
+            this.panel4.Controls.Add(this.panel3);
             this.panel4.Font = new System.Drawing.Font("宋体", 12F);
             this.panel4.Location = new System.Drawing.Point(0, 0);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(1180, 104);
             this.panel4.TabIndex = 27;
-            this.panel4.Paint += new System.Windows.Forms.PaintEventHandler(this.BorderLine_Paint);
             // 
             // label14
             // 
@@ -254,7 +237,7 @@
             // tbProductionDate
             // 
             this.tbProductionDate.Font = new System.Drawing.Font("宋体", 12F);
-            this.tbProductionDate.Location = new System.Drawing.Point(920, 69);
+            this.tbProductionDate.Location = new System.Drawing.Point(918, 49);
             this.tbProductionDate.Name = "tbProductionDate";
             this.tbProductionDate.Size = new System.Drawing.Size(92, 26);
             this.tbProductionDate.TabIndex = 52;
@@ -263,7 +246,7 @@
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("宋体", 12F);
-            this.label12.Location = new System.Drawing.Point(848, 75);
+            this.label12.Location = new System.Drawing.Point(846, 55);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(72, 16);
             this.label12.TabIndex = 51;
@@ -273,7 +256,7 @@
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("宋体", 12F);
-            this.label10.Location = new System.Drawing.Point(616, 75);
+            this.label10.Location = new System.Drawing.Point(614, 55);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(24, 16);
             this.label10.TabIndex = 50;
@@ -282,7 +265,7 @@
             // tbColor
             // 
             this.tbColor.Font = new System.Drawing.Font("宋体", 12F);
-            this.tbColor.Location = new System.Drawing.Point(413, 69);
+            this.tbColor.Location = new System.Drawing.Point(411, 49);
             this.tbColor.Name = "tbColor";
             this.tbColor.Size = new System.Drawing.Size(75, 26);
             this.tbColor.TabIndex = 49;
@@ -291,7 +274,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("宋体", 12F);
-            this.label2.Location = new System.Drawing.Point(375, 75);
+            this.label2.Location = new System.Drawing.Point(373, 55);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(40, 16);
             this.label2.TabIndex = 48;
@@ -300,7 +283,7 @@
             // tbWeight
             // 
             this.tbWeight.Font = new System.Drawing.Font("宋体", 12F);
-            this.tbWeight.Location = new System.Drawing.Point(568, 69);
+            this.tbWeight.Location = new System.Drawing.Point(566, 49);
             this.tbWeight.Name = "tbWeight";
             this.tbWeight.Size = new System.Drawing.Size(47, 26);
             this.tbWeight.TabIndex = 45;
@@ -309,7 +292,7 @@
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("宋体", 12F);
-            this.label9.Location = new System.Drawing.Point(494, 74);
+            this.label9.Location = new System.Drawing.Point(492, 54);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(72, 16);
             this.label9.TabIndex = 44;
@@ -318,7 +301,7 @@
             // tbExpiryDate
             // 
             this.tbExpiryDate.Font = new System.Drawing.Font("宋体", 12F);
-            this.tbExpiryDate.Location = new System.Drawing.Point(1070, 69);
+            this.tbExpiryDate.Location = new System.Drawing.Point(1068, 49);
             this.tbExpiryDate.Name = "tbExpiryDate";
             this.tbExpiryDate.Size = new System.Drawing.Size(92, 26);
             this.tbExpiryDate.TabIndex = 43;
@@ -327,7 +310,7 @@
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("宋体", 12F);
-            this.label8.Location = new System.Drawing.Point(1014, 74);
+            this.label8.Location = new System.Drawing.Point(1012, 54);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(56, 16);
             this.label8.TabIndex = 42;
@@ -336,7 +319,7 @@
             // tbModel
             // 
             this.tbModel.Font = new System.Drawing.Font("宋体", 12F);
-            this.tbModel.Location = new System.Drawing.Point(715, 70);
+            this.tbModel.Location = new System.Drawing.Point(713, 50);
             this.tbModel.Name = "tbModel";
             this.tbModel.Size = new System.Drawing.Size(127, 26);
             this.tbModel.TabIndex = 41;
@@ -345,7 +328,7 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("宋体", 12F);
-            this.label7.Location = new System.Drawing.Point(640, 74);
+            this.label7.Location = new System.Drawing.Point(638, 54);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(72, 16);
             this.label7.TabIndex = 40;
@@ -354,7 +337,7 @@
             // tbType
             // 
             this.tbType.Font = new System.Drawing.Font("宋体", 12F);
-            this.tbType.Location = new System.Drawing.Point(293, 70);
+            this.tbType.Location = new System.Drawing.Point(291, 50);
             this.tbType.Name = "tbType";
             this.tbType.Size = new System.Drawing.Size(75, 26);
             this.tbType.TabIndex = 39;
@@ -363,7 +346,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("宋体", 12F);
-            this.label6.Location = new System.Drawing.Point(252, 74);
+            this.label6.Location = new System.Drawing.Point(250, 54);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(40, 16);
             this.label6.TabIndex = 38;
@@ -372,7 +355,7 @@
             // tbName
             // 
             this.tbName.Font = new System.Drawing.Font("宋体", 12F);
-            this.tbName.Location = new System.Drawing.Point(60, 69);
+            this.tbName.Location = new System.Drawing.Point(58, 49);
             this.tbName.Name = "tbName";
             this.tbName.Size = new System.Drawing.Size(185, 26);
             this.tbName.TabIndex = 37;
@@ -381,7 +364,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("宋体", 12F);
-            this.label5.Location = new System.Drawing.Point(14, 75);
+            this.label5.Location = new System.Drawing.Point(12, 55);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(40, 16);
             this.label5.TabIndex = 36;
@@ -390,7 +373,7 @@
             // tbBarCode
             // 
             this.tbBarCode.Font = new System.Drawing.Font("宋体", 12F);
-            this.tbBarCode.Location = new System.Drawing.Point(76, 37);
+            this.tbBarCode.Location = new System.Drawing.Point(74, 17);
             this.tbBarCode.Name = "tbBarCode";
             this.tbBarCode.Size = new System.Drawing.Size(756, 26);
             this.tbBarCode.TabIndex = 35;
@@ -400,7 +383,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("宋体", 12F);
-            this.label4.Location = new System.Drawing.Point(14, 40);
+            this.label4.Location = new System.Drawing.Point(12, 20);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(56, 16);
             this.label4.TabIndex = 34;
@@ -410,7 +393,7 @@
             // 
             this.cbSearchStock.Font = new System.Drawing.Font("宋体", 12F);
             this.cbSearchStock.FormattingEnabled = true;
-            this.cbSearchStock.Location = new System.Drawing.Point(928, 37);
+            this.cbSearchStock.Location = new System.Drawing.Point(926, 17);
             this.cbSearchStock.Name = "cbSearchStock";
             this.cbSearchStock.Size = new System.Drawing.Size(233, 24);
             this.cbSearchStock.TabIndex = 33;
@@ -419,7 +402,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("宋体", 12F);
-            this.label3.Location = new System.Drawing.Point(838, 40);
+            this.label3.Location = new System.Drawing.Point(836, 20);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(88, 16);
             this.label3.TabIndex = 32;
@@ -438,6 +421,35 @@
             this.TSMIDelete.Size = new System.Drawing.Size(100, 22);
             this.TSMIDelete.Text = "删除";
             this.TSMIDelete.Click += new System.EventHandler(this.TSMIDelete_Click);
+            // 
+            // panel3
+            // 
+            this.panel3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel3.Controls.Add(this.tbBarCode);
+            this.panel3.Controls.Add(this.tbProductionDate);
+            this.panel3.Controls.Add(this.label3);
+            this.panel3.Controls.Add(this.label12);
+            this.panel3.Controls.Add(this.cbSearchStock);
+            this.panel3.Controls.Add(this.label10);
+            this.panel3.Controls.Add(this.label4);
+            this.panel3.Controls.Add(this.tbColor);
+            this.panel3.Controls.Add(this.label5);
+            this.panel3.Controls.Add(this.label2);
+            this.panel3.Controls.Add(this.tbName);
+            this.panel3.Controls.Add(this.tbWeight);
+            this.panel3.Controls.Add(this.label6);
+            this.panel3.Controls.Add(this.label9);
+            this.panel3.Controls.Add(this.tbType);
+            this.panel3.Controls.Add(this.tbExpiryDate);
+            this.panel3.Controls.Add(this.label7);
+            this.panel3.Controls.Add(this.label8);
+            this.panel3.Controls.Add(this.tbModel);
+            this.panel3.Location = new System.Drawing.Point(2, 16);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(1176, 84);
+            this.panel3.TabIndex = 48;
             // 
             // FormIn
             // 
@@ -461,6 +473,8 @@
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
             this.contextMenuStrip.ResumeLayout(false);
+            this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -503,5 +517,6 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Panel panel3;
     }
 }

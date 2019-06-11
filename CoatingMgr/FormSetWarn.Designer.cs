@@ -178,6 +178,7 @@
             // 
             // panel1
             // 
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.label8);
             this.panel1.Controls.Add(this.cbStock);
             this.panel1.Controls.Add(this.cbType);
@@ -191,7 +192,6 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(544, 130);
             this.panel1.TabIndex = 40;
-            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.Panel_Paint);
             // 
             // label8
             // 
@@ -205,6 +205,7 @@
             // 
             // panel2
             // 
+            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel2.Controls.Add(this.tbMaximum);
             this.panel2.Controls.Add(this.tbMinimum);
             this.panel2.Controls.Add(this.label11);
@@ -218,7 +219,6 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(544, 138);
             this.panel2.TabIndex = 41;
-            this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.Pane2_Paint);
             // 
             // tbMaximum
             // 

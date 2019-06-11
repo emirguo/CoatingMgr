@@ -45,11 +45,13 @@
             this.TSMIDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.backgroundWorker2 = new System.ComponentModel.BackgroundWorker();
+            this.panel3 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAccountData)).BeginInit();
             this.panel2.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel1.SuspendLayout();
             this.contextMenuStrip.SuspendLayout();
+            this.panel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // dgvAccountData
@@ -120,7 +122,7 @@
             // 
             this.cbSearchType.Font = new System.Drawing.Font("宋体", 12F);
             this.cbSearchType.FormattingEnabled = true;
-            this.cbSearchType.Location = new System.Drawing.Point(22, 40);
+            this.cbSearchType.Location = new System.Drawing.Point(21, 24);
             this.cbSearchType.Name = "cbSearchType";
             this.cbSearchType.Size = new System.Drawing.Size(168, 24);
             this.cbSearchType.TabIndex = 0;
@@ -129,9 +131,8 @@
             // 
             // btAdd
             // 
-            this.btAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btAdd.Font = new System.Drawing.Font("宋体", 12F);
-            this.btAdd.Location = new System.Drawing.Point(1047, 37);
+            this.btAdd.Location = new System.Drawing.Point(1037, 23);
             this.btAdd.Name = "btAdd";
             this.btAdd.Size = new System.Drawing.Size(113, 27);
             this.btAdd.TabIndex = 5;
@@ -143,16 +144,15 @@
             // 
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel1.Controls.Add(this.label1);
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.btShowAll);
             this.panel1.Controls.Add(this.cbSearchContent);
             this.panel1.Controls.Add(this.btAdd);
             this.panel1.Controls.Add(this.cbSearchType);
-            this.panel1.Location = new System.Drawing.Point(1, 1);
+            this.panel1.Location = new System.Drawing.Point(3, 16);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1183, 80);
+            this.panel1.Size = new System.Drawing.Size(1176, 62);
             this.panel1.TabIndex = 2;
-            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.BorderLine_Paint);
             // 
             // label1
             // 
@@ -167,7 +167,7 @@
             // btShowAll
             // 
             this.btShowAll.Font = new System.Drawing.Font("宋体", 12F);
-            this.btShowAll.Location = new System.Drawing.Point(406, 39);
+            this.btShowAll.Location = new System.Drawing.Point(405, 23);
             this.btShowAll.Name = "btShowAll";
             this.btShowAll.Size = new System.Drawing.Size(122, 27);
             this.btShowAll.TabIndex = 11;
@@ -179,7 +179,7 @@
             // 
             this.cbSearchContent.Font = new System.Drawing.Font("宋体", 12F);
             this.cbSearchContent.FormattingEnabled = true;
-            this.cbSearchContent.Location = new System.Drawing.Point(206, 40);
+            this.cbSearchContent.Location = new System.Drawing.Point(205, 24);
             this.cbSearchContent.Name = "cbSearchContent";
             this.cbSearchContent.Size = new System.Drawing.Size(184, 24);
             this.cbSearchContent.TabIndex = 6;
@@ -208,13 +208,24 @@
             this.TSMIDelete.Text = "删除";
             this.TSMIDelete.Click += new System.EventHandler(this.TSMIDelete_Click);
             // 
+            // panel3
+            // 
+            this.panel3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel3.Controls.Add(this.label1);
+            this.panel3.Controls.Add(this.panel1);
+            this.panel3.Location = new System.Drawing.Point(0, 0);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(1184, 84);
+            this.panel3.TabIndex = 4;
+            // 
             // FormAccountManager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1184, 562);
+            this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
-            this.Controls.Add(this.panel1);
             this.Name = "FormAccountManager";
             this.Text = "账户管理";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
@@ -224,8 +235,9 @@
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
             this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
             this.contextMenuStrip.ResumeLayout(false);
+            this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -248,5 +260,6 @@
         private System.Windows.Forms.Button btShowAll;
         private System.Windows.Forms.ToolStripMenuItem TSMIModify;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Panel panel3;
     }
 }

@@ -29,20 +29,22 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend5 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.LegendItem legendItem9 = new System.Windows.Forms.DataVisualization.Charting.LegendItem();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend6 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.LegendItem legendItem10 = new System.Windows.Forms.DataVisualization.Charting.LegendItem();
-            System.Windows.Forms.DataVisualization.Charting.LegendItem legendItem11 = new System.Windows.Forms.DataVisualization.Charting.LegendItem();
-            System.Windows.Forms.DataVisualization.Charting.LegendItem legendItem12 = new System.Windows.Forms.DataVisualization.Charting.LegendItem();
-            System.Windows.Forms.DataVisualization.Charting.Title title3 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.LegendItem legendItem5 = new System.Windows.Forms.DataVisualization.Charting.LegendItem();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.LegendItem legendItem6 = new System.Windows.Forms.DataVisualization.Charting.LegendItem();
+            System.Windows.Forms.DataVisualization.Charting.LegendItem legendItem7 = new System.Windows.Forms.DataVisualization.Charting.LegendItem();
+            System.Windows.Forms.DataVisualization.Charting.LegendItem legendItem8 = new System.Windows.Forms.DataVisualization.Charting.LegendItem();
+            System.Windows.Forms.DataVisualization.Charting.Title title2 = new System.Windows.Forms.DataVisualization.Charting.Title();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.btnExport = new System.Windows.Forms.Button();
-            this.cbSearchContent = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.panel3 = new System.Windows.Forms.Panel();
             this.cbShowHistogram = new System.Windows.Forms.CheckBox();
-            this.btShowAll = new System.Windows.Forms.Button();
+            this.btnExport = new System.Windows.Forms.Button();
             this.cbSearchType = new System.Windows.Forms.ComboBox();
+            this.cbSearchContent = new System.Windows.Forms.ComboBox();
+            this.btShowAll = new System.Windows.Forms.Button();
             this.cbFillWindow = new System.Windows.Forms.CheckBox();
             this.lbUser = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
@@ -58,8 +60,8 @@
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.TSMIModify = new System.Windows.Forms.ToolStripMenuItem();
             this.TSMIDelete = new System.Windows.Forms.ToolStripMenuItem();
-            this.label1 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
+            this.panel3.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chartStock)).BeginInit();
             this.panel4.SuspendLayout();
@@ -72,45 +74,42 @@
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.btnExport);
-            this.panel1.Controls.Add(this.cbSearchContent);
-            this.panel1.Controls.Add(this.cbShowHistogram);
-            this.panel1.Controls.Add(this.btShowAll);
-            this.panel1.Controls.Add(this.cbSearchType);
-            this.panel1.Location = new System.Drawing.Point(1, 1);
+            this.panel1.Controls.Add(this.panel3);
+            this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1183, 80);
+            this.panel1.Size = new System.Drawing.Size(1182, 82);
             this.panel1.TabIndex = 0;
-            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.BorderLine_Paint);
             // 
-            // btnExport
+            // label1
             // 
-            this.btnExport.Font = new System.Drawing.Font("宋体", 12F);
-            this.btnExport.Location = new System.Drawing.Point(509, 39);
-            this.btnExport.Name = "btnExport";
-            this.btnExport.Size = new System.Drawing.Size(122, 27);
-            this.btnExport.TabIndex = 58;
-            this.btnExport.Text = "导出Excel表格";
-            this.btnExport.UseVisualStyleBackColor = true;
-            this.btnExport.Click += new System.EventHandler(this.BtnExport_Click);
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label1.Location = new System.Drawing.Point(536, 4);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(110, 24);
+            this.label1.TabIndex = 59;
+            this.label1.Text = "库存管理";
             // 
-            // cbSearchContent
+            // panel3
             // 
-            this.cbSearchContent.Font = new System.Drawing.Font("宋体", 12F);
-            this.cbSearchContent.FormattingEnabled = true;
-            this.cbSearchContent.Location = new System.Drawing.Point(193, 41);
-            this.cbSearchContent.Name = "cbSearchContent";
-            this.cbSearchContent.Size = new System.Drawing.Size(158, 24);
-            this.cbSearchContent.TabIndex = 56;
-            this.cbSearchContent.Text = "选择过滤内容";
-            this.cbSearchContent.SelectedIndexChanged += new System.EventHandler(this.CbSearchContent_SelectedIndexChanged);
+            this.panel3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel3.Controls.Add(this.cbShowHistogram);
+            this.panel3.Controls.Add(this.btnExport);
+            this.panel3.Controls.Add(this.cbSearchType);
+            this.panel3.Controls.Add(this.cbSearchContent);
+            this.panel3.Controls.Add(this.btShowAll);
+            this.panel3.Location = new System.Drawing.Point(3, 16);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(1176, 64);
+            this.panel3.TabIndex = 59;
             // 
             // cbShowHistogram
             // 
-            this.cbShowHistogram.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cbShowHistogram.AutoSize = true;
             this.cbShowHistogram.Font = new System.Drawing.Font("宋体", 12F);
-            this.cbShowHistogram.Location = new System.Drawing.Point(1064, 43);
+            this.cbShowHistogram.Location = new System.Drawing.Point(1059, 28);
             this.cbShowHistogram.Name = "cbShowHistogram";
             this.cbShowHistogram.Size = new System.Drawing.Size(107, 20);
             this.cbShowHistogram.TabIndex = 55;
@@ -119,27 +118,49 @@
             this.cbShowHistogram.Visible = false;
             this.cbShowHistogram.CheckedChanged += new System.EventHandler(this.CbShowHistogram_CheckedChanged);
             // 
+            // btnExport
+            // 
+            this.btnExport.Font = new System.Drawing.Font("宋体", 12F);
+            this.btnExport.Location = new System.Drawing.Point(509, 24);
+            this.btnExport.Name = "btnExport";
+            this.btnExport.Size = new System.Drawing.Size(122, 27);
+            this.btnExport.TabIndex = 58;
+            this.btnExport.Text = "导出Excel表格";
+            this.btnExport.UseVisualStyleBackColor = true;
+            this.btnExport.Click += new System.EventHandler(this.BtnExport_Click);
+            // 
+            // cbSearchType
+            // 
+            this.cbSearchType.Font = new System.Drawing.Font("宋体", 12F);
+            this.cbSearchType.FormattingEnabled = true;
+            this.cbSearchType.Location = new System.Drawing.Point(17, 25);
+            this.cbSearchType.Name = "cbSearchType";
+            this.cbSearchType.Size = new System.Drawing.Size(170, 24);
+            this.cbSearchType.TabIndex = 1;
+            this.cbSearchType.Text = "选择过滤方式";
+            this.cbSearchType.SelectedIndexChanged += new System.EventHandler(this.CbSearchType_SelectedIndexChanged);
+            // 
+            // cbSearchContent
+            // 
+            this.cbSearchContent.Font = new System.Drawing.Font("宋体", 12F);
+            this.cbSearchContent.FormattingEnabled = true;
+            this.cbSearchContent.Location = new System.Drawing.Point(193, 26);
+            this.cbSearchContent.Name = "cbSearchContent";
+            this.cbSearchContent.Size = new System.Drawing.Size(158, 24);
+            this.cbSearchContent.TabIndex = 56;
+            this.cbSearchContent.Text = "选择过滤内容";
+            this.cbSearchContent.SelectedIndexChanged += new System.EventHandler(this.CbSearchContent_SelectedIndexChanged);
+            // 
             // btShowAll
             // 
             this.btShowAll.Font = new System.Drawing.Font("宋体", 12F);
-            this.btShowAll.Location = new System.Drawing.Point(370, 39);
+            this.btShowAll.Location = new System.Drawing.Point(370, 24);
             this.btShowAll.Name = "btShowAll";
             this.btShowAll.Size = new System.Drawing.Size(122, 27);
             this.btShowAll.TabIndex = 10;
             this.btShowAll.Text = "显示全部库存";
             this.btShowAll.UseVisualStyleBackColor = true;
             this.btShowAll.Click += new System.EventHandler(this.BtShowAll_Click);
-            // 
-            // cbSearchType
-            // 
-            this.cbSearchType.Font = new System.Drawing.Font("宋体", 12F);
-            this.cbSearchType.FormattingEnabled = true;
-            this.cbSearchType.Location = new System.Drawing.Point(17, 40);
-            this.cbSearchType.Name = "cbSearchType";
-            this.cbSearchType.Size = new System.Drawing.Size(170, 24);
-            this.cbSearchType.TabIndex = 1;
-            this.cbSearchType.Text = "选择过滤方式";
-            this.cbSearchType.SelectedIndexChanged += new System.EventHandler(this.CbSearchType_SelectedIndexChanged);
             // 
             // cbFillWindow
             // 
@@ -227,40 +248,40 @@
             this.chartStock.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            chartArea3.Name = "ChartArea1";
-            this.chartStock.ChartAreas.Add(chartArea3);
-            legend5.Alignment = System.Drawing.StringAlignment.Center;
-            legendItem9.Color = System.Drawing.Color.Green;
-            legendItem9.Name = "库存重量";
-            legend5.CustomItems.Add(legendItem9);
-            legend5.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top;
-            legend5.LegendStyle = System.Windows.Forms.DataVisualization.Charting.LegendStyle.Row;
-            legend5.Name = "LegendWeight";
-            legend6.Alignment = System.Drawing.StringAlignment.Center;
-            legendItem10.Color = System.Drawing.Color.Yellow;
-            legendItem10.Name = "库存上限";
-            legendItem11.Color = System.Drawing.Color.Green;
-            legendItem11.Name = "库存重量";
-            legendItem12.Color = System.Drawing.Color.DarkRed;
-            legendItem12.Name = "库存下限";
-            legend6.CustomItems.Add(legendItem10);
-            legend6.CustomItems.Add(legendItem11);
-            legend6.CustomItems.Add(legendItem12);
-            legend6.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top;
-            legend6.Enabled = false;
-            legend6.Name = "LegendMulti";
-            this.chartStock.Legends.Add(legend5);
-            this.chartStock.Legends.Add(legend6);
-            this.chartStock.Location = new System.Drawing.Point(1, 2);
+            chartArea2.Name = "ChartArea1";
+            this.chartStock.ChartAreas.Add(chartArea2);
+            legend3.Alignment = System.Drawing.StringAlignment.Center;
+            legendItem5.Color = System.Drawing.Color.Green;
+            legendItem5.Name = "库存重量";
+            legend3.CustomItems.Add(legendItem5);
+            legend3.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top;
+            legend3.LegendStyle = System.Windows.Forms.DataVisualization.Charting.LegendStyle.Row;
+            legend3.Name = "LegendWeight";
+            legend4.Alignment = System.Drawing.StringAlignment.Center;
+            legendItem6.Color = System.Drawing.Color.Yellow;
+            legendItem6.Name = "库存上限";
+            legendItem7.Color = System.Drawing.Color.Green;
+            legendItem7.Name = "库存重量";
+            legendItem8.Color = System.Drawing.Color.DarkRed;
+            legendItem8.Name = "库存下限";
+            legend4.CustomItems.Add(legendItem6);
+            legend4.CustomItems.Add(legendItem7);
+            legend4.CustomItems.Add(legendItem8);
+            legend4.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top;
+            legend4.Enabled = false;
+            legend4.Name = "LegendMulti";
+            this.chartStock.Legends.Add(legend3);
+            this.chartStock.Legends.Add(legend4);
+            this.chartStock.Location = new System.Drawing.Point(2, 2);
             this.chartStock.Name = "chartStock";
             this.chartStock.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.None;
-            this.chartStock.Size = new System.Drawing.Size(1180, 452);
+            this.chartStock.Size = new System.Drawing.Size(1178, 452);
             this.chartStock.TabIndex = 2;
-            title3.Alignment = System.Drawing.ContentAlignment.TopCenter;
-            title3.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            title3.Name = "库存统计";
-            title3.Text = "库存统计";
-            this.chartStock.Titles.Add(title3);
+            title2.Alignment = System.Drawing.ContentAlignment.TopCenter;
+            title2.Font = new System.Drawing.Font("宋体", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            title2.Name = "库存统计";
+            title2.Text = "库存统计";
+            this.chartStock.Titles.Add(title2);
             this.chartStock.Visible = false;
             // 
             // panel4
@@ -338,16 +359,6 @@
             this.TSMIDelete.Text = "删除";
             this.TSMIDelete.Click += new System.EventHandler(this.TSMIDelete_Click);
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label1.Location = new System.Drawing.Point(536, 4);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(110, 24);
-            this.label1.TabIndex = 59;
-            this.label1.Text = "库存管理";
-            // 
             // FormStock
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -360,6 +371,8 @@
             this.Load += new System.EventHandler(this.FormStock_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chartStock)).EndInit();
@@ -395,5 +408,6 @@
         private System.Windows.Forms.DataGridView dgvStockData;
         private System.Windows.Forms.CheckBox cbShowWarn;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Panel panel3;
     }
 }

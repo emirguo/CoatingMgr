@@ -87,6 +87,7 @@
             // 
             // panel1
             // 
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.tbMailPort);
             this.panel1.Controls.Add(this.tbMailPassword);
             this.panel1.Controls.Add(this.label4);
@@ -100,7 +101,6 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(589, 122);
             this.panel1.TabIndex = 58;
-            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.Panel_Paint);
             // 
             // tbMailPort
             // 
@@ -110,7 +110,7 @@
             this.tbMailPort.Location = new System.Drawing.Point(396, 87);
             this.tbMailPort.MaxLength = 32;
             this.tbMailPort.Name = "tbMailPort";
-            this.tbMailPort.Size = new System.Drawing.Size(180, 26);
+            this.tbMailPort.Size = new System.Drawing.Size(178, 26);
             this.tbMailPort.TabIndex = 60;
             // 
             // tbMailPassword
@@ -121,7 +121,7 @@
             this.tbMailPassword.Location = new System.Drawing.Point(396, 43);
             this.tbMailPassword.MaxLength = 32;
             this.tbMailPassword.Name = "tbMailPassword";
-            this.tbMailPassword.Size = new System.Drawing.Size(180, 26);
+            this.tbMailPassword.Size = new System.Drawing.Size(178, 26);
             this.tbMailPassword.TabIndex = 59;
             // 
             // label4
@@ -142,7 +142,7 @@
             this.tbMailSMTP.Location = new System.Drawing.Point(108, 87);
             this.tbMailSMTP.MaxLength = 32;
             this.tbMailSMTP.Name = "tbMailSMTP";
-            this.tbMailSMTP.Size = new System.Drawing.Size(180, 26);
+            this.tbMailSMTP.Size = new System.Drawing.Size(178, 26);
             this.tbMailSMTP.TabIndex = 57;
             // 
             // label5
@@ -173,7 +173,7 @@
             this.tbMailCount.Location = new System.Drawing.Point(108, 43);
             this.tbMailCount.MaxLength = 32;
             this.tbMailCount.Name = "tbMailCount";
-            this.tbMailCount.Size = new System.Drawing.Size(180, 26);
+            this.tbMailCount.Size = new System.Drawing.Size(178, 26);
             this.tbMailCount.TabIndex = 54;
             // 
             // label2
@@ -198,6 +198,7 @@
             // 
             // panel2
             // 
+            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel2.Controls.Add(this.tbMailCC);
             this.panel2.Controls.Add(this.label7);
             this.panel2.Controls.Add(this.tbMailTo);
@@ -207,7 +208,6 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(589, 234);
             this.panel2.TabIndex = 59;
-            this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.Pane2_Paint);
             // 
             // tbMailCC
             // 
@@ -219,7 +219,7 @@
             this.tbMailCC.MinimumSize = new System.Drawing.Size(4, 52);
             this.tbMailCC.Multiline = true;
             this.tbMailCC.Name = "tbMailCC";
-            this.tbMailCC.Size = new System.Drawing.Size(559, 72);
+            this.tbMailCC.Size = new System.Drawing.Size(557, 72);
             this.tbMailCC.TabIndex = 65;
             // 
             // label7
@@ -242,7 +242,7 @@
             this.tbMailTo.MinimumSize = new System.Drawing.Size(4, 52);
             this.tbMailTo.Multiline = true;
             this.tbMailTo.Name = "tbMailTo";
-            this.tbMailTo.Size = new System.Drawing.Size(559, 67);
+            this.tbMailTo.Size = new System.Drawing.Size(557, 67);
             this.tbMailTo.TabIndex = 63;
             // 
             // label6

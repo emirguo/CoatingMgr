@@ -32,25 +32,27 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormStir));
             this.panel2 = new System.Windows.Forms.Panel();
             this.label40 = new System.Windows.Forms.Label();
-            this.cbCoating = new System.Windows.Forms.ComboBox();
-            this.label31 = new System.Windows.Forms.Label();
-            this.tbHumidity = new System.Windows.Forms.TextBox();
-            this.btnResetStirValues = new System.Windows.Forms.Button();
-            this.btnGetStirValues = new System.Windows.Forms.Button();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label43 = new System.Windows.Forms.Label();
-            this.cbComponent = new System.Windows.Forms.ComboBox();
-            this.label50 = new System.Windows.Forms.Label();
+            this.panel9 = new System.Windows.Forms.Panel();
             this.tbTemperature = new System.Windows.Forms.TextBox();
-            this.label42 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.tbInputWeight = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.cbColor = new System.Windows.Forms.ComboBox();
-            this.label3 = new System.Windows.Forms.Label();
+            this.tbHumidity = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.cbCoating = new System.Windows.Forms.ComboBox();
             this.cbModel = new System.Windows.Forms.ComboBox();
+            this.label31 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.btnResetStirValues = new System.Windows.Forms.Button();
+            this.cbColor = new System.Windows.Forms.ComboBox();
+            this.btnGetStirValues = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label43 = new System.Windows.Forms.Label();
+            this.tbInputWeight = new System.Windows.Forms.TextBox();
+            this.cbComponent = new System.Windows.Forms.ComboBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label50 = new System.Windows.Forms.Label();
+            this.label42 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.tbRatio = new System.Windows.Forms.TextBox();
             this.panel7 = new System.Windows.Forms.Panel();
@@ -100,7 +102,6 @@
             this.label19 = new System.Windows.Forms.Label();
             this.panel5 = new System.Windows.Forms.Panel();
             this.label33 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
             this.label27 = new System.Windows.Forms.Label();
             this.tbMeasurementTime1 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -119,18 +120,19 @@
             this.label32 = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
             this.panel8 = new System.Windows.Forms.Panel();
+            this.progressBar5 = new CoatingMgr.VerticalProgressBar();
+            this.progressBar4 = new CoatingMgr.VerticalProgressBar();
+            this.progressBar3 = new CoatingMgr.VerticalProgressBar();
+            this.progressBar2 = new CoatingMgr.VerticalProgressBar();
+            this.progressBar1 = new CoatingMgr.VerticalProgressBar();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.timer = new System.Windows.Forms.Timer(this.components);
             this.lbUser = new System.Windows.Forms.Label();
             this.label49 = new System.Windows.Forms.Label();
             this.lbTime = new System.Windows.Forms.Label();
             this.btnPause = new System.Windows.Forms.Button();
-            this.progressBar5 = new CoatingMgr.VerticalProgressBar();
-            this.progressBar4 = new CoatingMgr.VerticalProgressBar();
-            this.progressBar3 = new CoatingMgr.VerticalProgressBar();
-            this.progressBar2 = new CoatingMgr.VerticalProgressBar();
-            this.progressBar1 = new CoatingMgr.VerticalProgressBar();
             this.panel2.SuspendLayout();
+            this.panel9.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel7.SuspendLayout();
             this.panel6.SuspendLayout();
@@ -146,30 +148,11 @@
             this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel2.Controls.Add(this.label40);
-            this.panel2.Controls.Add(this.cbCoating);
-            this.panel2.Controls.Add(this.label31);
-            this.panel2.Controls.Add(this.tbHumidity);
-            this.panel2.Controls.Add(this.btnResetStirValues);
-            this.panel2.Controls.Add(this.btnGetStirValues);
-            this.panel2.Controls.Add(this.label5);
-            this.panel2.Controls.Add(this.label43);
-            this.panel2.Controls.Add(this.cbComponent);
-            this.panel2.Controls.Add(this.label50);
-            this.panel2.Controls.Add(this.tbTemperature);
-            this.panel2.Controls.Add(this.label42);
-            this.panel2.Controls.Add(this.label8);
-            this.panel2.Controls.Add(this.tbInputWeight);
-            this.panel2.Controls.Add(this.label7);
-            this.panel2.Controls.Add(this.label4);
-            this.panel2.Controls.Add(this.cbColor);
-            this.panel2.Controls.Add(this.label3);
-            this.panel2.Controls.Add(this.cbModel);
-            this.panel2.Controls.Add(this.label2);
+            this.panel2.Controls.Add(this.panel9);
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1185, 80);
+            this.panel2.Size = new System.Drawing.Size(1185, 84);
             this.panel2.TabIndex = 1;
-            this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.BorderLine_Paint);
             // 
             // label40
             // 
@@ -181,218 +164,252 @@
             this.label40.TabIndex = 62;
             this.label40.Text = "涂料调和";
             // 
+            // panel9
+            // 
+            this.panel9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel9.Controls.Add(this.tbTemperature);
+            this.panel9.Controls.Add(this.tbHumidity);
+            this.panel9.Controls.Add(this.label12);
+            this.panel9.Controls.Add(this.cbCoating);
+            this.panel9.Controls.Add(this.cbModel);
+            this.panel9.Controls.Add(this.label31);
+            this.panel9.Controls.Add(this.label2);
+            this.panel9.Controls.Add(this.label3);
+            this.panel9.Controls.Add(this.btnResetStirValues);
+            this.panel9.Controls.Add(this.cbColor);
+            this.panel9.Controls.Add(this.btnGetStirValues);
+            this.panel9.Controls.Add(this.label4);
+            this.panel9.Controls.Add(this.label5);
+            this.panel9.Controls.Add(this.label7);
+            this.panel9.Controls.Add(this.label43);
+            this.panel9.Controls.Add(this.tbInputWeight);
+            this.panel9.Controls.Add(this.cbComponent);
+            this.panel9.Controls.Add(this.label8);
+            this.panel9.Controls.Add(this.label50);
+            this.panel9.Controls.Add(this.label42);
+            this.panel9.Location = new System.Drawing.Point(3, 16);
+            this.panel9.Name = "panel9";
+            this.panel9.Size = new System.Drawing.Size(1176, 64);
+            this.panel9.TabIndex = 41;
+            // 
+            // tbTemperature
+            // 
+            this.tbTemperature.Font = new System.Drawing.Font("宋体", 12F);
+            this.tbTemperature.Location = new System.Drawing.Point(989, 25);
+            this.tbTemperature.MaxLength = 4;
+            this.tbTemperature.Name = "tbTemperature";
+            this.tbTemperature.ReadOnly = true;
+            this.tbTemperature.Size = new System.Drawing.Size(42, 26);
+            this.tbTemperature.TabIndex = 51;
+            this.tbTemperature.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // tbHumidity
+            // 
+            this.tbHumidity.Font = new System.Drawing.Font("宋体", 12F);
+            this.tbHumidity.Location = new System.Drawing.Point(1103, 25);
+            this.tbHumidity.MaxLength = 4;
+            this.tbHumidity.Name = "tbHumidity";
+            this.tbHumidity.ReadOnly = true;
+            this.tbHumidity.Size = new System.Drawing.Size(43, 26);
+            this.tbHumidity.TabIndex = 52;
+            this.tbHumidity.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("宋体", 14F);
+            this.label12.Location = new System.Drawing.Point(1, 60);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(29, 19);
+            this.label12.TabIndex = 39;
+            this.label12.Text = "kg";
+            // 
             // cbCoating
             // 
             this.cbCoating.Font = new System.Drawing.Font("宋体", 12F);
             this.cbCoating.FormattingEnabled = true;
-            this.cbCoating.Location = new System.Drawing.Point(439, 40);
+            this.cbCoating.Location = new System.Drawing.Point(443, 25);
             this.cbCoating.Name = "cbCoating";
-            this.cbCoating.Size = new System.Drawing.Size(56, 24);
+            this.cbCoating.Size = new System.Drawing.Size(48, 24);
             this.cbCoating.TabIndex = 61;
-            // 
-            // label31
-            // 
-            this.label31.AutoSize = true;
-            this.label31.Font = new System.Drawing.Font("宋体", 12F);
-            this.label31.Location = new System.Drawing.Point(400, 44);
-            this.label31.Name = "label31";
-            this.label31.Size = new System.Drawing.Size(40, 16);
-            this.label31.TabIndex = 60;
-            this.label31.Text = "涂层";
-            // 
-            // tbHumidity
-            // 
-            this.tbHumidity.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbHumidity.Font = new System.Drawing.Font("宋体", 12F);
-            this.tbHumidity.Location = new System.Drawing.Point(1109, 40);
-            this.tbHumidity.MaxLength = 4;
-            this.tbHumidity.Name = "tbHumidity";
-            this.tbHumidity.ReadOnly = true;
-            this.tbHumidity.Size = new System.Drawing.Size(39, 26);
-            this.tbHumidity.TabIndex = 52;
-            this.tbHumidity.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // btnResetStirValues
-            // 
-            this.btnResetStirValues.Font = new System.Drawing.Font("宋体", 12F);
-            this.btnResetStirValues.Location = new System.Drawing.Point(775, 38);
-            this.btnResetStirValues.Name = "btnResetStirValues";
-            this.btnResetStirValues.Size = new System.Drawing.Size(112, 29);
-            this.btnResetStirValues.TabIndex = 59;
-            this.btnResetStirValues.Text = "修改调和数据";
-            this.btnResetStirValues.UseVisualStyleBackColor = true;
-            this.btnResetStirValues.Click += new System.EventHandler(this.BtnResetStirValues_Click);
-            // 
-            // btnGetStirValues
-            // 
-            this.btnGetStirValues.Font = new System.Drawing.Font("宋体", 12F);
-            this.btnGetStirValues.Location = new System.Drawing.Point(651, 38);
-            this.btnGetStirValues.Name = "btnGetStirValues";
-            this.btnGetStirValues.Size = new System.Drawing.Size(118, 29);
-            this.btnGetStirValues.TabIndex = 58;
-            this.btnGetStirValues.Text = "计算调和数据";
-            this.btnGetStirValues.UseVisualStyleBackColor = true;
-            this.btnGetStirValues.Click += new System.EventHandler(this.BtnGetStirValues_Click);
-            // 
-            // label5
-            // 
-            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("宋体", 12F);
-            this.label5.Location = new System.Drawing.Point(1067, 44);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(56, 16);
-            this.label5.TabIndex = 5;
-            this.label5.Text = "湿度：";
-            // 
-            // label43
-            // 
-            this.label43.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label43.AutoSize = true;
-            this.label43.Font = new System.Drawing.Font("宋体", 12F);
-            this.label43.Location = new System.Drawing.Point(1150, 44);
-            this.label43.Name = "label43";
-            this.label43.Size = new System.Drawing.Size(16, 16);
-            this.label43.TabIndex = 11;
-            this.label43.Text = "%";
-            // 
-            // cbComponent
-            // 
-            this.cbComponent.Font = new System.Drawing.Font("宋体", 12F);
-            this.cbComponent.FormattingEnabled = true;
-            this.cbComponent.Location = new System.Drawing.Point(180, 40);
-            this.cbComponent.Name = "cbComponent";
-            this.cbComponent.Size = new System.Drawing.Size(82, 24);
-            this.cbComponent.TabIndex = 54;
-            this.cbComponent.SelectedIndexChanged += new System.EventHandler(this.CbComponent_SelectedIndexChanged);
-            // 
-            // label50
-            // 
-            this.label50.AutoSize = true;
-            this.label50.Font = new System.Drawing.Font("宋体", 12F);
-            this.label50.Location = new System.Drawing.Point(141, 44);
-            this.label50.Name = "label50";
-            this.label50.Size = new System.Drawing.Size(40, 16);
-            this.label50.TabIndex = 53;
-            this.label50.Text = "製品";
-            // 
-            // tbTemperature
-            // 
-            this.tbTemperature.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbTemperature.Font = new System.Drawing.Font("宋体", 12F);
-            this.tbTemperature.Location = new System.Drawing.Point(994, 40);
-            this.tbTemperature.MaxLength = 4;
-            this.tbTemperature.Name = "tbTemperature";
-            this.tbTemperature.ReadOnly = true;
-            this.tbTemperature.Size = new System.Drawing.Size(39, 26);
-            this.tbTemperature.TabIndex = 51;
-            this.tbTemperature.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // label42
-            // 
-            this.label42.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label42.AutoSize = true;
-            this.label42.Font = new System.Drawing.Font("宋体", 12F);
-            this.label42.Location = new System.Drawing.Point(1032, 44);
-            this.label42.Name = "label42";
-            this.label42.Size = new System.Drawing.Size(24, 16);
-            this.label42.TabIndex = 10;
-            this.label42.Text = "℃";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("宋体", 12F);
-            this.label8.Location = new System.Drawing.Point(625, 44);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(24, 16);
-            this.label8.TabIndex = 9;
-            this.label8.Text = "Kg";
-            // 
-            // tbInputWeight
-            // 
-            this.tbInputWeight.Font = new System.Drawing.Font("宋体", 12F);
-            this.tbInputWeight.Location = new System.Drawing.Point(575, 40);
-            this.tbInputWeight.MaxLength = 4;
-            this.tbInputWeight.Name = "tbInputWeight";
-            this.tbInputWeight.Size = new System.Drawing.Size(47, 26);
-            this.tbInputWeight.TabIndex = 8;
-            this.tbInputWeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("宋体", 12F);
-            this.label7.Location = new System.Drawing.Point(501, 44);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(72, 16);
-            this.label7.TabIndex = 7;
-            this.label7.Text = "主剂重量";
-            // 
-            // label4
-            // 
-            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("宋体", 12F);
-            this.label4.Location = new System.Drawing.Point(952, 44);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(56, 16);
-            this.label4.TabIndex = 4;
-            this.label4.Text = "温度：";
-            // 
-            // cbColor
-            // 
-            this.cbColor.Font = new System.Drawing.Font("宋体", 12F);
-            this.cbColor.FormattingEnabled = true;
-            this.cbColor.Location = new System.Drawing.Point(305, 40);
-            this.cbColor.Name = "cbColor";
-            this.cbColor.Size = new System.Drawing.Size(91, 24);
-            this.cbColor.TabIndex = 3;
-            this.cbColor.SelectedIndexChanged += new System.EventHandler(this.CbColor_SelectedIndexChanged);
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("宋体", 12F);
-            this.label3.Location = new System.Drawing.Point(266, 44);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(40, 16);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "色番";
             // 
             // cbModel
             // 
             this.cbModel.Font = new System.Drawing.Font("宋体", 12F);
             this.cbModel.FormattingEnabled = true;
-            this.cbModel.Location = new System.Drawing.Point(55, 40);
+            this.cbModel.Location = new System.Drawing.Point(59, 25);
             this.cbModel.Name = "cbModel";
-            this.cbModel.Size = new System.Drawing.Size(81, 24);
+            this.cbModel.Size = new System.Drawing.Size(73, 24);
             this.cbModel.TabIndex = 1;
             this.cbModel.SelectedIndexChanged += new System.EventHandler(this.CbModel_SelectedIndexChanged);
+            // 
+            // label31
+            // 
+            this.label31.AutoSize = true;
+            this.label31.Font = new System.Drawing.Font("宋体", 12F);
+            this.label31.Location = new System.Drawing.Point(396, 29);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(40, 16);
+            this.label31.TabIndex = 60;
+            this.label31.Text = "涂层";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("宋体", 12F);
-            this.label2.Location = new System.Drawing.Point(15, 44);
+            this.label2.Location = new System.Drawing.Point(11, 29);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(40, 16);
             this.label2.TabIndex = 0;
             this.label2.Text = "机种";
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("宋体", 12F);
+            this.label3.Location = new System.Drawing.Point(262, 29);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(40, 16);
+            this.label3.TabIndex = 2;
+            this.label3.Text = "色番";
+            // 
+            // btnResetStirValues
+            // 
+            this.btnResetStirValues.Font = new System.Drawing.Font("宋体", 12F);
+            this.btnResetStirValues.Location = new System.Drawing.Point(779, 23);
+            this.btnResetStirValues.Name = "btnResetStirValues";
+            this.btnResetStirValues.Size = new System.Drawing.Size(104, 29);
+            this.btnResetStirValues.TabIndex = 59;
+            this.btnResetStirValues.Text = "修改调和数据";
+            this.btnResetStirValues.UseVisualStyleBackColor = true;
+            this.btnResetStirValues.Click += new System.EventHandler(this.BtnResetStirValues_Click);
+            // 
+            // cbColor
+            // 
+            this.cbColor.Font = new System.Drawing.Font("宋体", 12F);
+            this.cbColor.FormattingEnabled = true;
+            this.cbColor.Location = new System.Drawing.Point(309, 25);
+            this.cbColor.Name = "cbColor";
+            this.cbColor.Size = new System.Drawing.Size(83, 24);
+            this.cbColor.TabIndex = 3;
+            this.cbColor.SelectedIndexChanged += new System.EventHandler(this.CbColor_SelectedIndexChanged);
+            // 
+            // btnGetStirValues
+            // 
+            this.btnGetStirValues.Font = new System.Drawing.Font("宋体", 12F);
+            this.btnGetStirValues.Location = new System.Drawing.Point(655, 23);
+            this.btnGetStirValues.Name = "btnGetStirValues";
+            this.btnGetStirValues.Size = new System.Drawing.Size(110, 29);
+            this.btnGetStirValues.TabIndex = 58;
+            this.btnGetStirValues.Text = "计算调和数据";
+            this.btnGetStirValues.UseVisualStyleBackColor = true;
+            this.btnGetStirValues.Click += new System.EventHandler(this.BtnGetStirValues_Click);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("宋体", 12F);
+            this.label4.Location = new System.Drawing.Point(940, 29);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(56, 16);
+            this.label4.TabIndex = 4;
+            this.label4.Text = "温度：";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("宋体", 12F);
+            this.label5.Location = new System.Drawing.Point(1057, 29);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(56, 16);
+            this.label5.TabIndex = 5;
+            this.label5.Text = "湿度：";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("宋体", 12F);
+            this.label7.Location = new System.Drawing.Point(497, 29);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(72, 16);
+            this.label7.TabIndex = 7;
+            this.label7.Text = "主剂重量";
+            // 
+            // label43
+            // 
+            this.label43.AutoSize = true;
+            this.label43.Font = new System.Drawing.Font("宋体", 12F);
+            this.label43.Location = new System.Drawing.Point(1148, 29);
+            this.label43.Name = "label43";
+            this.label43.Size = new System.Drawing.Size(16, 16);
+            this.label43.TabIndex = 11;
+            this.label43.Text = "%";
+            // 
+            // tbInputWeight
+            // 
+            this.tbInputWeight.Font = new System.Drawing.Font("宋体", 12F);
+            this.tbInputWeight.Location = new System.Drawing.Point(579, 25);
+            this.tbInputWeight.MaxLength = 4;
+            this.tbInputWeight.Name = "tbInputWeight";
+            this.tbInputWeight.Size = new System.Drawing.Size(39, 26);
+            this.tbInputWeight.TabIndex = 8;
+            this.tbInputWeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // cbComponent
+            // 
+            this.cbComponent.Font = new System.Drawing.Font("宋体", 12F);
+            this.cbComponent.FormattingEnabled = true;
+            this.cbComponent.Location = new System.Drawing.Point(184, 25);
+            this.cbComponent.Name = "cbComponent";
+            this.cbComponent.Size = new System.Drawing.Size(74, 24);
+            this.cbComponent.TabIndex = 54;
+            this.cbComponent.SelectedIndexChanged += new System.EventHandler(this.CbComponent_SelectedIndexChanged);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("宋体", 12F);
+            this.label8.Location = new System.Drawing.Point(621, 29);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(24, 16);
+            this.label8.TabIndex = 9;
+            this.label8.Text = "Kg";
+            // 
+            // label50
+            // 
+            this.label50.AutoSize = true;
+            this.label50.Font = new System.Drawing.Font("宋体", 12F);
+            this.label50.Location = new System.Drawing.Point(137, 29);
+            this.label50.Name = "label50";
+            this.label50.Size = new System.Drawing.Size(40, 16);
+            this.label50.TabIndex = 53;
+            this.label50.Text = "製品";
+            // 
+            // label42
+            // 
+            this.label42.AutoSize = true;
+            this.label42.Font = new System.Drawing.Font("宋体", 12F);
+            this.label42.Location = new System.Drawing.Point(1030, 29);
+            this.label42.Name = "label42";
+            this.label42.Size = new System.Drawing.Size(24, 16);
+            this.label42.TabIndex = 10;
+            this.label42.Text = "℃";
+            // 
             // panel3
             // 
+            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel3.Controls.Add(this.tbRatio);
             this.panel3.Controls.Add(this.panel7);
             this.panel3.Controls.Add(this.panel6);
             this.panel3.Controls.Add(this.panel1);
             this.panel3.Controls.Add(this.panel5);
             this.panel3.Controls.Add(this.label6);
-            this.panel3.Location = new System.Drawing.Point(0, 87);
+            this.panel3.Location = new System.Drawing.Point(2, 87);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(746, 543);
+            this.panel3.Size = new System.Drawing.Size(746, 542);
             this.panel3.TabIndex = 2;
-            this.panel3.Paint += new System.Windows.Forms.PaintEventHandler(this.Pane3_Paint);
             // 
             // tbRatio
             // 
@@ -904,7 +921,6 @@
             // 
             this.panel5.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.panel5.Controls.Add(this.label33);
-            this.panel5.Controls.Add(this.label12);
             this.panel5.Controls.Add(this.label27);
             this.panel5.Controls.Add(this.tbMeasurementTime1);
             this.panel5.Controls.Add(this.label1);
@@ -931,16 +947,6 @@
             this.label33.Size = new System.Drawing.Size(29, 19);
             this.label33.TabIndex = 40;
             this.label33.Text = "kg";
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Font = new System.Drawing.Font("宋体", 14F);
-            this.label12.Location = new System.Drawing.Point(332, 113);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(29, 19);
-            this.label12.TabIndex = 39;
-            this.label12.Text = "kg";
             // 
             // label27
             // 
@@ -1080,7 +1086,7 @@
             // btnStop
             // 
             this.btnStop.Font = new System.Drawing.Font("宋体", 12F);
-            this.btnStop.Location = new System.Drawing.Point(668, 633);
+            this.btnStop.Location = new System.Drawing.Point(668, 632);
             this.btnStop.Name = "btnStop";
             this.btnStop.Size = new System.Drawing.Size(71, 29);
             this.btnStop.TabIndex = 38;
@@ -1110,17 +1116,16 @@
             // 
             // panel4
             // 
-            this.panel4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.panel4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel4.Controls.Add(this.panel8);
             this.panel4.Controls.Add(this.lbCurrentStatus);
             this.panel4.Controls.Add(this.label32);
-            this.panel4.Location = new System.Drawing.Point(748, 87);
+            this.panel4.Location = new System.Drawing.Point(752, 87);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(432, 538);
+            this.panel4.Size = new System.Drawing.Size(428, 542);
             this.panel4.TabIndex = 19;
-            this.panel4.Paint += new System.Windows.Forms.PaintEventHandler(this.Pane4_Paint);
             // 
             // panel8
             // 
@@ -1135,19 +1140,65 @@
             this.panel8.Controls.Add(this.pictureBox1);
             this.panel8.Location = new System.Drawing.Point(6, 122);
             this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(419, 327);
+            this.panel8.Size = new System.Drawing.Size(413, 329);
             this.panel8.TabIndex = 53;
+            // 
+            // progressBar5
+            // 
+            this.progressBar5.BackColor = System.Drawing.SystemColors.Control;
+            this.progressBar5.Location = new System.Drawing.Point(172, 203);
+            this.progressBar5.Name = "progressBar5";
+            this.progressBar5.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.progressBar5.Size = new System.Drawing.Size(77, 63);
+            this.progressBar5.TabIndex = 6;
+            // 
+            // progressBar4
+            // 
+            this.progressBar4.BackColor = System.Drawing.SystemColors.Control;
+            this.progressBar4.Location = new System.Drawing.Point(280, 30);
+            this.progressBar4.Name = "progressBar4";
+            this.progressBar4.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.progressBar4.Size = new System.Drawing.Size(41, 38);
+            this.progressBar4.TabIndex = 5;
+            this.progressBar4.Value = 100;
+            // 
+            // progressBar3
+            // 
+            this.progressBar3.BackColor = System.Drawing.SystemColors.Control;
+            this.progressBar3.Location = new System.Drawing.Point(222, 30);
+            this.progressBar3.Name = "progressBar3";
+            this.progressBar3.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.progressBar3.Size = new System.Drawing.Size(41, 38);
+            this.progressBar3.TabIndex = 4;
+            this.progressBar3.Value = 100;
+            // 
+            // progressBar2
+            // 
+            this.progressBar2.BackColor = System.Drawing.SystemColors.Control;
+            this.progressBar2.Location = new System.Drawing.Point(162, 30);
+            this.progressBar2.Name = "progressBar2";
+            this.progressBar2.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.progressBar2.Size = new System.Drawing.Size(41, 38);
+            this.progressBar2.TabIndex = 3;
+            this.progressBar2.Value = 100;
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.BackColor = System.Drawing.SystemColors.Control;
+            this.progressBar1.Location = new System.Drawing.Point(100, 30);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.progressBar1.Size = new System.Drawing.Size(41, 38);
+            this.progressBar1.TabIndex = 2;
+            this.progressBar1.Value = 100;
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox1.Cursor = System.Windows.Forms.Cursors.Default;
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
             this.pictureBox1.Location = new System.Drawing.Point(4, 3);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(411, 305);
+            this.pictureBox1.Size = new System.Drawing.Size(405, 307);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
@@ -1193,7 +1244,7 @@
             // btnPause
             // 
             this.btnPause.Font = new System.Drawing.Font("宋体", 12F);
-            this.btnPause.Location = new System.Drawing.Point(573, 633);
+            this.btnPause.Location = new System.Drawing.Point(573, 632);
             this.btnPause.Name = "btnPause";
             this.btnPause.Size = new System.Drawing.Size(71, 29);
             this.btnPause.TabIndex = 57;
@@ -1201,70 +1252,16 @@
             this.btnPause.UseVisualStyleBackColor = true;
             this.btnPause.Click += new System.EventHandler(this.BtnPause_Click);
             // 
-            // progressBar5
-            // 
-            this.progressBar5.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.progressBar5.BackColor = System.Drawing.SystemColors.Control;
-            this.progressBar5.Location = new System.Drawing.Point(175, 202);
-            this.progressBar5.Name = "progressBar5";
-            this.progressBar5.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.progressBar5.Size = new System.Drawing.Size(77, 63);
-            this.progressBar5.TabIndex = 6;
-            // 
-            // progressBar4
-            // 
-            this.progressBar4.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.progressBar4.BackColor = System.Drawing.SystemColors.Control;
-            this.progressBar4.Location = new System.Drawing.Point(282, 28);
-            this.progressBar4.Name = "progressBar4";
-            this.progressBar4.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.progressBar4.Size = new System.Drawing.Size(37, 38);
-            this.progressBar4.TabIndex = 5;
-            this.progressBar4.Value = 100;
-            // 
-            // progressBar3
-            // 
-            this.progressBar3.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.progressBar3.BackColor = System.Drawing.SystemColors.Control;
-            this.progressBar3.Location = new System.Drawing.Point(225, 28);
-            this.progressBar3.Name = "progressBar3";
-            this.progressBar3.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.progressBar3.Size = new System.Drawing.Size(39, 38);
-            this.progressBar3.TabIndex = 4;
-            this.progressBar3.Value = 100;
-            // 
-            // progressBar2
-            // 
-            this.progressBar2.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.progressBar2.BackColor = System.Drawing.SystemColors.Control;
-            this.progressBar2.Location = new System.Drawing.Point(165, 28);
-            this.progressBar2.Name = "progressBar2";
-            this.progressBar2.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.progressBar2.Size = new System.Drawing.Size(41, 38);
-            this.progressBar2.TabIndex = 3;
-            this.progressBar2.Value = 100;
-            // 
-            // progressBar1
-            // 
-            this.progressBar1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.progressBar1.BackColor = System.Drawing.SystemColors.Control;
-            this.progressBar1.Location = new System.Drawing.Point(102, 28);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.progressBar1.Size = new System.Drawing.Size(41, 38);
-            this.progressBar1.TabIndex = 2;
-            this.progressBar1.Value = 100;
-            // 
             // FormStir
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1184, 662);
+            this.Controls.Add(this.panel4);
             this.Controls.Add(this.btnPause);
             this.Controls.Add(this.lbUser);
             this.Controls.Add(this.label49);
             this.Controls.Add(this.lbTime);
-            this.Controls.Add(this.panel4);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.btnStop);
@@ -1273,6 +1270,8 @@
             this.Load += new System.EventHandler(this.FormStir_Load);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            this.panel9.ResumeLayout(false);
+            this.panel9.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             this.panel7.ResumeLayout(false);
@@ -1393,5 +1392,6 @@
         private System.Windows.Forms.ComboBox cbCoating;
         private System.Windows.Forms.Label label31;
         private System.Windows.Forms.Label label40;
+        private System.Windows.Forms.Panel panel9;
     }
 }

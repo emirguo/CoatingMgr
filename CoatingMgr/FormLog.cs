@@ -32,27 +32,6 @@ namespace CoatingMgr
             InitializeComponent();
         }
 
-        /// <summary>
-        /// 画黑色边框
-        /// </summary>
-        private void BorderLine_Paint(object sender, PaintEventArgs e)
-        {
-            Graphics g = e.Graphics;
-            Pen pen = new Pen(Color.Black, 1);
-            Point point1 = new Point(2, 16);
-            Point point2 = new Point(1172, 16);
-            g.DrawLine(pen, point1, point2);
-            Point point3 = new Point(2, 16);
-            Point point4 = new Point(2, 74);
-            g.DrawLine(pen, point3, point4);
-            Point point5 = new Point(1172, 16);
-            Point point6 = new Point(1172, 74);
-            g.DrawLine(pen, point5, point6);
-            Point point7 = new Point(2, 74);
-            Point point8 = new Point(1172, 74);
-            g.DrawLine(pen, point7, point8);
-        }
-
         public void InitData(string tableName)
         {
             _tableName = tableName;
