@@ -37,9 +37,9 @@
             this.cbSearchType = new System.Windows.Forms.ComboBox();
             this.btAdd = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
             this.btShowAll = new System.Windows.Forms.Button();
             this.cbSearchContent = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.TSMIModify = new System.Windows.Forms.ToolStripMenuItem();
             this.TSMIDelete = new System.Windows.Forms.ToolStripMenuItem();
@@ -78,7 +78,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel2.Controls.Add(this.panel4);
             this.panel2.Controls.Add(this.dgvAccountData);
-            this.panel2.Location = new System.Drawing.Point(1, 84);
+            this.panel2.Location = new System.Drawing.Point(0, 84);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(1182, 478);
             this.panel2.TabIndex = 3;
@@ -122,7 +122,7 @@
             // 
             this.cbSearchType.Font = new System.Drawing.Font("宋体", 12F);
             this.cbSearchType.FormattingEnabled = true;
-            this.cbSearchType.Location = new System.Drawing.Point(21, 24);
+            this.cbSearchType.Location = new System.Drawing.Point(20, 24);
             this.cbSearchType.Name = "cbSearchType";
             this.cbSearchType.Size = new System.Drawing.Size(168, 24);
             this.cbSearchType.TabIndex = 0;
@@ -132,9 +132,9 @@
             // btAdd
             // 
             this.btAdd.Font = new System.Drawing.Font("宋体", 12F);
-            this.btAdd.Location = new System.Drawing.Point(1037, 23);
+            this.btAdd.Location = new System.Drawing.Point(1036, 23);
             this.btAdd.Name = "btAdd";
-            this.btAdd.Size = new System.Drawing.Size(113, 27);
+            this.btAdd.Size = new System.Drawing.Size(114, 27);
             this.btAdd.TabIndex = 5;
             this.btAdd.Text = "添加账户";
             this.btAdd.UseVisualStyleBackColor = true;
@@ -149,20 +149,10 @@
             this.panel1.Controls.Add(this.cbSearchContent);
             this.panel1.Controls.Add(this.btAdd);
             this.panel1.Controls.Add(this.cbSearchType);
-            this.panel1.Location = new System.Drawing.Point(3, 16);
+            this.panel1.Location = new System.Drawing.Point(2, 16);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1176, 62);
             this.panel1.TabIndex = 2;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label1.Location = new System.Drawing.Point(536, 4);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(110, 24);
-            this.label1.TabIndex = 12;
-            this.label1.Text = "账户管理";
             // 
             // btShowAll
             // 
@@ -185,6 +175,16 @@
             this.cbSearchContent.TabIndex = 6;
             this.cbSearchContent.Text = "选择过滤内容";
             this.cbSearchContent.SelectedIndexChanged += new System.EventHandler(this.CbSearchContent_SelectedIndexChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label1.Location = new System.Drawing.Point(536, 4);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(110, 24);
+            this.label1.TabIndex = 12;
+            this.label1.Text = "账户管理";
             // 
             // contextMenuStrip
             // 

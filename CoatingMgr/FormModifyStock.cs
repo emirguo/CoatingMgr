@@ -41,10 +41,11 @@ namespace CoatingMgr
 
         private void InitView()
         {
-            for (int i = 0; i < Common.STOCKSNAME.Length; i++)
+            List<string> searchContent = SqlLiteHelper.GetInstance().GetValueTypeByColumnFromTable(Common.STORETABLENAME, "名称", null, null, null);
+            for (int i = 0; i < searchContent.Count; i++)
             {
-                cbStock.Items.Add(Common.STOCKSNAME[i]);
-                if (Common.STOCKSNAME[i].Equals(cbStock.Text))
+                cbStock.Items.Add(searchContent[i]);
+                if (searchContent[i].Equals(cbStock.Text))
                 {
                     cbStock.SelectedIndex = i;
                 }

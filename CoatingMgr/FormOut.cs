@@ -1,13 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Data.SQLite;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CoatingMgr
@@ -47,12 +41,6 @@ namespace CoatingMgr
             lbUser.Text = _userName;
             ShowTime();
 
-            for (int i = 0; i < Common.STOCKSNAME.Length; i++)
-            {
-                cbSearchStock.Items.Add(Common.STOCKSNAME[i]);
-                cbSearchStock.SelectedIndex = 0;
-            }
-
             SetDefaultColumns(dgvStockData, Common.INSTOCKTABLECOLUMNS);
         }
 
@@ -90,49 +78,56 @@ namespace CoatingMgr
             { IsBackground = true }.Start();
         }
 
-        private void TbBarCode_TextChanged(object sender, EventArgs e)
+        public void Clear()
         {
-            if (!IsBarCodeFromStock(tbBarCode.Text.ToString()))
+            tbBarCode.Text = string.Empty;
+            tbStore.Text = string.Empty;
+            tbName.Text = string.Empty;
+            tbType.Text = string.Empty;
+            tbColor.Text = string.Empty;
+            tbModel.Text = string.Empty;
+            tbWeight.Text = string.Empty;
+            tbProductionDate.Text = string.Empty;
+            tbExpiryDate.Text = string.Empty;
+            lbProDescription.Text = string.Empty;
+            lbCount.Text = 0 + string.Empty;
+            dgvStockData.Rows.Clear();
+        }
+
+        public void BarCodeInputEnd()
+        {
+            if (tbBarCode.Focused && !tbBarCode.Text.ToString().Equals(""))
             {
-                return;
-            }
-            if (AnalysisBarCode(tbBarCode.Text.ToString()))
-            {
-                this.dgvStockData.Rows.Add(0, tbBarCode.Text, tbName.Text, tbColor.Text, tbType.Text, tbWeight.Text, tbModel.Text, cbSearchStock.Text, tbProductionDate.Text, tbExpiryDate.Text, _userName, DateTime.Now.ToString("yyyyMMdd"), DateTime.Now.ToString("HH:mm:ss"), "出库", " ", " ");
-                int count = this.dgvStockData.RowCount;
-                this.dgvStockData.CurrentCell = this.dgvStockData[1, (count > 1) ? (count - 1) : 0];
-                lbCount.Text = count + "";
-                SaveRowToDB(dgvStockData.CurrentRow);
-            }
-            else
-            {
-                MessageBox.Show("条形码无效");
+                if (!IsBarCodeInStock(tbBarCode.Text.ToString()))
+                {
+                    tbBarCode.Text = string.Empty;
+                    MessageBox.Show("此条形码涂料还未入库，请先入库");
+                    return;
+                }
+                if (AnalysisBarCode(tbBarCode.Text.ToString()))
+                {
+                    this.dgvStockData.Rows.Add(0, tbBarCode.Text, tbName.Text, tbColor.Text, tbType.Text, tbWeight.Text, tbModel.Text, tbStore.Text, tbProductionDate.Text, tbExpiryDate.Text, _userName, DateTime.Now.ToString("yyyyMMdd"), DateTime.Now.ToString("HH:mm:ss"), "出库", " ", " ");
+                    int count = this.dgvStockData.RowCount;
+                    this.dgvStockData.CurrentCell = this.dgvStockData[1, (count > 1) ? (count - 1) : 0];
+                    lbCount.Text = count + "";
+                    SaveRowToDB(dgvStockData.CurrentRow);
+                }
+                else
+                {
+                    MessageBox.Show("条形码无效");
+                }
+                tbBarCode.Text = string.Empty;
             }
         }
 
-        private bool IsBarCodeFromStock(string barcode)
+        private bool IsBarCodeInStock(string barcode)
         {
             bool result = false;
-            SQLiteDataReader dataReader = GetSqlLiteHelper().ReadTable(Common.STOCKLOGTABLENAME, new string[] { "条形码" }, new string[] { "=" }, new string[] { barcode });
-            if (dataReader != null && dataReader.HasRows)
+            SQLiteDataReader dataReader = GetSqlLiteHelper().ReadTable(Common.INSTOCKTABLENAME, new string[] { "条形码" }, new string[] { "=" }, new string[] { barcode });
+            if (dataReader != null && dataReader.HasRows && dataReader.Read())
             {
-                while (dataReader.Read())
-                {
-                    if (dataReader["操作类型"].ToString().Equals("入库"))
-                    {
-                        result = true;
-                    }
-                    else if (dataReader["操作类型"].ToString().Equals("出库"))
-                    {
-                        MessageBox.Show("此条形码涂料已出库，无法再次出库");
-                        result = false;
-                        break;
-                    }
-                }
-            }
-            else
-            {
-                MessageBox.Show("此条形码涂料还未入库，请先入库");
+                tbStore.Text = dataReader["仓库"].ToString();
+                result = true;
             }
             return result;
         }

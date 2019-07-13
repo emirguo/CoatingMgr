@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Data.SqlClient;
 using System.Data.SQLite;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows.Forms;
 
 namespace CoatingMgr
@@ -22,11 +16,14 @@ namespace CoatingMgr
         private FormWarn formWarn;
         private FormMaster formMaster;
         private FormAccountManager formAccountMgr;
+        private FormStore formStore;
         private FormLog formLog;
 
         private SqlLiteHelper sqlLiteHelper = null;
         private string _userName = "";
         private string _userPermission = "";
+
+        private ScanerHook listener = new ScanerHook();
 
         public MainForm()
         {
@@ -45,8 +42,24 @@ namespace CoatingMgr
             InitView();
             InitDataBase();
 
-            Task task = new Task(AnalysisWarn);//启线程分析告警数据并发通知邮件
+            //第一次启动程序时启线程分析告警数据并发通知邮件
+            Task task = new Task(AnalysisWarn);
             task.Start();
+
+            //设置定时器每天8：30分析告警数据并发通知邮件
+            System.Timers.Timer timer = new System.Timers.Timer();
+            timer.Enabled = true;
+            timer.Interval = 60000;//执行间隔时间,单位为毫秒;此时时间间隔为1分钟  
+            timer.Start();
+            timer.Elapsed += new System.Timers.ElapsedEventHandler(AnalysisWarnOnTime);
+        }
+
+        private void AnalysisWarnOnTime(object source, ElapsedEventArgs e)
+        {
+            if (DateTime.Now.Hour == 8 && DateTime.Now.Minute == 30)  //如果当前时间是8点30分
+            {
+                AnalysisWarn();
+            }    
         }
 
         private void AnalysisWarn()
@@ -58,6 +71,33 @@ namespace CoatingMgr
             }
 
             Common.AnalysisWarn();
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            this.mainPanel.Controls.Clear();
+            this.mainPanel.Controls.Add(formStock);
+            formStock.Show();
+
+            listener.ScanerEvent += Listener_ScanerEvent;
+            listener.Start();
+        }
+
+        private void Listener_ScanerEvent(ScanerHook.ScanerCodes codes)
+        {
+            string barcode = codes.Result;
+            if (this.mainPanel.Controls[0].Name.Equals("FormIn"))
+            {
+                formIn.BarCodeInputEnd();
+            }
+            else if (this.mainPanel.Controls[0].Name.Equals("FormOut"))
+            {
+                formOut.BarCodeInputEnd();
+            }
+            else if (this.mainPanel.Controls[0].Name.Equals("FormStir"))
+            {
+                formStir.BarCodeInputEnd();
+            }
         }
 
         private SqlLiteHelper GetSqlLiteHelper()
@@ -113,6 +153,13 @@ namespace CoatingMgr
                 Dock = System.Windows.Forms.DockStyle.Fill
             };
 
+            formStore = new FormStore()
+            {
+                TopLevel = false,
+                FormBorderStyle = System.Windows.Forms.FormBorderStyle.None,
+                Dock = System.Windows.Forms.DockStyle.Fill
+            };
+
             formLog = new FormLog()
             {
                 TopLevel = false,
@@ -126,10 +173,6 @@ namespace CoatingMgr
                 FormBorderStyle = System.Windows.Forms.FormBorderStyle.None,
                 Dock = System.Windows.Forms.DockStyle.Fill
             };
-
-            this.mainPanel.Controls.Clear();
-            this.mainPanel.Controls.Add(formStock);
-            formStock.Show();
         }
 
         private void InitDataBase()
@@ -138,6 +181,8 @@ namespace CoatingMgr
             {
                 //创建账户数据表
                 GetSqlLiteHelper().CreateTable(Common.ACCOUNTTABLENAME, Common.ACCOUNTTABLECOLUMNS, Common.ACCOUNTTABLECOLUMNSTYPE);
+                //创建仓库数据表
+                GetSqlLiteHelper().CreateTable(Common.STORETABLENAME, Common.STORETABLECOLUMNS, Common.STORETABLECOLUMNSTYPE);
                 //创建入库数据表
                 GetSqlLiteHelper().CreateTable(Common.INSTOCKTABLENAME, Common.INSTOCKTABLECOLUMNS, Common.INSTOCKTABLECOLUMNSTYPE);
                 //创建出库数据表
@@ -167,15 +212,25 @@ namespace CoatingMgr
 
         private void BtnIn_Click(object sender, EventArgs e)
         {
+            if (this.mainPanel.Controls[0].Name.Equals("FormIn"))
+            {
+                return;
+            }
             this.mainPanel.Controls.Clear();
             this.mainPanel.Controls.Add(formIn);
+            formIn.Clear();
             formIn.Show();
         }
 
         private void BtnOut_Click(object sender, EventArgs e)
         {
+            if (this.mainPanel.Controls[0].Name.Equals("FormOut"))
+            {
+                return;
+            }
             this.mainPanel.Controls.Clear();
             this.mainPanel.Controls.Add(formOut);
+            formOut.Clear();
             formOut.Show();
         }
 
@@ -288,6 +343,22 @@ namespace CoatingMgr
         {
             FormWarnMailInfo formWarnMailInfo = new FormWarnMailInfo();
             formWarnMailInfo.Show();
+        }
+
+        //管理仓库
+        private void TSMIStore_Click(object sender, EventArgs e)
+        {
+            this.mainPanel.Controls.Clear();
+            this.mainPanel.Controls.Add(formStore);
+            formStore.Show();
+            formStore.UpdateData();
+        }
+
+        //添加仓库
+        private void TSMIStoreAdd_Click(object sender, EventArgs e)
+        {
+            Form formStoreAdd = new FormStoreAdd(this.formStore);
+            formStoreAdd.Show();
         }
 
         //关于

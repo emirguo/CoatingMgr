@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.SQLite;
 using System.Drawing;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -480,6 +481,8 @@ namespace CoatingMgr
                 case Status.CoatingStart:
                     SetStartStirText(tbMeasurementTime1);
                     this.lbCurrentStatus.Text = "正在倒入涂料";
+                    //连接PLC，开始倒涂料
+                    PLCTCPHelper.GetInstance().PLCRead();
                     break;
                 case Status.CoatingPause:
                     SetPauseStirText();
@@ -652,106 +655,148 @@ namespace CoatingMgr
             return result;
         }
 
-        private void TbBarCode1_TextChanged(object sender, EventArgs e)
+        public void BarCodeInputEnd()
         {
-            if (!IsStirInfoEnough())
+            if (tbBarCode1.Focused)
             {
-                tbBarCode1.Text = "";
-                MessageBox.Show("请先设置调和信息");
-                return;
+                BarCode1InputEnd();
             }
-            if (!isStirInfoConfirmed)
+            else if (tbBarCode2.Focused)
             {
-                tbBarCode1.Text = "";
-                ShowConfirmWindow();
-                return;
+                BarCode2InputEnd();
             }
-            if (!IsBarCodeFromStock(tbBarCode1.Text.ToString()))
+            else if (tbBarCode3.Focused)
             {
-                return;
+                BarCode3InputEnd();
             }
-            if (IsBarCodeValid(tbBarCode1.Text.ToString(), tbName1.Text))//条形码正确
+            else if (tbBarCode4.Focused)
             {
-                CurrStatus = Status.CoatingStart;
-                DoStir();
-                this.tbBarCode2.Focus();
+                BarCode4InputEnd();
             }
         }
 
-        private void TbBarCode2_TextChanged(object sender, EventArgs e)
+        private void BarCode1InputEnd()
         {
-            if (!IsStirInfoEnough())
+            if (!tbBarCode2.Equals(string.Empty))
             {
-                tbBarCode2.Text = "";
-                MessageBox.Show("请先设置调和信息");
-                return;
-            }
-            if (!isStirInfoConfirmed)
-            {
-                tbBarCode2.Text = "";
-                ShowConfirmWindow();
-                return;
-            }
-            if (!IsBarCodeFromStock(tbBarCode2.Text.ToString()))
-            {
-                return;
-            }
-            if (IsBarCodeValid(tbBarCode2.Text.ToString(), tbName2.Text))//条形码正确
-            {
-                CurrStatus = Status.HardeningAgentStart;
-                DoStir();
-                this.tbBarCode3.Focus();
+
+                if (!IsStirInfoEnough())
+                {
+                    tbBarCode1.Text = string.Empty;
+                    MessageBox.Show("请先设置调和信息");
+                    return;
+                }
+                if (!isStirInfoConfirmed)
+                {
+                    tbBarCode1.Text = string.Empty;
+                    ShowConfirmWindow();
+                    return;
+                }
+                if (!IsBarCodeFromStock(tbBarCode1.Text.ToString()))
+                {
+                    tbBarCode1.Text = string.Empty;
+                    return;
+                }
+                if (IsBarCodeValid(tbBarCode1.Text.ToString(), tbName1.Text))//条形码正确
+                {
+                    CurrStatus = Status.CoatingStart;
+                    DoStir();
+                    this.tbBarCode2.Focus();
+                }
+                tbBarCode1.Text = string.Empty;
             }
         }
 
-        private void TbBarCode3_TextChanged(object sender, EventArgs e)
+        private void BarCode2InputEnd()
         {
-            if (!IsStirInfoEnough())
+            if (!tbBarCode2.Equals(string.Empty))
             {
-                tbBarCode3.Text = "";
-                MessageBox.Show("请先设置调和信息");
-                return;
-            }
-            if (!isStirInfoConfirmed)
-            {
-                tbBarCode3.Text = "";
-                ShowConfirmWindow();
-                return;
-            }
-            if (!IsBarCodeFromStock(tbBarCode3.Text.ToString()))
-            {
-                return;
-            }
-            if (IsBarCodeValid(tbBarCode3.Text.ToString(), tbName3.Text))//条形码正确
-            {
-                CurrStatus = Status.ThinnerAStart;
-                DoStir();
-                this.tbBarCode4.Focus();
+                if (!IsStirInfoEnough())
+                {
+                    tbBarCode2.Text = string.Empty;
+                    MessageBox.Show("请先设置调和信息");
+                    return;
+                }
+                if (!isStirInfoConfirmed)
+                {
+                    tbBarCode2.Text = string.Empty;
+                    ShowConfirmWindow();
+                    return;
+                }
+                if (!IsBarCodeFromStock(tbBarCode2.Text.ToString()))
+                {
+                    tbBarCode2.Text = string.Empty;
+                    return;
+                }
+                if (IsBarCodeValid(tbBarCode2.Text.ToString(), tbName2.Text))//条形码正确
+                {
+                    CurrStatus = Status.HardeningAgentStart;
+                    DoStir();
+                    this.tbBarCode3.Focus();
+                }
+                tbBarCode2.Text = string.Empty;
             }
         }
 
-        private void TbBarCode4_TextChanged(object sender, EventArgs e)
+        private void BarCode3InputEnd()
         {
-            if (!IsStirInfoEnough())
+            if (!tbBarCode3.Equals(string.Empty))
             {
-                tbBarCode4.Text = "";
-                MessageBox.Show("请先设置调和信息");
-                return;
+                if (!IsStirInfoEnough())
+                {
+                    tbBarCode3.Text = string.Empty;
+                    MessageBox.Show("请先设置调和信息");
+                    return;
+                }
+                if (!isStirInfoConfirmed)
+                {
+                    tbBarCode3.Text = string.Empty;
+                    ShowConfirmWindow();
+                    return;
+                }
+                if (!IsBarCodeFromStock(tbBarCode3.Text.ToString()))
+                {
+                    tbBarCode3.Text = string.Empty;
+                    return;
+                }
+                if (IsBarCodeValid(tbBarCode3.Text.ToString(), tbName3.Text))//条形码正确
+                {
+                    CurrStatus = Status.ThinnerAStart;
+                    DoStir();
+                    this.tbBarCode4.Focus();
+                }
+                tbBarCode3.Text = string.Empty;
             }
-            if (!isStirInfoConfirmed)
+        }
+
+        private void BarCode4InputEnd()
+        {
+            if (!tbBarCode4.Equals(string.Empty))
             {
-                tbBarCode4.Text = "";
-                ShowConfirmWindow();
-                return;
-            }
-            if (!IsBarCodeFromStock(tbBarCode4.Text.ToString()))
-            {
-                return;
-            }
-            if (IsBarCodeValid(tbBarCode4.Text.ToString(), tbName4.Text))//条形码正确
-            {
-                CurrStatus = Status.ThinnerBStart;
-                DoStir();
+
+                if (!IsStirInfoEnough())
+                {
+                    tbBarCode4.Text = string.Empty;
+                    MessageBox.Show("请先设置调和信息");
+                    return;
+                }
+                if (!isStirInfoConfirmed)
+                {
+                    tbBarCode4.Text = string.Empty;
+                    ShowConfirmWindow();
+                    return;
+                }
+                if (!IsBarCodeFromStock(tbBarCode4.Text.ToString()))
+                {
+                    tbBarCode4.Text = string.Empty;
+                    return;
+                }
+                if (IsBarCodeValid(tbBarCode4.Text.ToString(), tbName4.Text))//条形码正确
+                {
+                    CurrStatus = Status.ThinnerBStart;
+                    DoStir();
+                }
+                tbBarCode4.Text = string.Empty;
             }
         }
 
@@ -835,5 +880,136 @@ namespace CoatingMgr
             FormConfirmStirInfo formConfirmStirInfo = new FormConfirmStirInfo(this);
             formConfirmStirInfo.Show();
         }
+
+        TcpClient tcp = new TcpClient(); //定义TCP\IP连接
+        private string SendMessage(string mes)//写一个发送指令的方法
+        {
+            NetworkStream DataSend = tcp.GetStream();//定义网络流
+            string SendW = mes;
+            var ByteSendW = Encoding.ASCII.GetBytes(SendW);//把发送数据转换为ASCII数组          
+            DataSend.Write(ByteSendW, 0, ByteSendW.Length); //发送通讯数据
+            byte[] data = new byte[16];//设定接收数据为16位数组，接收数据不足用0填充
+            DataSend.Read(data, 0, data.Length);       //读取返回数据
+            var ByteRD = "未返回数据";
+            ByteRD = Encoding.ASCII.GetString(data);//接收数据从ASCII数组转换为字符串
+            return ByteRD;
+        }
+
+        private void ConnectPLC(string ip, int port)//连接PLC 
+        {
+            try
+            {
+                tcp.Connect(ip, port);//tcp.Connect("192.168.10.10", 8500); //设置IP与Port 8500为默认上位链路通讯端口
+
+
+                if (!tcp.Connected)
+                {
+                    MessageBox.Show("PLC连接失败，请查询网络是否正常！PLC地址：" + ip);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("PLC连接失败," + ex.ToString());
+            }
+        }
+
+        private void ClosePLC()
+        {
+            tcp.Close();
+        }
+
+        private void ResetR(string addr)
+        {
+            try
+            {
+                if (!tcp.Connected)
+                {
+                    MessageBox.Show("请先连接网口");
+                    return;
+                }
+                string SendW = "";
+                string RD = "RD R" + addr + @"\r";
+                string value = SendMessage(RD);
+                if (value == ("0\r\n" + "\0\0\0\0\0\0\0\0\0\0\0\0\0"))//如果该R值为0则发送置位指令
+                {
+                    SendW = "ST R" + addr + @"\r";
+                }
+                else if (value == ("1\r\n" + "\0\0\0\0\0\0\0\0\0\0\0\0\0"))//如果该R值为1则发送复位指令
+                {
+                    SendW = "RS R" + addr + @"\r";
+                }
+                if (SendMessage(SendW) == ("OK\r\n" + "\0\0\0\0\0\0\0\0\0\0\0\0"))//发送成功
+                {
+                    if (SendMessage(RD) == ("1\r\n" + "\0\0\0\0\0\0\0\0\0\0\0\0\0"))//接收成功
+                    {
+                    }
+                    else//接收失败
+                    {
+                    }
+
+                }
+                else //发送失败
+                {
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void ReadDM(string addr)//读DM
+        {
+            try
+            {
+                if (!tcp.Connected)
+                {
+                    MessageBox.Show("请先连接网口");
+                    return;
+                }
+
+                string RD = "RD DM" + addr + @".L\r";
+                string value = SendMessage(RD);
+                if (value == ("E0\r\n" + "\0\0\0\0\0\0\0\0\0\0\0\0") || value == ("E1\r\n" + "\0\0\0\0\0\0\0\0\0\0\0\0") || value == "未返回数据")
+                {
+                    //发送失败
+                }
+                else
+                {
+                    //发送成功
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void WriteDM(string addr, string value)//写DM
+        {
+            try
+            {
+                if (!tcp.Connected)
+                {
+                    MessageBox.Show("请先连接网口");
+                    return;
+                }
+                string RD = "WR DM" + addr + @".L " + value + "\r";
+                if (SendMessage(RD) == ("OK\r\n" + "\0\0\0\0\0\0\0\0\0\0\0\0"))
+                {
+                    //写成功
+
+                }
+                else
+                {
+                    //写失败
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
     }
 }

@@ -51,7 +51,6 @@
             this.tbProductionDate = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
-            this.cbSearchStock = new System.Windows.Forms.ComboBox();
             this.label10 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.tbColor = new System.Windows.Forms.TextBox();
@@ -66,6 +65,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.tbModel = new System.Windows.Forms.TextBox();
+            this.tbStore = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvStockData)).BeginInit();
             this.panel2.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -252,11 +252,11 @@
             this.panel3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel3.Controls.Add(this.tbStore);
             this.panel3.Controls.Add(this.tbBarCode);
             this.panel3.Controls.Add(this.tbProductionDate);
             this.panel3.Controls.Add(this.label3);
             this.panel3.Controls.Add(this.label12);
-            this.panel3.Controls.Add(this.cbSearchStock);
             this.panel3.Controls.Add(this.label10);
             this.panel3.Controls.Add(this.label4);
             this.panel3.Controls.Add(this.tbColor);
@@ -283,7 +283,6 @@
             this.tbBarCode.Name = "tbBarCode";
             this.tbBarCode.Size = new System.Drawing.Size(756, 26);
             this.tbBarCode.TabIndex = 35;
-            this.tbBarCode.TextChanged += new System.EventHandler(this.TbBarCode_TextChanged);
             // 
             // tbProductionDate
             // 
@@ -312,15 +311,6 @@
             this.label12.Size = new System.Drawing.Size(72, 16);
             this.label12.TabIndex = 51;
             this.label12.Text = "生产日期";
-            // 
-            // cbSearchStock
-            // 
-            this.cbSearchStock.Font = new System.Drawing.Font("宋体", 12F);
-            this.cbSearchStock.FormattingEnabled = true;
-            this.cbSearchStock.Location = new System.Drawing.Point(926, 17);
-            this.cbSearchStock.Name = "cbSearchStock";
-            this.cbSearchStock.Size = new System.Drawing.Size(234, 24);
-            this.cbSearchStock.TabIndex = 33;
             // 
             // label10
             // 
@@ -450,6 +440,14 @@
             this.tbModel.Size = new System.Drawing.Size(127, 26);
             this.tbModel.TabIndex = 41;
             // 
+            // tbStore
+            // 
+            this.tbStore.Font = new System.Drawing.Font("宋体", 12F);
+            this.tbStore.Location = new System.Drawing.Point(926, 17);
+            this.tbStore.Name = "tbStore";
+            this.tbStore.Size = new System.Drawing.Size(234, 26);
+            this.tbStore.TabIndex = 53;
+            // 
             // FormOut
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -512,9 +510,9 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox tbBarCode;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.ComboBox cbSearchStock;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.TextBox tbStore;
     }
 }

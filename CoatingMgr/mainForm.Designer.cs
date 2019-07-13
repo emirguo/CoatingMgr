@@ -50,6 +50,9 @@
             this.btnOut = new System.Windows.Forms.Button();
             this.btnIn = new System.Windows.Forms.Button();
             this.mainPanel = new System.Windows.Forms.Panel();
+            this.仓库ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.TSMIStore = new System.Windows.Forms.ToolStripMenuItem();
+            this.TSMIStoreAdd = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -63,6 +66,7 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.master文件ToolStripMenuItem,
             this.TSMItemAccountManager,
+            this.仓库ToolStripMenuItem,
             this.告警ToolStripMenuItem,
             this.日志ToolStripMenuItem,
             this.帮助ToolStripMenuItem});
@@ -107,14 +111,14 @@
             // TSMIManagerAccount
             // 
             this.TSMIManagerAccount.Name = "TSMIManagerAccount";
-            this.TSMIManagerAccount.Size = new System.Drawing.Size(124, 22);
+            this.TSMIManagerAccount.Size = new System.Drawing.Size(180, 22);
             this.TSMIManagerAccount.Text = "管理账户";
             this.TSMIManagerAccount.Click += new System.EventHandler(this.TSMIManagerAccount_Click);
             // 
             // TSMIAddAccount
             // 
             this.TSMIAddAccount.Name = "TSMIAddAccount";
-            this.TSMIAddAccount.Size = new System.Drawing.Size(124, 22);
+            this.TSMIAddAccount.Size = new System.Drawing.Size(180, 22);
             this.TSMIAddAccount.Text = "添加账户";
             this.TSMIAddAccount.Click += new System.EventHandler(this.TSMIAddAccount_Click);
             // 
@@ -131,21 +135,21 @@
             // TSMIWarning
             // 
             this.TSMIWarning.Name = "TSMIWarning";
-            this.TSMIWarning.Size = new System.Drawing.Size(148, 22);
+            this.TSMIWarning.Size = new System.Drawing.Size(180, 22);
             this.TSMIWarning.Text = "查看告警规则";
             this.TSMIWarning.Click += new System.EventHandler(this.TSMIWarning_Click);
             // 
             // TSMISetWarning
             // 
             this.TSMISetWarning.Name = "TSMISetWarning";
-            this.TSMISetWarning.Size = new System.Drawing.Size(148, 22);
+            this.TSMISetWarning.Size = new System.Drawing.Size(180, 22);
             this.TSMISetWarning.Text = "设置告警规则";
             this.TSMISetWarning.Click += new System.EventHandler(this.TSMISetWarning_Click);
             // 
             // TSMIMailInfo
             // 
             this.TSMIMailInfo.Name = "TSMIMailInfo";
-            this.TSMIMailInfo.Size = new System.Drawing.Size(148, 22);
+            this.TSMIMailInfo.Size = new System.Drawing.Size(180, 22);
             this.TSMIMailInfo.Text = "设置告警邮件";
             this.TSMIMailInfo.Click += new System.EventHandler(this.TSMIMailInfo_Click);
             // 
@@ -183,7 +187,7 @@
             // TSMIAbout
             // 
             this.TSMIAbout.Name = "TSMIAbout";
-            this.TSMIAbout.Size = new System.Drawing.Size(180, 22);
+            this.TSMIAbout.Size = new System.Drawing.Size(100, 22);
             this.TSMIAbout.Text = "关于";
             this.TSMIAbout.Click += new System.EventHandler(this.TSMIAbout_Click);
             // 
@@ -267,6 +271,29 @@
             this.mainPanel.Size = new System.Drawing.Size(681, 411);
             this.mainPanel.TabIndex = 0;
             // 
+            // 仓库ToolStripMenuItem
+            // 
+            this.仓库ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.TSMIStore,
+            this.TSMIStoreAdd});
+            this.仓库ToolStripMenuItem.Name = "仓库ToolStripMenuItem";
+            this.仓库ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
+            this.仓库ToolStripMenuItem.Text = "仓库";
+            // 
+            // TSMIStore
+            // 
+            this.TSMIStore.Name = "TSMIStore";
+            this.TSMIStore.Size = new System.Drawing.Size(180, 22);
+            this.TSMIStore.Text = "管理仓库";
+            this.TSMIStore.Click += new System.EventHandler(this.TSMIStore_Click);
+            // 
+            // TSMIStoreAdd
+            // 
+            this.TSMIStoreAdd.Name = "TSMIStoreAdd";
+            this.TSMIStoreAdd.Size = new System.Drawing.Size(180, 22);
+            this.TSMIStoreAdd.Text = "添加仓库";
+            this.TSMIStoreAdd.Click += new System.EventHandler(this.TSMIStoreAdd_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -279,6 +306,7 @@
             this.Text = "武汉高木--涂料管理系统";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
@@ -314,5 +342,8 @@
         private System.Windows.Forms.ToolStripMenuItem TSMIWarning;
         private System.Windows.Forms.ToolStripMenuItem TSMISetWarning;
         private System.Windows.Forms.ToolStripMenuItem TSMIMailInfo;
+        private System.Windows.Forms.ToolStripMenuItem 仓库ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem TSMIStore;
+        private System.Windows.Forms.ToolStripMenuItem TSMIStoreAdd;
     }
 }

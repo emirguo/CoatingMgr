@@ -17,6 +17,7 @@ namespace CoatingMgr
         private static SqlLiteHelper sqlLiteHelper = null;
         private string _userName = "";
 
+
         public FormIn()
         {
             InitializeComponent();
@@ -26,7 +27,6 @@ namespace CoatingMgr
         {
             InitializeComponent();
             _userName = userName;
-            
         }
 
         private void FormIn_Load(object sender, EventArgs e)
@@ -48,10 +48,11 @@ namespace CoatingMgr
             lbUser.Text = _userName;
             ShowTime();
 
-            for (int i = 0; i < Common.STOCKSNAME.Length; i++)
+            cbSearchStock.Items.Clear();
+            List<string> searchContent = GetSqlLiteHelper().GetValueTypeByColumnFromTable(Common.STORETABLENAME, "名称", null, null, null);
+            for (int i = 0; i < searchContent.Count; i++)
             {
-                cbSearchStock.Items.Add(Common.STOCKSNAME[i]);
-                cbSearchStock.SelectedIndex = 0;
+                cbSearchStock.Items.Add(searchContent[i]);
             }
 
             SetDefaultColumns(dgvStockData, Common.INSTOCKTABLECOLUMNS);
@@ -82,7 +83,7 @@ namespace CoatingMgr
                     try
                     {
                         lbTime.BeginInvoke(new MethodInvoker(() =>
-                            lbTime.Text ="时间："+ DateTime.Now.ToString()));
+                            lbTime.Text = "时间：" + DateTime.Now.ToString()));
                     }
                     catch { }
                     Thread.Sleep(1000);
@@ -91,20 +92,64 @@ namespace CoatingMgr
             { IsBackground = true }.Start();
         }
 
-        private void TbBarCode_TextChanged(object sender, EventArgs e)
+        public void Clear()
         {
-            if (AnalysisBarCode(tbBarCode.Text.ToString()))
+            tbBarCode.Text = string.Empty;
+            cbSearchStock.Text = string.Empty;
+            tbName.Text = string.Empty;
+            tbType.Text = string.Empty;
+            tbColor.Text = string.Empty;
+            tbModel.Text = string.Empty;
+            tbWeight.Text = string.Empty;
+            tbProductionDate.Text = string.Empty;
+            tbExpiryDate.Text = string.Empty;
+            lbProDescription.Text = string.Empty;
+            lbCount.Text = 0 + string.Empty;
+            dgvStockData.Rows.Clear();
+        }
+
+        public void BarCodeInputEnd()
+        {
+            if (cbSearchStock.Text.Equals(string.Empty))
             {
-                this.dgvStockData.Rows.Add(0, tbBarCode.Text, tbName.Text, tbColor.Text, tbType.Text, tbWeight.Text, tbModel.Text, cbSearchStock.Text, tbProductionDate.Text, tbExpiryDate.Text, _userName, DateTime.Now.ToString("yyyyMMdd"), DateTime.Now.ToString("HH:mm:ss"), "入库", " ", " ");
-                int count = this.dgvStockData.RowCount;
-                this.dgvStockData.CurrentCell = this.dgvStockData[1, (count>1)?(count - 1):0];
-                lbCount.Text = count + "";
-                SaveRowToDB(dgvStockData.CurrentRow);
+                tbBarCode.Text = string.Empty;
+                MessageBox.Show("请先选择仓库");
+                return;
             }
-            else
+
+            if (tbBarCode.Focused && !tbBarCode.Text.ToString().Equals(string.Empty))
             {
-                MessageBox.Show("条形码无效");
+                if (IsBarCodeInStock(tbBarCode.Text))
+                {
+                    tbBarCode.Text = string.Empty;
+                    MessageBox.Show("此条形码涂料已入库，无法重复入库");
+                    return;
+                }
+                if (AnalysisBarCode(tbBarCode.Text.ToString()))
+                {
+                    this.dgvStockData.Rows.Add(0, tbBarCode.Text, tbName.Text, tbColor.Text, tbType.Text, tbWeight.Text, tbModel.Text, cbSearchStock.Text, tbProductionDate.Text, tbExpiryDate.Text, _userName, DateTime.Now.ToString("yyyyMMdd"), DateTime.Now.ToString("HH:mm:ss"), "入库", " ", " ");
+                    int count = this.dgvStockData.RowCount;
+                    this.dgvStockData.CurrentCell = this.dgvStockData[1, (count > 1) ? (count - 1) : 0];
+                    lbCount.Text = count + "";
+                    SaveRowToDB(dgvStockData.CurrentRow);
+                }
+                else
+                {
+                    MessageBox.Show("条形码无效");
+                }
+                tbBarCode.Text = string.Empty;
             }
+        }
+
+        private bool IsBarCodeInStock(string barcode)
+        {
+            bool result = false;
+            SQLiteDataReader dataReader = GetSqlLiteHelper().ReadTable(Common.INSTOCKTABLENAME, new string[] { "条形码" }, new string[] { "=" }, new string[] { barcode });
+            if (dataReader != null && dataReader.HasRows)
+            {
+                result = true;
+            }
+            return result;
         }
 
         //涂料名*种类*厂家*重量*批次号*连番*使用期限,例如：R-255 HARDENER  (TAP)*A*G1000*18*20180219*0001*20190318
@@ -122,7 +167,7 @@ namespace CoatingMgr
                     tbProductionDate.Text = sArray[4];
                     tbExpiryDate.Text = sArray[6];
 
-                    SQLiteDataReader dataReader = GetSqlLiteHelper().ReadTable(Common.MASTERTABLENAME, new string[] { "涂料名"}, new string[] { "=" }, new string[] { tbName.Text });
+                    SQLiteDataReader dataReader = GetSqlLiteHelper().ReadTable(Common.MASTERTABLENAME, new string[] { "涂料名" }, new string[] { "=" }, new string[] { tbName.Text });
                     if (dataReader != null && dataReader.HasRows && dataReader.Read())
                     {
                         tbColor.Text = dataReader["色番"].ToString();
@@ -291,7 +336,7 @@ namespace CoatingMgr
                                 GetSqlLiteHelper().UpdateValues(Common.STOCKCOUNTTABLENAME, new string[] { "重量" }, new string[] { inStockWeight.ToString() }, "id", dataReader["id"].ToString());
                             }
                         }
-                        
+
                         //从库表中删除
                         GetSqlLiteHelper().DeleteValuesAND(Common.INSTOCKTABLENAME, new string[] { "条形码" }, new string[] { barCode }, new string[] { "=" });
                         //存入日志

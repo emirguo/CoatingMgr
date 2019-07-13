@@ -44,35 +44,35 @@
             this.dgvStockData = new System.Windows.Forms.DataGridView();
             this.panel4 = new System.Windows.Forms.Panel();
             this.label14 = new System.Windows.Forms.Label();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.tbBarCode = new System.Windows.Forms.TextBox();
             this.tbProductionDate = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
+            this.cbSearchStock = new System.Windows.Forms.ComboBox();
             this.label10 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.tbColor = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.tbName = new System.Windows.Forms.TextBox();
             this.tbWeight = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
+            this.tbType = new System.Windows.Forms.TextBox();
             this.tbExpiryDate = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.tbModel = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.tbType = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.tbName = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.tbBarCode = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.cbSearchStock = new System.Windows.Forms.ComboBox();
-            this.label3 = new System.Windows.Forms.Label();
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.TSMIDelete = new System.Windows.Forms.ToolStripMenuItem();
-            this.panel3 = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvStockData)).BeginInit();
             this.panel4.SuspendLayout();
-            this.contextMenuStrip.SuspendLayout();
             this.panel3.SuspendLayout();
+            this.contextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -234,194 +234,6 @@
             this.label14.TabIndex = 53;
             this.label14.Text = "涂料入库";
             // 
-            // tbProductionDate
-            // 
-            this.tbProductionDate.Font = new System.Drawing.Font("宋体", 12F);
-            this.tbProductionDate.Location = new System.Drawing.Point(918, 49);
-            this.tbProductionDate.Name = "tbProductionDate";
-            this.tbProductionDate.Size = new System.Drawing.Size(92, 26);
-            this.tbProductionDate.TabIndex = 52;
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Font = new System.Drawing.Font("宋体", 12F);
-            this.label12.Location = new System.Drawing.Point(846, 55);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(72, 16);
-            this.label12.TabIndex = 51;
-            this.label12.Text = "生产日期";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("宋体", 12F);
-            this.label10.Location = new System.Drawing.Point(614, 55);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(24, 16);
-            this.label10.TabIndex = 50;
-            this.label10.Text = "kg";
-            // 
-            // tbColor
-            // 
-            this.tbColor.Font = new System.Drawing.Font("宋体", 12F);
-            this.tbColor.Location = new System.Drawing.Point(411, 49);
-            this.tbColor.Name = "tbColor";
-            this.tbColor.Size = new System.Drawing.Size(75, 26);
-            this.tbColor.TabIndex = 49;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("宋体", 12F);
-            this.label2.Location = new System.Drawing.Point(373, 55);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(40, 16);
-            this.label2.TabIndex = 48;
-            this.label2.Text = "颜色";
-            // 
-            // tbWeight
-            // 
-            this.tbWeight.Font = new System.Drawing.Font("宋体", 12F);
-            this.tbWeight.Location = new System.Drawing.Point(566, 49);
-            this.tbWeight.Name = "tbWeight";
-            this.tbWeight.Size = new System.Drawing.Size(47, 26);
-            this.tbWeight.TabIndex = 45;
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("宋体", 12F);
-            this.label9.Location = new System.Drawing.Point(492, 54);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(72, 16);
-            this.label9.TabIndex = 44;
-            this.label9.Text = "标准重量";
-            // 
-            // tbExpiryDate
-            // 
-            this.tbExpiryDate.Font = new System.Drawing.Font("宋体", 12F);
-            this.tbExpiryDate.Location = new System.Drawing.Point(1068, 49);
-            this.tbExpiryDate.Name = "tbExpiryDate";
-            this.tbExpiryDate.Size = new System.Drawing.Size(92, 26);
-            this.tbExpiryDate.TabIndex = 43;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("宋体", 12F);
-            this.label8.Location = new System.Drawing.Point(1012, 54);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(56, 16);
-            this.label8.TabIndex = 42;
-            this.label8.Text = "有效期";
-            // 
-            // tbModel
-            // 
-            this.tbModel.Font = new System.Drawing.Font("宋体", 12F);
-            this.tbModel.Location = new System.Drawing.Point(713, 50);
-            this.tbModel.Name = "tbModel";
-            this.tbModel.Size = new System.Drawing.Size(127, 26);
-            this.tbModel.TabIndex = 41;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("宋体", 12F);
-            this.label7.Location = new System.Drawing.Point(638, 54);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(72, 16);
-            this.label7.TabIndex = 40;
-            this.label7.Text = "适用机种";
-            // 
-            // tbType
-            // 
-            this.tbType.Font = new System.Drawing.Font("宋体", 12F);
-            this.tbType.Location = new System.Drawing.Point(291, 50);
-            this.tbType.Name = "tbType";
-            this.tbType.Size = new System.Drawing.Size(75, 26);
-            this.tbType.TabIndex = 39;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("宋体", 12F);
-            this.label6.Location = new System.Drawing.Point(250, 54);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(40, 16);
-            this.label6.TabIndex = 38;
-            this.label6.Text = "类型";
-            // 
-            // tbName
-            // 
-            this.tbName.Font = new System.Drawing.Font("宋体", 12F);
-            this.tbName.Location = new System.Drawing.Point(58, 49);
-            this.tbName.Name = "tbName";
-            this.tbName.Size = new System.Drawing.Size(185, 26);
-            this.tbName.TabIndex = 37;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("宋体", 12F);
-            this.label5.Location = new System.Drawing.Point(12, 55);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(40, 16);
-            this.label5.TabIndex = 36;
-            this.label5.Text = "名称";
-            // 
-            // tbBarCode
-            // 
-            this.tbBarCode.Font = new System.Drawing.Font("宋体", 12F);
-            this.tbBarCode.Location = new System.Drawing.Point(74, 17);
-            this.tbBarCode.Name = "tbBarCode";
-            this.tbBarCode.Size = new System.Drawing.Size(756, 26);
-            this.tbBarCode.TabIndex = 35;
-            this.tbBarCode.TextChanged += new System.EventHandler(this.TbBarCode_TextChanged);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("宋体", 12F);
-            this.label4.Location = new System.Drawing.Point(12, 20);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(56, 16);
-            this.label4.TabIndex = 34;
-            this.label4.Text = "条形码";
-            // 
-            // cbSearchStock
-            // 
-            this.cbSearchStock.Font = new System.Drawing.Font("宋体", 12F);
-            this.cbSearchStock.FormattingEnabled = true;
-            this.cbSearchStock.Location = new System.Drawing.Point(926, 17);
-            this.cbSearchStock.Name = "cbSearchStock";
-            this.cbSearchStock.Size = new System.Drawing.Size(233, 24);
-            this.cbSearchStock.TabIndex = 33;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("宋体", 12F);
-            this.label3.Location = new System.Drawing.Point(836, 20);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(88, 16);
-            this.label3.TabIndex = 32;
-            this.label3.Text = "请选择仓库";
-            // 
-            // contextMenuStrip
-            // 
-            this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.TSMIDelete});
-            this.contextMenuStrip.Name = "contextMenuStrip";
-            this.contextMenuStrip.Size = new System.Drawing.Size(101, 26);
-            // 
-            // TSMIDelete
-            // 
-            this.TSMIDelete.Name = "TSMIDelete";
-            this.TSMIDelete.Size = new System.Drawing.Size(100, 22);
-            this.TSMIDelete.Text = "删除";
-            this.TSMIDelete.Click += new System.EventHandler(this.TSMIDelete_Click);
-            // 
             // panel3
             // 
             this.panel3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -451,6 +263,193 @@
             this.panel3.Size = new System.Drawing.Size(1176, 84);
             this.panel3.TabIndex = 48;
             // 
+            // tbBarCode
+            // 
+            this.tbBarCode.Font = new System.Drawing.Font("宋体", 12F);
+            this.tbBarCode.Location = new System.Drawing.Point(404, 17);
+            this.tbBarCode.Name = "tbBarCode";
+            this.tbBarCode.Size = new System.Drawing.Size(756, 26);
+            this.tbBarCode.TabIndex = 35;
+            // 
+            // tbProductionDate
+            // 
+            this.tbProductionDate.Font = new System.Drawing.Font("宋体", 12F);
+            this.tbProductionDate.Location = new System.Drawing.Point(918, 49);
+            this.tbProductionDate.Name = "tbProductionDate";
+            this.tbProductionDate.Size = new System.Drawing.Size(92, 26);
+            this.tbProductionDate.TabIndex = 52;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("宋体", 12F);
+            this.label3.Location = new System.Drawing.Point(12, 20);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(88, 16);
+            this.label3.TabIndex = 32;
+            this.label3.Text = "请选择仓库";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("宋体", 12F);
+            this.label12.Location = new System.Drawing.Point(846, 55);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(72, 16);
+            this.label12.TabIndex = 51;
+            this.label12.Text = "生产日期";
+            // 
+            // cbSearchStock
+            // 
+            this.cbSearchStock.Font = new System.Drawing.Font("宋体", 12F);
+            this.cbSearchStock.FormattingEnabled = true;
+            this.cbSearchStock.Location = new System.Drawing.Point(102, 17);
+            this.cbSearchStock.Name = "cbSearchStock";
+            this.cbSearchStock.Size = new System.Drawing.Size(233, 24);
+            this.cbSearchStock.TabIndex = 33;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("宋体", 12F);
+            this.label10.Location = new System.Drawing.Point(614, 55);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(24, 16);
+            this.label10.TabIndex = 50;
+            this.label10.Text = "kg";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("宋体", 12F);
+            this.label4.Location = new System.Drawing.Point(342, 20);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(56, 16);
+            this.label4.TabIndex = 34;
+            this.label4.Text = "条形码";
+            // 
+            // tbColor
+            // 
+            this.tbColor.Font = new System.Drawing.Font("宋体", 12F);
+            this.tbColor.Location = new System.Drawing.Point(411, 49);
+            this.tbColor.Name = "tbColor";
+            this.tbColor.Size = new System.Drawing.Size(75, 26);
+            this.tbColor.TabIndex = 49;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("宋体", 12F);
+            this.label5.Location = new System.Drawing.Point(12, 55);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(40, 16);
+            this.label5.TabIndex = 36;
+            this.label5.Text = "名称";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("宋体", 12F);
+            this.label2.Location = new System.Drawing.Point(373, 55);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(40, 16);
+            this.label2.TabIndex = 48;
+            this.label2.Text = "颜色";
+            // 
+            // tbName
+            // 
+            this.tbName.Font = new System.Drawing.Font("宋体", 12F);
+            this.tbName.Location = new System.Drawing.Point(58, 49);
+            this.tbName.Name = "tbName";
+            this.tbName.Size = new System.Drawing.Size(185, 26);
+            this.tbName.TabIndex = 37;
+            // 
+            // tbWeight
+            // 
+            this.tbWeight.Font = new System.Drawing.Font("宋体", 12F);
+            this.tbWeight.Location = new System.Drawing.Point(566, 49);
+            this.tbWeight.Name = "tbWeight";
+            this.tbWeight.Size = new System.Drawing.Size(47, 26);
+            this.tbWeight.TabIndex = 45;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("宋体", 12F);
+            this.label6.Location = new System.Drawing.Point(250, 54);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(40, 16);
+            this.label6.TabIndex = 38;
+            this.label6.Text = "类型";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("宋体", 12F);
+            this.label9.Location = new System.Drawing.Point(492, 54);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(72, 16);
+            this.label9.TabIndex = 44;
+            this.label9.Text = "标准重量";
+            // 
+            // tbType
+            // 
+            this.tbType.Font = new System.Drawing.Font("宋体", 12F);
+            this.tbType.Location = new System.Drawing.Point(291, 50);
+            this.tbType.Name = "tbType";
+            this.tbType.Size = new System.Drawing.Size(75, 26);
+            this.tbType.TabIndex = 39;
+            // 
+            // tbExpiryDate
+            // 
+            this.tbExpiryDate.Font = new System.Drawing.Font("宋体", 12F);
+            this.tbExpiryDate.Location = new System.Drawing.Point(1068, 49);
+            this.tbExpiryDate.Name = "tbExpiryDate";
+            this.tbExpiryDate.Size = new System.Drawing.Size(92, 26);
+            this.tbExpiryDate.TabIndex = 43;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("宋体", 12F);
+            this.label7.Location = new System.Drawing.Point(638, 54);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(72, 16);
+            this.label7.TabIndex = 40;
+            this.label7.Text = "适用机种";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("宋体", 12F);
+            this.label8.Location = new System.Drawing.Point(1012, 54);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(56, 16);
+            this.label8.TabIndex = 42;
+            this.label8.Text = "有效期";
+            // 
+            // tbModel
+            // 
+            this.tbModel.Font = new System.Drawing.Font("宋体", 12F);
+            this.tbModel.Location = new System.Drawing.Point(713, 50);
+            this.tbModel.Name = "tbModel";
+            this.tbModel.Size = new System.Drawing.Size(127, 26);
+            this.tbModel.TabIndex = 41;
+            // 
+            // contextMenuStrip
+            // 
+            this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.TSMIDelete});
+            this.contextMenuStrip.Name = "contextMenuStrip";
+            this.contextMenuStrip.Size = new System.Drawing.Size(101, 26);
+            // 
+            // TSMIDelete
+            // 
+            this.TSMIDelete.Name = "TSMIDelete";
+            this.TSMIDelete.Size = new System.Drawing.Size(100, 22);
+            this.TSMIDelete.Text = "删除";
+            this.TSMIDelete.Click += new System.EventHandler(this.TSMIDelete_Click);
+            // 
             // FormIn
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -472,9 +471,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvStockData)).EndInit();
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
-            this.contextMenuStrip.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
+            this.contextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

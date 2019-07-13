@@ -26,7 +26,7 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ProductName>武汉高木涂料管理系统</ProductName>
     <PublisherName>武汉高木</PublisherName>
-    <ApplicationRevision>16</ApplicationRevision>
+    <ApplicationRevision>17</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -66,8 +66,14 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="HslCommunication, Version=7.0.1.0, Culture=neutral, PublicKeyToken=cdb2261fa039ed67, processorArchitecture=MSIL">
+      <HintPath>..\packages\HslCommunication.7.0.1\lib\net451\HslCommunication.dll</HintPath>
+    </Reference>
     <Reference Include="ICSharpCode.SharpZipLib, Version=1.0.0.999, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpZipLib.1.0.0\lib\net45\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NPOI, Version=2.4.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
       <HintPath>..\packages\NPOI.2.4.1\lib\net45\NPOI.dll</HintPath>
@@ -166,12 +172,26 @@
     <Compile Include="FormSetWarn.Designer.cs">
       <DependentUpon>FormSetWarn.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormStore.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormStore.Designer.cs">
+      <DependentUpon>FormStore.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormStoreAdd.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormStoreAdd.Designer.cs">
+      <DependentUpon>FormStoreAdd.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormWarnMailInfo.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormWarnMailInfo.Designer.cs">
       <DependentUpon>FormWarnMailInfo.cs</DependentUpon>
     </Compile>
+    <Compile Include="PLCTCPHelper.cs" />
+    <Compile Include="ScanerHook.cs" />
     <Compile Include="SqlLiteHelper.cs" />
     <Compile Include="FormIn.cs">
       <SubType>Form</SubType>
@@ -265,6 +285,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormStock.resx">
       <DependentUpon>FormStock.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormStore.resx">
+      <DependentUpon>FormStore.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormWarn.resx">
       <DependentUpon>FormWarn.cs</DependentUpon>

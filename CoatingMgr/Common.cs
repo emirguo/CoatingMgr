@@ -39,6 +39,10 @@ namespace CoatingMgr
         public static string USER_MANAGER = "管理员";
         public static string USER_WORKER = "操作员";
 
+        public static readonly string STORETABLENAME = "store";
+        public static readonly string[] STORETABLECOLUMNS = { "id", "名称" };
+        public static readonly string[] STORETABLECOLUMNSTYPE = { "INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT" };
+
         private static readonly string _stockCountTableName = "stockCount";
         public static string STOCKCOUNTTABLENAME
         {
@@ -129,8 +133,6 @@ namespace CoatingMgr
 
         public static readonly string[] WARNDATETYPE = { "有效期前1天", "有效期前1周", "有效期前15天", "有效期前30天", "有效期前100天" };
         public static readonly Dictionary<string, string> WARNDATE = new Dictionary<string, string> { { "有效期前1天", "-1" }, { "有效期前1周", "-7" }, { "有效期前15天", "-15" }, { "有效期前30天", "-30" }, { "有效期前100天", "-100" } };
-
-        public static readonly string[] STOCKSNAME = { "1号仓库", "2号仓库", "3号仓库", "4号仓库" };
 
         public static string FilterChar(string s)
         {

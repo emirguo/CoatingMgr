@@ -503,7 +503,6 @@
             this.tbBarCode4.Name = "tbBarCode4";
             this.tbBarCode4.Size = new System.Drawing.Size(262, 29);
             this.tbBarCode4.TabIndex = 35;
-            this.tbBarCode4.TextChanged += new System.EventHandler(this.TbBarCode4_TextChanged);
             // 
             // tbMeasurementValue4
             // 
@@ -668,7 +667,6 @@
             this.tbBarCode3.Name = "tbBarCode3";
             this.tbBarCode3.Size = new System.Drawing.Size(259, 29);
             this.tbBarCode3.TabIndex = 35;
-            this.tbBarCode3.TextChanged += new System.EventHandler(this.TbBarCode3_TextChanged);
             // 
             // tbMeasurementValue3
             // 
@@ -833,7 +831,6 @@
             this.tbBarCode2.Name = "tbBarCode2";
             this.tbBarCode2.Size = new System.Drawing.Size(262, 29);
             this.tbBarCode2.TabIndex = 35;
-            this.tbBarCode2.TextChanged += new System.EventHandler(this.TbBarCode2_TextChanged);
             // 
             // tbMeasurementValue2
             // 
@@ -987,7 +984,6 @@
             this.tbBarCode1.Name = "tbBarCode1";
             this.tbBarCode1.Size = new System.Drawing.Size(259, 29);
             this.tbBarCode1.TabIndex = 35;
-            this.tbBarCode1.TextChanged += new System.EventHandler(this.TbBarCode1_TextChanged);
             // 
             // tbMeasurementValue1
             // 
