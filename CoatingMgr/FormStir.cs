@@ -202,6 +202,11 @@ namespace CoatingMgr
                 MessageBox.Show("请输入主剂重量");
                 return;
             }
+            if (tbSlowWeight.Text.Equals(""))
+            {
+                MessageBox.Show("请输入慢速重量");
+                return;
+            }
             if (!cbModel.Text.Equals("") && !cbComponent.Text.Equals("") && !cbColor.Text.Equals("") && !cbCoating.Text.Equals("") && !tbInputWeight.Text.Equals("") && !tbTemperature.Text.Equals("") && !tbHumidity.Text.Equals(""))
             {
                 SQLiteDataReader dataReader = GetSqlLiteHelper().ReadTable(_tableName, new string[] { "适用机种", "適用製品", "色番", "涂层" }, new string[] { "=", "=", "=", "=", }, new string[] { cbModel.Text, cbComponent.Text, cbColor.Text, cbCoating.Text });
@@ -482,7 +487,7 @@ namespace CoatingMgr
                     SetStartStirText(tbMeasurementTime1);
                     this.lbCurrentStatus.Text = "正在倒入涂料";
                     //连接PLC，开始倒涂料
-                    PLCTCPHelper.GetInstance().PLCRead();
+                    PLCHelper.GetInstance().PLCRead();
                     break;
                 case Status.CoatingPause:
                     SetPauseStirText();
@@ -675,11 +680,42 @@ namespace CoatingMgr
             }
         }
 
+        private void TbBarCode1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                BarCode1InputEnd();
+            }
+        }
+
+        private void TbBarCode2_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                BarCode2InputEnd();
+            }
+        }
+
+        private void TbBarCode3_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                BarCode3InputEnd();
+            }
+        }
+
+        private void TbBarCode4_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                BarCode4InputEnd();
+            }
+        }
+
         private void BarCode1InputEnd()
         {
-            if (!tbBarCode2.Equals(string.Empty))
+            if (!tbBarCode1.Text.Equals(string.Empty))
             {
-
                 if (!IsStirInfoEnough())
                 {
                     tbBarCode1.Text = string.Empty;
@@ -692,12 +728,12 @@ namespace CoatingMgr
                     ShowConfirmWindow();
                     return;
                 }
-                if (!IsBarCodeFromStock(tbBarCode1.Text.ToString()))
+                if (!IsBarCodeFromStock(tbBarCode1.Text))
                 {
                     tbBarCode1.Text = string.Empty;
                     return;
                 }
-                if (IsBarCodeValid(tbBarCode1.Text.ToString(), tbName1.Text))//条形码正确
+                if (IsBarCodeValid(tbBarCode1.Text, tbName1.Text))//条形码正确
                 {
                     CurrStatus = Status.CoatingStart;
                     DoStir();
@@ -709,7 +745,7 @@ namespace CoatingMgr
 
         private void BarCode2InputEnd()
         {
-            if (!tbBarCode2.Equals(string.Empty))
+            if (!tbBarCode2.Text.Equals(string.Empty))
             {
                 if (!IsStirInfoEnough())
                 {
@@ -723,12 +759,12 @@ namespace CoatingMgr
                     ShowConfirmWindow();
                     return;
                 }
-                if (!IsBarCodeFromStock(tbBarCode2.Text.ToString()))
+                if (!IsBarCodeFromStock(tbBarCode2.Text))
                 {
                     tbBarCode2.Text = string.Empty;
                     return;
                 }
-                if (IsBarCodeValid(tbBarCode2.Text.ToString(), tbName2.Text))//条形码正确
+                if (IsBarCodeValid(tbBarCode2.Text, tbName2.Text))//条形码正确
                 {
                     CurrStatus = Status.HardeningAgentStart;
                     DoStir();
@@ -740,7 +776,7 @@ namespace CoatingMgr
 
         private void BarCode3InputEnd()
         {
-            if (!tbBarCode3.Equals(string.Empty))
+            if (!tbBarCode3.Text.Equals(string.Empty))
             {
                 if (!IsStirInfoEnough())
                 {
@@ -754,12 +790,12 @@ namespace CoatingMgr
                     ShowConfirmWindow();
                     return;
                 }
-                if (!IsBarCodeFromStock(tbBarCode3.Text.ToString()))
+                if (!IsBarCodeFromStock(tbBarCode3.Text))
                 {
                     tbBarCode3.Text = string.Empty;
                     return;
                 }
-                if (IsBarCodeValid(tbBarCode3.Text.ToString(), tbName3.Text))//条形码正确
+                if (IsBarCodeValid(tbBarCode3.Text, tbName3.Text))//条形码正确
                 {
                     CurrStatus = Status.ThinnerAStart;
                     DoStir();
@@ -771,7 +807,7 @@ namespace CoatingMgr
 
         private void BarCode4InputEnd()
         {
-            if (!tbBarCode4.Equals(string.Empty))
+            if (!tbBarCode4.Text.Equals(string.Empty))
             {
 
                 if (!IsStirInfoEnough())
@@ -786,12 +822,12 @@ namespace CoatingMgr
                     ShowConfirmWindow();
                     return;
                 }
-                if (!IsBarCodeFromStock(tbBarCode4.Text.ToString()))
+                if (!IsBarCodeFromStock(tbBarCode4.Text))
                 {
                     tbBarCode4.Text = string.Empty;
                     return;
                 }
-                if (IsBarCodeValid(tbBarCode4.Text.ToString(), tbName4.Text))//条形码正确
+                if (IsBarCodeValid(tbBarCode4.Text, tbName4.Text))//条形码正确
                 {
                     CurrStatus = Status.ThinnerBStart;
                     DoStir();
@@ -811,20 +847,24 @@ namespace CoatingMgr
                 {
                     double weight1 = double.Parse(tbInputWeight.Text);
                     tbSetValue1.Text = weight1.ToString();
+                    tbSlowValue1.Text = tbSlowWeight.Text;
                     if (!ratio2.Equals(""))
                     {
                         double weight2 = weight1 * double.Parse(ratio2) / double.Parse(ratio1);
                         tbSetValue2.Text = weight2.ToString();
+                        tbSlowValue2.Text = tbSlowWeight.Text;
                     }
                     if (!ratio3.Equals(""))
                     {
                         double weight3 = weight1 * double.Parse(ratio3) / double.Parse(ratio1);
                         tbSetValue3.Text = weight3.ToString();
+                        tbSlowValue3.Text = tbSlowWeight.Text;
                     }
                     if (!ratio4.Equals(""))
                     {
                         double weight4 = weight1 * double.Parse(ratio4) / double.Parse(ratio1);
                         tbSetValue4.Text = weight4.ToString();
+                        tbSlowValue4.Text = tbSlowWeight.Text;
                     }
                 }
                 catch (Exception e)
@@ -870,6 +910,9 @@ namespace CoatingMgr
         {
             _managerName = managerName;
             isStirInfoConfirmed = true;
+
+            //管理员确认调和数据后，初始化PLC并设置色剂重量
+            PLCHelper.GetInstance().PLCSetWeight();
         }
 
         /// <summary>

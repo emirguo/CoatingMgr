@@ -1,12 +1,13 @@
 ﻿using HslCommunication;
 using HslCommunication.Profinet.Keyence;
 using System;
+using System.IO.Ports;
 
 namespace CoatingMgr
 {
-    class PLCTCPHelper
+    class PLCHelper
     {
-        public static PLCTCPHelper mInstance = null;
+        public static PLCHelper mInstance = null;
 
         //private MelsecMcNet melsecMc = new MelsecMcNet("192.168.1.110", 6000);//三菱PLC
 
@@ -17,28 +18,30 @@ namespace CoatingMgr
         //如果采用了二进制读写，那么就实例化KeyenceMcNet类，如果采用ASCII来读写数据，请使用KeyenceMcAsciiNet类
         private KeyenceMcNet PLC = null;// = new KeyenceMcNet("192.168.1.110", 8500);
 
-        
 
         /// <summary>
         /// 构造函数
         /// </summary>
-        public PLCTCPHelper()
+        public PLCHelper()
         {
-            PLC = new KeyenceMcNet("192.168.1.110", 8500);//基恩士PLC TCP
-            /*
-            PLC = new KeyenceNanoSerial();//基恩士PLC 串口
-            PLC.Open();
-            PLC.SerialPortInni("8500");
-            */
+            if (PLC == null)
+            {
+                PLC = new KeyenceMcNet("192.168.1.110", 8500);//基恩士PLC TCP
+                PLCConnect();
+                /*
+                PLC = new KeyenceNanoSerial();//基恩士PLC串口
+                PLC.SerialPortInni("COM4");//COM1,9600
+                PLC.Open();
+                */
+            }
         }
 
-        public static PLCTCPHelper GetInstance()
+        public static PLCHelper GetInstance()
         {
             if (mInstance == null)
             {
-                mInstance = new PLCTCPHelper();
+                mInstance = new PLCHelper();
             }
-
             return mInstance;
         }
 
@@ -59,7 +62,7 @@ namespace CoatingMgr
 
         public void PLCClose()
         {
-            PLC.ConnectClose();
+                PLC.ConnectClose();
         }
 
         public void PLCRead()
@@ -91,16 +94,16 @@ namespace CoatingMgr
         public void PLCWrite()
         {
             // 此处以D寄存器作为示例
-            PLC.Write("D1000", (short)1234);                // 写入D1000  short值  ,W3C0,R3C0 效果是一样的
-            PLC.Write("D1000", (ushort)45678);              // 写入D1000  ushort值
-            PLC.Write("D1000", 1234566);                    // 写入D1000  int值
-            PLC.Write("D1000", (uint)1234566);               // 写入D1000  uint值
-            PLC.Write("D1000", 123.456f);                    // 写入D1000  float值
-            PLC.Write("D1000", 123.456d);                    // 写入D1000  double值
-            PLC.Write("D1000", 123456661235123534L);          // 写入D1000  long值
-            PLC.Write("D1000", 523456661235123534UL);          // 写入D1000  ulong值
-            PLC.Write("D1000", "K123456789");                // 写入D1000  string值
-
+            PLC.Write("DM18", (short)1);                // 写入D1000  short值  ,W3C0,R3C0 效果是一样的
+            PLC.Write("DM18", (ushort)1);              // 写入D1000  ushort值
+            PLC.Write("DM18", 1);                    // 写入D1000  int值
+            PLC.Write("DM18", (uint)1);               // 写入D1000  uint值
+            PLC.Write("DM18", 123.456f);                    // 写入D1000  float值
+            PLC.Write("DM18", 123.456d);                    // 写入D1000  double值
+            PLC.Write("DM18", 123456661235123534L);          // 写入D1000  long值
+            PLC.Write("DM18", 523456661235123534UL);          // 写入D1000  ulong值
+            PLC.Write("DM18", "K123456789");                // 写入D1000  string值
+            /*
             // 读取数组
             PLC.Write("D1000", new short[] { 123, 3566, -123 });                // 写入D1000  short值  ,W3C0,R3C0 效果是一样的
             PLC.Write("D1000", new ushort[] { 12242, 42321, 12323 });              // 写入D1000  ushort值
@@ -110,6 +113,14 @@ namespace CoatingMgr
             PLC.Write("D1000", new double[] { 12343.542312d, 213123.123d, -231232.53432d });                    // 写入D1000  double值
             PLC.Write("D1000", new long[] { 1231231242312, 34312312323214, -1283862312631823 });          // 写入D1000  long值
             PLC.Write("D1000", new ulong[] { 1231231242312, 34312312323214, 9731283862312631823 });          // 写入D1000  ulong值
+            */
         }
+
+        //各色剂分注入快慢分别设置重量
+        public void PLCSetWeight()
+        {
+
+        }
+
     }
 }

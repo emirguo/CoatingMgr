@@ -204,6 +204,10 @@ namespace CoatingMgr
 
         private void BtnStock_Click(object sender, EventArgs e)
         {
+            if (this.mainPanel.Controls[0].Name.Equals("FormStock"))
+            {
+                return;
+            }
             this.mainPanel.Controls.Clear();
             this.mainPanel.Controls.Add(formStock);
             formStock.Show();

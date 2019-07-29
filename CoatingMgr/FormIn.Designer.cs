@@ -270,6 +270,7 @@
             this.tbBarCode.Name = "tbBarCode";
             this.tbBarCode.Size = new System.Drawing.Size(756, 26);
             this.tbBarCode.TabIndex = 35;
+            this.tbBarCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TbBarCode_KeyDown);
             // 
             // tbProductionDate
             // 

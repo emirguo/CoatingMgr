@@ -190,7 +190,8 @@
     <Compile Include="FormWarnMailInfo.Designer.cs">
       <DependentUpon>FormWarnMailInfo.cs</DependentUpon>
     </Compile>
-    <Compile Include="PLCTCPHelper.cs" />
+    <Compile Include="KeyenceSerialPort.cs" />
+    <Compile Include="PLCHelper.cs" />
     <Compile Include="ScanerHook.cs" />
     <Compile Include="SqlLiteHelper.cs" />
     <Compile Include="FormIn.cs">

@@ -47,6 +47,7 @@
             this.panel4 = new System.Windows.Forms.Panel();
             this.label14 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.tbStore = new System.Windows.Forms.TextBox();
             this.tbBarCode = new System.Windows.Forms.TextBox();
             this.tbProductionDate = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -65,7 +66,6 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.tbModel = new System.Windows.Forms.TextBox();
-            this.tbStore = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvStockData)).BeginInit();
             this.panel2.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -276,6 +276,14 @@
             this.panel3.Size = new System.Drawing.Size(1176, 84);
             this.panel3.TabIndex = 50;
             // 
+            // tbStore
+            // 
+            this.tbStore.Font = new System.Drawing.Font("宋体", 12F);
+            this.tbStore.Location = new System.Drawing.Point(891, 17);
+            this.tbStore.Name = "tbStore";
+            this.tbStore.Size = new System.Drawing.Size(269, 26);
+            this.tbStore.TabIndex = 53;
+            // 
             // tbBarCode
             // 
             this.tbBarCode.Font = new System.Drawing.Font("宋体", 12F);
@@ -283,6 +291,7 @@
             this.tbBarCode.Name = "tbBarCode";
             this.tbBarCode.Size = new System.Drawing.Size(756, 26);
             this.tbBarCode.TabIndex = 35;
+            this.tbBarCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TbBarCode_KeyDown);
             // 
             // tbProductionDate
             // 
@@ -296,11 +305,11 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("宋体", 12F);
-            this.label3.Location = new System.Drawing.Point(836, 20);
+            this.label3.Location = new System.Drawing.Point(847, 20);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(88, 16);
+            this.label3.Size = new System.Drawing.Size(40, 16);
             this.label3.TabIndex = 32;
-            this.label3.Text = "请选择仓库";
+            this.label3.Text = "仓库";
             // 
             // label12
             // 
@@ -439,14 +448,6 @@
             this.tbModel.Name = "tbModel";
             this.tbModel.Size = new System.Drawing.Size(127, 26);
             this.tbModel.TabIndex = 41;
-            // 
-            // tbStore
-            // 
-            this.tbStore.Font = new System.Drawing.Font("宋体", 12F);
-            this.tbStore.Location = new System.Drawing.Point(926, 17);
-            this.tbStore.Name = "tbStore";
-            this.tbStore.Size = new System.Drawing.Size(234, 26);
-            this.tbStore.TabIndex = 53;
             // 
             // FormOut
             // 

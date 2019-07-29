@@ -141,6 +141,14 @@ namespace CoatingMgr
             }
         }
 
+        private void TbBarCode_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                BarCodeInputEnd();
+            }
+        }
+
         private bool IsBarCodeInStock(string barcode)
         {
             bool result = false;
@@ -358,5 +366,6 @@ namespace CoatingMgr
                 lbCount.Text = dgvStockData.Rows.Count + "";
             }
         }
+
     }
 }

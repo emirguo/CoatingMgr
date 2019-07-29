@@ -72,7 +72,6 @@ namespace CoatingMgr
         {
             if (mInstance == null)
             {
-
                 mInstance = new SqlLiteHelper();
             }
 
