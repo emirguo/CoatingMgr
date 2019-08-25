@@ -33,6 +33,9 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.label40 = new System.Windows.Forms.Label();
             this.panel9 = new System.Windows.Forms.Panel();
+            this.label62 = new System.Windows.Forms.Label();
+            this.tbSlowWeight = new System.Windows.Forms.TextBox();
+            this.label63 = new System.Windows.Forms.Label();
             this.tbTemperature = new System.Windows.Forms.TextBox();
             this.tbHumidity = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
@@ -56,6 +59,10 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.tbRatio = new System.Windows.Forms.TextBox();
             this.panel7 = new System.Windows.Forms.Panel();
+            this.label61 = new System.Windows.Forms.Label();
+            this.label58 = new System.Windows.Forms.Label();
+            this.tbSlowValue4 = new System.Windows.Forms.TextBox();
+            this.label59 = new System.Windows.Forms.Label();
             this.label28 = new System.Windows.Forms.Label();
             this.label46 = new System.Windows.Forms.Label();
             this.tbMeasurementTime4 = new System.Windows.Forms.TextBox();
@@ -71,6 +78,10 @@
             this.label38 = new System.Windows.Forms.Label();
             this.label39 = new System.Windows.Forms.Label();
             this.panel6 = new System.Windows.Forms.Panel();
+            this.label60 = new System.Windows.Forms.Label();
+            this.label56 = new System.Windows.Forms.Label();
+            this.tbSlowValue3 = new System.Windows.Forms.TextBox();
+            this.label57 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.label48 = new System.Windows.Forms.Label();
             this.tbMeasurementTime3 = new System.Windows.Forms.TextBox();
@@ -86,7 +97,10 @@
             this.label25 = new System.Windows.Forms.Label();
             this.label26 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label54 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
+            this.tbSlowValue2 = new System.Windows.Forms.TextBox();
+            this.label55 = new System.Windows.Forms.Label();
             this.label44 = new System.Windows.Forms.Label();
             this.tbMeasurementTime2 = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
@@ -101,6 +115,10 @@
             this.label18 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.label53 = new System.Windows.Forms.Label();
+            this.label51 = new System.Windows.Forms.Label();
+            this.tbSlowValue1 = new System.Windows.Forms.TextBox();
+            this.label52 = new System.Windows.Forms.Label();
             this.label33 = new System.Windows.Forms.Label();
             this.label27 = new System.Windows.Forms.Label();
             this.tbMeasurementTime1 = new System.Windows.Forms.TextBox();
@@ -120,35 +138,16 @@
             this.label32 = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
             this.panel8 = new System.Windows.Forms.Panel();
-            this.progressBar5 = new CoatingMgr.VerticalProgressBar();
-            this.progressBar4 = new CoatingMgr.VerticalProgressBar();
-            this.progressBar3 = new CoatingMgr.VerticalProgressBar();
-            this.progressBar2 = new CoatingMgr.VerticalProgressBar();
-            this.progressBar1 = new CoatingMgr.VerticalProgressBar();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.timer = new System.Windows.Forms.Timer(this.components);
             this.lbUser = new System.Windows.Forms.Label();
             this.label49 = new System.Windows.Forms.Label();
             this.lbTime = new System.Windows.Forms.Label();
-            this.btnPause = new System.Windows.Forms.Button();
-            this.label51 = new System.Windows.Forms.Label();
-            this.tbSlowValue1 = new System.Windows.Forms.TextBox();
-            this.label52 = new System.Windows.Forms.Label();
-            this.label53 = new System.Windows.Forms.Label();
-            this.label54 = new System.Windows.Forms.Label();
-            this.tbSlowValue2 = new System.Windows.Forms.TextBox();
-            this.label55 = new System.Windows.Forms.Label();
-            this.label56 = new System.Windows.Forms.Label();
-            this.tbSlowValue3 = new System.Windows.Forms.TextBox();
-            this.label57 = new System.Windows.Forms.Label();
-            this.label58 = new System.Windows.Forms.Label();
-            this.tbSlowValue4 = new System.Windows.Forms.TextBox();
-            this.label59 = new System.Windows.Forms.Label();
-            this.label60 = new System.Windows.Forms.Label();
-            this.label61 = new System.Windows.Forms.Label();
-            this.label62 = new System.Windows.Forms.Label();
-            this.tbSlowWeight = new System.Windows.Forms.TextBox();
-            this.label63 = new System.Windows.Forms.Label();
+            this.progressBar5 = new CoatingMgr.VerticalProgressBar();
+            this.progressBar4 = new CoatingMgr.VerticalProgressBar();
+            this.progressBar3 = new CoatingMgr.VerticalProgressBar();
+            this.progressBar2 = new CoatingMgr.VerticalProgressBar();
+            this.progressBar1 = new CoatingMgr.VerticalProgressBar();
             this.panel2.SuspendLayout();
             this.panel9.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -214,6 +213,36 @@
             this.panel9.Name = "panel9";
             this.panel9.Size = new System.Drawing.Size(1176, 64);
             this.panel9.TabIndex = 41;
+            // 
+            // label62
+            // 
+            this.label62.AutoSize = true;
+            this.label62.Font = new System.Drawing.Font("宋体", 12F);
+            this.label62.Location = new System.Drawing.Point(664, 29);
+            this.label62.Name = "label62";
+            this.label62.Size = new System.Drawing.Size(72, 16);
+            this.label62.TabIndex = 62;
+            this.label62.Text = "慢速比例";
+            // 
+            // tbSlowWeight
+            // 
+            this.tbSlowWeight.Font = new System.Drawing.Font("宋体", 12F);
+            this.tbSlowWeight.Location = new System.Drawing.Point(736, 25);
+            this.tbSlowWeight.MaxLength = 10;
+            this.tbSlowWeight.Name = "tbSlowWeight";
+            this.tbSlowWeight.Size = new System.Drawing.Size(56, 26);
+            this.tbSlowWeight.TabIndex = 63;
+            this.tbSlowWeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label63
+            // 
+            this.label63.AutoSize = true;
+            this.label63.Font = new System.Drawing.Font("宋体", 12F);
+            this.label63.Location = new System.Drawing.Point(794, 29);
+            this.label63.Name = "label63";
+            this.label63.Size = new System.Drawing.Size(16, 16);
+            this.label63.TabIndex = 64;
+            this.label63.Text = "%";
             // 
             // tbTemperature
             // 
@@ -469,6 +498,48 @@
             this.panel7.Size = new System.Drawing.Size(364, 244);
             this.panel7.TabIndex = 39;
             // 
+            // label61
+            // 
+            this.label61.AutoSize = true;
+            this.label61.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Bold);
+            this.label61.ForeColor = System.Drawing.Color.DarkRed;
+            this.label61.Location = new System.Drawing.Point(32, 136);
+            this.label61.Name = "label61";
+            this.label61.Size = new System.Drawing.Size(23, 24);
+            this.label61.TabIndex = 52;
+            this.label61.Text = "B";
+            // 
+            // label58
+            // 
+            this.label58.AutoSize = true;
+            this.label58.Font = new System.Drawing.Font("宋体", 14F);
+            this.label58.Location = new System.Drawing.Point(332, 133);
+            this.label58.Name = "label58";
+            this.label58.Size = new System.Drawing.Size(29, 19);
+            this.label58.TabIndex = 52;
+            this.label58.Text = "kg";
+            // 
+            // tbSlowValue4
+            // 
+            this.tbSlowValue4.Enabled = false;
+            this.tbSlowValue4.Font = new System.Drawing.Font("宋体", 14F);
+            this.tbSlowValue4.Location = new System.Drawing.Point(175, 128);
+            this.tbSlowValue4.Name = "tbSlowValue4";
+            this.tbSlowValue4.ReadOnly = true;
+            this.tbSlowValue4.Size = new System.Drawing.Size(157, 29);
+            this.tbSlowValue4.TabIndex = 51;
+            this.tbSlowValue4.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // label59
+            // 
+            this.label59.AutoSize = true;
+            this.label59.Font = new System.Drawing.Font("宋体", 14F);
+            this.label59.Location = new System.Drawing.Point(82, 133);
+            this.label59.Name = "label59";
+            this.label59.Size = new System.Drawing.Size(85, 19);
+            this.label59.TabIndex = 50;
+            this.label59.Text = "慢速重量";
+            // 
             // label28
             // 
             this.label28.AutoSize = true;
@@ -638,6 +709,48 @@
             this.panel6.Size = new System.Drawing.Size(364, 244);
             this.panel6.TabIndex = 39;
             // 
+            // label60
+            // 
+            this.label60.AutoSize = true;
+            this.label60.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Bold);
+            this.label60.ForeColor = System.Drawing.Color.DarkRed;
+            this.label60.Location = new System.Drawing.Point(32, 136);
+            this.label60.Name = "label60";
+            this.label60.Size = new System.Drawing.Size(23, 24);
+            this.label60.TabIndex = 51;
+            this.label60.Text = "A";
+            // 
+            // label56
+            // 
+            this.label56.AutoSize = true;
+            this.label56.Font = new System.Drawing.Font("宋体", 14F);
+            this.label56.Location = new System.Drawing.Point(332, 133);
+            this.label56.Name = "label56";
+            this.label56.Size = new System.Drawing.Size(29, 19);
+            this.label56.TabIndex = 50;
+            this.label56.Text = "kg";
+            // 
+            // tbSlowValue3
+            // 
+            this.tbSlowValue3.Enabled = false;
+            this.tbSlowValue3.Font = new System.Drawing.Font("宋体", 14F);
+            this.tbSlowValue3.Location = new System.Drawing.Point(175, 128);
+            this.tbSlowValue3.Name = "tbSlowValue3";
+            this.tbSlowValue3.ReadOnly = true;
+            this.tbSlowValue3.Size = new System.Drawing.Size(157, 29);
+            this.tbSlowValue3.TabIndex = 49;
+            this.tbSlowValue3.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // label57
+            // 
+            this.label57.AutoSize = true;
+            this.label57.Font = new System.Drawing.Font("宋体", 14F);
+            this.label57.Location = new System.Drawing.Point(82, 133);
+            this.label57.Name = "label57";
+            this.label57.Size = new System.Drawing.Size(85, 19);
+            this.label57.TabIndex = 48;
+            this.label57.Text = "慢速重量";
+            // 
             // label20
             // 
             this.label20.AutoSize = true;
@@ -806,6 +919,16 @@
             this.panel1.Size = new System.Drawing.Size(364, 244);
             this.panel1.TabIndex = 39;
             // 
+            // label54
+            // 
+            this.label54.AutoSize = true;
+            this.label54.Font = new System.Drawing.Font("宋体", 14F);
+            this.label54.Location = new System.Drawing.Point(332, 133);
+            this.label54.Name = "label54";
+            this.label54.Size = new System.Drawing.Size(29, 19);
+            this.label54.TabIndex = 47;
+            this.label54.Text = "kg";
+            // 
             // label9
             // 
             this.label9.AutoSize = true;
@@ -815,6 +938,27 @@
             this.label9.Size = new System.Drawing.Size(28, 19);
             this.label9.TabIndex = 43;
             this.label9.Text = "秒";
+            // 
+            // tbSlowValue2
+            // 
+            this.tbSlowValue2.Enabled = false;
+            this.tbSlowValue2.Font = new System.Drawing.Font("宋体", 14F);
+            this.tbSlowValue2.Location = new System.Drawing.Point(175, 128);
+            this.tbSlowValue2.Name = "tbSlowValue2";
+            this.tbSlowValue2.ReadOnly = true;
+            this.tbSlowValue2.Size = new System.Drawing.Size(157, 29);
+            this.tbSlowValue2.TabIndex = 46;
+            this.tbSlowValue2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // label55
+            // 
+            this.label55.AutoSize = true;
+            this.label55.Font = new System.Drawing.Font("宋体", 14F);
+            this.label55.Location = new System.Drawing.Point(82, 133);
+            this.label55.Name = "label55";
+            this.label55.Size = new System.Drawing.Size(85, 19);
+            this.label55.TabIndex = 45;
+            this.label55.Text = "慢速重量";
             // 
             // label44
             // 
@@ -973,6 +1117,47 @@
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(364, 244);
             this.panel5.TabIndex = 21;
+            // 
+            // label53
+            // 
+            this.label53.AutoSize = true;
+            this.label53.Font = new System.Drawing.Font("宋体", 14F);
+            this.label53.Location = new System.Drawing.Point(332, 98);
+            this.label53.Name = "label53";
+            this.label53.Size = new System.Drawing.Size(29, 19);
+            this.label53.TabIndex = 44;
+            this.label53.Text = "kg";
+            // 
+            // label51
+            // 
+            this.label51.AutoSize = true;
+            this.label51.Font = new System.Drawing.Font("宋体", 14F);
+            this.label51.Location = new System.Drawing.Point(332, 133);
+            this.label51.Name = "label51";
+            this.label51.Size = new System.Drawing.Size(29, 19);
+            this.label51.TabIndex = 43;
+            this.label51.Text = "kg";
+            // 
+            // tbSlowValue1
+            // 
+            this.tbSlowValue1.Enabled = false;
+            this.tbSlowValue1.Font = new System.Drawing.Font("宋体", 14F);
+            this.tbSlowValue1.Location = new System.Drawing.Point(175, 128);
+            this.tbSlowValue1.Name = "tbSlowValue1";
+            this.tbSlowValue1.ReadOnly = true;
+            this.tbSlowValue1.Size = new System.Drawing.Size(157, 29);
+            this.tbSlowValue1.TabIndex = 42;
+            this.tbSlowValue1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // label52
+            // 
+            this.label52.AutoSize = true;
+            this.label52.Font = new System.Drawing.Font("宋体", 14F);
+            this.label52.Location = new System.Drawing.Point(82, 133);
+            this.label52.Name = "label52";
+            this.label52.Size = new System.Drawing.Size(85, 19);
+            this.label52.TabIndex = 41;
+            this.label52.Text = "慢速重量";
             // 
             // label33
             // 
@@ -1179,55 +1364,6 @@
             this.panel8.Size = new System.Drawing.Size(413, 329);
             this.panel8.TabIndex = 53;
             // 
-            // progressBar5
-            // 
-            this.progressBar5.BackColor = System.Drawing.SystemColors.Control;
-            this.progressBar5.Location = new System.Drawing.Point(172, 203);
-            this.progressBar5.Name = "progressBar5";
-            this.progressBar5.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.progressBar5.Size = new System.Drawing.Size(77, 63);
-            this.progressBar5.TabIndex = 6;
-            // 
-            // progressBar4
-            // 
-            this.progressBar4.BackColor = System.Drawing.SystemColors.Control;
-            this.progressBar4.Location = new System.Drawing.Point(280, 30);
-            this.progressBar4.Name = "progressBar4";
-            this.progressBar4.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.progressBar4.Size = new System.Drawing.Size(41, 38);
-            this.progressBar4.TabIndex = 5;
-            this.progressBar4.Value = 100;
-            // 
-            // progressBar3
-            // 
-            this.progressBar3.BackColor = System.Drawing.SystemColors.Control;
-            this.progressBar3.Location = new System.Drawing.Point(222, 30);
-            this.progressBar3.Name = "progressBar3";
-            this.progressBar3.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.progressBar3.Size = new System.Drawing.Size(41, 38);
-            this.progressBar3.TabIndex = 4;
-            this.progressBar3.Value = 100;
-            // 
-            // progressBar2
-            // 
-            this.progressBar2.BackColor = System.Drawing.SystemColors.Control;
-            this.progressBar2.Location = new System.Drawing.Point(162, 30);
-            this.progressBar2.Name = "progressBar2";
-            this.progressBar2.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.progressBar2.Size = new System.Drawing.Size(41, 38);
-            this.progressBar2.TabIndex = 3;
-            this.progressBar2.Value = 100;
-            // 
-            // progressBar1
-            // 
-            this.progressBar1.BackColor = System.Drawing.SystemColors.Control;
-            this.progressBar1.Location = new System.Drawing.Point(100, 30);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.progressBar1.Size = new System.Drawing.Size(41, 38);
-            this.progressBar1.TabIndex = 2;
-            this.progressBar1.Value = 100;
-            // 
             // pictureBox1
             // 
             this.pictureBox1.Cursor = System.Windows.Forms.Cursors.Default;
@@ -1277,202 +1413,54 @@
             this.lbTime.TabIndex = 54;
             this.lbTime.Text = "时间：";
             // 
-            // btnPause
+            // progressBar5
             // 
-            this.btnPause.Font = new System.Drawing.Font("宋体", 12F);
-            this.btnPause.Location = new System.Drawing.Point(573, 632);
-            this.btnPause.Name = "btnPause";
-            this.btnPause.Size = new System.Drawing.Size(71, 29);
-            this.btnPause.TabIndex = 57;
-            this.btnPause.Text = "暂停";
-            this.btnPause.UseVisualStyleBackColor = true;
-            this.btnPause.Click += new System.EventHandler(this.BtnPause_Click);
+            this.progressBar5.BackColor = System.Drawing.SystemColors.Control;
+            this.progressBar5.Location = new System.Drawing.Point(172, 203);
+            this.progressBar5.Name = "progressBar5";
+            this.progressBar5.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.progressBar5.Size = new System.Drawing.Size(77, 63);
+            this.progressBar5.TabIndex = 6;
             // 
-            // label51
+            // progressBar4
             // 
-            this.label51.AutoSize = true;
-            this.label51.Font = new System.Drawing.Font("宋体", 14F);
-            this.label51.Location = new System.Drawing.Point(332, 133);
-            this.label51.Name = "label51";
-            this.label51.Size = new System.Drawing.Size(29, 19);
-            this.label51.TabIndex = 43;
-            this.label51.Text = "kg";
+            this.progressBar4.BackColor = System.Drawing.SystemColors.Control;
+            this.progressBar4.Location = new System.Drawing.Point(280, 30);
+            this.progressBar4.Name = "progressBar4";
+            this.progressBar4.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.progressBar4.Size = new System.Drawing.Size(41, 38);
+            this.progressBar4.TabIndex = 5;
+            this.progressBar4.Value = 100;
             // 
-            // tbSlowValue1
+            // progressBar3
             // 
-            this.tbSlowValue1.Enabled = false;
-            this.tbSlowValue1.Font = new System.Drawing.Font("宋体", 14F);
-            this.tbSlowValue1.Location = new System.Drawing.Point(175, 128);
-            this.tbSlowValue1.Name = "tbSlowValue1";
-            this.tbSlowValue1.ReadOnly = true;
-            this.tbSlowValue1.Size = new System.Drawing.Size(157, 29);
-            this.tbSlowValue1.TabIndex = 42;
-            this.tbSlowValue1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.progressBar3.BackColor = System.Drawing.SystemColors.Control;
+            this.progressBar3.Location = new System.Drawing.Point(222, 30);
+            this.progressBar3.Name = "progressBar3";
+            this.progressBar3.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.progressBar3.Size = new System.Drawing.Size(41, 38);
+            this.progressBar3.TabIndex = 4;
+            this.progressBar3.Value = 100;
             // 
-            // label52
+            // progressBar2
             // 
-            this.label52.AutoSize = true;
-            this.label52.Font = new System.Drawing.Font("宋体", 14F);
-            this.label52.Location = new System.Drawing.Point(82, 133);
-            this.label52.Name = "label52";
-            this.label52.Size = new System.Drawing.Size(85, 19);
-            this.label52.TabIndex = 41;
-            this.label52.Text = "慢速重量";
+            this.progressBar2.BackColor = System.Drawing.SystemColors.Control;
+            this.progressBar2.Location = new System.Drawing.Point(162, 30);
+            this.progressBar2.Name = "progressBar2";
+            this.progressBar2.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.progressBar2.Size = new System.Drawing.Size(41, 38);
+            this.progressBar2.TabIndex = 3;
+            this.progressBar2.Value = 100;
             // 
-            // label53
+            // progressBar1
             // 
-            this.label53.AutoSize = true;
-            this.label53.Font = new System.Drawing.Font("宋体", 14F);
-            this.label53.Location = new System.Drawing.Point(332, 98);
-            this.label53.Name = "label53";
-            this.label53.Size = new System.Drawing.Size(29, 19);
-            this.label53.TabIndex = 44;
-            this.label53.Text = "kg";
-            // 
-            // label54
-            // 
-            this.label54.AutoSize = true;
-            this.label54.Font = new System.Drawing.Font("宋体", 14F);
-            this.label54.Location = new System.Drawing.Point(332, 133);
-            this.label54.Name = "label54";
-            this.label54.Size = new System.Drawing.Size(29, 19);
-            this.label54.TabIndex = 47;
-            this.label54.Text = "kg";
-            // 
-            // tbSlowValue2
-            // 
-            this.tbSlowValue2.Enabled = false;
-            this.tbSlowValue2.Font = new System.Drawing.Font("宋体", 14F);
-            this.tbSlowValue2.Location = new System.Drawing.Point(175, 128);
-            this.tbSlowValue2.Name = "tbSlowValue2";
-            this.tbSlowValue2.ReadOnly = true;
-            this.tbSlowValue2.Size = new System.Drawing.Size(157, 29);
-            this.tbSlowValue2.TabIndex = 46;
-            this.tbSlowValue2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // label55
-            // 
-            this.label55.AutoSize = true;
-            this.label55.Font = new System.Drawing.Font("宋体", 14F);
-            this.label55.Location = new System.Drawing.Point(82, 133);
-            this.label55.Name = "label55";
-            this.label55.Size = new System.Drawing.Size(85, 19);
-            this.label55.TabIndex = 45;
-            this.label55.Text = "慢速重量";
-            // 
-            // label56
-            // 
-            this.label56.AutoSize = true;
-            this.label56.Font = new System.Drawing.Font("宋体", 14F);
-            this.label56.Location = new System.Drawing.Point(332, 133);
-            this.label56.Name = "label56";
-            this.label56.Size = new System.Drawing.Size(29, 19);
-            this.label56.TabIndex = 50;
-            this.label56.Text = "kg";
-            // 
-            // tbSlowValue3
-            // 
-            this.tbSlowValue3.Enabled = false;
-            this.tbSlowValue3.Font = new System.Drawing.Font("宋体", 14F);
-            this.tbSlowValue3.Location = new System.Drawing.Point(175, 128);
-            this.tbSlowValue3.Name = "tbSlowValue3";
-            this.tbSlowValue3.ReadOnly = true;
-            this.tbSlowValue3.Size = new System.Drawing.Size(157, 29);
-            this.tbSlowValue3.TabIndex = 49;
-            this.tbSlowValue3.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // label57
-            // 
-            this.label57.AutoSize = true;
-            this.label57.Font = new System.Drawing.Font("宋体", 14F);
-            this.label57.Location = new System.Drawing.Point(82, 133);
-            this.label57.Name = "label57";
-            this.label57.Size = new System.Drawing.Size(85, 19);
-            this.label57.TabIndex = 48;
-            this.label57.Text = "慢速重量";
-            // 
-            // label58
-            // 
-            this.label58.AutoSize = true;
-            this.label58.Font = new System.Drawing.Font("宋体", 14F);
-            this.label58.Location = new System.Drawing.Point(332, 133);
-            this.label58.Name = "label58";
-            this.label58.Size = new System.Drawing.Size(29, 19);
-            this.label58.TabIndex = 52;
-            this.label58.Text = "kg";
-            // 
-            // tbSlowValue4
-            // 
-            this.tbSlowValue4.Enabled = false;
-            this.tbSlowValue4.Font = new System.Drawing.Font("宋体", 14F);
-            this.tbSlowValue4.Location = new System.Drawing.Point(175, 128);
-            this.tbSlowValue4.Name = "tbSlowValue4";
-            this.tbSlowValue4.ReadOnly = true;
-            this.tbSlowValue4.Size = new System.Drawing.Size(157, 29);
-            this.tbSlowValue4.TabIndex = 51;
-            this.tbSlowValue4.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // label59
-            // 
-            this.label59.AutoSize = true;
-            this.label59.Font = new System.Drawing.Font("宋体", 14F);
-            this.label59.Location = new System.Drawing.Point(82, 133);
-            this.label59.Name = "label59";
-            this.label59.Size = new System.Drawing.Size(85, 19);
-            this.label59.TabIndex = 50;
-            this.label59.Text = "慢速重量";
-            // 
-            // label60
-            // 
-            this.label60.AutoSize = true;
-            this.label60.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Bold);
-            this.label60.ForeColor = System.Drawing.Color.DarkRed;
-            this.label60.Location = new System.Drawing.Point(32, 136);
-            this.label60.Name = "label60";
-            this.label60.Size = new System.Drawing.Size(23, 24);
-            this.label60.TabIndex = 51;
-            this.label60.Text = "A";
-            // 
-            // label61
-            // 
-            this.label61.AutoSize = true;
-            this.label61.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Bold);
-            this.label61.ForeColor = System.Drawing.Color.DarkRed;
-            this.label61.Location = new System.Drawing.Point(32, 136);
-            this.label61.Name = "label61";
-            this.label61.Size = new System.Drawing.Size(23, 24);
-            this.label61.TabIndex = 52;
-            this.label61.Text = "B";
-            // 
-            // label62
-            // 
-            this.label62.AutoSize = true;
-            this.label62.Font = new System.Drawing.Font("宋体", 12F);
-            this.label62.Location = new System.Drawing.Point(659, 29);
-            this.label62.Name = "label62";
-            this.label62.Size = new System.Drawing.Size(72, 16);
-            this.label62.TabIndex = 62;
-            this.label62.Text = "慢速重量";
-            // 
-            // tbSlowWeight
-            // 
-            this.tbSlowWeight.Font = new System.Drawing.Font("宋体", 12F);
-            this.tbSlowWeight.Location = new System.Drawing.Point(732, 25);
-            this.tbSlowWeight.MaxLength = 10;
-            this.tbSlowWeight.Name = "tbSlowWeight";
-            this.tbSlowWeight.Size = new System.Drawing.Size(62, 26);
-            this.tbSlowWeight.TabIndex = 63;
-            this.tbSlowWeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // label63
-            // 
-            this.label63.AutoSize = true;
-            this.label63.Font = new System.Drawing.Font("宋体", 12F);
-            this.label63.Location = new System.Drawing.Point(794, 29);
-            this.label63.Name = "label63";
-            this.label63.Size = new System.Drawing.Size(24, 16);
-            this.label63.TabIndex = 64;
-            this.label63.Text = "KG";
+            this.progressBar1.BackColor = System.Drawing.SystemColors.Control;
+            this.progressBar1.Location = new System.Drawing.Point(100, 30);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.progressBar1.Size = new System.Drawing.Size(41, 38);
+            this.progressBar1.TabIndex = 2;
+            this.progressBar1.Value = 100;
             // 
             // FormStir
             // 
@@ -1480,7 +1468,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1184, 662);
             this.Controls.Add(this.panel4);
-            this.Controls.Add(this.btnPause);
             this.Controls.Add(this.lbUser);
             this.Controls.Add(this.label49);
             this.Controls.Add(this.lbTime);
@@ -1602,7 +1589,6 @@
         private System.Windows.Forms.Label lbUser;
         private System.Windows.Forms.Label label49;
         private System.Windows.Forms.Label lbTime;
-        private System.Windows.Forms.Button btnPause;
         private System.Windows.Forms.Button btnResetStirValues;
         private System.Windows.Forms.Button btnGetStirValues;
         private System.Windows.Forms.Panel panel8;

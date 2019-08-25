@@ -1,15 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Data.SQLite;
-using System.Drawing;
-using System.Linq;
-using System.Net.Sockets;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CoatingMgr
@@ -23,17 +15,27 @@ namespace CoatingMgr
         private string _managerName = "";
         private double currStirTime = 0.0;
         private string ratio1 = "", ratio2 = "", ratio3 = "", ratio4 = "";
+        private int w_all = 0, w_C = 0, w_C_Fast = 0, w_C_Slow = 0, w_H = 0, w_H_Fast = 0, w_H_Slow = 0, w_TA = 0, w_TA_Fast = 0, w_TA_Slow = 0, w_TB = 0, w_TB_Fast = 0, w_TB_Slow = 0;
+        private bool C_End = false, H_End = false, TA_End = false, TB_End = false;
         private enum Status
         {
             Stop,
-            CoatingStart,
-            CoatingPause,
-            HardeningAgentStart,
-            HardeningAgentPause,
-            ThinnerAStart,
-            ThinnerAPause,
-            ThinnerBStart,
-            ThinnerBPause
+            CoatingStart_Fast,
+            CoatingPause_Fast,
+            CoatingStart_Slow,
+            CoatingPause_Slow,
+            HardeningAgentStart_Fast,
+            HardeningAgentPause_Fast,
+            HardeningAgentStart_Slow,
+            HardeningAgentPause_Slow,
+            ThinnerAStart_Fast,
+            ThinnerAPause_Fast,
+            ThinnerAStart_Slow,
+            ThinnerAPause_Slow,
+            ThinnerBStart_Fast,
+            ThinnerBPause_Fast,
+            ThinnerBStart_Slow,
+            ThinnerBPause_Slow
         }
         private Status CurrStatus = Status.Stop;
 
@@ -274,8 +276,26 @@ namespace CoatingMgr
             tbMeasurementTime3.Text = null;
             tbMeasurementTime4.Text = null;
             
-            this.btnPause.Text = "暂停";
             this.lbCurrentStatus.Text = "停止";
+
+            w_all = 0;
+            w_C = 0;
+            w_C_Fast = 0;
+            w_C_Slow = 0;
+            w_H = 0;
+            w_H_Fast = 0;
+            w_H_Slow = 0;
+            w_TA = 0;
+            w_TA_Fast = 0;
+            w_TA_Slow = 0;
+            w_TB = 0;
+            w_TB_Fast = 0;
+            w_TB_Slow = 0;
+
+            C_End = false;
+            H_End = false;
+            TA_End = false;
+            TB_End = false;
         }
 
         private void Timer_Tick(object sender, EventArgs e)
@@ -284,34 +304,73 @@ namespace CoatingMgr
             string str = currStirTime.ToString();
             int index = str.IndexOf(".");
             str = str.Substring(0, index + 2);
+
+            GetMeasurementWeight();//称重并按状态注入油漆
+
             switch (CurrStatus)
             {
-                case Status.CoatingStart:
+                case Status.CoatingStart_Fast:
+                case Status.CoatingStart_Slow:
                     this.tbMeasurementTime1.Text = str;
-                    GetMeasurementWeight();
-                    int value1 = (int)(Convert.ToSingle(tbMeasurementValue1.Text) / Convert.ToSingle(tbSetValue1.Text) * 100);
+                    int value1 = (int)((Convert.ToSingle(tbMeasurementValue1.Text)*100) / (Convert.ToSingle(tbSetValue1.Text)*100) * 100);
                     this.progressBar1.Value = value1 > 100?0: 100-value1;
                     SetCountProgressBar();
                     break;
-                case Status.HardeningAgentStart:
+                case Status.CoatingPause_Fast://快速注入完成，自动切换为慢速注入
+                    this.tbMeasurementTime1.Text = str;
+                    CurrStatus = Status.CoatingStart_Slow;
+                    DoStir();
+                    break;
+                case Status.CoatingPause_Slow:
+                    this.progressBar1.Value = 100;
+                    SetCountProgressBar();
+                    break;
+                case Status.HardeningAgentStart_Fast:
+                case Status.HardeningAgentStart_Slow:
                     this.tbMeasurementTime2.Text = str;
-                    GetMeasurementWeight();
-                    int value2 = (int)(Convert.ToSingle(tbMeasurementValue2.Text) / Convert.ToSingle(tbSetValue2.Text) * 100);
+                    int value2 = (int)((Convert.ToSingle(tbMeasurementValue2.Text)*100) / (Convert.ToSingle(tbSetValue2.Text)*100) * 100);
                     this.progressBar2.Value = value2 > 100 ? 0 : 100-value2;
                     SetCountProgressBar();
                     break;
-                case Status.ThinnerAStart:
+                case Status.HardeningAgentPause_Fast:
+                    this.tbMeasurementTime2.Text = str;
+                    CurrStatus = Status.HardeningAgentStart_Slow;
+                    DoStir();
+                    break;
+                case Status.HardeningAgentPause_Slow:
+                    this.progressBar2.Value = 100;
+                    SetCountProgressBar();
+                    break;
+                case Status.ThinnerAStart_Fast:
+                case Status.ThinnerAStart_Slow:
                     this.tbMeasurementTime3.Text = str;
-                    GetMeasurementWeight();
-                    int value3 = (int)(Convert.ToSingle(tbMeasurementValue3.Text) / Convert.ToSingle(tbSetValue3.Text) * 100);
+                    int value3 = (int)((Convert.ToSingle(tbMeasurementValue3.Text)*100) / (Convert.ToSingle(tbSetValue3.Text)*100) * 100);
                     this.progressBar3.Value = value3 > 100 ? 0 : 100-value3;
                     SetCountProgressBar();
                     break;
-                case Status.ThinnerBStart:
+                case Status.ThinnerAPause_Fast:
+                    this.tbMeasurementTime3.Text = str;
+                    CurrStatus = Status.ThinnerAStart_Slow;
+                    DoStir();
+                    break;
+                case Status.ThinnerAPause_Slow:
+                    this.progressBar3.Value = 100;
+                    SetCountProgressBar();
+                    break;
+                case Status.ThinnerBStart_Fast:
+                case Status.ThinnerBStart_Slow:
                     this.tbMeasurementTime4.Text = str;
-                    GetMeasurementWeight();
-                    int value4 = (int)(Convert.ToSingle(tbMeasurementValue4.Text) / Convert.ToSingle(tbSetValue4.Text) * 100);
+                    int value4 = (int)((Convert.ToSingle(tbMeasurementValue4.Text)*100) / (Convert.ToSingle(tbSetValue4.Text)*100) * 100);
                     this.progressBar4.Value = value4 > 100 ? 0 : 100-value4;
+                    SetCountProgressBar();
+                    break;
+                case Status.ThinnerBPause_Fast:
+                    this.tbMeasurementTime4.Text = str;
+                    CurrStatus = Status.ThinnerBStart_Slow;
+                    DoStir();
+                    break;
+                case Status.ThinnerBPause_Slow:
+                    this.progressBar4.Value = 100;
                     SetCountProgressBar();
                     break;
                 default:
@@ -323,76 +382,88 @@ namespace CoatingMgr
         //获取倒入重量
         private void GetMeasurementWeight()
         {
+            int weight = PLCHelper.GetInstance().GetWeight();
             switch (CurrStatus)
             {
-                case Status.CoatingStart:
-                    double setWeight1 = tbSetValue1.Text.Equals("") ? 0.00001f : Convert.ToSingle(tbSetValue1.Text);
-                    double putWeight1 = tbMeasurementValue1.Text.Equals("") ? 0.00001f : Convert.ToSingle(tbMeasurementValue1.Text);
-                    if (setWeight1 > putWeight1)
+                case Status.CoatingStart_Fast:
+                case Status.CoatingStart_Slow:
+                    if (w_C > 0 && w_C_Fast > 0 && w_C_Slow > 0 && !C_End)
                     {
-                        tbMeasurementValue1.Text = string.Format("{0:f2}", Convert.ToSingle(tbMeasurementTime1.Text) / 10 * setWeight1);//只取小数点后2位
-                    }
-                    else
-                    {
-                        CurrStatus = Status.CoatingPause;
-                        tbMeasurementValue1.Text = tbSetValue1.Text;
-                        progressBar1.Value = 100;
-                        SetCountProgressBar();
-                        DoStir();
-                    }
-                    break;
-                case Status.HardeningAgentStart:
-                    double setWeight2 = tbSetValue2.Text.Equals("") ? 0.00001f : Convert.ToSingle(tbSetValue2.Text);
-                    double putWeight2 = tbMeasurementValue2.Text.Equals("") ? 0.00001f : Convert.ToSingle(tbMeasurementValue2.Text);
-                    if (setWeight2 > putWeight2)
-                    {
-                        tbMeasurementValue2.Text = string.Format("{0:f2}", Convert.ToSingle(tbMeasurementTime2.Text) / 10 * setWeight2);
-                    }
-                    else
-                    {
-                        CurrStatus = Status.HardeningAgentPause;
-                        tbMeasurementValue2.Text = tbSetValue2.Text;
-                        progressBar2.Value = 100;
-                        SetCountProgressBar();
-                        DoStir();
+                        double putWeight1 = weight - (H_End ? w_H : 0) - (TA_End ? w_TA : 0) - (TB_End ? w_TB : 0);
+                        tbMeasurementValue1.Text = putWeight1 / 100 + "";
+                        if (putWeight1 >= w_C)
+                        {
+                            CurrStatus = Status.CoatingPause_Slow;
+                            DoStir();
+                            C_End = true;
+                        }
+                        else if (putWeight1 >= w_C_Fast)
+                        {
+                            CurrStatus = Status.CoatingPause_Fast;
+                            DoStir();
+                        }
                     }
                     break;
-                case Status.ThinnerAStart:
-                    double setWeight3 = tbSetValue3.Text.Equals("") ? 0.00001f : Convert.ToSingle(tbSetValue3.Text);
-                    double putWeight3 = tbMeasurementValue3.Text.Equals("") ? 0.00001f : Convert.ToSingle(tbMeasurementValue3.Text);
-                    if (setWeight3 > putWeight3)
+                case Status.HardeningAgentStart_Fast:
+                case Status.HardeningAgentStart_Slow:
+                    if (w_H > 0 && w_H_Fast > 0 && w_H_Slow > 0)
                     {
-                        tbMeasurementValue3.Text = string.Format("{0:f2}", Convert.ToSingle(tbMeasurementTime3.Text) / 10 * setWeight3);
-                    }
-                    else
-                    {
-                        CurrStatus = Status.ThinnerAPause;
-                        tbMeasurementValue3.Text = tbSetValue3.Text;
-                        progressBar3.Value = 100;
-                        SetCountProgressBar();
-                        DoStir();
+                        double putWeight2 = weight - (C_End ? w_C : 0) - (TA_End ? w_TA : 0) - (TB_End ? w_TB : 0); ;
+                        tbMeasurementValue2.Text = putWeight2 / 100 + "";
+                        if (putWeight2 >= w_H)
+                        {
+                            CurrStatus = Status.HardeningAgentPause_Slow;
+                            DoStir();
+                            H_End = true;
+                        }
+                        else if (putWeight2 >= w_H_Fast)
+                        {
+                            CurrStatus = Status.HardeningAgentPause_Fast;
+                            DoStir();
+                        }
                     }
                     break;
-                case Status.ThinnerBStart:
-                    double setWeight4 = tbSetValue4.Text.Equals("") ? 0.00001f : Convert.ToSingle(tbSetValue4.Text);
-                    double putWeight4 = tbMeasurementValue4.Text.Equals("") ? 0.00001f : Convert.ToSingle(tbMeasurementValue4.Text);
-                    if (setWeight4 > putWeight4)
+                case Status.ThinnerAStart_Fast:
+                case Status.ThinnerAStart_Slow:
+                    if (w_TA > 0 && w_TA_Fast > 0 && w_TA_Slow > 0)
                     {
-                        tbMeasurementValue4.Text = string.Format("{0:f2}", Convert.ToSingle(tbMeasurementTime4.Text) / 10 * setWeight4);
+                        double putWeight3 = weight - (C_End ? w_C : 0) - (H_End ? w_H : 0) - (TB_End ? w_TB : 0);
+                        tbMeasurementValue3.Text = putWeight3 / 100 + "";
+                        if (putWeight3 >= w_TA)
+                        {
+                            CurrStatus = Status.ThinnerAPause_Slow;
+                            DoStir();
+                            TA_End = true;
+                        }
+                        else if (putWeight3 >= w_TA_Fast)
+                        {
+                            CurrStatus = Status.ThinnerAPause_Fast;
+                            DoStir();
+                        }
                     }
-                    else
+                    break;
+                case Status.ThinnerBStart_Fast:
+                case Status.ThinnerBStart_Slow:
+                    if (w_TB > 0 && w_TB_Fast > 0 && w_TB_Slow > 0)
                     {
-                        CurrStatus = Status.ThinnerBPause;
-                        tbMeasurementValue4.Text = tbSetValue4.Text;
-                        progressBar4.Value = 100;
-                        SetCountProgressBar();
-                        DoStir();
+                        double putWeight4 = weight - (C_End ? w_C : 0) - (H_End ? w_H : 0) - (TA_End ? w_TA : 0);
+                        tbMeasurementValue4.Text = putWeight4 / 100 + "";
+                        if (putWeight4 >= w_TB)
+                        {
+                            CurrStatus = Status.ThinnerBPause_Slow;
+                            DoStir();
+                            TB_End = true;
+                        }
+                        else if (putWeight4 >= w_TB_Fast)
+                        {
+                            CurrStatus = Status.ThinnerBPause_Fast;
+                            DoStir();
+                        }
                     }
                     break;
                 default:
                     break;
             }
-            
         }
 
         //设置倒入总量进度
@@ -420,50 +491,6 @@ namespace CoatingMgr
             }
             return result;
         }
-
-        private void BtnPause_Click(object sender, EventArgs e)
-        {
-            if (!IsStirInfoEnough())
-            {
-                MessageBox.Show("请先设置调和信息");
-                return;
-            }
-            if (!isStirInfoConfirmed)
-            {
-                ShowConfirmWindow();
-                return;
-            }
-            switch (CurrStatus)
-            {
-                case Status.CoatingStart:
-                    CurrStatus = Status.CoatingPause;
-                    break;
-                case Status.CoatingPause:
-                    CurrStatus = Status.CoatingStart;
-                    break;
-                case Status.HardeningAgentStart:
-                    CurrStatus = Status.HardeningAgentPause;
-                    break;
-                case Status.HardeningAgentPause:
-                    CurrStatus = Status.HardeningAgentStart;
-                    break;
-                case Status.ThinnerAStart:
-                    CurrStatus = Status.ThinnerAPause;
-                    break;
-                case Status.ThinnerAPause:
-                    CurrStatus = Status.ThinnerAStart;
-                    break;
-                case Status.ThinnerBStart:
-                    CurrStatus = Status.ThinnerBPause;
-                    break;
-                case Status.ThinnerBPause:
-                    CurrStatus = Status.ThinnerBStart;
-                    break;
-                default:
-                    break;
-            }
-            DoStir();
-        }
         
         private void BtnStop_Click(object sender, EventArgs e)
         {
@@ -483,45 +510,75 @@ namespace CoatingMgr
         {
             switch (CurrStatus)
             {
-                case Status.CoatingStart:
+                case Status.CoatingStart_Fast:
+                    PLCHelper.GetInstance().CoatingFastOn();//开始快速注入涂料
                     SetStartStirText(tbMeasurementTime1);
-                    this.lbCurrentStatus.Text = "正在倒入涂料";
-                    //连接PLC，开始倒涂料
-                    PLCHelper.GetInstance().PLCRead();
+                    this.lbCurrentStatus.Text = "正在注入涂料";
                     break;
-                case Status.CoatingPause:
+                case Status.CoatingPause_Fast:
+                    PLCHelper.GetInstance().CoatingFastOff();//停止快速注入涂料
+                    break;
+                case Status.CoatingStart_Slow:
+                    PLCHelper.GetInstance().CoatingSlowOn();//开始慢速注入涂料
+                    break;
+                case Status.CoatingPause_Slow:
+                    PLCHelper.GetInstance().CoatingSlowOff();//停止慢速注入涂料
                     SetPauseStirText();
                     this.lbCurrentStatus.Text = "暂停";
                     break;
-                case Status.HardeningAgentStart:
+                case Status.HardeningAgentStart_Fast:
+                    PLCHelper.GetInstance().HardeningAgentFastOn();//开始快速注入固化剂
                     SetStartStirText(tbMeasurementTime2);
-                    this.lbCurrentStatus.Text = "正在倒入固化剂";
+                    this.lbCurrentStatus.Text = "正在注入固化剂";
                     break;
-                case Status.HardeningAgentPause:
+                case Status.HardeningAgentPause_Fast:
+                    PLCHelper.GetInstance().HardeningAgentFastOff();//停止快速注入固化剂
+                    break;
+                case Status.HardeningAgentStart_Slow:
+                    PLCHelper.GetInstance().HardeningAgentSlowOn();//开始慢速注入固化剂
+                    break;
+                case Status.HardeningAgentPause_Slow:
+                    PLCHelper.GetInstance().HardeningAgentSlowOff();//停止慢速注入固化剂
                     SetPauseStirText();
                     this.lbCurrentStatus.Text = "暂停";
                     break;
-                case Status.ThinnerAStart:
+                case Status.ThinnerAStart_Fast:
+                    PLCHelper.GetInstance().ThinnerAFastOn();//开始快速注入稀释剂A
                     SetStartStirText(tbMeasurementTime3);
-                    this.lbCurrentStatus.Text = "正在倒入稀释剂";
+                    this.lbCurrentStatus.Text = "正在注入稀释剂A";
                     break;
-                case Status.ThinnerAPause:
+                case Status.ThinnerAPause_Fast:
+                    PLCHelper.GetInstance().ThinnerAFastOff();//停止快速注入稀释剂A
+                    break;
+                case Status.ThinnerAStart_Slow:
+                    PLCHelper.GetInstance().ThinnerASlowOn();//开始慢速注入稀释剂A
+                    break;
+                case Status.ThinnerAPause_Slow:
+                    PLCHelper.GetInstance().ThinnerASlowOff();//停止慢速注入稀释剂A
                     SetPauseStirText();
                     this.lbCurrentStatus.Text = "暂停";
                     break;
-                case Status.ThinnerBStart:
+                case Status.ThinnerBStart_Fast:
+                    PLCHelper.GetInstance().ThinnerBFastOn();//开始快速注入稀释剂B
                     SetStartStirText(tbMeasurementTime4);
-                    this.lbCurrentStatus.Text = "正在倒入稀释剂";
+                    this.lbCurrentStatus.Text = "正在注入稀释剂B";
                     break;
-                case Status.ThinnerBPause:
+                case Status.ThinnerBPause_Fast:
+                    PLCHelper.GetInstance().ThinnerBFastOff();//停止快速注入稀释剂B
+                    break;
+                case Status.ThinnerBStart_Slow:
+                    PLCHelper.GetInstance().ThinnerBSlowOn();//开始慢速注入稀释剂B
+                    break;
+                case Status.ThinnerBPause_Slow:
+                    PLCHelper.GetInstance().ThinnerBSlowOff();//停止慢速注入稀释剂B
                     SetPauseStirText();
                     this.lbCurrentStatus.Text = "暂停";
                     break;
                 case Status.Stop:
+                    PLCHelper.GetInstance().Stop();//PLC停止动作
                     this.timer.Stop();
                     currStirTime = 0;
                     this.lbCurrentStatus.Text = "停止";
-                    this.btnPause.Text = "暂停";
                     break;
                 default:
                     break;
@@ -565,7 +622,6 @@ namespace CoatingMgr
         private void SetPauseStirText()
         {
             this.timer.Stop();
-            btnPause.Text = "继续";
         }
 
         /// <summary>
@@ -582,7 +638,6 @@ namespace CoatingMgr
                 currStirTime = double.Parse(tb.Text);
             }
             this.timer.Start();
-            btnPause.Text = "暂停";
         }
 
         private bool IsBarCodeFromStock(string barcode)
@@ -660,7 +715,7 @@ namespace CoatingMgr
             return result;
         }
 
-        public void BarCodeInputEnd()
+        public void BarCodeInputEnd(string barcode)
         {
             if (tbBarCode1.Focused)
             {
@@ -716,6 +771,7 @@ namespace CoatingMgr
         {
             if (!tbBarCode1.Text.Equals(string.Empty))
             {
+                /*
                 if (!IsStirInfoEnough())
                 {
                     tbBarCode1.Text = string.Empty;
@@ -735,11 +791,14 @@ namespace CoatingMgr
                 }
                 if (IsBarCodeValid(tbBarCode1.Text, tbName1.Text))//条形码正确
                 {
-                    CurrStatus = Status.CoatingStart;
+                    CurrStatus = Status.CoatingStart_Fast;
                     DoStir();
                     this.tbBarCode2.Focus();
                 }
-                tbBarCode1.Text = string.Empty;
+                */
+                CurrStatus = Status.CoatingStart_Fast;
+                DoStir();
+                this.tbBarCode2.Focus();
             }
         }
 
@@ -747,6 +806,7 @@ namespace CoatingMgr
         {
             if (!tbBarCode2.Text.Equals(string.Empty))
             {
+                /*
                 if (!IsStirInfoEnough())
                 {
                     tbBarCode2.Text = string.Empty;
@@ -766,11 +826,14 @@ namespace CoatingMgr
                 }
                 if (IsBarCodeValid(tbBarCode2.Text, tbName2.Text))//条形码正确
                 {
-                    CurrStatus = Status.HardeningAgentStart;
+                    CurrStatus = Status.HardeningAgentStart_Fast;
                     DoStir();
                     this.tbBarCode3.Focus();
                 }
-                tbBarCode2.Text = string.Empty;
+                */
+                CurrStatus = Status.HardeningAgentStart_Fast;
+                DoStir();
+                this.tbBarCode3.Focus();
             }
         }
 
@@ -778,6 +841,7 @@ namespace CoatingMgr
         {
             if (!tbBarCode3.Text.Equals(string.Empty))
             {
+                /*
                 if (!IsStirInfoEnough())
                 {
                     tbBarCode3.Text = string.Empty;
@@ -797,11 +861,14 @@ namespace CoatingMgr
                 }
                 if (IsBarCodeValid(tbBarCode3.Text, tbName3.Text))//条形码正确
                 {
-                    CurrStatus = Status.ThinnerAStart;
+                    CurrStatus = Status.ThinnerAStart_Fast;
                     DoStir();
                     this.tbBarCode4.Focus();
                 }
-                tbBarCode3.Text = string.Empty;
+                */
+                CurrStatus = Status.ThinnerAStart_Fast;
+                DoStir();
+                this.tbBarCode4.Focus();
             }
         }
 
@@ -809,7 +876,7 @@ namespace CoatingMgr
         {
             if (!tbBarCode4.Text.Equals(string.Empty))
             {
-
+                /*
                 if (!IsStirInfoEnough())
                 {
                     tbBarCode4.Text = string.Empty;
@@ -829,10 +896,12 @@ namespace CoatingMgr
                 }
                 if (IsBarCodeValid(tbBarCode4.Text, tbName4.Text))//条形码正确
                 {
-                    CurrStatus = Status.ThinnerBStart;
+                    CurrStatus = Status.ThinnerBStart_Fast;
                     DoStir();
                 }
-                tbBarCode4.Text = string.Empty;
+                */
+                CurrStatus = Status.ThinnerBStart_Fast;
+                DoStir();
             }
         }
 
@@ -847,25 +916,47 @@ namespace CoatingMgr
                 {
                     double weight1 = double.Parse(tbInputWeight.Text);
                     tbSetValue1.Text = weight1.ToString();
-                    tbSlowValue1.Text = tbSlowWeight.Text;
+                    tbSlowValue1.Text = weight1 * double.Parse(tbSlowWeight.Text) / 100 + "";
+
+                    w_C = (int)(double.Parse(tbSetValue1.Text)*100);
+                    w_C_Slow = (int)(double.Parse(tbSlowValue1.Text)*100);
+                    w_C_Fast = w_C - w_C_Slow;
+
                     if (!ratio2.Equals(""))
                     {
                         double weight2 = weight1 * double.Parse(ratio2) / double.Parse(ratio1);
                         tbSetValue2.Text = weight2.ToString();
-                        tbSlowValue2.Text = tbSlowWeight.Text;
+                        tbSlowValue2.Text = weight2 * double.Parse(tbSlowWeight.Text) / 100 + "";
+
+                        w_H = (int)(double.Parse(tbSetValue2.Text) * 100);
+                        w_H_Slow = (int)(double.Parse(tbSlowValue2.Text) * 100);
+                        w_H_Fast = w_H - w_H_Slow;
                     }
                     if (!ratio3.Equals(""))
                     {
                         double weight3 = weight1 * double.Parse(ratio3) / double.Parse(ratio1);
                         tbSetValue3.Text = weight3.ToString();
-                        tbSlowValue3.Text = tbSlowWeight.Text;
+                        tbSlowValue3.Text = weight3 * double.Parse(tbSlowWeight.Text) / 100 + "";
+
+                        w_TA = (int)(double.Parse(tbSetValue3.Text) * 100);
+                        w_TA_Slow = (int)(double.Parse(tbSlowValue3.Text) * 100);
+                        w_TA_Fast = w_TA - w_TA_Slow;
                     }
                     if (!ratio4.Equals(""))
                     {
                         double weight4 = weight1 * double.Parse(ratio4) / double.Parse(ratio1);
                         tbSetValue4.Text = weight4.ToString();
-                        tbSlowValue4.Text = tbSlowWeight.Text;
+                        tbSlowValue4.Text = weight4 * double.Parse(tbSlowWeight.Text) / 100 + "";
+
+                        w_TB = (int)(double.Parse(tbSetValue4.Text) * 100);
+                        w_TB_Slow = (int)(double.Parse(tbSlowValue4.Text) * 100);
+                        w_TB_Fast = w_TB - w_TB_Slow;
                     }
+                    w_all = w_C + w_H + w_TA + w_TB;
+                    C_End = false;
+                    H_End = false;
+                    TA_End = false;
+                    TB_End = false;
                 }
                 catch (Exception e)
                 {
@@ -912,7 +1003,7 @@ namespace CoatingMgr
             isStirInfoConfirmed = true;
 
             //管理员确认调和数据后，初始化PLC并设置色剂重量
-            PLCHelper.GetInstance().PLCSetWeight();
+            PLCHelper.GetInstance().SetWeight(w_C, w_H, w_TA, w_TB, w_C_Fast, w_H_Fast, w_TA_Fast, w_TB_Fast);
         }
 
         /// <summary>
@@ -923,136 +1014,5 @@ namespace CoatingMgr
             FormConfirmStirInfo formConfirmStirInfo = new FormConfirmStirInfo(this);
             formConfirmStirInfo.Show();
         }
-
-        TcpClient tcp = new TcpClient(); //定义TCP\IP连接
-        private string SendMessage(string mes)//写一个发送指令的方法
-        {
-            NetworkStream DataSend = tcp.GetStream();//定义网络流
-            string SendW = mes;
-            var ByteSendW = Encoding.ASCII.GetBytes(SendW);//把发送数据转换为ASCII数组          
-            DataSend.Write(ByteSendW, 0, ByteSendW.Length); //发送通讯数据
-            byte[] data = new byte[16];//设定接收数据为16位数组，接收数据不足用0填充
-            DataSend.Read(data, 0, data.Length);       //读取返回数据
-            var ByteRD = "未返回数据";
-            ByteRD = Encoding.ASCII.GetString(data);//接收数据从ASCII数组转换为字符串
-            return ByteRD;
-        }
-
-        private void ConnectPLC(string ip, int port)//连接PLC 
-        {
-            try
-            {
-                tcp.Connect(ip, port);//tcp.Connect("192.168.10.10", 8500); //设置IP与Port 8500为默认上位链路通讯端口
-
-
-                if (!tcp.Connected)
-                {
-                    MessageBox.Show("PLC连接失败，请查询网络是否正常！PLC地址：" + ip);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("PLC连接失败," + ex.ToString());
-            }
-        }
-
-        private void ClosePLC()
-        {
-            tcp.Close();
-        }
-
-        private void ResetR(string addr)
-        {
-            try
-            {
-                if (!tcp.Connected)
-                {
-                    MessageBox.Show("请先连接网口");
-                    return;
-                }
-                string SendW = "";
-                string RD = "RD R" + addr + @"\r";
-                string value = SendMessage(RD);
-                if (value == ("0\r\n" + "\0\0\0\0\0\0\0\0\0\0\0\0\0"))//如果该R值为0则发送置位指令
-                {
-                    SendW = "ST R" + addr + @"\r";
-                }
-                else if (value == ("1\r\n" + "\0\0\0\0\0\0\0\0\0\0\0\0\0"))//如果该R值为1则发送复位指令
-                {
-                    SendW = "RS R" + addr + @"\r";
-                }
-                if (SendMessage(SendW) == ("OK\r\n" + "\0\0\0\0\0\0\0\0\0\0\0\0"))//发送成功
-                {
-                    if (SendMessage(RD) == ("1\r\n" + "\0\0\0\0\0\0\0\0\0\0\0\0\0"))//接收成功
-                    {
-                    }
-                    else//接收失败
-                    {
-                    }
-
-                }
-                else //发送失败
-                {
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-        }
-
-        private void ReadDM(string addr)//读DM
-        {
-            try
-            {
-                if (!tcp.Connected)
-                {
-                    MessageBox.Show("请先连接网口");
-                    return;
-                }
-
-                string RD = "RD DM" + addr + @".L\r";
-                string value = SendMessage(RD);
-                if (value == ("E0\r\n" + "\0\0\0\0\0\0\0\0\0\0\0\0") || value == ("E1\r\n" + "\0\0\0\0\0\0\0\0\0\0\0\0") || value == "未返回数据")
-                {
-                    //发送失败
-                }
-                else
-                {
-                    //发送成功
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-        }
-
-        private void WriteDM(string addr, string value)//写DM
-        {
-            try
-            {
-                if (!tcp.Connected)
-                {
-                    MessageBox.Show("请先连接网口");
-                    return;
-                }
-                string RD = "WR DM" + addr + @".L " + value + "\r";
-                if (SendMessage(RD) == ("OK\r\n" + "\0\0\0\0\0\0\0\0\0\0\0\0"))
-                {
-                    //写成功
-
-                }
-                else
-                {
-                    //写失败
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-        }
-
     }
 }

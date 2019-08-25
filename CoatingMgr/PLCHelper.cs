@@ -9,15 +9,12 @@ namespace CoatingMgr
     {
         public static PLCHelper mInstance = null;
 
-        //private MelsecMcNet melsecMc = new MelsecMcNet("192.168.1.110", 6000);//三菱PLC
-
-        //private SiemensS7Net siemens = new SiemensS7Net(SiemensPLCS.S1200, " 192.168.1.110");//西门子PLC
-
         //基恩士PLC
         //private KeyenceNanoSerial PLC = null;// new KeyenceNanoSerial();////基恩士PLC串口
-        //如果采用了二进制读写，那么就实例化KeyenceMcNet类，如果采用ASCII来读写数据，请使用KeyenceMcAsciiNet类
-        private KeyenceMcNet PLC = null;// = new KeyenceMcNet("192.168.1.110", 8500);
 
+        //如果采用了二进制读写，那么就实例化KeyenceMcNet类，如果采用ASCII来读写数据，请使用KeyenceMcAsciiNet类
+        private KeyenceMcNet PLC = null;
+        //private KeyenceMcAsciiNet PLC = null;
 
         /// <summary>
         /// 构造函数
@@ -26,8 +23,10 @@ namespace CoatingMgr
         {
             if (PLC == null)
             {
-                PLC = new KeyenceMcNet("192.168.1.110", 8500);//基恩士PLC TCP
-                PLCConnect();
+                PLC = new KeyenceMcNet("192.168.0.12", 5000);//基恩士PLC TCP
+                //PLC = new KeyenceMcAsciiNet("192.168.0.12", 5000);//基恩士PLC TCP
+                Connect();
+                
                 /*
                 PLC = new KeyenceNanoSerial();//基恩士PLC串口
                 PLC.SerialPortInni("COM4");//COM1,9600
@@ -45,12 +44,13 @@ namespace CoatingMgr
             return mInstance;
         }
 
-        public bool PLCConnect()
+        private bool Connect()
         {
             bool result = false;
             OperateResult connect = PLC.ConnectServer();
             if (connect.IsSuccess)
             {
+                PLC.SetPersistentConnection();//设置为长连接
                 result = true;
             }
             else
@@ -60,67 +60,145 @@ namespace CoatingMgr
             return result;
         }
 
-        public void PLCClose()
+        public void Close()
         {
                 PLC.ConnectClose();
         }
 
-        public void PLCRead()
+        public int GetWeight()
         {
-            // 此处以D寄存器作为示例
-            short short_D1000 = PLC.ReadInt16("DM18").Content;         // 读取D1000的short值
-            ushort ushort_D1000 = PLC.ReadUInt16("DM18").Content;      // 读取D1000的ushort值
-            int int_D1000 = PLC.ReadInt32("DM18").Content;             // 读取D1000-D1001组成的int数据
-            uint uint_D1000 = PLC.ReadUInt32("DM18").Content;          // 读取D1000-D1001组成的uint数据
-            float float_D1000 = PLC.ReadFloat("DM18").Content;         // 读取D1000-D1001组成的float数据
-            long long_D1000 = PLC.ReadInt64("DM18").Content;           // 读取D1000-D1003组成的long数据
-            ulong ulong_D1000 = PLC.ReadUInt64("DM18").Content;        // 读取D1000-D1003组成的long数据
-            double double_D1000 = PLC.ReadDouble("DM18").Content;      // 读取D1000-D1003组成的double数据
-            string str_D1000 = PLC.ReadString("DM18", 10).Content;     // 读取D1000-D1009组成的条码数据
-
-            /*
-            // 读取数组
-            short[] short_D1000_array = PLC.ReadInt16("D1000", 10).Content;         // 读取D1000的short值
-            ushort[] ushort_D1000_array = PLC.ReadUInt16("D1000", 10).Content;      // 读取D1000的ushort值
-            int[] int_D1000_array = PLC.ReadInt32("D1000", 10).Content;             // 读取D1000-D1001组成的int数据
-            uint[] uint_D1000_array = PLC.ReadUInt32("D1000", 10).Content;          // 读取D1000-D1001组成的uint数据
-            float[] float_D1000_array = PLC.ReadFloat("D1000", 10).Content;         // 读取D1000-D1001组成的float数据
-            long[] long_D1000_array = PLC.ReadInt64("D1000", 10).Content;           // 读取D1000-D1003组成的long数据
-            ulong[] ulong_D1000_array = PLC.ReadUInt64("D1000", 10).Content;        // 读取D1000-D1003组成的long数据
-            double[] double_D1000_array = PLC.ReadDouble("D1000", 10).Content;      // 读取D1000-D1003组成的double数据
-            */
-        }
-
-        public void PLCWrite()
-        {
-            // 此处以D寄存器作为示例
-            PLC.Write("DM18", (short)1);                // 写入D1000  short值  ,W3C0,R3C0 效果是一样的
-            PLC.Write("DM18", (ushort)1);              // 写入D1000  ushort值
-            PLC.Write("DM18", 1);                    // 写入D1000  int值
-            PLC.Write("DM18", (uint)1);               // 写入D1000  uint值
-            PLC.Write("DM18", 123.456f);                    // 写入D1000  float值
-            PLC.Write("DM18", 123.456d);                    // 写入D1000  double值
-            PLC.Write("DM18", 123456661235123534L);          // 写入D1000  long值
-            PLC.Write("DM18", 523456661235123534UL);          // 写入D1000  ulong值
-            PLC.Write("DM18", "K123456789");                // 写入D1000  string值
-            /*
-            // 读取数组
-            PLC.Write("D1000", new short[] { 123, 3566, -123 });                // 写入D1000  short值  ,W3C0,R3C0 效果是一样的
-            PLC.Write("D1000", new ushort[] { 12242, 42321, 12323 });              // 写入D1000  ushort值
-            PLC.Write("D1000", new int[] { 1234312312, 12312312, -1237213 });                    // 写入D1000  int值
-            PLC.Write("D1000", new uint[] { 523123212, 213, 13123 });               // 写入D1000  uint值
-            PLC.Write("D1000", new float[] { 123.456f, 35.3f, -675.2f });                    // 写入D1000  float值
-            PLC.Write("D1000", new double[] { 12343.542312d, 213123.123d, -231232.53432d });                    // 写入D1000  double值
-            PLC.Write("D1000", new long[] { 1231231242312, 34312312323214, -1283862312631823 });          // 写入D1000  long值
-            PLC.Write("D1000", new ulong[] { 1231231242312, 34312312323214, 9731283862312631823 });          // 写入D1000  ulong值
-            */
+            uint uint_DM18 = PLC.ReadUInt32("D00018").Content;          // 读取称重整体重量
+            return (int)uint_DM18;
         }
 
         //各色剂分注入快慢分别设置重量
-        public void PLCSetWeight()
+        public void SetWeight(int w1, int w2, int w3, int w4, int fw1, int fw2, int fw3, int fw4)
         {
+            PLC.Write("D20", (uint)w1);              // 初始油漆重量
+            PLC.Write("D26", (uint)w2);              // 固化剂重量
+            PLC.Write("D28", (uint)w3);              // 稀释剂Ａ重量
+            PLC.Write("D30", (uint)w4);              // 稀释剂Ｂ重量
 
+            PLC.Write("D202", (uint)fw1);             //快速油漆重量
+            PLC.Write("D206", (uint)fw2);             // 快速固化剂
+            PLC.Write("D212", (uint)fw3);             // 快速稀释剂Ａ
+            PLC.Write("D300", (uint)fw4);             // 快速稀释剂Ｂ
         }
 
+        public void CoatingFastOn()
+        {
+            PLC.Write("M0", (uint)1);               // 手动快速油漆阀开
+            PLC.Write("M3", (uint)1);               // 手动慢速油漆阀关
+            PLC.Write("M100", (float)1);             // 手动油漆泵开
+        }
+
+        public void CoatingFastOff()
+        {
+            PLC.Write("M100", (float)0);               // 手动油漆泵关
+            PLC.Write("M1", (uint)1);               // 手动快速油漆阀关
+        }
+
+        public void CoatingSlowOn()
+        {
+            PLC.Write("M1", (uint)1);               // 手动快速油漆阀关
+            PLC.Write("M2", (uint)1);               // 手动慢速油漆阀开
+            PLC.Write("M100", (float)1);             // 手动油漆泵开
+        }
+
+        public void CoatingSlowOff()
+        {
+            PLC.Write("M100", (float)0);               // 手动油漆泵关
+            PLC.Write("M3", (uint)1);               // 手动慢速油漆阀关
+        }
+
+        public void HardeningAgentFastOn()
+        {
+            PLC.Write("M7", (uint)1);                // 手动慢速固化剂阀关
+            PLC.Write("M4", (uint)1);               // 手动快速固化剂阀开
+            PLC.Write("M102", (float)1);             // 手动固化剂泵开
+        }
+
+        public void HardeningAgentFastOff()
+        {
+            PLC.Write("M102", (float)0);               // 手动固化剂泵关
+            PLC.Write("M5", (uint)1);               // 手动快速固化剂阀关
+        }
+
+        public void HardeningAgentSlowOn()
+        {
+            PLC.Write("M5", (uint)1);               // 手动快速固化剂阀关
+            PLC.Write("M6", (uint)1);               // 手动慢速固化剂阀开
+            PLC.Write("M102", (float)1);             // 手动固化剂泵开
+        }
+
+        public void HardeningAgentSlowOff()
+        {
+            PLC.Write("M102", (float)0);               // 手动固化剂泵关
+            PLC.Write("M7", (uint)1);                // 手动慢速固化剂阀关
+        }
+
+        public void ThinnerAFastOn()
+        {
+            PLC.Write("M11", (uint)1);               // 手动慢速稀释剂Ａ阀关
+            PLC.Write("M8", (uint)1);               // 手动快速稀释剂A阀开
+            PLC.Write("M104", (float)1);             // 手动稀释剂Ａ泵开
+        }
+
+        public void ThinnerAFastOff()
+        {
+            PLC.Write("M104", (float)0);               // 手动稀释剂Ａ泵关
+            PLC.Write("M9", (uint)1);               // 手动快速稀释剂A阀关
+        }
+
+        public void ThinnerASlowOn()
+        {
+            PLC.Write("M9", (uint)1);               // 手动快速稀释剂A阀关
+            PLC.Write("M10", (uint)1);               // 手动慢速稀释剂Ａ阀开
+            PLC.Write("M104", (float)1);             // 手动稀释剂Ａ泵开
+        }
+
+        public void ThinnerASlowOff()
+        {
+            PLC.Write("M104", (float)0);               // 手动稀释剂Ａ泵关
+            PLC.Write("M11", (uint)1);               // 手动慢速稀释剂Ａ阀关
+        }
+
+        public void ThinnerBFastOn()
+        {
+            PLC.Write("M15", (uint)1);               // 手动慢速稀释剂Ｂ阀关
+            PLC.Write("M12", (uint)1);               // 手动快速稀释剂Ｂ阀开
+            PLC.Write("M106", (float)1);             // 手动稀释剂Ｂ泵开
+        }
+
+        public void ThinnerBFastOff()
+        {
+            PLC.Write("M106", (float)0);               // 手动稀释剂Ｂ泵关
+            PLC.Write("M13", (uint)1);               // 手动快速稀释剂Ｂ阀关
+        }
+
+        public void ThinnerBSlowOn()
+        {
+            PLC.Write("M13", (uint)1);               // 手动快速稀释剂Ｂ阀关
+            PLC.Write("M14", (uint)1);               // 手动慢速稀释剂Ｂ阀开
+            PLC.Write("M106", (float)1);             // 手动稀释剂Ｂ泵开
+        }
+
+        public void ThinnerBSlowOff()
+        {
+            PLC.Write("M106", (float)0);               // 手动稀释剂Ｂ泵关
+            PLC.Write("M15", (uint)1);               // 手动慢速稀释剂Ｂ阀关
+        }
+
+        public void Stop()
+        {
+            CoatingFastOff();
+            CoatingSlowOff();
+            HardeningAgentFastOff();
+            HardeningAgentSlowOff();
+            ThinnerAFastOff();
+            ThinnerASlowOff();
+            ThinnerBFastOff();
+            ThinnerBSlowOff();
+        }
     }
 }

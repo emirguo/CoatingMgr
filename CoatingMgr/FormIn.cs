@@ -108,7 +108,7 @@ namespace CoatingMgr
             dgvStockData.Rows.Clear();
         }
 
-        public void BarCodeInputEnd()
+        public void BarCodeInputEnd(string barcode)
         {
             if (cbSearchStock.Text.Equals(string.Empty))
             {
@@ -145,7 +145,7 @@ namespace CoatingMgr
         {
             if (e.KeyCode == Keys.Enter)
             {
-                BarCodeInputEnd();
+                BarCodeInputEnd("");
             }
         }
 

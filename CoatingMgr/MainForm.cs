@@ -47,9 +47,11 @@ namespace CoatingMgr
             task.Start();
 
             //设置定时器每天8：30分析告警数据并发通知邮件
-            System.Timers.Timer timer = new System.Timers.Timer();
-            timer.Enabled = true;
-            timer.Interval = 60000;//执行间隔时间,单位为毫秒;此时时间间隔为1分钟  
+            System.Timers.Timer timer = new System.Timers.Timer
+            {
+                Enabled = true,
+                Interval = 60000//执行间隔时间,单位为毫秒;此时时间间隔为1分钟  
+            };
             timer.Start();
             timer.Elapsed += new System.Timers.ElapsedEventHandler(AnalysisWarnOnTime);
         }
@@ -88,15 +90,15 @@ namespace CoatingMgr
             string barcode = codes.Result;
             if (this.mainPanel.Controls[0].Name.Equals("FormIn"))
             {
-                formIn.BarCodeInputEnd();
+                formIn.BarCodeInputEnd(barcode);
             }
             else if (this.mainPanel.Controls[0].Name.Equals("FormOut"))
             {
-                formOut.BarCodeInputEnd();
+                formOut.BarCodeInputEnd(barcode);
             }
             else if (this.mainPanel.Controls[0].Name.Equals("FormStir"))
             {
-                formStir.BarCodeInputEnd();
+                formStir.BarCodeInputEnd(barcode);
             }
         }
 
