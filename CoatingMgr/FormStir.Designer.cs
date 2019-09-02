@@ -138,16 +138,16 @@
             this.label32 = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
             this.panel8 = new System.Windows.Forms.Panel();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.timer = new System.Windows.Forms.Timer(this.components);
-            this.lbUser = new System.Windows.Forms.Label();
-            this.label49 = new System.Windows.Forms.Label();
-            this.lbTime = new System.Windows.Forms.Label();
             this.progressBar5 = new CoatingMgr.VerticalProgressBar();
             this.progressBar4 = new CoatingMgr.VerticalProgressBar();
             this.progressBar3 = new CoatingMgr.VerticalProgressBar();
             this.progressBar2 = new CoatingMgr.VerticalProgressBar();
             this.progressBar1 = new CoatingMgr.VerticalProgressBar();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.timer = new System.Windows.Forms.Timer(this.components);
+            this.lbUser = new System.Windows.Forms.Label();
+            this.label49 = new System.Windows.Forms.Label();
+            this.lbTime = new System.Windows.Forms.Label();
             this.panel2.SuspendLayout();
             this.panel9.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -175,11 +175,11 @@
             // 
             this.label40.AutoSize = true;
             this.label40.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label40.Location = new System.Drawing.Point(536, 4);
+            this.label40.Location = new System.Drawing.Point(516, 4);
             this.label40.Name = "label40";
             this.label40.Size = new System.Drawing.Size(110, 24);
             this.label40.TabIndex = 62;
-            this.label40.Text = "涂料调和";
+            this.label40.Text = "调和工程";
             // 
             // panel9
             // 
@@ -1364,55 +1364,6 @@
             this.panel8.Size = new System.Drawing.Size(413, 329);
             this.panel8.TabIndex = 53;
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Cursor = System.Windows.Forms.Cursors.Default;
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(4, 3);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(405, 307);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 1;
-            this.pictureBox1.TabStop = false;
-            // 
-            // timer
-            // 
-            this.timer.Enabled = true;
-            this.timer.Tick += new System.EventHandler(this.Timer_Tick);
-            // 
-            // lbUser
-            // 
-            this.lbUser.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lbUser.AutoSize = true;
-            this.lbUser.Font = new System.Drawing.Font("宋体", 12F);
-            this.lbUser.Location = new System.Drawing.Point(70, 637);
-            this.lbUser.Name = "lbUser";
-            this.lbUser.Size = new System.Drawing.Size(40, 16);
-            this.lbUser.TabIndex = 56;
-            this.lbUser.Text = "张三";
-            // 
-            // label49
-            // 
-            this.label49.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label49.AutoSize = true;
-            this.label49.Font = new System.Drawing.Font("宋体", 12F);
-            this.label49.Location = new System.Drawing.Point(10, 637);
-            this.label49.Name = "label49";
-            this.label49.Size = new System.Drawing.Size(72, 16);
-            this.label49.TabIndex = 55;
-            this.label49.Text = "操作员：";
-            // 
-            // lbTime
-            // 
-            this.lbTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lbTime.AutoSize = true;
-            this.lbTime.Font = new System.Drawing.Font("宋体", 12F);
-            this.lbTime.Location = new System.Drawing.Point(128, 637);
-            this.lbTime.Name = "lbTime";
-            this.lbTime.Size = new System.Drawing.Size(56, 16);
-            this.lbTime.TabIndex = 54;
-            this.lbTime.Text = "时间：";
-            // 
             // progressBar5
             // 
             this.progressBar5.BackColor = System.Drawing.SystemColors.Control;
@@ -1461,6 +1412,55 @@
             this.progressBar1.Size = new System.Drawing.Size(41, 38);
             this.progressBar1.TabIndex = 2;
             this.progressBar1.Value = 100;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Cursor = System.Windows.Forms.Cursors.Default;
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(4, 3);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(405, 307);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 1;
+            this.pictureBox1.TabStop = false;
+            // 
+            // timer
+            // 
+            this.timer.Enabled = true;
+            this.timer.Tick += new System.EventHandler(this.Timer_Tick);
+            // 
+            // lbUser
+            // 
+            this.lbUser.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lbUser.AutoSize = true;
+            this.lbUser.Font = new System.Drawing.Font("宋体", 12F);
+            this.lbUser.Location = new System.Drawing.Point(70, 637);
+            this.lbUser.Name = "lbUser";
+            this.lbUser.Size = new System.Drawing.Size(40, 16);
+            this.lbUser.TabIndex = 56;
+            this.lbUser.Text = "张三";
+            // 
+            // label49
+            // 
+            this.label49.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label49.AutoSize = true;
+            this.label49.Font = new System.Drawing.Font("宋体", 12F);
+            this.label49.Location = new System.Drawing.Point(10, 637);
+            this.label49.Name = "label49";
+            this.label49.Size = new System.Drawing.Size(72, 16);
+            this.label49.TabIndex = 55;
+            this.label49.Text = "操作员：";
+            // 
+            // lbTime
+            // 
+            this.lbTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lbTime.AutoSize = true;
+            this.lbTime.Font = new System.Drawing.Font("宋体", 12F);
+            this.lbTime.Location = new System.Drawing.Point(128, 637);
+            this.lbTime.Name = "lbTime";
+            this.lbTime.Size = new System.Drawing.Size(56, 16);
+            this.lbTime.TabIndex = 54;
+            this.lbTime.Text = "时间：";
             // 
             // FormStir
             // 

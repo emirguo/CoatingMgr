@@ -80,7 +80,7 @@
             // 
             this.lbTitle.AutoSize = true;
             this.lbTitle.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lbTitle.Location = new System.Drawing.Point(536, 4);
+            this.lbTitle.Location = new System.Drawing.Point(506, 4);
             this.lbTitle.Name = "lbTitle";
             this.lbTitle.Size = new System.Drawing.Size(160, 24);
             this.lbTitle.TabIndex = 13;

@@ -41,7 +41,7 @@
             this.lbCount = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.lbTime = new System.Windows.Forms.Label();
-            this.dgvStockData = new System.Windows.Forms.DataGridView();
+            this.dgvData = new System.Windows.Forms.DataGridView();
             this.panel4 = new System.Windows.Forms.Panel();
             this.label14 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
@@ -69,7 +69,7 @@
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvStockData)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvData)).BeginInit();
             this.panel4.SuspendLayout();
             this.panel3.SuspendLayout();
             this.contextMenuStrip.SuspendLayout();
@@ -125,7 +125,7 @@
             this.panel2.Controls.Add(this.label13);
             this.panel2.Controls.Add(this.panel5);
             this.panel2.Controls.Add(this.lbTime);
-            this.panel2.Controls.Add(this.dgvStockData);
+            this.panel2.Controls.Add(this.dgvData);
             this.panel2.Location = new System.Drawing.Point(0, 108);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(944, 452);
@@ -196,21 +196,21 @@
             this.lbTime.TabIndex = 5;
             this.lbTime.Text = "时间：";
             // 
-            // dgvStockData
+            // dgvData
             // 
-            this.dgvStockData.AllowUserToAddRows = false;
-            this.dgvStockData.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.dgvData.AllowUserToAddRows = false;
+            this.dgvData.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.dgvStockData.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            this.dgvStockData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvStockData.Location = new System.Drawing.Point(2, 0);
-            this.dgvStockData.Name = "dgvStockData";
-            this.dgvStockData.RowTemplate.Height = 23;
-            this.dgvStockData.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvStockData.Size = new System.Drawing.Size(938, 413);
-            this.dgvStockData.TabIndex = 29;
-            this.dgvStockData.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DgvInStockData_CellMouseUp);
+            this.dgvData.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.dgvData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvData.Location = new System.Drawing.Point(2, 0);
+            this.dgvData.Name = "dgvData";
+            this.dgvData.RowTemplate.Height = 23;
+            this.dgvData.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvData.Size = new System.Drawing.Size(938, 413);
+            this.dgvData.TabIndex = 29;
+            this.dgvData.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DgvData_CellMouseUp);
             // 
             // panel4
             // 
@@ -228,11 +228,11 @@
             // 
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label14.Location = new System.Drawing.Point(536, 4);
+            this.label14.Location = new System.Drawing.Point(516, 4);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(110, 24);
             this.label14.TabIndex = 53;
-            this.label14.Text = "涂料入库";
+            this.label14.Text = "入库工程";
             // 
             // panel3
             // 
@@ -277,6 +277,7 @@
             this.tbProductionDate.Font = new System.Drawing.Font("宋体", 12F);
             this.tbProductionDate.Location = new System.Drawing.Point(918, 49);
             this.tbProductionDate.Name = "tbProductionDate";
+            this.tbProductionDate.ReadOnly = true;
             this.tbProductionDate.Size = new System.Drawing.Size(92, 26);
             this.tbProductionDate.TabIndex = 52;
             // 
@@ -334,6 +335,7 @@
             this.tbColor.Font = new System.Drawing.Font("宋体", 12F);
             this.tbColor.Location = new System.Drawing.Point(411, 49);
             this.tbColor.Name = "tbColor";
+            this.tbColor.ReadOnly = true;
             this.tbColor.Size = new System.Drawing.Size(75, 26);
             this.tbColor.TabIndex = 49;
             // 
@@ -362,6 +364,7 @@
             this.tbName.Font = new System.Drawing.Font("宋体", 12F);
             this.tbName.Location = new System.Drawing.Point(58, 49);
             this.tbName.Name = "tbName";
+            this.tbName.ReadOnly = true;
             this.tbName.Size = new System.Drawing.Size(185, 26);
             this.tbName.TabIndex = 37;
             // 
@@ -370,6 +373,7 @@
             this.tbWeight.Font = new System.Drawing.Font("宋体", 12F);
             this.tbWeight.Location = new System.Drawing.Point(566, 49);
             this.tbWeight.Name = "tbWeight";
+            this.tbWeight.ReadOnly = true;
             this.tbWeight.Size = new System.Drawing.Size(47, 26);
             this.tbWeight.TabIndex = 45;
             // 
@@ -398,6 +402,7 @@
             this.tbType.Font = new System.Drawing.Font("宋体", 12F);
             this.tbType.Location = new System.Drawing.Point(291, 50);
             this.tbType.Name = "tbType";
+            this.tbType.ReadOnly = true;
             this.tbType.Size = new System.Drawing.Size(75, 26);
             this.tbType.TabIndex = 39;
             // 
@@ -406,6 +411,7 @@
             this.tbExpiryDate.Font = new System.Drawing.Font("宋体", 12F);
             this.tbExpiryDate.Location = new System.Drawing.Point(1068, 49);
             this.tbExpiryDate.Name = "tbExpiryDate";
+            this.tbExpiryDate.ReadOnly = true;
             this.tbExpiryDate.Size = new System.Drawing.Size(92, 26);
             this.tbExpiryDate.TabIndex = 43;
             // 
@@ -434,6 +440,7 @@
             this.tbModel.Font = new System.Drawing.Font("宋体", 12F);
             this.tbModel.Location = new System.Drawing.Point(713, 50);
             this.tbModel.Name = "tbModel";
+            this.tbModel.ReadOnly = true;
             this.tbModel.Size = new System.Drawing.Size(127, 26);
             this.tbModel.TabIndex = 41;
             // 
@@ -469,7 +476,7 @@
             this.panel2.PerformLayout();
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvStockData)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvData)).EndInit();
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
             this.panel3.ResumeLayout(false);
@@ -503,7 +510,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ComboBox cbSearchStock;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.DataGridView dgvStockData;
+        private System.Windows.Forms.DataGridView dgvData;
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label lbUser;

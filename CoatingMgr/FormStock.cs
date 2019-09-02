@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SQLite;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
@@ -22,8 +18,8 @@ namespace CoatingMgr
         private string _chartSearchType = "";
         private string _chartSearchContent = "";
 
-        private static string[] _cbSearchType = {"按仓库查找", "按名称查找", "按颜色查找", "按类型查找", "按适用机型查找", "按生产日期查找", "按有效期查找", "按操作员查找", "按操作时间查找", "按告警类型查找" };
-        private static string[] _searchType = {"仓库", "名称", "颜色", "类型", "适用机型", "生产日期", "有效期", "操作员", "操作时间", "告警类型" };
+        private static string[] _cbSearchType = { "按名称查找", "按颜色查找", "按类型查找", "按适用机型查找" };
+        private static string[] _searchType = { "名称", "颜色", "类型", "适用机型" };
 
         public FormStock()
         {
@@ -51,6 +47,26 @@ namespace CoatingMgr
             return sqlLiteHelper;
         }
 
+        //显示当前时间
+        private void ShowTime()
+        {
+            lbTime.Text = "时间：" + DateTime.Now.ToString();
+            new Thread(() =>
+            {
+                while (true)
+                {
+                    try
+                    {
+                        lbTime.BeginInvoke(new MethodInvoker(() =>
+                            lbTime.Text = "时间：" + DateTime.Now.ToString()));
+                    }
+                    catch { }
+                    Thread.Sleep(1000);
+                }
+            })
+            { IsBackground = true }.Start();
+        }
+
         private void InitData()
         {
             lbUser.Text = _userName;
@@ -61,8 +77,8 @@ namespace CoatingMgr
                 cbSearchType.Items.Add(_cbSearchType[i]);
             }
 
-            BindDataGirdView(dgvStockData, _tableName);//绑定数据库表
-            this.chartStock.Visible = false;
+            BindDataGirdView(dgvData, _tableName);//绑定数据库表
+            //this.chartStock.Visible = false;
         }
 
         private void BindDataGirdView(DataGridView dataGirdView, string table)
@@ -83,7 +99,7 @@ namespace CoatingMgr
 
                 SQLiteDataReader dr = GetSqlLiteHelper().ReadFullTable(table);
                 BindChartData(dr);
-                cbShowHistogram.Visible = true;
+                cbShowTable.Visible = true;
                 _chartSearchType = "";
                 _chartSearchContent = "";
             }
@@ -117,61 +133,26 @@ namespace CoatingMgr
             lbCount.Text = dataGirdView.RowCount + "";
         }
 
-        private void SetDefaultColumns(DataGridView dataGirdView, string[] columns)
-        {
-            dataGirdView.DataSource = null;
-            for (int i = 0; i < columns.Length; i++)
-            {
-                DataGridViewTextBoxColumn column = new DataGridViewTextBoxColumn
-                {
-                    HeaderText = columns[i]
-                };
-                dataGirdView.Columns.Add(column);
-            }
-
-            dataGirdView.Columns[0].Visible = false;
-        }
-
         public void UpdateData()
         {
             int index = 0;
-            if (dgvStockData.RowCount > 0 && dgvStockData.CurrentRow != null)
+            if (dgvData.RowCount > 0 && dgvData.CurrentRow != null)
             {
-                index = dgvStockData.CurrentRow.Index;
+                index = dgvData.CurrentRow.Index;
             }
-            BindDataGirdView(dgvStockData, _tableName);
-            if (dgvStockData.RowCount <= 0)
+            BindDataGirdView(dgvData, _tableName);
+            if (dgvData.RowCount <= 0)
             {
                 return;
             }
-            else if ((dgvStockData.RowCount - 1) > index)
+            else if ((dgvData.RowCount - 1) > index)
             {
-                this.dgvStockData.CurrentCell = this.dgvStockData[1, index];
+                this.dgvData.CurrentCell = this.dgvData[1, index];
             }
             else
             {
-                this.dgvStockData.CurrentCell = this.dgvStockData[1, (dgvStockData.RowCount - 1)];
+                this.dgvData.CurrentCell = this.dgvData[1, (dgvData.RowCount - 1)];
             }
-        }
-
-        //显示当前时间
-        private void ShowTime()
-        {
-            lbTime.Text = "时间：" + DateTime.Now.ToString();
-            new Thread(() =>
-            {
-                while (true)
-                {
-                    try
-                    {
-                        lbTime.BeginInvoke(new MethodInvoker(() =>
-                            lbTime.Text = "时间：" + DateTime.Now.ToString()));
-                    }
-                    catch { }
-                    Thread.Sleep(1000);
-                }
-            })
-            { IsBackground = true }.Start();
         }
 
         private void CbSearchType_SelectedIndexChanged(object sender, EventArgs e)
@@ -192,7 +173,7 @@ namespace CoatingMgr
         {
             if (cbSearchType.SelectedIndex >= 0 && cbSearchContent.SelectedIndex >= 0)
             {
-                BindDataGirdViewBySearch(dgvStockData, _tableName, _searchType[cbSearchType.SelectedIndex], cbSearchContent.SelectedItem.ToString());
+                BindDataGirdViewBySearch(dgvData, _tableName, _searchType[cbSearchType.SelectedIndex], cbSearchContent.SelectedItem.ToString());
             }
         }
 
@@ -204,7 +185,7 @@ namespace CoatingMgr
             cbSearchContent.SelectedIndex = -1;
             cbSearchContent.Text = "选择过滤内容";
             cbSearchContent.Items.Clear();
-            BindDataGirdView(dgvStockData, _tableName);
+            BindDataGirdView(dgvData, _tableName);
         }
 
         //弹出右键菜单
@@ -212,9 +193,9 @@ namespace CoatingMgr
         {
             if (e.Button == MouseButtons.Right && Common.USER_MANAGER.Equals(_userPermission))
             {
-                this.contextMenuStrip.Show(this.dgvStockData, e.Location);
+                this.contextMenuStrip.Show(this.dgvData, e.Location);
                 this.contextMenuStrip.Show(System.Windows.Forms.Cursor.Position);
-                if (this.dgvStockData.SelectedRows.Count == 1)
+                if (this.dgvData.SelectedRows.Count == 1)
                 {
                     this.TSMIModify.Visible = true;
                 }
@@ -222,20 +203,21 @@ namespace CoatingMgr
                 {
                     this.TSMIModify.Visible = false;
                 }
-
             }
         }
 
+        /*
+         * 库存统计中不能删除某一项数据，否则与在库表数据对不上
         //右键选择删除
         private void TSMIDelete_Click(object sender, EventArgs e)
         {
-            if (this.dgvStockData.SelectedRows.Count > 0)
+            if (this.dgvData.SelectedRows.Count > 0)
             {
                 MessageBoxButtons messButton = MessageBoxButtons.OKCancel;
                 DialogResult dr = MessageBox.Show("确认删除所选库存?", "删除", messButton);
                 if (dr == DialogResult.OK)
                 {
-                    foreach (DataGridViewRow row in dgvStockData.SelectedRows)
+                    foreach (DataGridViewRow row in dgvData.SelectedRows)
                     {
                         if (!row.IsNewRow)
                         {
@@ -246,100 +228,104 @@ namespace CoatingMgr
                             //记录删除日志
                             GetSqlLiteHelper().InsertValues(Common.STOCKLOGTABLENAME, new string[] { "", row.Cells[2].Value.ToString(), row.Cells[3].Value.ToString(), row.Cells[1].Value.ToString(), row.Cells[6].Value.ToString(), row.Cells[4].Value.ToString(), row.Cells[5].Value.ToString(), "", "", _userName, DateTime.Now.ToString("yyyyMMdd"), DateTime.Now.ToString("HH:mm:ss"), "删除", "", "" });
 
-                            this.dgvStockData.Rows.Remove(row);
+                            this.dgvData.Rows.Remove(row);
                         }
                     }
-                    lbCount.Text = this.dgvStockData.Rows.Count + "";
+                    lbCount.Text = this.dgvData.Rows.Count + "";
                 }
             }
         }
+        */
 
+        /*
+         * //只能修改告警信息，不能修改库存数据，否则与在库表对不上
+         * { "id", "类型", "名称", "颜色", "适用机型", "重量", "库存上限", "库存下限", "告警时间", "备注" };
+        */
         private void TSMIModify_Click(object sender, EventArgs e)
         {
-            if (!this.dgvStockData.CurrentRow.IsNewRow)
+            if (!this.dgvData.CurrentRow.IsNewRow)
             {
-                string type = dgvStockData.CurrentRow.Cells[1].Value.ToString();
-                string name = dgvStockData.CurrentRow.Cells[2].Value.ToString();
-                string color = dgvStockData.CurrentRow.Cells[3].Value.ToString();
-                string model = dgvStockData.CurrentRow.Cells[4].Value.ToString();
-                string stock = dgvStockData.CurrentRow.Cells[5].Value.ToString();
-                string weight = dgvStockData.CurrentRow.Cells[6].Value.ToString();
-                string maximum = dgvStockData.CurrentRow.Cells[7].Value.ToString();
-                string minimum = dgvStockData.CurrentRow.Cells[8].Value.ToString();
-                string warnTime = dgvStockData.CurrentRow.Cells[9].Value.ToString();
-                string tips = dgvStockData.CurrentRow.Cells[10].Value.ToString();
-                FormModifyStock formModifyStock = new FormModifyStock(this, name, type, color, model, weight, stock, maximum, minimum, warnTime, tips);
+                string type = dgvData.CurrentRow.Cells[1].Value.ToString();
+                string name = dgvData.CurrentRow.Cells[2].Value.ToString();
+                string color = dgvData.CurrentRow.Cells[3].Value.ToString();
+                string model = dgvData.CurrentRow.Cells[4].Value.ToString();
+                string maximum = dgvData.CurrentRow.Cells[6].Value.ToString();
+                string minimum = dgvData.CurrentRow.Cells[7].Value.ToString();
+                string warnTime = dgvData.CurrentRow.Cells[8].Value.ToString();
+                string tips = dgvData.CurrentRow.Cells[9].Value.ToString();
+                FormModifyStock formModifyStock = new FormModifyStock(this, name, type, color, model, maximum, minimum, warnTime, tips);
                 formModifyStock.Show();
             }
         }
 
-        public void ModifyCurrentRow(string name, string type, string color, string model, string weight, string stock, string maximum, string minimum, string warnTime, string tips)
+        public void ModifyCurrentRow(string name, string type, string color, string model, string maximum, string minimum, string warnTime, string tips)
         {
-            string curType = dgvStockData.CurrentRow.Cells[1].Value.ToString();
-            string curName = dgvStockData.CurrentRow.Cells[2].Value.ToString();
-            string curColor = dgvStockData.CurrentRow.Cells[3].Value.ToString();
-            string curModel = dgvStockData.CurrentRow.Cells[4].Value.ToString();
-            string curStock = dgvStockData.CurrentRow.Cells[5].Value.ToString();
-            string curWeight = dgvStockData.CurrentRow.Cells[6].Value.ToString();
-            string curMaximum = dgvStockData.CurrentRow.Cells[7].Value.ToString();
-            string curMinimum = dgvStockData.CurrentRow.Cells[8].Value.ToString();
-            string curWarnTime = dgvStockData.CurrentRow.Cells[9].Value.ToString();
-            string curTips = dgvStockData.CurrentRow.Cells[10].Value.ToString();
+            string curType = dgvData.CurrentRow.Cells[1].Value.ToString();
+            string curName = dgvData.CurrentRow.Cells[2].Value.ToString();
+            string curColor = dgvData.CurrentRow.Cells[3].Value.ToString();
+            string curModel = dgvData.CurrentRow.Cells[4].Value.ToString();
+            string curWeight = dgvData.CurrentRow.Cells[5].Value.ToString();
+            string curMaximum = dgvData.CurrentRow.Cells[6].Value.ToString();
+            string curMinimum = dgvData.CurrentRow.Cells[7].Value.ToString();
+            string curWarnTime = dgvData.CurrentRow.Cells[8].Value.ToString();
+            string curTips = dgvData.CurrentRow.Cells[9].Value.ToString();
 
             if (curName.Equals(name) && curType.Equals(type) && curColor.Equals(color) && curModel.Equals(model))
             {
-                if (!curWeight.Equals(weight) || !curStock.Equals(stock) || !curTips.Equals(tips) || !curMaximum.Equals(maximum) || !curMinimum.Equals(minimum) || !curWarnTime.Equals(warnTime))//修改任一数据都需要更新库存统计表
+                if (!curTips.Equals(tips) || !curMaximum.Equals(maximum) || !curMinimum.Equals(minimum) || !curWarnTime.Equals(warnTime))//修改任一数据都需要更新库存统计表
                 {
                     //更新库存统计表
-                    GetSqlLiteHelper().UpdateValues(Common.STOCKCOUNTTABLENAME, new string[] { "类型", "名称", "颜色", "适用机型", "仓库", "重量", "库存上限", "库存下限", "告警时间", "备注" }, new string[] { type, name, color, model, stock, weight, maximum, minimum, warnTime, tips }, "id", dgvStockData.CurrentRow.Cells[0].Value.ToString());
+                    GetSqlLiteHelper().UpdateValues(Common.STOCKCOUNTTABLENAME, new string[] { "类型", "名称", "颜色", "适用机型", "重量", "库存上限", "库存下限", "告警时间", "备注" }, new string[] { type, name, color, model, curWeight, maximum, minimum, warnTime, tips }, "id", dgvData.CurrentRow.Cells[0].Value.ToString());
                     UpdateData();
-                    
-                    //如果修改了库存重量或库存仓库，则记录修改日志
-                    if (!curStock.Equals(stock) || !curWeight.Equals(weight))
-                    {
-                        string stockLogTip = "";
-                        if (!curStock.Equals(stock))
-                        {
-                            stockLogTip += "库存仓库从" + curStock + "修改为" + stock + ";";
-                        }
-                        if (!curWeight.Equals(weight))
-                        {
-                            stockLogTip += "库存重量从" + curWeight + "kg修改为" + weight + "kg";
-                        }
-                        GetSqlLiteHelper().InsertValues(Common.STOCKLOGTABLENAME, new string[] { "", name, color, type, weight, model, stock, "", "", _userName, DateTime.Now.ToString("yyyyMMdd"), DateTime.Now.ToString("HH:mm:ss"), "修改", "", stockLogTip });
-                    }
 
                     //如果修改了告警数据，则更新告警规则表
+                    // "id", "名称", "颜色", "类型", "库存上限", "库存下限", "告警时间", "规则创建人", "规则创建时间"
                     if (!curMaximum.Equals(maximum) || !curMinimum.Equals(minimum) || !curWarnTime.Equals(warnTime))
                     {
-                        SQLiteDataReader dataReader = GetSqlLiteHelper().ReadTable(Common.WARNMANAGERTABLENAME, new string[] { "仓库", "名称", "颜色", "类型", }, new string[] { "=", "=", "=", "=" }, new string[] { stock, name, color, type });
+                        SQLiteDataReader dataReader = GetSqlLiteHelper().ReadTable(Common.WARNMANAGERTABLENAME, new string[] { "名称", "颜色", "类型", }, new string[] { "=", "=", "=" }, new string[] { name, color, type });
                         if (dataReader != null && dataReader.HasRows && dataReader.Read())//告警规则存在，更新告警规则
                         {
                             GetSqlLiteHelper().UpdateValues(Common.WARNMANAGERTABLENAME, new string[] { "库存上限", "库存下限", "告警时间" }, new string[] { maximum, minimum, warnTime }, "id", dataReader["id"].ToString());
                         }
                         else //告警规则不存在，创建告警规则
                         {
-                            GetSqlLiteHelper().InsertValues(Common.WARNMANAGERTABLENAME, new string[] { stock, name, color, type, maximum, minimum, warnTime, _userName, DateTime.Now.ToString() });
+                            GetSqlLiteHelper().InsertValues(Common.WARNMANAGERTABLENAME, new string[] { name, color, type, maximum, minimum, warnTime, _userName, DateTime.Now.ToString() });
+                        }
+                    }
+
+                    //如果修改了告警时间，还需要更新库存表中的告警时间
+                    // "id", "条形码", "名称", "颜色", "类型", "重量", "适用机型", "仓库", "生产日期", "有效期", "操作员", "入库日期", "入库时间", "告警时间", "备注"
+                    if (!curWarnTime.Equals(warnTime))
+                    {
+                        SQLiteDataReader dataReader = GetSqlLiteHelper().ReadTable(Common.INSTOCKTABLENAME, new string[] { "名称", "颜色", "类型" }, new string[] { "=", "=", "=" }, new string[] { name, color, type });
+                        while (dataReader.Read())
+                        {
+                            DateTime expiryDate = DateTime.ParseExact(dataReader["有效期"].ToString(), "yyyyMMdd", null);
+                            DateTime date = expiryDate.AddDays(Convert.ToInt32(Common.WARNDATE[warnTime]));
+                            if (!date.ToString("yyyyMMdd").Equals(dataReader["告警时间"].ToString()))
+                            {
+                                SqlLiteHelper.GetInstance().UpdateValues(Common.INSTOCKTABLENAME, new string[] { "告警时间" }, new string[] { date.ToString("yyyyMMdd") }, "id", dataReader["id"].ToString());
+                            }
                         }
                     }
                 }
             }
         }
 
-        //显示柱状图
-        private void CbShowHistogram_CheckedChanged(object sender, EventArgs e)
+        //显示表格
+        private void CbShowTable_CheckedChanged(object sender, EventArgs e)
         {
-            if (this.cbShowHistogram.Checked && dgvStockData.DataSource != null)
-            {
-                this.chartStock.Visible = true;
-                this.cbFillWindow.Visible = true;
-                this.cbShowWarn.Visible = true;
-            }
-            else
+            if (this.cbShowTable.Checked)
             {
                 this.chartStock.Visible = false;
                 this.cbFillWindow.Visible = false;
                 this.cbShowWarn.Visible = false;
+            }
+            else
+            {
+                this.chartStock.Visible = true;
+                this.cbFillWindow.Visible = true;
+                this.cbShowWarn.Visible = true;
             }
         }
 

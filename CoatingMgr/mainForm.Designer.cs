@@ -35,6 +35,9 @@
             this.TSMItemAccountManager = new System.Windows.Forms.ToolStripMenuItem();
             this.TSMIManagerAccount = new System.Windows.Forms.ToolStripMenuItem();
             this.TSMIAddAccount = new System.Windows.Forms.ToolStripMenuItem();
+            this.仓库ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.TSMIStore = new System.Windows.Forms.ToolStripMenuItem();
+            this.TSMIStoreAdd = new System.Windows.Forms.ToolStripMenuItem();
             this.告警ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TSMIWarning = new System.Windows.Forms.ToolStripMenuItem();
             this.TSMISetWarning = new System.Windows.Forms.ToolStripMenuItem();
@@ -43,16 +46,17 @@
             this.TSMIStockLog = new System.Windows.Forms.ToolStripMenuItem();
             this.TSMIStirLog = new System.Windows.Forms.ToolStripMenuItem();
             this.帮助ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.TSMIPLCIP = new System.Windows.Forms.ToolStripMenuItem();
+            this.TSMIBCResponseTime = new System.Windows.Forms.ToolStripMenuItem();
+            this.TSMISetLog = new System.Windows.Forms.ToolStripMenuItem();
             this.TSMIAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.btnStockDetail = new System.Windows.Forms.Button();
             this.btnStock = new System.Windows.Forms.Button();
             this.btnStir = new System.Windows.Forms.Button();
             this.btnOut = new System.Windows.Forms.Button();
             this.btnIn = new System.Windows.Forms.Button();
             this.mainPanel = new System.Windows.Forms.Panel();
-            this.仓库ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.TSMIStore = new System.Windows.Forms.ToolStripMenuItem();
-            this.TSMIStoreAdd = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -111,16 +115,39 @@
             // TSMIManagerAccount
             // 
             this.TSMIManagerAccount.Name = "TSMIManagerAccount";
-            this.TSMIManagerAccount.Size = new System.Drawing.Size(180, 22);
+            this.TSMIManagerAccount.Size = new System.Drawing.Size(124, 22);
             this.TSMIManagerAccount.Text = "管理账户";
             this.TSMIManagerAccount.Click += new System.EventHandler(this.TSMIManagerAccount_Click);
             // 
             // TSMIAddAccount
             // 
             this.TSMIAddAccount.Name = "TSMIAddAccount";
-            this.TSMIAddAccount.Size = new System.Drawing.Size(180, 22);
+            this.TSMIAddAccount.Size = new System.Drawing.Size(124, 22);
             this.TSMIAddAccount.Text = "添加账户";
             this.TSMIAddAccount.Click += new System.EventHandler(this.TSMIAddAccount_Click);
+            // 
+            // 仓库ToolStripMenuItem
+            // 
+            this.仓库ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.TSMIStore,
+            this.TSMIStoreAdd});
+            this.仓库ToolStripMenuItem.Name = "仓库ToolStripMenuItem";
+            this.仓库ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
+            this.仓库ToolStripMenuItem.Text = "仓库";
+            // 
+            // TSMIStore
+            // 
+            this.TSMIStore.Name = "TSMIStore";
+            this.TSMIStore.Size = new System.Drawing.Size(124, 22);
+            this.TSMIStore.Text = "管理仓库";
+            this.TSMIStore.Click += new System.EventHandler(this.TSMIStore_Click);
+            // 
+            // TSMIStoreAdd
+            // 
+            this.TSMIStoreAdd.Name = "TSMIStoreAdd";
+            this.TSMIStoreAdd.Size = new System.Drawing.Size(124, 22);
+            this.TSMIStoreAdd.Text = "添加仓库";
+            this.TSMIStoreAdd.Click += new System.EventHandler(this.TSMIStoreAdd_Click);
             // 
             // 告警ToolStripMenuItem
             // 
@@ -135,21 +162,21 @@
             // TSMIWarning
             // 
             this.TSMIWarning.Name = "TSMIWarning";
-            this.TSMIWarning.Size = new System.Drawing.Size(180, 22);
+            this.TSMIWarning.Size = new System.Drawing.Size(148, 22);
             this.TSMIWarning.Text = "查看告警规则";
             this.TSMIWarning.Click += new System.EventHandler(this.TSMIWarning_Click);
             // 
             // TSMISetWarning
             // 
             this.TSMISetWarning.Name = "TSMISetWarning";
-            this.TSMISetWarning.Size = new System.Drawing.Size(180, 22);
+            this.TSMISetWarning.Size = new System.Drawing.Size(148, 22);
             this.TSMISetWarning.Text = "设置告警规则";
             this.TSMISetWarning.Click += new System.EventHandler(this.TSMISetWarning_Click);
             // 
             // TSMIMailInfo
             // 
             this.TSMIMailInfo.Name = "TSMIMailInfo";
-            this.TSMIMailInfo.Size = new System.Drawing.Size(180, 22);
+            this.TSMIMailInfo.Size = new System.Drawing.Size(148, 22);
             this.TSMIMailInfo.Text = "设置告警邮件";
             this.TSMIMailInfo.Click += new System.EventHandler(this.TSMIMailInfo_Click);
             // 
@@ -179,15 +206,39 @@
             // 帮助ToolStripMenuItem
             // 
             this.帮助ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.TSMIPLCIP,
+            this.TSMIBCResponseTime,
+            this.TSMISetLog,
             this.TSMIAbout});
             this.帮助ToolStripMenuItem.Name = "帮助ToolStripMenuItem";
             this.帮助ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
-            this.帮助ToolStripMenuItem.Text = "帮助";
+            this.帮助ToolStripMenuItem.Text = "设置";
+            // 
+            // TSMIPLCIP
+            // 
+            this.TSMIPLCIP.Name = "TSMIPLCIP";
+            this.TSMIPLCIP.Size = new System.Drawing.Size(184, 22);
+            this.TSMIPLCIP.Text = "设置PLC IP信息";
+            this.TSMIPLCIP.Click += new System.EventHandler(this.TSMIPLCIP_Click);
+            // 
+            // TSMIBCResponseTime
+            // 
+            this.TSMIBCResponseTime.Name = "TSMIBCResponseTime";
+            this.TSMIBCResponseTime.Size = new System.Drawing.Size(184, 22);
+            this.TSMIBCResponseTime.Text = "设置扫码枪响应时长";
+            this.TSMIBCResponseTime.Click += new System.EventHandler(this.TSMIBCResponseTime_Click);
+            // 
+            // TSMISetLog
+            // 
+            this.TSMISetLog.Name = "TSMISetLog";
+            this.TSMISetLog.Size = new System.Drawing.Size(184, 22);
+            this.TSMISetLog.Text = "设置调试日志";
+            this.TSMISetLog.Click += new System.EventHandler(this.TSMISetLog_Click);
             // 
             // TSMIAbout
             // 
             this.TSMIAbout.Name = "TSMIAbout";
-            this.TSMIAbout.Size = new System.Drawing.Size(100, 22);
+            this.TSMIAbout.Size = new System.Drawing.Size(184, 22);
             this.TSMIAbout.Text = "关于";
             this.TSMIAbout.Click += new System.EventHandler(this.TSMIAbout_Click);
             // 
@@ -200,6 +251,7 @@
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.splitContainer1.Panel1.Controls.Add(this.btnStockDetail);
             this.splitContainer1.Panel1.Controls.Add(this.btnStock);
             this.splitContainer1.Panel1.Controls.Add(this.btnStir);
             this.splitContainer1.Panel1.Controls.Add(this.btnOut);
@@ -212,6 +264,19 @@
             this.splitContainer1.SplitterDistance = 99;
             this.splitContainer1.TabIndex = 2;
             // 
+            // btnStockDetail
+            // 
+            this.btnStockDetail.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
+            this.btnStockDetail.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnStockDetail.Location = new System.Drawing.Point(12, 54);
+            this.btnStockDetail.Name = "btnStockDetail";
+            this.btnStockDetail.Size = new System.Drawing.Size(75, 36);
+            this.btnStockDetail.TabIndex = 7;
+            this.btnStockDetail.Text = "库存明细";
+            this.btnStockDetail.UseVisualStyleBackColor = true;
+            this.btnStockDetail.Click += new System.EventHandler(this.BtnStockDetail_Click);
+            // 
             // btnStock
             // 
             this.btnStock.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
@@ -221,7 +286,7 @@
             this.btnStock.Name = "btnStock";
             this.btnStock.Size = new System.Drawing.Size(75, 36);
             this.btnStock.TabIndex = 0;
-            this.btnStock.Text = "库存管理";
+            this.btnStock.Text = "库存统计";
             this.btnStock.UseVisualStyleBackColor = true;
             this.btnStock.Click += new System.EventHandler(this.BtnStock_Click);
             // 
@@ -229,11 +294,11 @@
             // 
             this.btnStir.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnStir.Location = new System.Drawing.Point(12, 138);
+            this.btnStir.Location = new System.Drawing.Point(12, 180);
             this.btnStir.Name = "btnStir";
             this.btnStir.Size = new System.Drawing.Size(75, 36);
             this.btnStir.TabIndex = 6;
-            this.btnStir.Text = "涂料调和";
+            this.btnStir.Text = "调和工程";
             this.btnStir.UseVisualStyleBackColor = true;
             this.btnStir.Click += new System.EventHandler(this.BtnStir_Click);
             // 
@@ -241,11 +306,11 @@
             // 
             this.btnOut.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOut.Location = new System.Drawing.Point(12, 96);
+            this.btnOut.Location = new System.Drawing.Point(12, 138);
             this.btnOut.Name = "btnOut";
             this.btnOut.Size = new System.Drawing.Size(75, 36);
             this.btnOut.TabIndex = 5;
-            this.btnOut.Text = "涂料出库";
+            this.btnOut.Text = "出库工程";
             this.btnOut.UseVisualStyleBackColor = true;
             this.btnOut.Click += new System.EventHandler(this.BtnOut_Click);
             // 
@@ -253,11 +318,11 @@
             // 
             this.btnIn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnIn.Location = new System.Drawing.Point(12, 54);
+            this.btnIn.Location = new System.Drawing.Point(12, 96);
             this.btnIn.Name = "btnIn";
             this.btnIn.Size = new System.Drawing.Size(75, 36);
             this.btnIn.TabIndex = 4;
-            this.btnIn.Text = "涂料入库";
+            this.btnIn.Text = "入库工程";
             this.btnIn.UseVisualStyleBackColor = true;
             this.btnIn.Click += new System.EventHandler(this.BtnIn_Click);
             // 
@@ -271,29 +336,6 @@
             this.mainPanel.Size = new System.Drawing.Size(681, 411);
             this.mainPanel.TabIndex = 0;
             // 
-            // 仓库ToolStripMenuItem
-            // 
-            this.仓库ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.TSMIStore,
-            this.TSMIStoreAdd});
-            this.仓库ToolStripMenuItem.Name = "仓库ToolStripMenuItem";
-            this.仓库ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
-            this.仓库ToolStripMenuItem.Text = "仓库";
-            // 
-            // TSMIStore
-            // 
-            this.TSMIStore.Name = "TSMIStore";
-            this.TSMIStore.Size = new System.Drawing.Size(180, 22);
-            this.TSMIStore.Text = "管理仓库";
-            this.TSMIStore.Click += new System.EventHandler(this.TSMIStore_Click);
-            // 
-            // TSMIStoreAdd
-            // 
-            this.TSMIStoreAdd.Name = "TSMIStoreAdd";
-            this.TSMIStoreAdd.Size = new System.Drawing.Size(180, 22);
-            this.TSMIStoreAdd.Text = "添加仓库";
-            this.TSMIStoreAdd.Click += new System.EventHandler(this.TSMIStoreAdd_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -306,7 +348,6 @@
             this.Text = "武汉高木--涂料管理系统";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
-            this.Load += new System.EventHandler(this.MainForm_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
@@ -345,5 +386,9 @@
         private System.Windows.Forms.ToolStripMenuItem 仓库ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem TSMIStore;
         private System.Windows.Forms.ToolStripMenuItem TSMIStoreAdd;
+        private System.Windows.Forms.ToolStripMenuItem TSMIPLCIP;
+        private System.Windows.Forms.ToolStripMenuItem TSMIBCResponseTime;
+        private System.Windows.Forms.ToolStripMenuItem TSMISetLog;
+        private System.Windows.Forms.Button btnStockDetail;
     }
 }

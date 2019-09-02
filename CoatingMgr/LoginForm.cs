@@ -57,7 +57,7 @@ namespace CoatingMgr
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                Logger.Instance.WriteLog(e.Message);
             }
             return result;
         }

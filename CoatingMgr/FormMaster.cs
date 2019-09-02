@@ -19,8 +19,8 @@ namespace CoatingMgr
         private string _userName = "";
         private string _userPermission = "";
 
-        private static string[] _cbSearchType = { "按涂料名查找", "按种类查找", "按制造商查找", "按适用机种查找", "按适用制品查找", "按色番查找" };
-        private static string[] _searchType = { "涂料名", "种类", "制造商", "适用机种", "适用制品", "色番" };
+        private static string[] _cbSearchType = { "按SAP品番查找", "按种类查找", "按制造商查找", "按适用机种查找", "按适用制品查找", "按色番查找" };
+        private static string[] _searchType = { "SAP品番", "种类", "制造商", "适用机种", "适用制品", "色番" };
         private int rowIndex = 0;
 
         public FormMaster()

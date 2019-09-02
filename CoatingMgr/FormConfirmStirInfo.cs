@@ -45,7 +45,6 @@ namespace CoatingMgr
                 dataReader.Read();
                 if (dataReader["权限"].ToString().Equals("管理员"))
                 {
-
                     _fatherForm.ManagerConfirmStirInfo(tbUserName.Text);
                     Close();
                 }
@@ -58,9 +57,7 @@ namespace CoatingMgr
             {
                 MessageBox.Show("账号不存在");
             }
-
-            
-    }
+        }
 
         private void BtnCancel_Click(object sender, EventArgs e)
         {

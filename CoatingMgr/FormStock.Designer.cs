@@ -40,7 +40,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.cbShowHistogram = new System.Windows.Forms.CheckBox();
+            this.cbShowTable = new System.Windows.Forms.CheckBox();
             this.btnExport = new System.Windows.Forms.Button();
             this.cbSearchType = new System.Windows.Forms.ComboBox();
             this.cbSearchContent = new System.Windows.Forms.ComboBox();
@@ -56,16 +56,15 @@
             this.panel4 = new System.Windows.Forms.Panel();
             this.lbCount = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.dgvStockData = new System.Windows.Forms.DataGridView();
+            this.dgvData = new System.Windows.Forms.DataGridView();
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.TSMIModify = new System.Windows.Forms.ToolStripMenuItem();
-            this.TSMIDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chartStock)).BeginInit();
             this.panel4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvStockData)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvData)).BeginInit();
             this.contextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -84,18 +83,18 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label1.Location = new System.Drawing.Point(536, 4);
+            this.label1.Location = new System.Drawing.Point(516, 4);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(110, 24);
             this.label1.TabIndex = 59;
-            this.label1.Text = "库存管理";
+            this.label1.Text = "库存统计";
             // 
             // panel3
             // 
             this.panel3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel3.Controls.Add(this.cbShowHistogram);
+            this.panel3.Controls.Add(this.cbShowTable);
             this.panel3.Controls.Add(this.btnExport);
             this.panel3.Controls.Add(this.cbSearchType);
             this.panel3.Controls.Add(this.cbSearchContent);
@@ -105,18 +104,18 @@
             this.panel3.Size = new System.Drawing.Size(1176, 64);
             this.panel3.TabIndex = 59;
             // 
-            // cbShowHistogram
+            // cbShowTable
             // 
-            this.cbShowHistogram.AutoSize = true;
-            this.cbShowHistogram.Font = new System.Drawing.Font("宋体", 12F);
-            this.cbShowHistogram.Location = new System.Drawing.Point(1059, 28);
-            this.cbShowHistogram.Name = "cbShowHistogram";
-            this.cbShowHistogram.Size = new System.Drawing.Size(107, 20);
-            this.cbShowHistogram.TabIndex = 55;
-            this.cbShowHistogram.Text = "显示柱状图";
-            this.cbShowHistogram.UseVisualStyleBackColor = true;
-            this.cbShowHistogram.Visible = false;
-            this.cbShowHistogram.CheckedChanged += new System.EventHandler(this.CbShowHistogram_CheckedChanged);
+            this.cbShowTable.AutoSize = true;
+            this.cbShowTable.Font = new System.Drawing.Font("宋体", 12F);
+            this.cbShowTable.Location = new System.Drawing.Point(1059, 28);
+            this.cbShowTable.Name = "cbShowTable";
+            this.cbShowTable.Size = new System.Drawing.Size(91, 20);
+            this.cbShowTable.TabIndex = 55;
+            this.cbShowTable.Text = "显示表格";
+            this.cbShowTable.UseVisualStyleBackColor = true;
+            this.cbShowTable.Visible = false;
+            this.cbShowTable.CheckedChanged += new System.EventHandler(this.CbShowTable_CheckedChanged);
             // 
             // btnExport
             // 
@@ -174,7 +173,6 @@
             this.cbFillWindow.TabIndex = 57;
             this.cbFillWindow.Text = "全屏";
             this.cbFillWindow.UseVisualStyleBackColor = false;
-            this.cbFillWindow.Visible = false;
             this.cbFillWindow.CheckedChanged += new System.EventHandler(this.CbFillWindow_CheckedChanged);
             // 
             // lbUser
@@ -222,7 +220,7 @@
             this.panel2.Controls.Add(this.label13);
             this.panel2.Controls.Add(this.panel4);
             this.panel2.Controls.Add(this.lbTime);
-            this.panel2.Controls.Add(this.dgvStockData);
+            this.panel2.Controls.Add(this.dgvData);
             this.panel2.Location = new System.Drawing.Point(1, 84);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(1182, 482);
@@ -240,7 +238,6 @@
             this.cbShowWarn.TabIndex = 58;
             this.cbShowWarn.Text = "显示告警";
             this.cbShowWarn.UseVisualStyleBackColor = false;
-            this.cbShowWarn.Visible = false;
             this.cbShowWarn.CheckedChanged += new System.EventHandler(this.CbShowWarn_CheckedChanged);
             // 
             // chartStock
@@ -282,7 +279,6 @@
             title1.Name = "库存统计";
             title1.Text = "库存统计";
             this.chartStock.Titles.Add(title1);
-            this.chartStock.Visible = false;
             // 
             // panel4
             // 
@@ -321,29 +317,28 @@
             this.label4.Text = "总数量：";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // dgvStockData
+            // dgvData
             // 
-            this.dgvStockData.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.dgvData.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.dgvStockData.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvStockData.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            this.dgvStockData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvStockData.Location = new System.Drawing.Point(2, 2);
-            this.dgvStockData.Name = "dgvStockData";
-            this.dgvStockData.RowTemplate.Height = 23;
-            this.dgvStockData.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvStockData.Size = new System.Drawing.Size(1178, 452);
-            this.dgvStockData.TabIndex = 0;
-            this.dgvStockData.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DgvStockData_CellMouseUp);
+            this.dgvData.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvData.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.dgvData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvData.Location = new System.Drawing.Point(2, 2);
+            this.dgvData.Name = "dgvData";
+            this.dgvData.RowTemplate.Height = 23;
+            this.dgvData.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvData.Size = new System.Drawing.Size(1178, 452);
+            this.dgvData.TabIndex = 0;
+            this.dgvData.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DgvStockData_CellMouseUp);
             // 
             // contextMenuStrip
             // 
             this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.TSMIModify,
-            this.TSMIDelete});
+            this.TSMIModify});
             this.contextMenuStrip.Name = "contextMenuStrip";
-            this.contextMenuStrip.Size = new System.Drawing.Size(101, 48);
+            this.contextMenuStrip.Size = new System.Drawing.Size(101, 26);
             // 
             // TSMIModify
             // 
@@ -351,13 +346,6 @@
             this.TSMIModify.Size = new System.Drawing.Size(100, 22);
             this.TSMIModify.Text = "修改";
             this.TSMIModify.Click += new System.EventHandler(this.TSMIModify_Click);
-            // 
-            // TSMIDelete
-            // 
-            this.TSMIDelete.Name = "TSMIDelete";
-            this.TSMIDelete.Size = new System.Drawing.Size(100, 22);
-            this.TSMIDelete.Text = "删除";
-            this.TSMIDelete.Click += new System.EventHandler(this.TSMIDelete_Click);
             // 
             // FormStock
             // 
@@ -367,7 +355,7 @@
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Name = "FormStock";
-            this.Text = "库存管理";
+            this.Text = "库存统计";
             this.Load += new System.EventHandler(this.FormStock_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
@@ -378,7 +366,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.chartStock)).EndInit();
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvStockData)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvData)).EndInit();
             this.contextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -397,15 +385,14 @@
         private System.Windows.Forms.Label lbCount;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip;
-        private System.Windows.Forms.ToolStripMenuItem TSMIDelete;
         private System.Windows.Forms.DataVisualization.Charting.Chart chartStock;
-        private System.Windows.Forms.CheckBox cbShowHistogram;
+        private System.Windows.Forms.CheckBox cbShowTable;
         private System.Windows.Forms.CheckBox cbFillWindow;
         private System.Windows.Forms.ComboBox cbSearchContent;
         private System.Windows.Forms.Button btShowAll;
         private System.Windows.Forms.Button btnExport;
         private System.Windows.Forms.ToolStripMenuItem TSMIModify;
-        private System.Windows.Forms.DataGridView dgvStockData;
+        private System.Windows.Forms.DataGridView dgvData;
         private System.Windows.Forms.CheckBox cbShowWarn;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel panel3;

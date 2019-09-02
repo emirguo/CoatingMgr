@@ -17,9 +17,10 @@ namespace CoatingMgr
         private static SqlLiteHelper sqlLiteHelper = null;
         private static string _tableName = Common.WARNMANAGERTABLENAME;
         private string _userName = "";
-        
-        private static string[] _cbSearchType = { "按仓库查找", "按名称查找", "按颜色查找", "按类型查找", "按库存上限查找", "按库存下限查找", "按告警时间查找", "按规则创建人查找", "按规则创建时间查找" };
-        private static string[] _searchType = { "仓库", "名称", "颜色", "类型", "库存上限", "库存下限", "告警时间", "规则创建人", "规则创建时间" };
+
+        //"id", "名称", "颜色", "类型", "库存上限", "库存下限", "告警时间", "规则创建人", "规则创建时间" 
+        private static string[] _cbSearchType = { "按名称查找", "按颜色查找", "按类型查找", "按库存上限查找", "按库存下限查找", "按告警时间查找", "按规则创建人查找", "按规则创建时间查找" };
+        private static string[] _searchType = { "名称", "颜色", "类型", "库存上限", "库存下限", "告警时间", "规则创建人", "规则创建时间" };
 
         public FormWarn()
         {
@@ -171,15 +172,15 @@ namespace CoatingMgr
 
         private void TSMIModify_Click(object sender, EventArgs e)
         {
+            //"id", "名称", "颜色", "类型", "库存上限", "库存下限", "告警时间", "规则创建人", "规则创建时间" 
             string id = dgvWarnMgr.CurrentRow.Cells[0].Value.ToString();
-            string stock = dgvWarnMgr.CurrentRow.Cells[1].Value.ToString();
-            string product = dgvWarnMgr.CurrentRow.Cells[2].Value.ToString();
-            string color = dgvWarnMgr.CurrentRow.Cells[3].Value.ToString();
-            string type = dgvWarnMgr.CurrentRow.Cells[4].Value.ToString();
-            string warnMaxmum = dgvWarnMgr.CurrentRow.Cells[5].Value.ToString();
-            string warnMinimum = dgvWarnMgr.CurrentRow.Cells[6].Value.ToString();
-            string warnTime = dgvWarnMgr.CurrentRow.Cells[7].Value.ToString();
-            FormSetWarn formSetWarn = new FormSetWarn(this, _userName, true, id, stock, product, color, type, warnMaxmum, warnMinimum, warnTime);
+            string name = dgvWarnMgr.CurrentRow.Cells[1].Value.ToString();
+            string color = dgvWarnMgr.CurrentRow.Cells[2].Value.ToString();
+            string type = dgvWarnMgr.CurrentRow.Cells[3].Value.ToString();
+            string warnMaxmum = dgvWarnMgr.CurrentRow.Cells[4].Value.ToString();
+            string warnMinimum = dgvWarnMgr.CurrentRow.Cells[5].Value.ToString();
+            string warnTime = dgvWarnMgr.CurrentRow.Cells[6].Value.ToString();
+            FormSetWarn formSetWarn = new FormSetWarn(this, _userName, true, id, name, color, type, warnMaxmum, warnMinimum, warnTime);
             formSetWarn.Show();
         }
 

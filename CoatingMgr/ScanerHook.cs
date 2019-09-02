@@ -82,8 +82,6 @@ namespace CoatingMgr
         }
         private int KeyboardHookProc(int nCode, Int32 wParam, IntPtr lParam)
         {
-
-
             EventMsg msg = (EventMsg)Marshal.PtrToStructure(lParam, typeof(EventMsg));
             codes.Add(msg);
             if (ScanerEvent != null && msg.message == 13 && msg.paramH > 0 && !string.IsNullOrEmpty(codes.Result))
@@ -94,7 +92,7 @@ namespace CoatingMgr
         }
         public class ScanerCodes
         {
-            private readonly int ts = 300; // 指定输入间隔为300毫秒以内时为连续输入  
+            private readonly int ts = Properties.Settings.Default.BCResponseTime; // 指定输入间隔,间隔以内时为连续输入
             private List<List<EventMsg>> _keys = new List<List<EventMsg>>();
             private List<int> _keydown = new List<int>();   // 保存组合键状态  
             private List<string> _result = new List<string>();  // 返回结果集  
@@ -182,7 +180,6 @@ namespace CoatingMgr
             public void Add(EventMsg msg)
             {
                 #region 记录按键信息           
-
                 // 首次按下按键  
                 if (_keys.Count == 0)
                 {
@@ -228,15 +225,33 @@ namespace CoatingMgr
                 StringBuilder strKeyName = new StringBuilder(500);
                 if (GetKeyNameText(c * 65536, strKeyName, 255) > 0)
                 {
-                    _key = strKeyName.ToString().Trim(new char[] { ' ', '\0' });
+                    _key = strKeyName.ToString();
                     GetKeyboardState(_state);
+                    /*
+                     * 打印扫码枪日志
+                    string info = "_key.Length=" + _key.Length + ";"
+                        + "_key=" + _key + ";"
+                        + "msg.hwnd=" + msg.hwnd + ";"
+                        + "msg.message=" + msg.message + ";"
+                        + "msg.paramH=" + msg.paramH + ";"
+                        + "msg.paramL=" + msg.paramL + ";"
+                        + "msg.Time=" + msg.Time + ";"
+                        + "msg=" + msg.ToString();
+                    Logger.Instance.WriteLog(info);
+                    */
                     if (_key.Length == 1 && msg.paramH == 0)// && msg.paramH == 0
                     {
                         // 根据键盘状态和shift缓存判断输出字符  
                         _cur = ShiftChar(_key, IsShift, _state).ToString();
                         _result[_result.Count - 1] += _cur;
                     }
-                    // 备选
+                    //判断是空格 强制添加空格
+                    else if (_key.Length == 5 && msg.paramH == 0 && msg.paramL == 57 && msg.message == 32)
+                    {
+                        // 根据键盘状态和shift缓存判断输出字符  
+                        _cur = Convert.ToChar(' ').ToString();
+                        _result[_result.Count - 1] += _cur;
+                    }
                     else
                     {
                         _cur = string.Empty;

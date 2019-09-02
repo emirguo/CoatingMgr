@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data.SQLite;
 using System.Data;
 
@@ -43,7 +40,7 @@ namespace CoatingMgr
                 }
                 catch (Exception e)
                 {
-                    Log(e.ToString());
+                    Logger.Instance.WriteLog(e.Message);
                 }
             }
         }
@@ -63,7 +60,7 @@ namespace CoatingMgr
                 }
                 catch (Exception e)
                 {
-                    Log(e.ToString());
+                    Logger.Instance.WriteLog(e.Message);
                 }
             }
         }
@@ -95,7 +92,7 @@ namespace CoatingMgr
                 }
                 catch (Exception e)
                 {
-                    Log(e.Message);
+                    Logger.Instance.WriteLog(e.Message);
                 }
             }
             return dataReader;
@@ -439,16 +436,5 @@ namespace CoatingMgr
                 InsertValues(tableName, values);
             }
         }
-
-
-        /// <summary>
-        /// 本类log
-        /// </summary>
-        /// <param name="s"></param>
-        static void Log(string s)
-        {
-            Console.WriteLine("class SqLiteHelper:::" + s);
-        }
-        
     }
 }

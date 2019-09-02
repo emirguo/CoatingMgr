@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
+using System.Net;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -59,6 +60,7 @@ namespace CoatingMgr
             InitializeComponent();
             _userName = userName;
             _userPermission = userPermission;
+            this.timer.Stop();
         }
 
         private void FormStir_Load(object sender, EventArgs e)
@@ -218,26 +220,26 @@ namespace CoatingMgr
                     ClearStirText();
                     while (dataReader.Read())
                     {
-                        if (dataReader["种类"].ToString().Equals("色漆") || dataReader["种类"].ToString().Equals("涂料"))
+                        if (dataReader["种类"].ToString().Equals("色漆") || dataReader["种类"].ToString().Equals("清漆"))
                         {
-                            tbName1.Text = dataReader["涂料名"].ToString();
+                            tbName1.Text = dataReader["SAP品番"].ToString();
                             ratio1 = dataReader["调和比例"].ToString();
                         }
                         else if (dataReader["种类"].ToString().Equals("固化剂"))
                         {
-                            tbName2.Text = dataReader["涂料名"].ToString();
+                            tbName2.Text = dataReader["SAP品番"].ToString();
                             ratio2 = dataReader["调和比例"].ToString();
                         }
                         else if (dataReader["种类"].ToString().Equals("稀释剂"))
                         {
-                            if (tbName3.Text.Equals(""))
+                            if (tbName3.Text.Equals(string.Empty))
                             {
-                                tbName3.Text = dataReader["涂料名"].ToString();
+                                tbName3.Text = dataReader["SAP品番"].ToString();
                                 ratio3 = dataReader["调和比例"].ToString();
                             }
                             else
                             {
-                                tbName4.Text = dataReader["涂料名"].ToString();
+                                tbName4.Text = dataReader["SAP品番"].ToString();
                                 ratio4 = dataReader["调和比例"].ToString();
                             }
                         }
@@ -300,6 +302,19 @@ namespace CoatingMgr
 
         private void Timer_Tick(object sender, EventArgs e)
         {
+            if (CurrStatus == Status.Stop)
+            {
+                return;
+            }
+            if (!PLCHelper.GetInstance().IsPLCConnect())
+            {
+                MessageBox.Show("PLC未连接，请先连接PLC设备");
+                CurrStatus = Status.Stop;
+                this.timer.Stop();
+                this.lbCurrentStatus.Text = "停止";
+                return;
+            }
+
             currStirTime += 0.1;
             string str = currStirTime.ToString();
             int index = str.IndexOf(".");
@@ -324,6 +339,10 @@ namespace CoatingMgr
                 case Status.CoatingPause_Slow:
                     this.progressBar1.Value = 100;
                     SetCountProgressBar();
+                    if (IsStirEnd())
+                    {
+                        StopStir();
+                    }
                     break;
                 case Status.HardeningAgentStart_Fast:
                 case Status.HardeningAgentStart_Slow:
@@ -340,6 +359,10 @@ namespace CoatingMgr
                 case Status.HardeningAgentPause_Slow:
                     this.progressBar2.Value = 100;
                     SetCountProgressBar();
+                    if (IsStirEnd())
+                    {
+                        StopStir();
+                    }
                     break;
                 case Status.ThinnerAStart_Fast:
                 case Status.ThinnerAStart_Slow:
@@ -356,6 +379,10 @@ namespace CoatingMgr
                 case Status.ThinnerAPause_Slow:
                     this.progressBar3.Value = 100;
                     SetCountProgressBar();
+                    if (IsStirEnd())
+                    {
+                        StopStir();
+                    }
                     break;
                 case Status.ThinnerBStart_Fast:
                 case Status.ThinnerBStart_Slow:
@@ -372,6 +399,10 @@ namespace CoatingMgr
                 case Status.ThinnerBPause_Slow:
                     this.progressBar4.Value = 100;
                     SetCountProgressBar();
+                    if (IsStirEnd())
+                    {
+                        StopStir();
+                    }
                     break;
                 default:
                     break;
@@ -491,8 +522,8 @@ namespace CoatingMgr
             }
             return result;
         }
-        
-        private void BtnStop_Click(object sender, EventArgs e)
+
+        private void StopStir()
         {
             CurrStatus = Status.Stop;
             DoStir();
@@ -503,11 +534,24 @@ namespace CoatingMgr
             ClearStirText();
         }
 
+        private void BtnStop_Click(object sender, EventArgs e)
+        {
+            StopStir();
+        }
+
         /// <summary>
         /// 根据状态实现各调和动作
         /// </summary>
         private void DoStir()
         {
+            if (!PLCHelper.GetInstance().IsPLCConnect())
+            {
+                MessageBox.Show("PLC未连接，请先连接PLC设备");
+                CurrStatus = Status.Stop;
+                this.timer.Stop();
+                this.lbCurrentStatus.Text = "停止";
+                return;
+            }
             switch (CurrStatus)
             {
                 case Status.CoatingStart_Fast:
@@ -585,6 +629,21 @@ namespace CoatingMgr
             }
         }
 
+        private bool IsStirEnd()
+        {
+            bool result = false;
+            if ((w_C > 0 && C_End)  //涂料已完成注入
+                && ((w_H > 0 && H_End) || w_H <= 0) //固化剂已完成注入或无需注入固化剂
+                && ((w_TA > 0 && TA_End) || w_TA <= 0) //凝固剂A已完成注入或无需注入凝固剂A
+                && ((w_TB > 0 && TB_End) || w_TB <= 0)) //凝固剂B已完成注入或无需注入凝固剂B
+            {
+                result = true;
+            }
+            return result;
+        }
+
+        //保存调和日志
+        //"id", "机种", "製品", "颜色", "涂层", "温度", "湿度", "调和比例", "类型", "名称", "条形码", "设定重量", "倒入重量", "计量时间", "操作员", "操作日期", "操作时间", "确认主管", "备注"
         private void SaveStirLog(StirLogType logType)
         {
             switch (logType)
@@ -592,25 +651,25 @@ namespace CoatingMgr
                 case StirLogType.CoatingLog:
                     if (!tbName1.Text.Equals("") && !tbBarCode1.Text.Equals("") && !tbSetValue1.Text.Equals("") && !tbMeasurementValue1.Text.Equals("") && !tbMeasurementTime1.Text.Equals(""))
                     {
-                        GetSqlLiteHelper().InsertValues(Common.STIRLOGTABLENAME, new string[] { cbModel.Text, cbComponent.Text, cbColor.Text, cbCoating.Text, tbTemperature.Text, tbHumidity.Text, tbRatio.Text, "涂料", tbName1.Text, tbBarCode1.Text, tbSetValue1.Text, tbMeasurementValue1.Text, tbMeasurementTime1.Text, _userName, DateTime.Now.ToString("yyyyMMdd"), DateTime.Now.ToString("HH:mm:ss"), _managerName, " " });
+                        GetSqlLiteHelper().InsertValues(Common.STIRLOGTABLENAME, new string[] { cbModel.Text, cbComponent.Text, cbColor.Text, cbCoating.Text, tbTemperature.Text, tbHumidity.Text, tbRatio.Text, "涂料", tbName1.Text, tbBarCode1.Text, tbSetValue1.Text, tbMeasurementValue1.Text, tbMeasurementTime1.Text, _userName, DateTime.Now.ToString("yyyyMMdd"), DateTime.Now.ToString("HH:mm:ss"), _managerName, string.Empty });
                     }
                     break;
                 case StirLogType.HardeningLog:
                     if (!tbName2.Text.Equals("") && !tbBarCode2.Text.Equals("") && !tbSetValue2.Text.Equals("") && !tbMeasurementValue2.Text.Equals("") && !tbMeasurementTime2.Text.Equals(""))
                     {
-                        GetSqlLiteHelper().InsertValues(Common.STIRLOGTABLENAME, new string[] { cbModel.Text, cbComponent.Text, cbColor.Text, cbCoating.Text, tbTemperature.Text, tbHumidity.Text, tbRatio.Text, "固化剂", tbName2.Text, tbBarCode2.Text, tbSetValue2.Text, tbMeasurementValue2.Text, tbMeasurementTime2.Text, _userName, DateTime.Now.ToString("yyyyMMdd"), DateTime.Now.ToString("HH:mm:ss"), _managerName, " " });
+                        GetSqlLiteHelper().InsertValues(Common.STIRLOGTABLENAME, new string[] { cbModel.Text, cbComponent.Text, cbColor.Text, cbCoating.Text, tbTemperature.Text, tbHumidity.Text, tbRatio.Text, "固化剂", tbName2.Text, tbBarCode2.Text, tbSetValue2.Text, tbMeasurementValue2.Text, tbMeasurementTime2.Text, _userName, DateTime.Now.ToString("yyyyMMdd"), DateTime.Now.ToString("HH:mm:ss"), _managerName, string.Empty });
                     }
                     break;
                 case StirLogType.ThinnerALog:
                     if (!tbName3.Text.Equals("") && !tbBarCode3.Text.Equals("") && !tbSetValue3.Text.Equals("") && !tbMeasurementValue3.Text.Equals("") && !tbMeasurementTime3.Text.Equals(""))
                     {
-                        GetSqlLiteHelper().InsertValues(Common.STIRLOGTABLENAME, new string[] { cbModel.Text, cbComponent.Text, cbColor.Text, cbCoating.Text, tbTemperature.Text, tbHumidity.Text, tbRatio.Text, "稀释剂A", tbName3.Text, tbBarCode3.Text, tbSetValue3.Text, tbMeasurementValue3.Text, tbMeasurementTime3.Text, _userName, DateTime.Now.ToString("yyyyMMdd"), DateTime.Now.ToString("HH:mm:ss"), _managerName, " " });
+                        GetSqlLiteHelper().InsertValues(Common.STIRLOGTABLENAME, new string[] { cbModel.Text, cbComponent.Text, cbColor.Text, cbCoating.Text, tbTemperature.Text, tbHumidity.Text, tbRatio.Text, "稀释剂A", tbName3.Text, tbBarCode3.Text, tbSetValue3.Text, tbMeasurementValue3.Text, tbMeasurementTime3.Text, _userName, DateTime.Now.ToString("yyyyMMdd"), DateTime.Now.ToString("HH:mm:ss"), _managerName, string.Empty });
                     }
                     break;
                 case StirLogType.ThinnerBLog:
                     if (!tbName4.Text.Equals("") && !tbBarCode4.Text.Equals("") && !tbSetValue4.Text.Equals("") && !tbMeasurementValue4.Text.Equals("") && !tbMeasurementTime4.Text.Equals(""))
                     {
-                        GetSqlLiteHelper().InsertValues(Common.STIRLOGTABLENAME, new string[] { cbModel.Text, cbComponent.Text, cbColor.Text, cbCoating.Text, tbTemperature.Text, tbHumidity.Text, tbRatio.Text, "稀释剂B", tbName4.Text, tbBarCode4.Text, tbSetValue4.Text, tbMeasurementValue4.Text, tbMeasurementTime4.Text, _userName, DateTime.Now.ToString("yyyyMMdd"), DateTime.Now.ToString("HH:mm:ss"), _managerName, " " });
+                        GetSqlLiteHelper().InsertValues(Common.STIRLOGTABLENAME, new string[] { cbModel.Text, cbComponent.Text, cbColor.Text, cbCoating.Text, tbTemperature.Text, tbHumidity.Text, tbRatio.Text, "稀释剂B", tbName4.Text, tbBarCode4.Text, tbSetValue4.Text, tbMeasurementValue4.Text, tbMeasurementTime4.Text, _userName, DateTime.Now.ToString("yyyyMMdd"), DateTime.Now.ToString("HH:mm:ss"), _managerName, string.Empty });
                     }
                     break;
                 default:
@@ -663,6 +722,7 @@ namespace CoatingMgr
             else
             {
                 MessageBox.Show("此条形码涂料还未入库，请先入库");
+                return result;
             }
             if (hadInStock && hadOutStock)
             {
@@ -682,16 +742,16 @@ namespace CoatingMgr
         /// <summary>
         /// 判断条形码是否有效
         /// </summary>
-        /// 涂料名*种类*厂家*重量*批次号*连番*使用期限,例如：R-241(KAI) YR-614P(TAP)*A*G1000*18*20180219*0001*20190318
+        /// SAP品番*种类*厂家*重量*批次号*连番*使用期限,例如：R-241(KAI) YR-614P(TAP)*A*G1000*18*20180219*0001*20190318
         private bool IsBarCodeValid(string barcode, string name)
         {
             bool result = false;
-            if (!barcode.Equals(""))
+            if (!barcode.Equals(string.Empty))
             {
                 string[] sArray = barcode.Split('*');
-                if (sArray.Length >= 7)
+                if (sArray.Length == 7)
                 {
-                    if (!name.Equals(sArray[0]))//判断涂料名称是否一致
+                    if (!name.Equals(sArray[0]))//判断SAP品番是否一致
                     {
                         MessageBox.Show("涂料错误！");
                         return false;
@@ -719,187 +779,208 @@ namespace CoatingMgr
         {
             if (tbBarCode1.Focused)
             {
-                BarCode1InputEnd();
+                BarCode1InputEnd(barcode);
             }
             else if (tbBarCode2.Focused)
             {
-                BarCode2InputEnd();
+                BarCode2InputEnd(barcode);
             }
             else if (tbBarCode3.Focused)
             {
-                BarCode3InputEnd();
+                BarCode3InputEnd(barcode);
             }
             else if (tbBarCode4.Focused)
             {
-                BarCode4InputEnd();
+                BarCode4InputEnd(barcode);
             }
         }
 
+        private DateTime _dt = DateTime.Now;  //定义一个成员函数用于保存每次的时间点
         private void TbBarCode1_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter)
+            DateTime tempDt = DateTime.Now;          //保存按键按下时刻的时间点
+            TimeSpan ts = tempDt.Subtract(_dt);     //获取时间间隔
+            _dt = tempDt;
+            if (ts.Milliseconds > 100)      //判断时间间隔，如果时间间隔大于100毫秒，则为手动输入，否则为扫码枪输入
             {
-                BarCode1InputEnd();
+                if (e.KeyCode == Keys.Enter)
+                {
+                    BarCode1InputEnd(this.tbBarCode1.Text);
+                }
             }
         }
 
         private void TbBarCode2_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter)
+            DateTime tempDt = DateTime.Now;          //保存按键按下时刻的时间点
+            TimeSpan ts = tempDt.Subtract(_dt);     //获取时间间隔
+            _dt = tempDt;
+            if (ts.Milliseconds > 100)      //判断时间间隔，如果时间间隔大于100毫秒，则为手动输入，否则为扫码枪输入
             {
-                BarCode2InputEnd();
+                if (e.KeyCode == Keys.Enter)
+                {
+                    BarCode2InputEnd(this.tbBarCode2.Text);
+                }
             }
         }
 
         private void TbBarCode3_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter)
+            DateTime tempDt = DateTime.Now;          //保存按键按下时刻的时间点
+            TimeSpan ts = tempDt.Subtract(_dt);     //获取时间间隔
+            _dt = tempDt;
+            if (ts.Milliseconds > 100)      //判断时间间隔，如果时间间隔大于100毫秒，则为手动输入，否则为扫码枪输入
             {
-                BarCode3InputEnd();
+                if (e.KeyCode == Keys.Enter)
+                {
+                    BarCode3InputEnd(this.tbBarCode3.Text);
+                }
             }
         }
 
         private void TbBarCode4_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter)
+            DateTime tempDt = DateTime.Now;          //保存按键按下时刻的时间点
+            TimeSpan ts = tempDt.Subtract(_dt);     //获取时间间隔
+            _dt = tempDt;
+            if (ts.Milliseconds > 100)      //判断时间间隔，如果时间间隔大于100毫秒，则为手动输入，否则为扫码枪输入
             {
-                BarCode4InputEnd();
+                if (e.KeyCode == Keys.Enter)
+                {
+                    BarCode4InputEnd(this.tbBarCode4.Text);
+                }
             }
         }
 
-        private void BarCode1InputEnd()
+        private void BarCode1InputEnd(string barcode)
         {
-            if (!tbBarCode1.Text.Equals(string.Empty))
+            if (!barcode.Equals(string.Empty))
             {
                 /*
+                tbBarCode1.Text = barcode;
                 if (!IsStirInfoEnough())
                 {
-                    tbBarCode1.Text = string.Empty;
                     MessageBox.Show("请先设置调和信息");
                     return;
                 }
                 if (!isStirInfoConfirmed)
                 {
-                    tbBarCode1.Text = string.Empty;
                     ShowConfirmWindow();
                     return;
                 }
-                if (!IsBarCodeFromStock(tbBarCode1.Text))
+                if (!IsBarCodeFromStock(barcode))
                 {
-                    tbBarCode1.Text = string.Empty;
                     return;
                 }
-                if (IsBarCodeValid(tbBarCode1.Text, tbName1.Text))//条形码正确
+                if (IsBarCodeValid(barcode, tbName1.Text))//条形码正确
                 {
                     CurrStatus = Status.CoatingStart_Fast;
                     DoStir();
                     this.tbBarCode2.Focus();
                 }
                 */
+                tbBarCode1.Text = barcode;
                 CurrStatus = Status.CoatingStart_Fast;
                 DoStir();
                 this.tbBarCode2.Focus();
             }
         }
 
-        private void BarCode2InputEnd()
+        private void BarCode2InputEnd(string barcode)
         {
-            if (!tbBarCode2.Text.Equals(string.Empty))
+            if (!barcode.Equals(string.Empty))
             {
                 /*
+                this.tbBarCode2.Text = barcode;
                 if (!IsStirInfoEnough())
                 {
-                    tbBarCode2.Text = string.Empty;
                     MessageBox.Show("请先设置调和信息");
                     return;
                 }
                 if (!isStirInfoConfirmed)
                 {
-                    tbBarCode2.Text = string.Empty;
                     ShowConfirmWindow();
                     return;
                 }
-                if (!IsBarCodeFromStock(tbBarCode2.Text))
+                if (!IsBarCodeFromStock(barcode))
                 {
-                    tbBarCode2.Text = string.Empty;
                     return;
                 }
-                if (IsBarCodeValid(tbBarCode2.Text, tbName2.Text))//条形码正确
+                if (IsBarCodeValid(barcode, tbName2.Text))//条形码正确
                 {
                     CurrStatus = Status.HardeningAgentStart_Fast;
                     DoStir();
                     this.tbBarCode3.Focus();
                 }
                 */
+                this.tbBarCode2.Text = barcode;
                 CurrStatus = Status.HardeningAgentStart_Fast;
                 DoStir();
                 this.tbBarCode3.Focus();
             }
         }
 
-        private void BarCode3InputEnd()
+        private void BarCode3InputEnd(string barcode)
         {
-            if (!tbBarCode3.Text.Equals(string.Empty))
+            if (!barcode.Equals(string.Empty))
             {
                 /*
+                this.tbBarCode3.Text = barcode;
                 if (!IsStirInfoEnough())
                 {
-                    tbBarCode3.Text = string.Empty;
                     MessageBox.Show("请先设置调和信息");
                     return;
                 }
                 if (!isStirInfoConfirmed)
                 {
-                    tbBarCode3.Text = string.Empty;
                     ShowConfirmWindow();
                     return;
                 }
-                if (!IsBarCodeFromStock(tbBarCode3.Text))
+                if (!IsBarCodeFromStock(barcode))
                 {
-                    tbBarCode3.Text = string.Empty;
                     return;
                 }
-                if (IsBarCodeValid(tbBarCode3.Text, tbName3.Text))//条形码正确
+                if (IsBarCodeValid(barcode, tbName3.Text))//条形码正确
                 {
                     CurrStatus = Status.ThinnerAStart_Fast;
                     DoStir();
                     this.tbBarCode4.Focus();
                 }
                 */
+                this.tbBarCode3.Text = barcode;
                 CurrStatus = Status.ThinnerAStart_Fast;
                 DoStir();
                 this.tbBarCode4.Focus();
             }
         }
 
-        private void BarCode4InputEnd()
+        private void BarCode4InputEnd(string barcode)
         {
-            if (!tbBarCode4.Text.Equals(string.Empty))
+            if (!barcode.Equals(string.Empty))
             {
                 /*
+                this.tbBarCode4.Text = barcode;
                 if (!IsStirInfoEnough())
                 {
-                    tbBarCode4.Text = string.Empty;
                     MessageBox.Show("请先设置调和信息");
                     return;
                 }
                 if (!isStirInfoConfirmed)
                 {
-                    tbBarCode4.Text = string.Empty;
                     ShowConfirmWindow();
                     return;
                 }
-                if (!IsBarCodeFromStock(tbBarCode4.Text))
+                if (!IsBarCodeFromStock(barcode))
                 {
-                    tbBarCode4.Text = string.Empty;
                     return;
                 }
-                if (IsBarCodeValid(tbBarCode4.Text, tbName4.Text))//条形码正确
+                if (IsBarCodeValid(barcode, tbName4.Text))//条形码正确
                 {
                     CurrStatus = Status.ThinnerBStart_Fast;
                     DoStir();
                 }
                 */
+                this.tbBarCode4.Text = barcode;
                 CurrStatus = Status.ThinnerBStart_Fast;
                 DoStir();
             }
@@ -960,7 +1041,7 @@ namespace CoatingMgr
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e.ToString());
+                    Logger.Instance.WriteLog(e.Message);
                 }
             }
         }
@@ -1003,7 +1084,17 @@ namespace CoatingMgr
             isStirInfoConfirmed = true;
 
             //管理员确认调和数据后，初始化PLC并设置色剂重量
-            PLCHelper.GetInstance().SetWeight(w_C, w_H, w_TA, w_TB, w_C_Fast, w_H_Fast, w_TA_Fast, w_TB_Fast);
+            if (IsPLCIPInfoValid())
+            {
+                if (PLCHelper.GetInstance().IsPLCConnect())
+                {
+                    PLCHelper.GetInstance().SetWeight(w_C, w_H, w_TA, w_TB, w_C_Fast, w_H_Fast, w_TA_Fast, w_TB_Fast);
+                }
+                else
+                {
+                    MessageBox.Show("PLC连接失败，请查看网络连接是否正常");
+                }
+            }
         }
 
         /// <summary>
@@ -1014,5 +1105,32 @@ namespace CoatingMgr
             FormConfirmStirInfo formConfirmStirInfo = new FormConfirmStirInfo(this);
             formConfirmStirInfo.Show();
         }
+
+        //判断PLC是否设置了有效的ip和端口
+        private bool IsPLCIPInfoValid()
+        {
+            bool result = true;
+            IPAddress ip;
+            int port;
+            if (!IPAddress.TryParse(Properties.Settings.Default.PLCIP, out ip))
+            {
+                result = false;
+            }
+
+            try
+            {
+                port = Convert.ToInt32(Properties.Settings.Default.PLCPort);
+            }
+            catch
+            {
+                result =  false;
+            }
+            if (!result)
+            {
+                MessageBox.Show("PLC设备IP地址和端口未设备或设备错误，请先设置正确的IP地址和端口号");
+            }
+            return result;
+        }
+
     }
 }

@@ -37,20 +37,20 @@
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.panel4 = new System.Windows.Forms.Panel();
             this.label14 = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.btAdd = new System.Windows.Forms.Button();
+            this.cbSearchType = new System.Windows.Forms.ComboBox();
             this.btShowAll = new System.Windows.Forms.Button();
             this.cbSearchContent = new System.Windows.Forms.ComboBox();
-            this.cbSearchType = new System.Windows.Forms.ComboBox();
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.TSMIModify = new System.Windows.Forms.ToolStripMenuItem();
             this.TSMIDelete = new System.Windows.Forms.ToolStripMenuItem();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.panel2.SuspendLayout();
             this.panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvWarnMgr)).BeginInit();
             this.panel4.SuspendLayout();
-            this.contextMenuStrip.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.contextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel2
@@ -128,11 +128,25 @@
             // 
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label14.Location = new System.Drawing.Point(536, 4);
+            this.label14.Location = new System.Drawing.Point(516, 4);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(110, 24);
             this.label14.TabIndex = 55;
             this.label14.Text = "告警规则";
+            // 
+            // panel1
+            // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.btAdd);
+            this.panel1.Controls.Add(this.cbSearchType);
+            this.panel1.Controls.Add(this.btShowAll);
+            this.panel1.Controls.Add(this.cbSearchContent);
+            this.panel1.Location = new System.Drawing.Point(2, 16);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1176, 64);
+            this.panel1.TabIndex = 31;
             // 
             // btAdd
             // 
@@ -144,6 +158,17 @@
             this.btAdd.Text = "添加告警规则";
             this.btAdd.UseVisualStyleBackColor = true;
             this.btAdd.Click += new System.EventHandler(this.BtAdd_Click);
+            // 
+            // cbSearchType
+            // 
+            this.cbSearchType.Font = new System.Drawing.Font("宋体", 12F);
+            this.cbSearchType.FormattingEnabled = true;
+            this.cbSearchType.Location = new System.Drawing.Point(15, 26);
+            this.cbSearchType.Name = "cbSearchType";
+            this.cbSearchType.Size = new System.Drawing.Size(204, 24);
+            this.cbSearchType.TabIndex = 0;
+            this.cbSearchType.Text = "选择过滤方式";
+            this.cbSearchType.SelectedIndexChanged += new System.EventHandler(this.CbSearchType_SelectedIndexChanged);
             // 
             // btShowAll
             // 
@@ -167,17 +192,6 @@
             this.cbSearchContent.Text = "选择过滤内容";
             this.cbSearchContent.SelectedIndexChanged += new System.EventHandler(this.CbSearchContent_SelectedIndexChanged);
             // 
-            // cbSearchType
-            // 
-            this.cbSearchType.Font = new System.Drawing.Font("宋体", 12F);
-            this.cbSearchType.FormattingEnabled = true;
-            this.cbSearchType.Location = new System.Drawing.Point(15, 26);
-            this.cbSearchType.Name = "cbSearchType";
-            this.cbSearchType.Size = new System.Drawing.Size(204, 24);
-            this.cbSearchType.TabIndex = 0;
-            this.cbSearchType.Text = "选择过滤方式";
-            this.cbSearchType.SelectedIndexChanged += new System.EventHandler(this.CbSearchType_SelectedIndexChanged);
-            // 
             // contextMenuStrip
             // 
             this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -200,20 +214,6 @@
             this.TSMIDelete.Text = "删除";
             this.TSMIDelete.Click += new System.EventHandler(this.TSMIDelete_Click);
             // 
-            // panel1
-            // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Controls.Add(this.btAdd);
-            this.panel1.Controls.Add(this.cbSearchType);
-            this.panel1.Controls.Add(this.btShowAll);
-            this.panel1.Controls.Add(this.cbSearchContent);
-            this.panel1.Location = new System.Drawing.Point(2, 16);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1176, 64);
-            this.panel1.TabIndex = 31;
-            // 
             // FormWarn
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -231,8 +231,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvWarnMgr)).EndInit();
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
-            this.contextMenuStrip.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
+            this.contextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

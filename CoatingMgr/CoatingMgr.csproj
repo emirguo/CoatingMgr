@@ -26,7 +26,7 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ProductName>武汉高木涂料管理系统</ProductName>
     <PublisherName>武汉高木</PublisherName>
-    <ApplicationRevision>17</ApplicationRevision>
+    <ApplicationRevision>23</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -104,6 +104,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BarCodeHook.cs" />
     <Compile Include="Common.cs" />
     <Compile Include="ExcelHelper.cs" />
     <Compile Include="FormAbout.cs">
@@ -154,11 +155,35 @@
     <Compile Include="FormModifyStock.Designer.cs">
       <DependentUpon>FormModifyStock.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormModifyStockDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormModifyStockDetail.Designer.cs">
+      <DependentUpon>FormModifyStockDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormSetDebugLog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSetDebugLog.Designer.cs">
+      <DependentUpon>FormSetDebugLog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormSetPLCIP.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSetPLCIP.Designer.cs">
+      <DependentUpon>FormSetPLCIP.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormProgress.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormProgress.Designer.cs">
       <DependentUpon>FormProgress.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormSetBCResponse.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSetBCResponse.Designer.cs">
+      <DependentUpon>FormSetBCResponse.cs</DependentUpon>
     </Compile>
     <Compile Include="FormSetStirData.cs">
       <SubType>Form</SubType>
@@ -171,6 +196,12 @@
     </Compile>
     <Compile Include="FormSetWarn.Designer.cs">
       <DependentUpon>FormSetWarn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormStockDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormStockDetail.Designer.cs">
+      <DependentUpon>FormStockDetail.cs</DependentUpon>
     </Compile>
     <Compile Include="FormStore.cs">
       <SubType>Form</SubType>
@@ -190,8 +221,14 @@
     <Compile Include="FormWarnMailInfo.Designer.cs">
       <DependentUpon>FormWarnMailInfo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Logger.cs" />
     <Compile Include="PLCHelper.cs" />
     <Compile Include="ScanerHook.cs" />
+    <Compile Include="Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="SqlLiteHelper.cs" />
     <Compile Include="FormIn.cs">
       <SubType>Form</SubType>
@@ -267,8 +304,20 @@
     <EmbeddedResource Include="FormModifyStock.resx">
       <DependentUpon>FormModifyStock.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormModifyStockDetail.resx">
+      <DependentUpon>FormModifyStockDetail.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormOut.resx">
       <DependentUpon>FormOut.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormSetBCResponse.resx">
+      <DependentUpon>FormSetBCResponse.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormSetDebugLog.resx">
+      <DependentUpon>FormSetDebugLog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormSetPLCIP.resx">
+      <DependentUpon>FormSetPLCIP.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormProgress.resx">
       <DependentUpon>FormProgress.cs</DependentUpon>
@@ -285,6 +334,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormStock.resx">
       <DependentUpon>FormStock.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormStockDetail.resx">
+      <DependentUpon>FormStockDetail.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormStore.resx">
       <DependentUpon>FormStore.cs</DependentUpon>
@@ -322,10 +374,15 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="Settings.settings" />
+    <None Include="Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="SQLite.Interop.dll">

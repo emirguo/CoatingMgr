@@ -2,13 +2,8 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
-using System.Linq;
 using System.Net.Mail;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Xml;
 
 namespace CoatingMgr
 {
@@ -20,6 +15,8 @@ namespace CoatingMgr
             get { return _dbPath; }
             set{ _dbPath = value; }
         }
+
+        public static bool DebugLog = false;
 
         private static readonly string _accountTableName = "account";
         public static string ACCOUNTTABLENAME
@@ -48,12 +45,12 @@ namespace CoatingMgr
         {
             get { return _stockCountTableName; }
         }
-        private static readonly string[] _stockCountTableColumns = { "id", "类型", "名称", "颜色", "适用机型", "仓库", "重量", "库存上限", "库存下限", "告警时间", "备注" };
+        private static readonly string[] _stockCountTableColumns = { "id", "类型", "名称", "颜色", "适用机型", "重量", "库存上限", "库存下限", "告警时间", "备注" };
         public static string[] STOCKCOUNTTABLECOLUMNS
         {
             get { return _stockCountTableColumns; }
         }
-        private static readonly string[] _stockCountTableColumnsType = { "INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT" };
+        private static readonly string[] _stockCountTableColumnsType = { "INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT" };
         public static string[] STOCKCOUNTTABLECOLUMNSTYPE
         {
             get { return _stockCountTableColumnsType; }
@@ -64,12 +61,12 @@ namespace CoatingMgr
         {
             get { return _inStockTableName; }
         }
-        private static readonly string[] _inStockTableColumns = { "id", "条形码", "名称", "颜色", "类型", "重量", "适用机型", "仓库", "生产日期", "有效期", "操作员", "操作日期", "操作时间", "操作类型", "告警时间", "备注" };
+        private static readonly string[] _inStockTableColumns = { "id", "条形码", "名称", "颜色", "类型", "重量", "适用机型", "仓库", "生产日期", "有效期", "操作员", "入库日期", "入库时间", "告警时间", "备注" };
         public static string[] INSTOCKTABLECOLUMNS
         {
             get { return _inStockTableColumns; }
         }
-        private static readonly string[] _inStockTableColumnsType = { "INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT" };
+        private static readonly string[] _inStockTableColumnsType = { "INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT" };
         public static string[] INSTOCKTABLECOLUMNSTYPE
         {
             get { return _inStockTableColumnsType; }
@@ -80,12 +77,12 @@ namespace CoatingMgr
         {
             get { return _warnManagerTableName; }
         }
-        private static readonly string[] _warnManagerTableColumns = { "id", "仓库", "名称", "颜色", "类型", "库存上限", "库存下限", "告警时间", "规则创建人", "规则创建时间" };
+        private static readonly string[] _warnManagerTableColumns = { "id", "名称", "颜色", "类型", "库存上限", "库存下限", "告警时间", "规则创建人", "规则创建时间" };
         public static string[] WARNMANAGERTABLECOLUMNS
         {
             get { return _warnManagerTableColumns; }
         }
-        private static readonly string[] _warnManagerTableColumnsType = { "INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT" };
+        private static readonly string[] _warnManagerTableColumnsType = { "INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT" };
         public static string[] WARNMANAGERTABLECOLUMNSTYPE
         {
             get { return _warnManagerTableColumnsType; }
@@ -112,7 +109,7 @@ namespace CoatingMgr
         {
             get { return _stirLogTableName; }
         }
-        private static readonly string[] _stirlogTableColumns = { "id", "机种", "製品", "色番", "涂层", "温度", "湿度", "调和比例", "类型", "名称", "条形码", "设定重量", "倒入重量", "计量时间", "操作员", "操作日期", "操作时间", "确认主管", "备注" };
+        private static readonly string[] _stirlogTableColumns = { "id", "机种", "製品", "颜色", "涂层", "温度", "湿度", "调和比例", "类型", "名称", "条形码", "设定重量", "倒入重量", "计量时间", "操作员", "操作日期", "操作时间", "确认主管", "备注" };
         public static string[] STIRLOGTABLECOLUMNS
         {
             get { return _stirlogTableColumns; }
@@ -129,7 +126,8 @@ namespace CoatingMgr
             get { return _masterTableName; }
         }
 
-        public static readonly Dictionary<string, string> COATINGTYPE = new Dictionary<string, string> { { "A", "涂料" }, { "B", "固化剂" }, { "C", "稀释剂" }, { "D", "清洗剂" } };
+        public static readonly Dictionary<string, string> COATINGTYPE = new Dictionary<string, string> { { "A", "涂料" }, { "B", "固化剂" }, { "C", "稀释剂" }, { "D", "清洗剂" }, { "E", "清漆" }, { "F", "前处理液" } };
+        public static readonly Dictionary<string, string> FACTORY = new Dictionary<string, string> { { "G1012", "恩碧" }, { "G1013", "关西" }, { "G1014", "佑天" }, { "G1015", "凡净" }, { "G1018", "沌创" } };
 
         public static readonly string[] WARNDATETYPE = { "有效期前1天", "有效期前1周", "有效期前15天", "有效期前30天", "有效期前100天" };
         public static readonly Dictionary<string, string> WARNDATE = new Dictionary<string, string> { { "有效期前1天", "-1" }, { "有效期前1周", "-7" }, { "有效期前15天", "-15" }, { "有效期前30天", "-30" }, { "有效期前100天", "-100" } };
@@ -140,9 +138,9 @@ namespace CoatingMgr
         }
 
         //根据告警规则更新库存上、下限告警数据
-        public static void UpdateStockCountWarn(string name, string stock, string color, string type, string maximum, string minimum, string expirydate)
+        public static void UpdateStockCountWarn(string name, string color, string type, string maximum, string minimum, string expirydate)
         {
-            SQLiteDataReader dataReader = SqlLiteHelper.GetInstance().ReadTable(Common.STOCKCOUNTTABLENAME, new string[] { "名称", "颜色", "仓库", "类型" }, new string[] { "=", "=", "=", "=" }, new string[] { name, color, stock, type });
+            SQLiteDataReader dataReader = SqlLiteHelper.GetInstance().ReadTable(Common.STOCKCOUNTTABLENAME, new string[] { "名称", "颜色", "类型" }, new string[] { "=", "=", "=" }, new string[] { name, color, type });
             if (dataReader != null && dataReader.HasRows && dataReader.Read())//色剂已经存在
             {
                 SqlLiteHelper.GetInstance().UpdateValues(Common.STOCKCOUNTTABLENAME, new string[] { "库存上限", "库存下限", "告警时间" }, new string[] { maximum, minimum, expirydate }, "id", dataReader["id"].ToString());
@@ -158,13 +156,12 @@ namespace CoatingMgr
                 while (warnDR.Read())
                 {
                     string warnDate = warnDR["告警时间"].ToString();
-                    if (!warnDate.Equals(""))
+                    if (!warnDate.Equals(string.Empty))
                     {
                         string name = warnDR["名称"].ToString();
-                        string stock = warnDR["仓库"].ToString();
                         string color = warnDR["颜色"].ToString();
                         string type = warnDR["类型"].ToString();
-                        SQLiteDataReader dataReader = SqlLiteHelper.GetInstance().ReadTable(Common.INSTOCKTABLENAME, new string[] { "名称", "颜色", "类型", "仓库" }, new string[] { "=", "=", "=", "=" }, new string[] { name, color, type, stock });
+                        SQLiteDataReader dataReader = SqlLiteHelper.GetInstance().ReadTable(Common.INSTOCKTABLENAME, new string[] { "名称", "颜色", "类型" }, new string[] { "=", "=", "=" }, new string[] { name, color, type });
                         while (dataReader.Read())
                         {
                             DateTime expiryDate = DateTime.ParseExact(dataReader["有效期"].ToString(), "yyyyMMdd", null);
@@ -254,7 +251,7 @@ namespace CoatingMgr
             }
             catch (System.Net.Mail.SmtpException ex)
             {
-                Console.WriteLine(ex.Message);
+                Logger.Instance.WriteLog(ex.Message);
                 result = false;
             }
             return result;

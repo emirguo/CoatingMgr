@@ -17,7 +17,6 @@ E:\VSProjects\CoatingMgr\CoatingMgr\bin\Debug\ICSharpCode.SharpZipLib.xml
 E:\VSProjects\CoatingMgr\CoatingMgr\bin\Debug\Newtonsoft.Json.xml
 E:\VSProjects\CoatingMgr\CoatingMgr\bin\Debug\System.Data.SQLite.pdb
 E:\VSProjects\CoatingMgr\CoatingMgr\bin\Debug\System.Data.SQLite.dll.config
-E:\VSProjects\CoatingMgr\CoatingMgr\obj\Debug\CoatingMgr.csprojAssemblyReference.cache
 E:\VSProjects\CoatingMgr\CoatingMgr\obj\Debug\CoatingMgr.FormAbout.resources
 E:\VSProjects\CoatingMgr\CoatingMgr\obj\Debug\CoatingMgr.FormAccountManager.resources
 E:\VSProjects\CoatingMgr\CoatingMgr\obj\Debug\CoatingMgr.FormAddAccount.resources
@@ -33,6 +32,7 @@ E:\VSProjects\CoatingMgr\CoatingMgr\obj\Debug\CoatingMgr.FormSetStirData.resourc
 E:\VSProjects\CoatingMgr\CoatingMgr\obj\Debug\CoatingMgr.FormSetWarn.resources
 E:\VSProjects\CoatingMgr\CoatingMgr\obj\Debug\CoatingMgr.FormStir.resources
 E:\VSProjects\CoatingMgr\CoatingMgr\obj\Debug\CoatingMgr.FormStock.resources
+E:\VSProjects\CoatingMgr\CoatingMgr\obj\Debug\CoatingMgr.FormStore.resources
 E:\VSProjects\CoatingMgr\CoatingMgr\obj\Debug\CoatingMgr.FormWarn.resources
 E:\VSProjects\CoatingMgr\CoatingMgr\obj\Debug\CoatingMgr.FormWarnMailInfo.resources
 E:\VSProjects\CoatingMgr\CoatingMgr\obj\Debug\CoatingMgr.LoginForm.resources
@@ -45,4 +45,9 @@ E:\VSProjects\CoatingMgr\CoatingMgr\obj\Debug\CoatingMgr.application
 E:\VSProjects\CoatingMgr\CoatingMgr\obj\Debug\CoatingMgr.csproj.CopyComplete
 E:\VSProjects\CoatingMgr\CoatingMgr\obj\Debug\CoatingMgr.exe
 E:\VSProjects\CoatingMgr\CoatingMgr\obj\Debug\CoatingMgr.pdb
-E:\VSProjects\CoatingMgr\CoatingMgr\obj\Debug\CoatingMgr.FormStore.resources
+E:\VSProjects\CoatingMgr\CoatingMgr\obj\Debug\CoatingMgr.csprojAssemblyReference.cache
+E:\VSProjects\CoatingMgr\CoatingMgr\obj\Debug\CoatingMgr.FormSetBCResponse.resources
+E:\VSProjects\CoatingMgr\CoatingMgr\obj\Debug\CoatingMgr.FormSetPLCIP.resources
+E:\VSProjects\CoatingMgr\CoatingMgr\obj\Debug\CoatingMgr.FormSetDebugLog.resources
+E:\VSProjects\CoatingMgr\CoatingMgr\obj\Debug\CoatingMgr.FormStockDetail.resources
+E:\VSProjects\CoatingMgr\CoatingMgr\obj\Debug\CoatingMgr.FormModifyStockDetail.resources

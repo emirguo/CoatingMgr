@@ -136,7 +136,7 @@ namespace CoatingMgr
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Exception: " + ex.Message);
+                Logger.Instance.WriteLog(ex.Message);
                 return null;
             }
             finally
@@ -176,7 +176,7 @@ namespace CoatingMgr
                 catch (Exception e)
                 {
                     fileSaved = false;
-                    Console.WriteLine(e.Message);
+                    Logger.Instance.WriteLog(e.Message);
                 }
             }
             else

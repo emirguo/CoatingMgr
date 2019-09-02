@@ -142,5 +142,41 @@ namespace CoatingMgr.Properties {
                 this["MailDate"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string PLCIP {
+            get {
+                return ((string)(this["PLCIP"]));
+            }
+            set {
+                this["PLCIP"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5000")]
+        public int PLCPort {
+            get {
+                return ((int)(this["PLCPort"]));
+            }
+            set {
+                this["PLCPort"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("500")]
+        public int BCResponseTime {
+            get {
+                return ((int)(this["BCResponseTime"]));
+            }
+            set {
+                this["BCResponseTime"] = value;
+            }
+        }
     }
 }

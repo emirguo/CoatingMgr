@@ -15,7 +15,10 @@ namespace CoatingMgr
         //如果采用了二进制读写，那么就实例化KeyenceMcNet类，如果采用ASCII来读写数据，请使用KeyenceMcAsciiNet类
         private KeyenceMcNet PLC = null;
         //private KeyenceMcAsciiNet PLC = null;
+        private readonly string ipaddr = string.Empty;
+        private readonly int port = 0;
 
+        private OperateResult connect;
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -23,15 +26,22 @@ namespace CoatingMgr
         {
             if (PLC == null)
             {
-                PLC = new KeyenceMcNet("192.168.0.12", 5000);//基恩士PLC TCP
-                //PLC = new KeyenceMcAsciiNet("192.168.0.12", 5000);//基恩士PLC TCP
-                Connect();
-                
-                /*
-                PLC = new KeyenceNanoSerial();//基恩士PLC串口
-                PLC.SerialPortInni("COM4");//COM1,9600
-                PLC.Open();
-                */
+                if (!Properties.Settings.Default.PLCIP.Equals(string.Empty) && !Properties.Settings.Default.PLCPort.Equals(string.Empty))
+                {
+                    ipaddr = Properties.Settings.Default.PLCIP;
+                    port = Properties.Settings.Default.PLCPort;
+
+                    PLC = new KeyenceMcNet(ipaddr, port);//基恩士PLC TCP
+                    PLC.ConnectTimeOut = 5000;
+                    //PLC = new KeyenceMcAsciiNet("192.168.0.12", 5000);//基恩士PLC TCP
+                    Connect();
+
+                    /*
+                    PLC = new KeyenceNanoSerial();//基恩士PLC串口
+                    PLC.SerialPortInni("COM4");//COM1,9600
+                    PLC.Open();
+                    */
+                }
             }
         }
 
@@ -41,13 +51,22 @@ namespace CoatingMgr
             {
                 mInstance = new PLCHelper();
             }
+            if (!mInstance.IsPLCConnect())
+            {
+                mInstance.Connect();
+            }
             return mInstance;
+        }
+
+        public bool IsPLCConnect()
+        {
+            return connect.IsSuccess;
         }
 
         private bool Connect()
         {
             bool result = false;
-            OperateResult connect = PLC.ConnectServer();
+            connect = PLC.ConnectServer();
             if (connect.IsSuccess)
             {
                 PLC.SetPersistentConnection();//设置为长连接
@@ -62,7 +81,7 @@ namespace CoatingMgr
 
         public void Close()
         {
-                PLC.ConnectClose();
+            PLC.ConnectClose();
         }
 
         public int GetWeight()

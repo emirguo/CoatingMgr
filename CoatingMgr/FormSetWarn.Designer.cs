@@ -31,9 +31,7 @@
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.lbTitle = new System.Windows.Forms.Label();
-            this.cbStock = new System.Windows.Forms.ComboBox();
             this.cbProduct = new System.Windows.Forms.ComboBox();
             this.cbType = new System.Windows.Forms.ComboBox();
             this.cbColor = new System.Windows.Forms.ComboBox();
@@ -84,23 +82,11 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label3.Location = new System.Drawing.Point(22, 95);
+            this.label3.Location = new System.Drawing.Point(296, 47);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(48, 16);
             this.label3.TabIndex = 25;
             this.label3.Text = "名 称";
-            // 
-            // label2
-            // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label2.Location = new System.Drawing.Point(22, 47);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(48, 16);
-            this.label2.TabIndex = 24;
-            this.label2.Text = "仓 库";
             // 
             // lbTitle
             // 
@@ -113,21 +99,11 @@
             this.lbTitle.TabIndex = 23;
             this.lbTitle.Text = "设置告警";
             // 
-            // cbStock
-            // 
-            this.cbStock.Font = new System.Drawing.Font("宋体", 12F);
-            this.cbStock.FormattingEnabled = true;
-            this.cbStock.Location = new System.Drawing.Point(80, 44);
-            this.cbStock.Name = "cbStock";
-            this.cbStock.Size = new System.Drawing.Size(174, 24);
-            this.cbStock.TabIndex = 30;
-            this.cbStock.SelectedIndexChanged += new System.EventHandler(this.CbStock_SelectedIndexChanged);
-            // 
             // cbProduct
             // 
             this.cbProduct.Font = new System.Drawing.Font("宋体", 12F);
             this.cbProduct.FormattingEnabled = true;
-            this.cbProduct.Location = new System.Drawing.Point(80, 92);
+            this.cbProduct.Location = new System.Drawing.Point(354, 44);
             this.cbProduct.Name = "cbProduct";
             this.cbProduct.Size = new System.Drawing.Size(174, 24);
             this.cbProduct.TabIndex = 31;
@@ -137,7 +113,7 @@
             // 
             this.cbType.Font = new System.Drawing.Font("宋体", 12F);
             this.cbType.FormattingEnabled = true;
-            this.cbType.Location = new System.Drawing.Point(354, 44);
+            this.cbType.Location = new System.Drawing.Point(80, 44);
             this.cbType.Name = "cbType";
             this.cbType.Size = new System.Drawing.Size(174, 24);
             this.cbType.TabIndex = 39;
@@ -147,7 +123,7 @@
             // 
             this.cbColor.Font = new System.Drawing.Font("宋体", 12F);
             this.cbColor.FormattingEnabled = true;
-            this.cbColor.Location = new System.Drawing.Point(354, 92);
+            this.cbColor.Location = new System.Drawing.Point(80, 88);
             this.cbColor.Name = "cbColor";
             this.cbColor.Size = new System.Drawing.Size(174, 24);
             this.cbColor.TabIndex = 38;
@@ -158,7 +134,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label6.Location = new System.Drawing.Point(296, 47);
+            this.label6.Location = new System.Drawing.Point(22, 47);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(48, 16);
             this.label6.TabIndex = 37;
@@ -170,7 +146,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label7.Location = new System.Drawing.Point(296, 95);
+            this.label7.Location = new System.Drawing.Point(22, 91);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(48, 16);
             this.label7.TabIndex = 36;
@@ -180,9 +156,7 @@
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.label8);
-            this.panel1.Controls.Add(this.cbStock);
             this.panel1.Controls.Add(this.cbType);
-            this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.cbColor);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.label6);
@@ -345,9 +319,7 @@
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label lbTitle;
-        private System.Windows.Forms.ComboBox cbStock;
         private System.Windows.Forms.ComboBox cbProduct;
         private System.Windows.Forms.ComboBox cbType;
         private System.Windows.Forms.ComboBox cbColor;
