@@ -126,7 +126,7 @@ namespace CoatingMgr
             get { return _masterTableName; }
         }
 
-        public static readonly Dictionary<string, string> COATINGTYPE = new Dictionary<string, string> { { "A", "涂料" }, { "B", "固化剂" }, { "C", "稀释剂" }, { "D", "清洗剂" }, { "E", "清漆" }, { "F", "前处理液" } };
+        public static readonly Dictionary<string, string> COATINGTYPE = new Dictionary<string, string> { { "A", "色漆/清漆" }, { "B", "固化剂" }, { "C", "稀释剂" }, { "D", "清洗剂" }, { "E", "清漆" }, { "F", "前处理液" } };
         public static readonly Dictionary<string, string> FACTORY = new Dictionary<string, string> { { "G1012", "恩碧" }, { "G1013", "关西" }, { "G1014", "佑天" }, { "G1015", "凡净" }, { "G1018", "沌创" } };
 
         public static readonly string[] WARNDATETYPE = { "有效期前1天", "有效期前1周", "有效期前15天", "有效期前30天", "有效期前100天" };

@@ -191,16 +191,23 @@ namespace CoatingMgr
                 if (sArray.Length == 7)
                 {
                     tbName.Text = sArray[0];
-                    tbType.Text = Common.COATINGTYPE[sArray[1]];
                     tbWeight.Text = sArray[3];
                     tbProductionDate.Text = sArray[4];
                     tbExpiryDate.Text = sArray[6];
 
                     SQLiteDataReader dataReader = GetSqlLiteHelper().ReadTable(Common.MASTERTABLENAME, new string[] { "SAP品番" }, new string[] { "=" }, new string[] { tbName.Text });
-                    if (dataReader != null && dataReader.HasRows && dataReader.Read())
+                    if (dataReader != null && dataReader.HasRows)
                     {
-                        tbColor.Text = dataReader["色番"].ToString();
-                        tbModel.Text = dataReader["适用机种"].ToString();
+                        while (dataReader.Read())
+                        {
+                            tbColor.Text += dataReader["色番"].ToString() + ";";
+                            tbModel.Text += dataReader["适用机种"].ToString() + ";";
+                            tbType.Text = dataReader["种类"].ToString();
+                        }
+                        if (tbType.Text.Equals(string.Empty))
+                        {
+                            tbType.Text = Common.COATINGTYPE[sArray[1]];
+                        }
                     }
                     else
                     {

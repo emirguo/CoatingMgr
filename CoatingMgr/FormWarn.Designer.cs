@@ -167,7 +167,7 @@
             this.cbSearchType.Name = "cbSearchType";
             this.cbSearchType.Size = new System.Drawing.Size(204, 24);
             this.cbSearchType.TabIndex = 0;
-            this.cbSearchType.Text = "选择过滤方式";
+            this.cbSearchType.Text = "请选择过滤方式";
             this.cbSearchType.SelectedIndexChanged += new System.EventHandler(this.CbSearchType_SelectedIndexChanged);
             // 
             // btShowAll
@@ -189,7 +189,7 @@
             this.cbSearchContent.Name = "cbSearchContent";
             this.cbSearchContent.Size = new System.Drawing.Size(330, 24);
             this.cbSearchContent.TabIndex = 1;
-            this.cbSearchContent.Text = "选择过滤内容";
+            this.cbSearchContent.Text = "请选择过滤内容";
             this.cbSearchContent.SelectedIndexChanged += new System.EventHandler(this.CbSearchContent_SelectedIndexChanged);
             // 
             // contextMenuStrip

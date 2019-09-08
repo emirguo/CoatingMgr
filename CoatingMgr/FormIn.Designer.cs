@@ -303,6 +303,7 @@
             // 
             // cbSearchStock
             // 
+            this.cbSearchStock.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbSearchStock.Font = new System.Drawing.Font("宋体", 12F);
             this.cbSearchStock.FormattingEnabled = true;
             this.cbSearchStock.Location = new System.Drawing.Point(102, 17);

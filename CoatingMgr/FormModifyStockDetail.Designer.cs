@@ -220,6 +220,7 @@
             // 
             // cbStore
             // 
+            this.cbStore.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbStore.Font = new System.Drawing.Font("宋体", 12F);
             this.cbStore.FormattingEnabled = true;
             this.cbStore.Location = new System.Drawing.Point(339, 50);

@@ -136,7 +136,7 @@
             this.cbSearchType.Name = "cbSearchType";
             this.cbSearchType.Size = new System.Drawing.Size(152, 24);
             this.cbSearchType.TabIndex = 57;
-            this.cbSearchType.Text = "选择过滤方式";
+            this.cbSearchType.Text = "请选择过滤方式";
             this.cbSearchType.SelectedIndexChanged += new System.EventHandler(this.CbSearchType_SelectedIndexChanged);
             // 
             // dateTimePickerStart
@@ -181,7 +181,7 @@
             this.cbSearchContent.Name = "cbSearchContent";
             this.cbSearchContent.Size = new System.Drawing.Size(158, 24);
             this.cbSearchContent.TabIndex = 59;
-            this.cbSearchContent.Text = "选择过滤内容";
+            this.cbSearchContent.Text = "请选择过滤内容";
             this.cbSearchContent.SelectedIndexChanged += new System.EventHandler(this.CbSearchContent_SelectedIndexChanged);
             // 
             // label1

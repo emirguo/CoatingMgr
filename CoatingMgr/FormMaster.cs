@@ -238,9 +238,9 @@ namespace CoatingMgr
         private void BtShowAll_Click(object sender, EventArgs e)
         {
             cbSearchType.SelectedIndex = -1;
-            cbSearchType.Text = "选择过滤方式";
+            cbSearchType.Text = "请选择过滤方式";
             cbSearchContent.SelectedIndex = -1;
-            cbSearchContent.Text = "选择过滤内容";
+            cbSearchContent.Text = "请选择过滤内容";
             cbSearchContent.Items.Clear();
             BindDataGirdView(dgvMasterData, _tableName);
         }

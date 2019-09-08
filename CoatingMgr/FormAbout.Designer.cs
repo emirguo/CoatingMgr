@@ -36,7 +36,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("宋体", 18F);
-            this.label1.Location = new System.Drawing.Point(92, 56);
+            this.label1.Location = new System.Drawing.Point(46, 33);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(274, 24);
             this.label1.TabIndex = 2;
@@ -46,7 +46,7 @@
             // 
             this.lbVersion.AutoSize = true;
             this.lbVersion.Font = new System.Drawing.Font("宋体", 12F);
-            this.lbVersion.Location = new System.Drawing.Point(136, 156);
+            this.lbVersion.Location = new System.Drawing.Point(68, 99);
             this.lbVersion.Name = "lbVersion";
             this.lbVersion.Size = new System.Drawing.Size(72, 16);
             this.lbVersion.TabIndex = 3;
@@ -56,7 +56,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(444, 302);
+            this.ClientSize = new System.Drawing.Size(357, 199);
             this.Controls.Add(this.lbVersion);
             this.Controls.Add(this.label1);
             this.Name = "FormAbout";

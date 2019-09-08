@@ -101,6 +101,7 @@
             this.btShowAll.TabIndex = 11;
             this.btShowAll.Text = "显示全部库存";
             this.btShowAll.UseVisualStyleBackColor = true;
+            this.btShowAll.Click += new System.EventHandler(this.BtShowAll_Click);
             // 
             // cbSearchContent
             // 
@@ -110,7 +111,7 @@
             this.cbSearchContent.Name = "cbSearchContent";
             this.cbSearchContent.Size = new System.Drawing.Size(184, 24);
             this.cbSearchContent.TabIndex = 6;
-            this.cbSearchContent.Text = "选择过滤内容";
+            this.cbSearchContent.Text = "请选择过滤内容";
             this.cbSearchContent.SelectedIndexChanged += new System.EventHandler(this.CbSearchContent_SelectedIndexChanged);
             // 
             // btExport
@@ -132,7 +133,7 @@
             this.cbSearchType.Name = "cbSearchType";
             this.cbSearchType.Size = new System.Drawing.Size(168, 24);
             this.cbSearchType.TabIndex = 0;
-            this.cbSearchType.Text = "选择过滤方式";
+            this.cbSearchType.Text = "请选择过滤方式";
             this.cbSearchType.SelectedIndexChanged += new System.EventHandler(this.CbSearchType_SelectedIndexChanged);
             // 
             // TSMIDelete

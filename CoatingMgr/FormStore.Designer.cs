@@ -127,7 +127,7 @@
             this.cbSearchContent.Name = "cbSearchContent";
             this.cbSearchContent.Size = new System.Drawing.Size(191, 24);
             this.cbSearchContent.TabIndex = 0;
-            this.cbSearchContent.Text = "选择仓库";
+            this.cbSearchContent.Text = "请选择仓库";
             this.cbSearchContent.SelectedIndexChanged += new System.EventHandler(this.CbSearchContent_SelectedIndexChanged);
             // 
             // lbCount

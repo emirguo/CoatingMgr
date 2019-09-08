@@ -1,12 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Data.SQLite;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CoatingMgr
@@ -201,9 +195,9 @@ namespace CoatingMgr
         private void BtShowAll_Click(object sender, EventArgs e)
         {
             cbSearchType.SelectedIndex = -1;
-            cbSearchType.Text = "选择过滤方式";
+            cbSearchType.Text = "请选择过滤方式";
             cbSearchContent.SelectedIndex = -1;
-            cbSearchContent.Text = "选择过滤内容";
+            cbSearchContent.Text = "请选择过滤内容";
             cbSearchContent.Items.Clear();
             BindDataGirdView(dgvAccountData, _tableName);
         }

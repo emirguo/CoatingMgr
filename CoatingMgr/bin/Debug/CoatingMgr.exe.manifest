@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
-  <asmv1:assemblyIdentity name="CoatingMgr.exe" version="1.0.0.23" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
+  <asmv1:assemblyIdentity name="CoatingMgr.exe" version="1.0.0.24" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
   <application />
   <entryPoint>
     <assemblyIdentity name="CoatingMgr" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
@@ -42,14 +42,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CoatingMgr.exe" size="313320">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CoatingMgr.exe" size="313832">
       <assemblyIdentity name="CoatingMgr" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>De9Ib9tikAx/jlPCynuRqQYt009TovAgW72w46jQPtE=</dsig:DigestValue>
+        <dsig:DigestValue>VmxVjdXAS7JvTRwQhqwQrZIsDr9DEuOryZThwPO3ia0=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -149,13 +149,13 @@
       </hash>
     </dependentAssembly>
   </dependency>
-  <file name="CoatingMgr.exe.config" size="2272">
+  <file name="CoatingMgr.exe.config" size="2265">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>jcgr1iDPQGLg5cXtsi8+nEn9JdhR4CrWUVjiZ6KQWNA=</dsig:DigestValue>
+      <dsig:DigestValue>5FR8wyoPeZjA5VJkyKS9oLti/h2eB2t400dZ4y9uIQc=</dsig:DigestValue>
     </hash>
   </file>
   <file name="SQLite.Interop.dll" size="1413120">
