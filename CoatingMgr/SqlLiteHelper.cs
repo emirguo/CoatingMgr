@@ -128,11 +128,65 @@ namespace CoatingMgr
         }
 
         /// <summary>
+        /// 创建数据表
+        /// </summary> +
+        /// <returns>The table.</returns>
+        /// <param name="tableName">数据表名</param>
+        /// <param name="colNames">字段名</param>
+        /// <param name="colTypes">字段名类型</param>   
+        public SQLiteDataReader CreateTable(string tableName, string[] colNames, string[] colTypes)
+        {
+            string queryString = "CREATE TABLE IF NOT EXISTS " + tableName + "( '" + colNames[0] + "' " + colTypes[0];
+            for (int i = 1; i < colNames.Length; i++)
+            {
+                queryString += ", '" + colNames[i] + "' " + colTypes[i];
+            }
+            queryString += "  ) ";
+            return ExecuteQuery(queryString);
+        }
+
+        /// <summary>
+        /// 删除表
+        /// </summary>
+        /// <returns>The values.</returns>
+        /// <param name="TableName">数据表</param>
+        ///DROP TABLE TableName;
+        public SQLiteDataReader DeleteTable(string tableName)
+        {
+            string queryString = "DROP TABLE " + tableName;
+            return ExecuteQuery(queryString);
+        }
+
+        /// <summary>
+        /// 清除表内所有数据
+        /// </summary>
+        /// <returns>The values.</returns>
+        /// <param name="TableName">数据表</param>
+        ///DELETE FROM TableName;
+        public SQLiteDataReader ClearTable(string tableName)
+        {
+            string queryString = "DELETE FROM " + tableName;
+            return ExecuteQuery(queryString);
+        }
+
+        /// <summary>
+        /// 请表ID归0
+        /// </summary>
+        /// <returns>The values.</returns>
+        /// <param name="TableName">数据表</param>
+        ///DELETE FROM sqlite_sequence WHERE name = ‘TableName’;
+        public SQLiteDataReader ResetTableId(string tableName)
+        {
+            string queryString = "DELETE FROM sqlite_sequence WHERE name = '" + tableName + "'";
+            return ExecuteQuery(queryString);
+        }
+
+        /// <summary>
         /// 读取整张数据表
         /// </summary>
         /// <returns>The full table.</returns>
         /// <param name="tableName">数据表名称</param>
-        public SQLiteDataReader ReadFullTable(string tableName)
+        public SQLiteDataReader Read(string tableName)
         {
             string queryString = "SELECT * FROM " + tableName;
             return ExecuteQuery(queryString);
@@ -144,7 +198,7 @@ namespace CoatingMgr
         /// <returns>The values.</returns>
         /// <param name="tableName">数据表名称</param>
         /// <param name="values">插入的数值</param>
-        public SQLiteDataReader InsertValues(string tableName, string[] values)
+        public SQLiteDataReader Insert(string tableName, string[] values)
         {
             string queryString = "INSERT INTO " + tableName + " VALUES ( null, '" + values[0] + "'";
             for (int i = 1; i < values.Length; i++)
@@ -162,7 +216,7 @@ namespace CoatingMgr
         /// <returns>The values.</returns>
         /// <param name="tableName">数据表名称</param>
         /// <param name="values">插入的数值</param>
-        public SQLiteDataReader InsertValues(string tableName, List<string> values)
+        public SQLiteDataReader Insert(string tableName, List<string> values)
         {
             string queryString = "INSERT INTO " + tableName + " VALUES ( null, '" + values[0] + "'";
             for (int i = 1; i < values.Count; i++)
@@ -183,7 +237,7 @@ namespace CoatingMgr
         /// <param name="key">关键字</param>
         /// <param name="value">关键字对应的值</param>
         /// <param name="operation">运算符：=,<,>,...，默认“=”</param>
-        public SQLiteDataReader UpdateValues(string tableName, string[] colNames, string[] colValues, string key, string value, string operation = "=")
+        public SQLiteDataReader Update(string tableName, string[] colNames, string[] colValues, string key, string value, string operation = "=")
         {
             //当字段名称和字段数值不对应时引发异常
             if (colNames.Length != colValues.Length)
@@ -246,25 +300,6 @@ namespace CoatingMgr
             return ExecuteQuery(queryString);
         }
 
-
-        /// <summary>
-        /// 创建数据表
-        /// </summary> +
-        /// <returns>The table.</returns>
-        /// <param name="tableName">数据表名</param>
-        /// <param name="colNames">字段名</param>
-        /// <param name="colTypes">字段名类型</param>   
-        public SQLiteDataReader CreateTable(string tableName, string[] colNames, string[] colTypes)
-        {
-            string queryString = "CREATE TABLE IF NOT EXISTS " + tableName + "( '" + colNames[0] + "' " + colTypes[0];
-            for (int i = 1; i < colNames.Length; i++)
-            {
-                queryString += ", '" + colNames[i] + "' " + colTypes[i];
-            }
-            queryString += "  ) ";
-            return ExecuteQuery(queryString);
-        }
-
         /// <summary>
         /// Reads the table.
         /// </summary>
@@ -274,7 +309,7 @@ namespace CoatingMgr
         /// <param name="colNames">Col names.</param>
         /// <param name="operations">Operations.</param>
         /// <param name="colValues">Col values.</param>
-        public SQLiteDataReader ReadTable(string tableName, string[] colNames, string[] operations, string[] colValues)
+        public SQLiteDataReader Read(string tableName, string[] colNames, string[] operations, string[] colValues)
         {
             string queryString = "SELECT * FROM " + tableName + " WHERE " + colNames[0] + " " + operations[0] + " '" + colValues[0]+ "'";
             for (int i = 1; i < colNames.Length; i++)
@@ -333,42 +368,6 @@ namespace CoatingMgr
                 queryString += ", "+ Common.STOCKCOUNTTABLECOLUMNS[i];
             }
             queryString += " FROM " + sourceTable;
-            return ExecuteQuery(queryString);
-        }
-
-        /// <summary>
-        /// 删除表
-        /// </summary>
-        /// <returns>The values.</returns>
-        /// <param name="TableName">数据表</param>
-        ///DROP TABLE TableName;
-        public SQLiteDataReader DeleteTable(string tableName)
-        {
-            string queryString = "DROP TABLE " + tableName;
-            return ExecuteQuery(queryString);
-        }
-
-        /// <summary>
-        /// 清除表内所有数据
-        /// </summary>
-        /// <returns>The values.</returns>
-        /// <param name="TableName">数据表</param>
-        ///DELETE FROM TableName;
-        public SQLiteDataReader ClearTable(string tableName)
-        {
-            string queryString = "DELETE FROM " + tableName;
-            return ExecuteQuery(queryString);
-        }
-
-        /// <summary>
-        /// 请表ID归0
-        /// </summary>
-        /// <returns>The values.</returns>
-        /// <param name="TableName">数据表</param>
-        ///DELETE FROM sqlite_sequence WHERE name = ‘TableName’;
-        public SQLiteDataReader ResetTableId(string tableName)
-        {
-            string queryString = "DELETE FROM sqlite_sequence WHERE name = '" + tableName + "'";
             return ExecuteQuery(queryString);
         }
 
@@ -433,7 +432,7 @@ namespace CoatingMgr
                     string value = dataRow[columnsName[i]].ToString();
                     values.Add(value);
                 }
-                InsertValues(tableName, values);
+                Insert(tableName, values);
             }
         }
     }

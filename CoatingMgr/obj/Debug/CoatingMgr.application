@@ -7,14 +7,14 @@
     <framework targetVersion="4.6.1" profile="Full" supportedRuntime="4.0.30319" />
   </compatibleFrameworks>
   <dependency>
-    <dependentAssembly dependencyType="install" codebase="CoatingMgr.exe.manifest" size="9298">
+    <dependentAssembly dependencyType="install" codebase="CoatingMgr.exe.manifest" size="11998">
       <assemblyIdentity name="CoatingMgr.exe" version="1.0.0.24" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>c7BNzB8uZeMoVzSj8Vy0XUhb8pHV4AhDYQUjQekrReg=</dsig:DigestValue>
+        <dsig:DigestValue>X0pNCBslylL2Y8ecA5rvoxEA9qbpM+zDOKkJUkWRoCQ=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

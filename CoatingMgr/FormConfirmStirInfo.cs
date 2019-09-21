@@ -39,7 +39,7 @@ namespace CoatingMgr
             }
 
             SqlLiteHelper sqlLiteHelper = SqlLiteHelper.GetInstance();
-            SQLiteDataReader dataReader = sqlLiteHelper.ReadTable(Common.ACCOUNTTABLENAME, new string[] { "账号", "密码" }, new string[] { "=", "=" }, new string[] { tbUserName.Text.ToString(), tbPwd.Text.ToString() });
+            SQLiteDataReader dataReader = sqlLiteHelper.Read(Common.ACCOUNTTABLENAME, new string[] { "账号", "密码" }, new string[] { "=", "=" }, new string[] { tbUserName.Text.ToString(), tbPwd.Text.ToString() });
             if (dataReader != null && dataReader.HasRows)//判断账号是否已经存在
             {
                 dataReader.Read();

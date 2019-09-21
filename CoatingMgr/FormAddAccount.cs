@@ -78,7 +78,7 @@ namespace CoatingMgr
             SqlLiteHelper sqlLiteHelper = SqlLiteHelper.GetInstance();
             if (_modifyModel)
             {
-                SQLiteDataReader dataReader = sqlLiteHelper.ReadTable(_tableName, new string[] { "账号" }, new string[] { "=" }, new string[] { tbUserName.Text.ToString() });
+                SQLiteDataReader dataReader = sqlLiteHelper.Read(_tableName, new string[] { "账号" }, new string[] { "=" }, new string[] { tbUserName.Text.ToString() });
                 if (dataReader.Read() && !dataReader.GetString(dataReader.GetOrdinal("账号")).Equals(_name))//判断账号是否已经存在且不是当前账号
                 {
                     MessageBox.Show("账户已经存在");
@@ -86,12 +86,12 @@ namespace CoatingMgr
                 }
                 else
                 {
-                    sqlLiteHelper.UpdateValues(_tableName, new string[] { "账号", "密码", "权限" }, new string[] { tbUserName.Text.ToString(), tbPwd.Text.ToString(), cbAccountPermission.Text.ToString() }, "id", _id + "");
+                    sqlLiteHelper.Update(_tableName, new string[] { "账号", "密码", "权限" }, new string[] { tbUserName.Text.ToString(), tbPwd.Text.ToString(), cbAccountPermission.Text.ToString() }, "id", _id + "");
                 }                
             }
             else
             {
-                SQLiteDataReader dataReader = sqlLiteHelper.ReadTable(_tableName, new string[] { "账号" }, new string[] { "=" }, new string[] { tbUserName.Text.ToString() });
+                SQLiteDataReader dataReader = sqlLiteHelper.Read(_tableName, new string[] { "账号" }, new string[] { "=" }, new string[] { tbUserName.Text.ToString() });
                 if (dataReader != null && dataReader.HasRows)//判断账号是否已经存在
                 {
                     MessageBox.Show("账户已经存在");
@@ -99,7 +99,7 @@ namespace CoatingMgr
                 }
                 else
                 {
-                    sqlLiteHelper.InsertValues(_tableName, new string[] { tbUserName.Text.ToString(), tbPwd.Text.ToString(), cbAccountPermission.Text.ToString() });
+                    sqlLiteHelper.Insert(_tableName, new string[] { tbUserName.Text.ToString(), tbPwd.Text.ToString(), cbAccountPermission.Text.ToString() });
                 }
             }
             if (_fatherForm != null)

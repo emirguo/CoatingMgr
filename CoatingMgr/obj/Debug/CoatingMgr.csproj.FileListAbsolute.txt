@@ -151,3 +151,8 @@ D:\VSProjects\CoatingMgr\CoatingMgr\obj\Debug\CoatingMgr.exe.manifest
 D:\VSProjects\CoatingMgr\CoatingMgr\obj\Debug\CoatingMgr.application
 D:\VSProjects\CoatingMgr\CoatingMgr\obj\Debug\CoatingMgr.exe
 D:\VSProjects\CoatingMgr\CoatingMgr\obj\Debug\CoatingMgr.pdb
+D:\VSProjects\CoatingMgr\CoatingMgr\bin\Debug\MySql.Data.dll
+D:\VSProjects\CoatingMgr\CoatingMgr\bin\Debug\Google.Protobuf.dll
+D:\VSProjects\CoatingMgr\CoatingMgr\bin\Debug\Renci.SshNet.dll
+D:\VSProjects\CoatingMgr\CoatingMgr\bin\Debug\BouncyCastle.Crypto.dll
+D:\VSProjects\CoatingMgr\CoatingMgr\bin\Debug\MySql.Data.xml

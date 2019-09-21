@@ -72,6 +72,7 @@
     <Reference Include="ICSharpCode.SharpZipLib, Version=1.0.0.999, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpZipLib.1.0.0\lib\net45\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
+    <Reference Include="MySql.Data, Version=8.0.17.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -167,6 +168,12 @@
     <Compile Include="FormSetDebugLog.Designer.cs">
       <DependentUpon>FormSetDebugLog.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormSetMySQLInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSetMySQLInfo.Designer.cs">
+      <DependentUpon>FormSetMySQLInfo.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormSetPLCIP.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -222,6 +229,7 @@
       <DependentUpon>FormWarnMailInfo.cs</DependentUpon>
     </Compile>
     <Compile Include="Logger.cs" />
+    <Compile Include="MySQLHelper.cs" />
     <Compile Include="PLCHelper.cs" />
     <Compile Include="ScanerHook.cs" />
     <Compile Include="Settings.Designer.cs">

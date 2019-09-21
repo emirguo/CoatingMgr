@@ -115,6 +115,7 @@
             this.label18 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.label64 = new System.Windows.Forms.Label();
             this.label53 = new System.Windows.Forms.Label();
             this.label51 = new System.Windows.Forms.Label();
             this.tbSlowValue1 = new System.Windows.Forms.TextBox();
@@ -137,18 +138,23 @@
             this.lbCurrentStatus = new System.Windows.Forms.Label();
             this.label32 = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.label66 = new System.Windows.Forms.Label();
+            this.tbTotalWeight = new System.Windows.Forms.TextBox();
+            this.label65 = new System.Windows.Forms.Label();
+            this.btnBlow = new System.Windows.Forms.Button();
+            this.btnClear = new System.Windows.Forms.Button();
+            this.btnStir = new System.Windows.Forms.Button();
             this.panel8 = new System.Windows.Forms.Panel();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.timer = new System.Windows.Forms.Timer(this.components);
-            this.lbUser = new System.Windows.Forms.Label();
-            this.label49 = new System.Windows.Forms.Label();
-            this.lbTime = new System.Windows.Forms.Label();
             this.progressBar5 = new CoatingMgr.VerticalProgressBar();
             this.progressBar4 = new CoatingMgr.VerticalProgressBar();
             this.progressBar3 = new CoatingMgr.VerticalProgressBar();
             this.progressBar2 = new CoatingMgr.VerticalProgressBar();
             this.progressBar1 = new CoatingMgr.VerticalProgressBar();
-            this.label64 = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.timer = new System.Windows.Forms.Timer(this.components);
+            this.lbUser = new System.Windows.Forms.Label();
+            this.label49 = new System.Windows.Forms.Label();
+            this.lbTime = new System.Windows.Forms.Label();
             this.panel2.SuspendLayout();
             this.panel9.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -228,7 +234,7 @@
             // tbSlowWeight
             // 
             this.tbSlowWeight.Font = new System.Drawing.Font("宋体", 12F);
-            this.tbSlowWeight.Location = new System.Drawing.Point(736, 25);
+            this.tbSlowWeight.Location = new System.Drawing.Point(736, 23);
             this.tbSlowWeight.MaxLength = 10;
             this.tbSlowWeight.Name = "tbSlowWeight";
             this.tbSlowWeight.Size = new System.Drawing.Size(56, 26);
@@ -401,7 +407,7 @@
             // tbInputWeight
             // 
             this.tbInputWeight.Font = new System.Drawing.Font("宋体", 12F);
-            this.tbInputWeight.Location = new System.Drawing.Point(566, 25);
+            this.tbInputWeight.Location = new System.Drawing.Point(566, 23);
             this.tbInputWeight.MaxLength = 10;
             this.tbInputWeight.Name = "tbInputWeight";
             this.tbInputWeight.Size = new System.Drawing.Size(68, 26);
@@ -526,7 +532,6 @@
             this.tbSlowValue4.Font = new System.Drawing.Font("宋体", 14F);
             this.tbSlowValue4.Location = new System.Drawing.Point(175, 128);
             this.tbSlowValue4.Name = "tbSlowValue4";
-            this.tbSlowValue4.ReadOnly = true;
             this.tbSlowValue4.Size = new System.Drawing.Size(157, 29);
             this.tbSlowValue4.TabIndex = 51;
             this.tbSlowValue4.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -737,7 +742,6 @@
             this.tbSlowValue3.Font = new System.Drawing.Font("宋体", 14F);
             this.tbSlowValue3.Location = new System.Drawing.Point(175, 128);
             this.tbSlowValue3.Name = "tbSlowValue3";
-            this.tbSlowValue3.ReadOnly = true;
             this.tbSlowValue3.Size = new System.Drawing.Size(157, 29);
             this.tbSlowValue3.TabIndex = 49;
             this.tbSlowValue3.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -946,7 +950,6 @@
             this.tbSlowValue2.Font = new System.Drawing.Font("宋体", 14F);
             this.tbSlowValue2.Location = new System.Drawing.Point(175, 128);
             this.tbSlowValue2.Name = "tbSlowValue2";
-            this.tbSlowValue2.ReadOnly = true;
             this.tbSlowValue2.Size = new System.Drawing.Size(157, 29);
             this.tbSlowValue2.TabIndex = 46;
             this.tbSlowValue2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -1120,6 +1123,17 @@
             this.panel5.Size = new System.Drawing.Size(364, 244);
             this.panel5.TabIndex = 21;
             // 
+            // label64
+            // 
+            this.label64.AutoSize = true;
+            this.label64.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Bold);
+            this.label64.ForeColor = System.Drawing.Color.DarkRed;
+            this.label64.Location = new System.Drawing.Point(3, 140);
+            this.label64.Name = "label64";
+            this.label64.Size = new System.Drawing.Size(73, 24);
+            this.label64.TabIndex = 45;
+            this.label64.Text = "清 漆";
+            // 
             // label53
             // 
             this.label53.AutoSize = true;
@@ -1146,7 +1160,6 @@
             this.tbSlowValue1.Font = new System.Drawing.Font("宋体", 14F);
             this.tbSlowValue1.Location = new System.Drawing.Point(175, 128);
             this.tbSlowValue1.Name = "tbSlowValue1";
-            this.tbSlowValue1.ReadOnly = true;
             this.tbSlowValue1.Size = new System.Drawing.Size(157, 29);
             this.tbSlowValue1.TabIndex = 42;
             this.tbSlowValue1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -1320,20 +1333,20 @@
             // lbCurrentStatus
             // 
             this.lbCurrentStatus.AutoSize = true;
-            this.lbCurrentStatus.Font = new System.Drawing.Font("宋体", 16F, System.Drawing.FontStyle.Bold);
+            this.lbCurrentStatus.Font = new System.Drawing.Font("微软雅黑", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.lbCurrentStatus.Location = new System.Drawing.Point(134, 85);
             this.lbCurrentStatus.Name = "lbCurrentStatus";
-            this.lbCurrentStatus.Size = new System.Drawing.Size(56, 22);
+            this.lbCurrentStatus.Size = new System.Drawing.Size(54, 28);
             this.lbCurrentStatus.TabIndex = 34;
             this.lbCurrentStatus.Text = "停止";
             // 
             // label32
             // 
             this.label32.AutoSize = true;
-            this.label32.Font = new System.Drawing.Font("宋体", 16F, System.Drawing.FontStyle.Bold);
+            this.label32.Font = new System.Drawing.Font("微软雅黑", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label32.Location = new System.Drawing.Point(29, 85);
             this.label32.Name = "label32";
-            this.label32.Size = new System.Drawing.Size(125, 22);
+            this.label32.Size = new System.Drawing.Size(117, 28);
             this.label32.TabIndex = 33;
             this.label32.Text = "运行状态：";
             // 
@@ -1342,6 +1355,12 @@
             this.panel4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel4.Controls.Add(this.label66);
+            this.panel4.Controls.Add(this.tbTotalWeight);
+            this.panel4.Controls.Add(this.label65);
+            this.panel4.Controls.Add(this.btnBlow);
+            this.panel4.Controls.Add(this.btnClear);
+            this.panel4.Controls.Add(this.btnStir);
             this.panel4.Controls.Add(this.panel8);
             this.panel4.Controls.Add(this.lbCurrentStatus);
             this.panel4.Controls.Add(this.label32);
@@ -1349,6 +1368,72 @@
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(428, 542);
             this.panel4.TabIndex = 19;
+            // 
+            // label66
+            // 
+            this.label66.AutoSize = true;
+            this.label66.Font = new System.Drawing.Font("微软雅黑", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label66.Location = new System.Drawing.Point(300, 24);
+            this.label66.Name = "label66";
+            this.label66.Size = new System.Drawing.Size(44, 31);
+            this.label66.TabIndex = 62;
+            this.label66.Text = "kg";
+            // 
+            // tbTotalWeight
+            // 
+            this.tbTotalWeight.Font = new System.Drawing.Font("微软雅黑", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.tbTotalWeight.Location = new System.Drawing.Point(178, 19);
+            this.tbTotalWeight.MaxLength = 2;
+            this.tbTotalWeight.Name = "tbTotalWeight";
+            this.tbTotalWeight.ReadOnly = true;
+            this.tbTotalWeight.Size = new System.Drawing.Size(116, 39);
+            this.tbTotalWeight.TabIndex = 61;
+            this.tbTotalWeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label65
+            // 
+            this.label65.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label65.AutoSize = true;
+            this.label65.Font = new System.Drawing.Font("微软雅黑", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label65.Location = new System.Drawing.Point(90, 24);
+            this.label65.Name = "label65";
+            this.label65.Size = new System.Drawing.Size(86, 31);
+            this.label65.TabIndex = 60;
+            this.label65.Text = "总重量";
+            // 
+            // btnBlow
+            // 
+            this.btnBlow.Font = new System.Drawing.Font("微软雅黑", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnBlow.Location = new System.Drawing.Point(293, 466);
+            this.btnBlow.Name = "btnBlow";
+            this.btnBlow.Size = new System.Drawing.Size(126, 54);
+            this.btnBlow.TabIndex = 59;
+            this.btnBlow.Text = "一键吹气";
+            this.btnBlow.UseVisualStyleBackColor = true;
+            this.btnBlow.Click += new System.EventHandler(this.BtnBlow_Click);
+            // 
+            // btnClear
+            // 
+            this.btnClear.Font = new System.Drawing.Font("微软雅黑", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnClear.Location = new System.Drawing.Point(153, 466);
+            this.btnClear.Name = "btnClear";
+            this.btnClear.Size = new System.Drawing.Size(126, 54);
+            this.btnClear.TabIndex = 58;
+            this.btnClear.Text = "一键清洗";
+            this.btnClear.UseVisualStyleBackColor = true;
+            this.btnClear.Click += new System.EventHandler(this.BtnClear_Click);
+            // 
+            // btnStir
+            // 
+            this.btnStir.Font = new System.Drawing.Font("微软雅黑", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnStir.Location = new System.Drawing.Point(10, 466);
+            this.btnStir.Name = "btnStir";
+            this.btnStir.Size = new System.Drawing.Size(126, 54);
+            this.btnStir.TabIndex = 57;
+            this.btnStir.Text = "一键搅拌";
+            this.btnStir.UseVisualStyleBackColor = true;
+            this.btnStir.Click += new System.EventHandler(this.BtnStir_Click);
             // 
             // panel8
             // 
@@ -1365,55 +1450,6 @@
             this.panel8.Name = "panel8";
             this.panel8.Size = new System.Drawing.Size(413, 329);
             this.panel8.TabIndex = 53;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Cursor = System.Windows.Forms.Cursors.Default;
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(4, 3);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(405, 307);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 1;
-            this.pictureBox1.TabStop = false;
-            // 
-            // timer
-            // 
-            this.timer.Enabled = true;
-            this.timer.Tick += new System.EventHandler(this.Timer_Tick);
-            // 
-            // lbUser
-            // 
-            this.lbUser.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lbUser.AutoSize = true;
-            this.lbUser.Font = new System.Drawing.Font("宋体", 12F);
-            this.lbUser.Location = new System.Drawing.Point(70, 637);
-            this.lbUser.Name = "lbUser";
-            this.lbUser.Size = new System.Drawing.Size(40, 16);
-            this.lbUser.TabIndex = 56;
-            this.lbUser.Text = "张三";
-            // 
-            // label49
-            // 
-            this.label49.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label49.AutoSize = true;
-            this.label49.Font = new System.Drawing.Font("宋体", 12F);
-            this.label49.Location = new System.Drawing.Point(10, 637);
-            this.label49.Name = "label49";
-            this.label49.Size = new System.Drawing.Size(72, 16);
-            this.label49.TabIndex = 55;
-            this.label49.Text = "操作员：";
-            // 
-            // lbTime
-            // 
-            this.lbTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lbTime.AutoSize = true;
-            this.lbTime.Font = new System.Drawing.Font("宋体", 12F);
-            this.lbTime.Location = new System.Drawing.Point(128, 637);
-            this.lbTime.Name = "lbTime";
-            this.lbTime.Size = new System.Drawing.Size(56, 16);
-            this.lbTime.TabIndex = 54;
-            this.lbTime.Text = "时间：";
             // 
             // progressBar5
             // 
@@ -1464,16 +1500,54 @@
             this.progressBar1.TabIndex = 2;
             this.progressBar1.Value = 100;
             // 
-            // label64
+            // pictureBox1
             // 
-            this.label64.AutoSize = true;
-            this.label64.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Bold);
-            this.label64.ForeColor = System.Drawing.Color.DarkRed;
-            this.label64.Location = new System.Drawing.Point(3, 140);
-            this.label64.Name = "label64";
-            this.label64.Size = new System.Drawing.Size(73, 24);
-            this.label64.TabIndex = 45;
-            this.label64.Text = "清 漆";
+            this.pictureBox1.Cursor = System.Windows.Forms.Cursors.Default;
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(4, 3);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(405, 307);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 1;
+            this.pictureBox1.TabStop = false;
+            // 
+            // timer
+            // 
+            this.timer.Enabled = true;
+            this.timer.Tick += new System.EventHandler(this.Timer_Tick);
+            // 
+            // lbUser
+            // 
+            this.lbUser.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lbUser.AutoSize = true;
+            this.lbUser.Font = new System.Drawing.Font("宋体", 12F);
+            this.lbUser.Location = new System.Drawing.Point(70, 637);
+            this.lbUser.Name = "lbUser";
+            this.lbUser.Size = new System.Drawing.Size(40, 16);
+            this.lbUser.TabIndex = 56;
+            this.lbUser.Text = "张三";
+            // 
+            // label49
+            // 
+            this.label49.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label49.AutoSize = true;
+            this.label49.Font = new System.Drawing.Font("宋体", 12F);
+            this.label49.Location = new System.Drawing.Point(10, 637);
+            this.label49.Name = "label49";
+            this.label49.Size = new System.Drawing.Size(72, 16);
+            this.label49.TabIndex = 55;
+            this.label49.Text = "操作员：";
+            // 
+            // lbTime
+            // 
+            this.lbTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lbTime.AutoSize = true;
+            this.lbTime.Font = new System.Drawing.Font("宋体", 12F);
+            this.lbTime.Location = new System.Drawing.Point(128, 637);
+            this.lbTime.Name = "lbTime";
+            this.lbTime.Size = new System.Drawing.Size(56, 16);
+            this.lbTime.TabIndex = 54;
+            this.lbTime.Text = "时间：";
             // 
             // FormStir
             // 
@@ -1633,5 +1707,11 @@
         private System.Windows.Forms.TextBox tbSlowValue1;
         private System.Windows.Forms.Label label52;
         private System.Windows.Forms.Label label64;
+        private System.Windows.Forms.Button btnBlow;
+        private System.Windows.Forms.Button btnClear;
+        private System.Windows.Forms.Button btnStir;
+        private System.Windows.Forms.Label label66;
+        private System.Windows.Forms.TextBox tbTotalWeight;
+        private System.Windows.Forms.Label label65;
     }
 }

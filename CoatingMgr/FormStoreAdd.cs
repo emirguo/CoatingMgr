@@ -53,11 +53,11 @@ namespace CoatingMgr
             SqlLiteHelper sqlLiteHelper = SqlLiteHelper.GetInstance();
             if (_modifyModel)
             {
-                sqlLiteHelper.UpdateValues(_tableName, new string[] { "名称" }, new string[] { tbName.Text.ToString() }, "id", _id + "");
+                sqlLiteHelper.Update(_tableName, new string[] { "名称" }, new string[] { tbName.Text.ToString() }, "id", _id + "");
             }
             else
             {
-                SQLiteDataReader dataReader = sqlLiteHelper.ReadTable(_tableName, new string[] { "名称" }, new string[] { "=" }, new string[] { tbName.Text.ToString() });
+                SQLiteDataReader dataReader = sqlLiteHelper.Read(_tableName, new string[] { "名称" }, new string[] { "=" }, new string[] { tbName.Text.ToString() });
                 if (dataReader != null && dataReader.HasRows)//判断账号是否已经存在
                 {
                     MessageBox.Show("仓库已经存在");
@@ -65,7 +65,7 @@ namespace CoatingMgr
                 }
                 else
                 {
-                    sqlLiteHelper.InsertValues(_tableName, new string[] { tbName.Text.ToString() });
+                    sqlLiteHelper.Insert(_tableName, new string[] { tbName.Text.ToString() });
                 }
             }
             if (_fatherForm != null)

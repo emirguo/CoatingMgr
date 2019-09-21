@@ -60,7 +60,7 @@ namespace CoatingMgr
 
         private void AnalysisWarn()
         {
-            SQLiteDataReader dataReader = GetSqlLiteHelper().ReadFullTable(Common.MASTERTABLENAME);
+            SQLiteDataReader dataReader = GetSqlLiteHelper().Read(Common.MASTERTABLENAME);
             if (dataReader == null || !dataReader.HasRows)
             {
                 MessageBox.Show("Master文件不存在，请先导入Master文件！");

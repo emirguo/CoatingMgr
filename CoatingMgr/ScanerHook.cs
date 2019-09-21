@@ -225,7 +225,7 @@ namespace CoatingMgr
                 StringBuilder strKeyName = new StringBuilder(500);
                 if (GetKeyNameText(c * 65536, strKeyName, 255) > 0)
                 {
-                    _key = strKeyName.ToString();
+                    _key = strKeyName.ToString().Trim(new char[] { ' ', '\0' });
                     GetKeyboardState(_state);
                     /*
                      * 打印扫码枪日志

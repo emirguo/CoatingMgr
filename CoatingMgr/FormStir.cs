@@ -213,7 +213,7 @@ namespace CoatingMgr
             }
             if (!cbModel.Text.Equals("") && !cbComponent.Text.Equals("") && !cbColor.Text.Equals("") && !cbCoating.Text.Equals("") && !tbInputWeight.Text.Equals("") && !tbTemperature.Text.Equals("") && !tbHumidity.Text.Equals(""))
             {
-                SQLiteDataReader dataReader = GetSqlLiteHelper().ReadTable(_tableName, new string[] { "适用机种", "適用製品", "色番", "涂层" }, new string[] { "=", "=", "=", "=", }, new string[] { cbModel.Text, cbComponent.Text, cbColor.Text, cbCoating.Text });
+                SQLiteDataReader dataReader = GetSqlLiteHelper().Read(_tableName, new string[] { "适用机种", "適用製品", "色番", "涂层" }, new string[] { "=", "=", "=", "=", }, new string[] { cbModel.Text, cbComponent.Text, cbColor.Text, cbCoating.Text });
                 if (dataReader != null && dataReader.HasRows)
                 {
                     isStirInfoConfirmed = false;
@@ -414,6 +414,7 @@ namespace CoatingMgr
         private void GetMeasurementWeight()
         {
             int weight = PLCHelper.GetInstance().GetWeight();
+            this.tbTotalWeight.Text = Convert.ToDouble(weight) / 100 + "";
             switch (CurrStatus)
             {
                 case Status.CoatingStart_Fast:
@@ -421,7 +422,14 @@ namespace CoatingMgr
                     if (w_C > 0 && w_C_Fast > 0 && w_C_Slow > 0 && !C_End)
                     {
                         double putWeight1 = weight - (H_End ? w_H : 0) - (TA_End ? w_TA : 0) - (TB_End ? w_TB : 0);
-                        tbMeasurementValue1.Text = putWeight1 / 100 + "";
+                        if (putWeight1 > 0.00001)
+                        {
+                            tbMeasurementValue1.Text = putWeight1 / 100 + "";
+                        }
+                        else
+                        {
+                            tbMeasurementValue1.Text = 0 + "";
+                        }
                         if (putWeight1 >= w_C)
                         {
                             CurrStatus = Status.CoatingPause_Slow;
@@ -439,8 +447,15 @@ namespace CoatingMgr
                 case Status.HardeningAgentStart_Slow:
                     if (w_H > 0 && w_H_Fast > 0 && w_H_Slow > 0)
                     {
-                        double putWeight2 = weight - (C_End ? w_C : 0) - (TA_End ? w_TA : 0) - (TB_End ? w_TB : 0); ;
-                        tbMeasurementValue2.Text = putWeight2 / 100 + "";
+                        double putWeight2 = weight - (C_End ? w_C : 0) - (TA_End ? w_TA : 0) - (TB_End ? w_TB : 0);
+                        if (putWeight2 > 0.00001)
+                        {
+                            tbMeasurementValue2.Text = putWeight2 / 100 + "";
+                        }
+                        else
+                        {
+                            tbMeasurementValue2.Text = 0 + "";
+                        }
                         if (putWeight2 >= w_H)
                         {
                             CurrStatus = Status.HardeningAgentPause_Slow;
@@ -459,7 +474,14 @@ namespace CoatingMgr
                     if (w_TA > 0 && w_TA_Fast > 0 && w_TA_Slow > 0)
                     {
                         double putWeight3 = weight - (C_End ? w_C : 0) - (H_End ? w_H : 0) - (TB_End ? w_TB : 0);
-                        tbMeasurementValue3.Text = putWeight3 / 100 + "";
+                        if (putWeight3 > 0.00001)
+                        {
+                            tbMeasurementValue3.Text = putWeight3 / 100 + "";
+                        }
+                        else
+                        {
+                            tbMeasurementValue3.Text = 0 + "";
+                        }
                         if (putWeight3 >= w_TA)
                         {
                             CurrStatus = Status.ThinnerAPause_Slow;
@@ -478,7 +500,14 @@ namespace CoatingMgr
                     if (w_TB > 0 && w_TB_Fast > 0 && w_TB_Slow > 0)
                     {
                         double putWeight4 = weight - (C_End ? w_C : 0) - (H_End ? w_H : 0) - (TA_End ? w_TA : 0);
-                        tbMeasurementValue4.Text = putWeight4 / 100 + "";
+                        if (putWeight4 > 0.00001)
+                        {
+                            tbMeasurementValue4.Text = putWeight4 / 100 + "";
+                        }
+                        else
+                        {
+                            tbMeasurementValue4.Text = 0 + "";
+                        }
                         if (putWeight4 >= w_TB)
                         {
                             CurrStatus = Status.ThinnerBPause_Slow;
@@ -651,25 +680,25 @@ namespace CoatingMgr
                 case StirLogType.CoatingLog:
                     if (!tbName1.Text.Equals("") && !tbBarCode1.Text.Equals("") && !tbSetValue1.Text.Equals("") && !tbMeasurementValue1.Text.Equals("") && !tbMeasurementTime1.Text.Equals(""))
                     {
-                        GetSqlLiteHelper().InsertValues(Common.STIRLOGTABLENAME, new string[] { cbModel.Text, cbComponent.Text, cbColor.Text, cbCoating.Text, tbTemperature.Text, tbHumidity.Text, tbRatio.Text, "涂料", tbName1.Text, tbBarCode1.Text, tbSetValue1.Text, tbMeasurementValue1.Text, tbMeasurementTime1.Text, _userName, DateTime.Now.ToString("yyyyMMdd"), DateTime.Now.ToString("HH:mm:ss"), _managerName, string.Empty });
+                        GetSqlLiteHelper().Insert(Common.STIRLOGTABLENAME, new string[] { cbModel.Text, cbComponent.Text, cbColor.Text, cbCoating.Text, tbTemperature.Text, tbHumidity.Text, tbRatio.Text, "涂料", tbName1.Text, tbBarCode1.Text, tbSetValue1.Text, tbMeasurementValue1.Text, tbMeasurementTime1.Text, _userName, DateTime.Now.ToString("yyyyMMdd"), DateTime.Now.ToString("HH:mm:ss"), _managerName, string.Empty });
                     }
                     break;
                 case StirLogType.HardeningLog:
                     if (!tbName2.Text.Equals("") && !tbBarCode2.Text.Equals("") && !tbSetValue2.Text.Equals("") && !tbMeasurementValue2.Text.Equals("") && !tbMeasurementTime2.Text.Equals(""))
                     {
-                        GetSqlLiteHelper().InsertValues(Common.STIRLOGTABLENAME, new string[] { cbModel.Text, cbComponent.Text, cbColor.Text, cbCoating.Text, tbTemperature.Text, tbHumidity.Text, tbRatio.Text, "固化剂", tbName2.Text, tbBarCode2.Text, tbSetValue2.Text, tbMeasurementValue2.Text, tbMeasurementTime2.Text, _userName, DateTime.Now.ToString("yyyyMMdd"), DateTime.Now.ToString("HH:mm:ss"), _managerName, string.Empty });
+                        GetSqlLiteHelper().Insert(Common.STIRLOGTABLENAME, new string[] { cbModel.Text, cbComponent.Text, cbColor.Text, cbCoating.Text, tbTemperature.Text, tbHumidity.Text, tbRatio.Text, "固化剂", tbName2.Text, tbBarCode2.Text, tbSetValue2.Text, tbMeasurementValue2.Text, tbMeasurementTime2.Text, _userName, DateTime.Now.ToString("yyyyMMdd"), DateTime.Now.ToString("HH:mm:ss"), _managerName, string.Empty });
                     }
                     break;
                 case StirLogType.ThinnerALog:
                     if (!tbName3.Text.Equals("") && !tbBarCode3.Text.Equals("") && !tbSetValue3.Text.Equals("") && !tbMeasurementValue3.Text.Equals("") && !tbMeasurementTime3.Text.Equals(""))
                     {
-                        GetSqlLiteHelper().InsertValues(Common.STIRLOGTABLENAME, new string[] { cbModel.Text, cbComponent.Text, cbColor.Text, cbCoating.Text, tbTemperature.Text, tbHumidity.Text, tbRatio.Text, "稀释剂A", tbName3.Text, tbBarCode3.Text, tbSetValue3.Text, tbMeasurementValue3.Text, tbMeasurementTime3.Text, _userName, DateTime.Now.ToString("yyyyMMdd"), DateTime.Now.ToString("HH:mm:ss"), _managerName, string.Empty });
+                        GetSqlLiteHelper().Insert(Common.STIRLOGTABLENAME, new string[] { cbModel.Text, cbComponent.Text, cbColor.Text, cbCoating.Text, tbTemperature.Text, tbHumidity.Text, tbRatio.Text, "稀释剂A", tbName3.Text, tbBarCode3.Text, tbSetValue3.Text, tbMeasurementValue3.Text, tbMeasurementTime3.Text, _userName, DateTime.Now.ToString("yyyyMMdd"), DateTime.Now.ToString("HH:mm:ss"), _managerName, string.Empty });
                     }
                     break;
                 case StirLogType.ThinnerBLog:
                     if (!tbName4.Text.Equals("") && !tbBarCode4.Text.Equals("") && !tbSetValue4.Text.Equals("") && !tbMeasurementValue4.Text.Equals("") && !tbMeasurementTime4.Text.Equals(""))
                     {
-                        GetSqlLiteHelper().InsertValues(Common.STIRLOGTABLENAME, new string[] { cbModel.Text, cbComponent.Text, cbColor.Text, cbCoating.Text, tbTemperature.Text, tbHumidity.Text, tbRatio.Text, "稀释剂B", tbName4.Text, tbBarCode4.Text, tbSetValue4.Text, tbMeasurementValue4.Text, tbMeasurementTime4.Text, _userName, DateTime.Now.ToString("yyyyMMdd"), DateTime.Now.ToString("HH:mm:ss"), _managerName, string.Empty });
+                        GetSqlLiteHelper().Insert(Common.STIRLOGTABLENAME, new string[] { cbModel.Text, cbComponent.Text, cbColor.Text, cbCoating.Text, tbTemperature.Text, tbHumidity.Text, tbRatio.Text, "稀释剂B", tbName4.Text, tbBarCode4.Text, tbSetValue4.Text, tbMeasurementValue4.Text, tbMeasurementTime4.Text, _userName, DateTime.Now.ToString("yyyyMMdd"), DateTime.Now.ToString("HH:mm:ss"), _managerName, string.Empty });
                     }
                     break;
                 default:
@@ -704,7 +733,7 @@ namespace CoatingMgr
             bool result = false;
             bool hadInStock = false;
             bool hadOutStock = false;
-            SQLiteDataReader dataReader = GetSqlLiteHelper().ReadTable(Common.STOCKLOGTABLENAME, new string[] { "条形码" }, new string[] { "=" }, new string[] { barcode });
+            SQLiteDataReader dataReader = GetSqlLiteHelper().Read(Common.STOCKLOGTABLENAME, new string[] { "条形码" }, new string[] { "=" }, new string[] { barcode });
             if (dataReader != null && dataReader.HasRows)
             {
                 while (dataReader.Read())
@@ -1084,16 +1113,9 @@ namespace CoatingMgr
             isStirInfoConfirmed = true;
 
             //管理员确认调和数据后，初始化PLC并设置色剂重量
-            if (IsPLCIPInfoValid())
+            if (!PLCHelper.GetInstance().SetWeight(w_C, w_H, w_TA, w_TB, w_C_Slow, w_H_Slow, w_TA_Slow, w_TB_Slow))
             {
-                if (PLCHelper.GetInstance().IsPLCConnect())
-                {
-                    PLCHelper.GetInstance().SetWeight(w_C, w_H, w_TA, w_TB, w_C_Fast, w_H_Fast, w_TA_Fast, w_TB_Fast);
-                }
-                else
-                {
-                    MessageBox.Show("PLC连接失败，请查看网络连接是否正常");
-                }
+                MessageBox.Show("PLC连接失败，请查看网络连接是否正常");
             }
         }
 
@@ -1132,5 +1154,19 @@ namespace CoatingMgr
             return result;
         }
 
+        private void BtnStir_Click(object sender, EventArgs e)
+        {
+            PLCHelper.GetInstance().Stir();
+        }
+
+        private void BtnClear_Click(object sender, EventArgs e)
+        {
+            PLCHelper.GetInstance().Clear();
+        }
+
+        private void BtnBlow_Click(object sender, EventArgs e)
+        {
+            PLCHelper.GetInstance().Blow();
+        }
     }
 }

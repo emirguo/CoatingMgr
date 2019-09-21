@@ -16,6 +16,8 @@ namespace CoatingMgr
             set{ _dbPath = value; }
         }
 
+        public static readonly string DBFileName = "Coat";
+
         public static bool DebugLog = false;
 
         private static readonly string _accountTableName = "account";
@@ -140,17 +142,17 @@ namespace CoatingMgr
         //根据告警规则更新库存上、下限告警数据
         public static void UpdateStockCountWarn(string name, string color, string type, string maximum, string minimum, string expirydate)
         {
-            SQLiteDataReader dataReader = SqlLiteHelper.GetInstance().ReadTable(Common.STOCKCOUNTTABLENAME, new string[] { "名称", "颜色", "类型" }, new string[] { "=", "=", "=" }, new string[] { name, color, type });
+            SQLiteDataReader dataReader = SqlLiteHelper.GetInstance().Read(Common.STOCKCOUNTTABLENAME, new string[] { "名称", "颜色", "类型" }, new string[] { "=", "=", "=" }, new string[] { name, color, type });
             if (dataReader != null && dataReader.HasRows && dataReader.Read())//色剂已经存在
             {
-                SqlLiteHelper.GetInstance().UpdateValues(Common.STOCKCOUNTTABLENAME, new string[] { "库存上限", "库存下限", "告警时间" }, new string[] { maximum, minimum, expirydate }, "id", dataReader["id"].ToString());
+                SqlLiteHelper.GetInstance().Update(Common.STOCKCOUNTTABLENAME, new string[] { "库存上限", "库存下限", "告警时间" }, new string[] { maximum, minimum, expirydate }, "id", dataReader["id"].ToString());
             }
         }
 
         //根据告警规则更新在库有效期告警
         private static void UpdateExpiryDateWarn()
         {
-            SQLiteDataReader warnDR = SqlLiteHelper.GetInstance().ReadFullTable(WARNMANAGERTABLENAME);
+            SQLiteDataReader warnDR = SqlLiteHelper.GetInstance().Read(WARNMANAGERTABLENAME);
             if (warnDR != null && warnDR.HasRows)
             {
                 while (warnDR.Read())
@@ -161,14 +163,14 @@ namespace CoatingMgr
                         string name = warnDR["名称"].ToString();
                         string color = warnDR["颜色"].ToString();
                         string type = warnDR["类型"].ToString();
-                        SQLiteDataReader dataReader = SqlLiteHelper.GetInstance().ReadTable(Common.INSTOCKTABLENAME, new string[] { "名称", "颜色", "类型" }, new string[] { "=", "=", "=" }, new string[] { name, color, type });
+                        SQLiteDataReader dataReader = SqlLiteHelper.GetInstance().Read(Common.INSTOCKTABLENAME, new string[] { "名称", "颜色", "类型" }, new string[] { "=", "=", "=" }, new string[] { name, color, type });
                         while (dataReader.Read())
                         {
                             DateTime expiryDate = DateTime.ParseExact(dataReader["有效期"].ToString(), "yyyyMMdd", null);
                             DateTime date = expiryDate.AddDays(Convert.ToInt32(WARNDATE[warnDate]));
                             if (!date.ToString("yyyyMMdd").Equals(dataReader["告警时间"].ToString()))
                             {
-                                SqlLiteHelper.GetInstance().UpdateValues(Common.INSTOCKTABLENAME, new string[] { "告警时间" }, new string[] { date.ToString("yyyyMMdd") }, "id", dataReader["id"].ToString());
+                                SqlLiteHelper.GetInstance().Update(Common.INSTOCKTABLENAME, new string[] { "告警时间" }, new string[] { date.ToString("yyyyMMdd") }, "id", dataReader["id"].ToString());
                             }
                         }
                     }
@@ -297,7 +299,7 @@ namespace CoatingMgr
 
             //有效期告警数据
             DataTable expiryWarnData = new DataTable();
-            SQLiteDataReader expiryWarnDataReader = SqlLiteHelper.GetInstance().ReadTable(INSTOCKTABLENAME, new string[] { "告警时间", "告警时间" }, new string[] { ">", "<=" }, new string[] { "0", DateTime.Now.ToString("yyyyMMdd") });
+            SQLiteDataReader expiryWarnDataReader = SqlLiteHelper.GetInstance().Read(INSTOCKTABLENAME, new string[] { "告警时间", "告警时间" }, new string[] { ">", "<=" }, new string[] { "0", DateTime.Now.ToString("yyyyMMdd") });
             if (expiryWarnDataReader != null && expiryWarnDataReader.HasRows)
             {
                 expiryWarnData.Load(expiryWarnDataReader);

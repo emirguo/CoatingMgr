@@ -79,7 +79,7 @@ namespace CoatingMgr
         private void BindDataGirdView(DataGridView dataGirdView, string table)
         {
             dataGirdView.Rows.Clear();
-            SQLiteDataReader dataReader = GetSqlLiteHelper().ReadFullTable(table);
+            SQLiteDataReader dataReader = GetSqlLiteHelper().Read(table);
             if (dataReader != null && dataReader.HasRows)
             {
                 BindingSource bs = new BindingSource
@@ -114,15 +114,15 @@ namespace CoatingMgr
             SQLiteDataReader dataReader = null;
             if (!type.Equals("") && !startDate.Equals(" ") && !endDate.Equals(" "))
             {
-                dataReader = GetSqlLiteHelper().ReadTable(table, new string[] { type, "操作日期", "操作日期" }, new string[] { "=", ">=", "<=" }, new string[] { cbSearchContent.SelectedItem.ToString(), startDate, endDate });
+                dataReader = GetSqlLiteHelper().Read(table, new string[] { type, "操作日期", "操作日期" }, new string[] { "=", ">=", "<=" }, new string[] { cbSearchContent.SelectedItem.ToString(), startDate, endDate });
             }
             else if (type.Equals("") && !startDate.Equals(" ") && !endDate.Equals(" "))
             {
-                dataReader = GetSqlLiteHelper().ReadTable(table, new string[] { "操作日期", "操作日期" }, new string[] { ">=", "<=" }, new string[] { startDate, endDate });
+                dataReader = GetSqlLiteHelper().Read(table, new string[] { "操作日期", "操作日期" }, new string[] { ">=", "<=" }, new string[] { startDate, endDate });
             }
             else if (!type.Equals("") && startDate.Equals(" ") && endDate.Equals(" "))
             {
-                dataReader = GetSqlLiteHelper().ReadTable(table, new string[] { type }, new string[] { "=" }, new string[] { cbSearchContent.SelectedItem.ToString() });
+                dataReader = GetSqlLiteHelper().Read(table, new string[] { type }, new string[] { "=" }, new string[] { cbSearchContent.SelectedItem.ToString() });
             }
             else
             {
@@ -203,19 +203,19 @@ namespace CoatingMgr
             SQLiteDataReader dataReader = null;
             if (!type.Equals("") && !startDate.Equals(" ") && !endDate.Equals(" "))
             {
-                dataReader = GetSqlLiteHelper().ReadTable(_tableName, new string[] { type, "操作日期", "操作日期" }, new string[] { "=", ">=", "<=" }, new string[] { cbSearchContent.SelectedItem.ToString(), startDate, endDate });
+                dataReader = GetSqlLiteHelper().Read(_tableName, new string[] { type, "操作日期", "操作日期" }, new string[] { "=", ">=", "<=" }, new string[] { cbSearchContent.SelectedItem.ToString(), startDate, endDate });
             }
             else if (type.Equals("") && !startDate.Equals(" ") && !endDate.Equals(" "))
             {
-                dataReader = GetSqlLiteHelper().ReadTable(_tableName, new string[] { "操作日期", "操作日期" }, new string[] { ">=", "<=" }, new string[] { startDate, endDate });
+                dataReader = GetSqlLiteHelper().Read(_tableName, new string[] { "操作日期", "操作日期" }, new string[] { ">=", "<=" }, new string[] { startDate, endDate });
             }
             else if (!type.Equals("") && startDate.Equals(" ") && endDate.Equals(" "))
             {
-                dataReader = GetSqlLiteHelper().ReadTable(_tableName, new string[] { type }, new string[] { "=" }, new string[] { cbSearchContent.SelectedItem.ToString() });
+                dataReader = GetSqlLiteHelper().Read(_tableName, new string[] { type }, new string[] { "=" }, new string[] { cbSearchContent.SelectedItem.ToString() });
             }
             else
             {
-                dataReader = GetSqlLiteHelper().ReadFullTable(_tableName);
+                dataReader = GetSqlLiteHelper().Read(_tableName);
             }
 
             DataTable dt = new DataTable();

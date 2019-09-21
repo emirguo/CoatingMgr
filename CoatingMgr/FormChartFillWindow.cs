@@ -35,11 +35,11 @@ namespace CoatingMgr
             SQLiteDataReader dr;
             if (_searchType.Equals("") || _searchContent.Equals(""))
             {
-                dr = SqlLiteHelper.GetInstance().ReadFullTable(_tableName);
+                dr = SqlLiteHelper.GetInstance().Read(_tableName);
             }
             else
             {
-                dr = SqlLiteHelper.GetInstance().ReadTable(_tableName, new string[] { _searchType }, new string[] { "=" }, new string[] { _searchContent });
+                dr = SqlLiteHelper.GetInstance().Read(_tableName, new string[] { _searchType }, new string[] { "=" }, new string[] { _searchContent });
             }
             if (dr != null && dr.HasRows)
             {

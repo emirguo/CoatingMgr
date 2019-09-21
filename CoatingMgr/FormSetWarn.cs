@@ -151,15 +151,15 @@ namespace CoatingMgr
             }
 
             //保存告警规则到告警规则表
-            SQLiteDataReader dataReader = GetSqlLiteHelper().ReadTable(_tableName, new string[] { "名称", "颜色", "类型" }, new string[] { "=", "=", "=" }, new string[] { cbProduct.Text, cbColor.Text, cbType.Text });
+            SQLiteDataReader dataReader = GetSqlLiteHelper().Read(_tableName, new string[] { "名称", "颜色", "类型" }, new string[] { "=", "=", "=" }, new string[] { cbProduct.Text, cbColor.Text, cbType.Text });
             if (dataReader != null && dataReader.HasRows && dataReader.Read())//告警规则已经存在
             {
                 string id = dataReader["id"].ToString();
-                GetSqlLiteHelper().UpdateValues(_tableName, Common.WARNMANAGERTABLECOLUMNS, new string[] { id, cbProduct.Text, cbColor.Text, cbType.Text, tbMaximum.Text, tbMinimum.Text, cbWarnTime.Text, _userName, DateTime.Now.ToString() }, "id", id);
+                GetSqlLiteHelper().Update(_tableName, Common.WARNMANAGERTABLECOLUMNS, new string[] { id, cbProduct.Text, cbColor.Text, cbType.Text, tbMaximum.Text, tbMinimum.Text, cbWarnTime.Text, _userName, DateTime.Now.ToString() }, "id", id);
             }
             else
             {
-                GetSqlLiteHelper().InsertValues(_tableName, new string[] { cbProduct.Text, cbColor.Text, cbType.Text, tbMaximum.Text, tbMinimum.Text, cbWarnTime.Text, _userName, DateTime.Now.ToString() });
+                GetSqlLiteHelper().Insert(_tableName, new string[] { cbProduct.Text, cbColor.Text, cbType.Text, tbMaximum.Text, tbMinimum.Text, cbWarnTime.Text, _userName, DateTime.Now.ToString() });
             }
 
             //更新库存告警数据
@@ -176,7 +176,7 @@ namespace CoatingMgr
         private void ModifyWarn()
         {
             //更新告警规则到告警规则表
-            GetSqlLiteHelper().UpdateValues(_tableName, Common.WARNMANAGERTABLECOLUMNS, new string[] { _modifyID, cbProduct.Text, cbColor.Text, cbType.Text, tbMaximum.Text, tbMinimum.Text, cbWarnTime.Text, _userName, DateTime.Now.ToString() }, "id", _modifyID + "");
+            GetSqlLiteHelper().Update(_tableName, Common.WARNMANAGERTABLECOLUMNS, new string[] { _modifyID, cbProduct.Text, cbColor.Text, cbType.Text, tbMaximum.Text, tbMinimum.Text, cbWarnTime.Text, _userName, DateTime.Now.ToString() }, "id", _modifyID + "");
 
             //更新库存告警数据
             Common.UpdateStockCountWarn(cbProduct.Text, cbColor.Text, cbType.Text, tbMaximum.Text,tbMinimum.Text, cbWarnTime.Text);

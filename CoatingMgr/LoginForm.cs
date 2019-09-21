@@ -93,7 +93,13 @@ namespace CoatingMgr
             Login();
         }
 
-        private void TslDBPath_Click(object sender, EventArgs e)
+        private void TslSetDBInfo_Click(object sender, EventArgs e)
+        {
+            FormSetMySQLInfo formSetMySQLInfo = new FormSetMySQLInfo();
+            formSetMySQLInfo.Show();
+        }
+
+        private void TslSetPath_Click(object sender, EventArgs e)
         {
             OpenFileDialog file = new OpenFileDialog();
             file.ShowDialog();

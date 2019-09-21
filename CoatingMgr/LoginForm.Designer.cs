@@ -37,7 +37,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.tslDBPath = new System.Windows.Forms.ToolStripLabel();
+            this.tslSetDBInfo = new System.Windows.Forms.ToolStripLabel();
             this.panel1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -143,20 +143,20 @@
             // toolStrip1
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tslDBPath});
+            this.tslSetDBInfo});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(444, 25);
             this.toolStrip1.TabIndex = 8;
             this.toolStrip1.Text = "toolStrip1";
             // 
-            // tslDBPath
+            // tslSetDBInfo
             // 
-            this.tslDBPath.Font = new System.Drawing.Font("宋体", 9F);
-            this.tslDBPath.Name = "tslDBPath";
-            this.tslDBPath.Size = new System.Drawing.Size(89, 22);
-            this.tslDBPath.Text = "设置数据库路径";
-            this.tslDBPath.Click += new System.EventHandler(this.TslDBPath_Click);
+            this.tslSetDBInfo.Font = new System.Drawing.Font("宋体", 9F);
+            this.tslSetDBInfo.Name = "tslSetDBInfo";
+            this.tslSetDBInfo.Size = new System.Drawing.Size(89, 22);
+            this.tslSetDBInfo.Text = "设置数据库信息";
+            this.tslSetDBInfo.Click += new System.EventHandler(this.TslSetDBInfo_Click);
             // 
             // LoginForm
             // 
@@ -188,7 +188,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ToolStrip toolStrip1;
-        private System.Windows.Forms.ToolStripLabel tslDBPath;
+        private System.Windows.Forms.ToolStripLabel tslSetDBInfo;
     }
 }
 

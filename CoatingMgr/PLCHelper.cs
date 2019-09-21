@@ -2,6 +2,7 @@
 using HslCommunication.Profinet.Keyence;
 using System;
 using System.IO.Ports;
+using System.Threading;
 
 namespace CoatingMgr
 {
@@ -91,121 +92,121 @@ namespace CoatingMgr
         }
 
         //各色剂分注入快慢分别设置重量
-        public void SetWeight(int w1, int w2, int w3, int w4, int fw1, int fw2, int fw3, int fw4)
+        public bool SetWeight(int w1, int w2, int w3, int w4, int sw1, int sw2, int sw3, int sw4)
         {
-            PLC.Write("D20", (uint)w1);              // 初始油漆重量
-            PLC.Write("D26", (uint)w2);              // 固化剂重量
-            PLC.Write("D28", (uint)w3);              // 稀释剂Ａ重量
-            PLC.Write("D30", (uint)w4);              // 稀释剂Ｂ重量
+            bool result = false;
+            if (IsPLCConnect())
+            {
+                PLC.Write("D170", (uint)w1);              // 设定油漆重量
+                PLC.Write("D171", (uint)sw1);             // 慢速油漆重量
 
-            PLC.Write("D202", (uint)fw1);             //快速油漆重量
-            PLC.Write("D206", (uint)fw2);             // 快速固化剂
-            PLC.Write("D212", (uint)fw3);             // 快速稀释剂Ａ
-            PLC.Write("D300", (uint)fw4);             // 快速稀释剂Ｂ
+                PLC.Write("D172", (uint)w2);              // 设定固化剂重量
+                PLC.Write("D173", (uint)sw2);             // 慢速固化剂
+
+                PLC.Write("D174", (uint)w3);              // 设定稀释剂Ａ重量
+                PLC.Write("D175", (uint)sw3);             // 慢速稀释剂Ａ
+
+                PLC.Write("D176", (uint)w4);              // 设定稀释剂Ｂ重量
+                PLC.Write("D177", (uint)sw4);             // 慢速稀释剂Ｂ
+                result = true;
+            }
+            return result;
         }
 
         public void CoatingFastOn()
         {
-            PLC.Write("M0", (uint)1);               // 手动快速油漆阀开
-            PLC.Write("M3", (uint)1);               // 手动慢速油漆阀关
-            PLC.Write("M100", (float)1);             // 手动油漆泵开
+            PLC.Write("M0", (uint)1);               // 手动油漆泵开
+            PLC.Write("M4", (uint)1);               // 手动快速油漆阀开
         }
 
         public void CoatingFastOff()
         {
-            PLC.Write("M100", (float)0);               // 手动油漆泵关
-            PLC.Write("M1", (uint)1);               // 手动快速油漆阀关
+            PLC.Write("M0", (uint)0);            // 手动油漆泵关
+            PLC.Write("M4", (uint)0);               // 手动快速油漆阀关
         }
 
         public void CoatingSlowOn()
         {
-            PLC.Write("M1", (uint)1);               // 手动快速油漆阀关
-            PLC.Write("M2", (uint)1);               // 手动慢速油漆阀开
-            PLC.Write("M100", (float)1);             // 手动油漆泵开
+            PLC.Write("M0", (uint)1);               // 手动油漆泵开
+            PLC.Write("M5", (uint)1);               // 手动慢速油漆阀开
         }
 
         public void CoatingSlowOff()
         {
-            PLC.Write("M100", (float)0);               // 手动油漆泵关
-            PLC.Write("M3", (uint)1);               // 手动慢速油漆阀关
+            PLC.Write("M0", (uint)0);               // 手动油漆泵关
+            PLC.Write("M5", (uint)0);               // 手动慢速油漆阀关
         }
 
         public void HardeningAgentFastOn()
         {
-            PLC.Write("M7", (uint)1);                // 手动慢速固化剂阀关
-            PLC.Write("M4", (uint)1);               // 手动快速固化剂阀开
-            PLC.Write("M102", (float)1);             // 手动固化剂泵开
+            PLC.Write("M1", (uint)1);                // 手动固化剂泵开
+            PLC.Write("M6", (uint)1);               // 手动快速固化剂阀开
         }
 
         public void HardeningAgentFastOff()
         {
-            PLC.Write("M102", (float)0);               // 手动固化剂泵关
-            PLC.Write("M5", (uint)1);               // 手动快速固化剂阀关
+            PLC.Write("M1", (uint)0);               // 手动固化剂泵关
+            PLC.Write("M6", (uint)0);               // 手动快速固化剂阀关
         }
 
         public void HardeningAgentSlowOn()
         {
-            PLC.Write("M5", (uint)1);               // 手动快速固化剂阀关
-            PLC.Write("M6", (uint)1);               // 手动慢速固化剂阀开
-            PLC.Write("M102", (float)1);             // 手动固化剂泵开
+            PLC.Write("M1", (uint)1);               // 手动固化剂泵开
+            PLC.Write("M7", (uint)1);               // 手动慢速固化剂阀开
         }
 
         public void HardeningAgentSlowOff()
         {
-            PLC.Write("M102", (float)0);               // 手动固化剂泵关
-            PLC.Write("M7", (uint)1);                // 手动慢速固化剂阀关
+            PLC.Write("M1", (uint)0);               // 手动固化剂泵关
+            PLC.Write("M7", (uint)0);                // 手动慢速固化剂阀关
         }
 
         public void ThinnerAFastOn()
         {
-            PLC.Write("M11", (uint)1);               // 手动慢速稀释剂Ａ阀关
+            PLC.Write("M2", (uint)1);               // 手动稀释剂Ａ泵开
             PLC.Write("M8", (uint)1);               // 手动快速稀释剂A阀开
-            PLC.Write("M104", (float)1);             // 手动稀释剂Ａ泵开
         }
 
         public void ThinnerAFastOff()
         {
-            PLC.Write("M104", (float)0);               // 手动稀释剂Ａ泵关
-            PLC.Write("M9", (uint)1);               // 手动快速稀释剂A阀关
+            PLC.Write("M2", (uint)0);               // 手动稀释剂Ａ泵关
+            PLC.Write("M8", (uint)0);               // 手动快速稀释剂A阀关
         }
 
         public void ThinnerASlowOn()
         {
-            PLC.Write("M9", (uint)1);               // 手动快速稀释剂A阀关
-            PLC.Write("M10", (uint)1);               // 手动慢速稀释剂Ａ阀开
-            PLC.Write("M104", (float)1);             // 手动稀释剂Ａ泵开
+            PLC.Write("M2", (uint)1);               // 手动稀释剂Ａ泵开
+            PLC.Write("M9", (uint)1);               // 手动慢速稀释剂Ａ阀开
         }
 
         public void ThinnerASlowOff()
         {
-            PLC.Write("M104", (float)0);               // 手动稀释剂Ａ泵关
-            PLC.Write("M11", (uint)1);               // 手动慢速稀释剂Ａ阀关
+            PLC.Write("M2", (uint)0);               // 手动稀释剂Ａ泵关
+            PLC.Write("M9", (uint)0);               // 手动慢速稀释剂Ａ阀关
         }
 
         public void ThinnerBFastOn()
         {
-            PLC.Write("M15", (uint)1);               // 手动慢速稀释剂Ｂ阀关
-            PLC.Write("M12", (uint)1);               // 手动快速稀释剂Ｂ阀开
-            PLC.Write("M106", (float)1);             // 手动稀释剂Ｂ泵开
+            PLC.Write("M3", (uint)1);               // 手动稀释剂Ｂ泵开
+            PLC.Write("M10", (uint)1);               // 手动快速稀释剂Ｂ阀开
         }
 
         public void ThinnerBFastOff()
         {
-            PLC.Write("M106", (float)0);               // 手动稀释剂Ｂ泵关
-            PLC.Write("M13", (uint)1);               // 手动快速稀释剂Ｂ阀关
+            PLC.Write("M3", (uint)0);               // 手动稀释剂Ｂ泵关
+            PLC.Write("M10", (uint)0);               // 手动快速稀释剂Ｂ阀关
         }
 
         public void ThinnerBSlowOn()
         {
-            PLC.Write("M13", (uint)1);               // 手动快速稀释剂Ｂ阀关
-            PLC.Write("M14", (uint)1);               // 手动慢速稀释剂Ｂ阀开
-            PLC.Write("M106", (float)1);             // 手动稀释剂Ｂ泵开
+            PLC.Write("M3", (uint)1);               // 手动稀释剂Ｂ泵开
+            PLC.Write("M11", (uint)1);               // 手动慢速稀释剂Ｂ阀开
         }
 
         public void ThinnerBSlowOff()
         {
-            PLC.Write("M106", (float)0);               // 手动稀释剂Ｂ泵关
-            PLC.Write("M15", (uint)1);               // 手动慢速稀释剂Ｂ阀关
+            PLC.Write("M3", (uint)0);               // 手动稀释剂Ｂ泵关
+            PLC.Write("M11", (uint)0);               // 手动慢速稀释剂Ｂ阀关
         }
 
         public void Stop()
@@ -218,6 +219,26 @@ namespace CoatingMgr
             ThinnerASlowOff();
             ThinnerBFastOff();
             ThinnerBSlowOff();
+        }
+
+        public void Stir()
+        {
+            PLC.Write("M12", (uint)1);             // 一键搅拌
+        }
+
+        public void SetStirTime(uint time)
+        {
+            PLC.Write("D722", time);             //设置搅拌时间，time*10
+        }
+
+        public void Clear()
+        {
+            PLC.Write("M13", (uint)1);            // 一键清洗
+        }
+
+        public void Blow()
+        {
+            PLC.Write("M14", (uint)1);            // 一键吹气
         }
     }
 }
