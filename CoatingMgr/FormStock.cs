@@ -99,6 +99,7 @@ namespace CoatingMgr
 
                 SQLiteDataReader dr = GetSqlLiteHelper().Read(table);
                 BindChartData(dr);
+                cbShowWarn.Checked = true;
                 cbShowTable.Visible = true;
                 _chartSearchType = "";
                 _chartSearchContent = "";
@@ -123,6 +124,7 @@ namespace CoatingMgr
                 
                 SQLiteDataReader dr = GetSqlLiteHelper().Read(table, new string[] { type }, new string[] { "=" }, new string[] { content });
                 BindChartData(dr);
+                cbShowWarn.Checked = true;
                 _chartSearchType = type;
                 _chartSearchContent = content;
             }
@@ -342,7 +344,7 @@ namespace CoatingMgr
             Series weightSerie = new Series
             {
                 ChartType = SeriesChartType.Column,
-                Enabled = true,
+                Enabled = false,
                 IsVisibleInLegend = false
             };
             chartStock.Series.Add(weightSerie);
@@ -352,21 +354,21 @@ namespace CoatingMgr
             Series minSerie = new Series
             {
                 ChartType = SeriesChartType.StackedColumn,
-                Enabled = false
+                Enabled = true
             };
             chartStock.Series.Add(minSerie);
 
             Series midSerie = new Series
             {
                 ChartType = SeriesChartType.StackedColumn,
-                Enabled = false
+                Enabled = true
             };
             chartStock.Series.Add(midSerie);
 
             Series maxSerie = new Series
             {
                 ChartType = SeriesChartType.StackedColumn,
-                Enabled = false
+                Enabled = true
             };
             chartStock.Series.Add(maxSerie);
 

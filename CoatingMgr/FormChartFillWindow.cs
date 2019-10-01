@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Data.SQLite;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
@@ -44,6 +38,7 @@ namespace CoatingMgr
             if (dr != null && dr.HasRows)
             {
                 BindChartData(dr);
+                cbShowWarn.Checked = true;
             }
         }
 
@@ -60,7 +55,7 @@ namespace CoatingMgr
             Series weightSerie = new Series
             {
                 ChartType = SeriesChartType.Column,
-                Enabled = true,
+                Enabled = false,
                 IsVisibleInLegend = false
             };
             chartStock.Series.Add(weightSerie);
@@ -70,21 +65,21 @@ namespace CoatingMgr
             Series minSerie = new Series
             {
                 ChartType = SeriesChartType.StackedColumn,
-                Enabled = false
+                Enabled = true
             };
             chartStock.Series.Add(minSerie);
 
             Series midSerie = new Series
             {
                 ChartType = SeriesChartType.StackedColumn,
-                Enabled = false
+                Enabled = true
             };
             chartStock.Series.Add(midSerie);
 
             Series maxSerie = new Series
             {
                 ChartType = SeriesChartType.StackedColumn,
-                Enabled = false
+                Enabled = true
             };
             chartStock.Series.Add(maxSerie);
 
