@@ -1,6 +1,6 @@
 ﻿namespace CoatingMgr
 {
-    partial class FormSetMySQLInfo
+    partial class FormSetSQLInfo
     {
         /// <summary>
         /// Required designer variable.
@@ -38,7 +38,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.tbPort = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btnCancel
@@ -132,7 +131,7 @@
             this.tbPort.Location = new System.Drawing.Point(117, 58);
             this.tbPort.MaxLength = 32;
             this.tbPort.Name = "tbPort";
-            this.tbPort.Size = new System.Drawing.Size(118, 26);
+            this.tbPort.Size = new System.Drawing.Size(211, 26);
             this.tbPort.TabIndex = 1;
             // 
             // label4
@@ -147,22 +146,11 @@
             this.label4.TabIndex = 45;
             this.label4.Text = "端  口:";
             // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("宋体", 12F);
-            this.label5.Location = new System.Drawing.Point(234, 65);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(104, 16);
-            this.label5.TabIndex = 47;
-            this.label5.Text = "（默认3306）";
-            // 
-            // FormSetMySQLInfo
+            // FormSetSQLInfo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(363, 226);
-            this.Controls.Add(this.label5);
             this.Controls.Add(this.tbPort);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.tbUser);
@@ -173,7 +161,7 @@
             this.Controls.Add(this.btnConfirm);
             this.Controls.Add(this.tbIP);
             this.Controls.Add(this.label3);
-            this.Name = "FormSetMySQLInfo";
+            this.Name = "FormSetSQLInfo";
             this.Text = "设置数据库信息";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -191,6 +179,5 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox tbPort;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
     }
 }

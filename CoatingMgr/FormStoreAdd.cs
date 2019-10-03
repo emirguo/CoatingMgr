@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SQLite;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CoatingMgr
@@ -50,22 +44,21 @@ namespace CoatingMgr
                 MessageBox.Show("请输入仓库名称");
                 return;
             }
-            SqlLiteHelper sqlLiteHelper = SqlLiteHelper.GetInstance();
             if (_modifyModel)
             {
-                sqlLiteHelper.Update(_tableName, new string[] { "名称" }, new string[] { tbName.Text.ToString() }, "id", _id + "");
+                SQLServerHelper.Update(_tableName, new string[] { "名称" }, new string[] { tbName.Text.ToString() }, "id", _id + "");
             }
             else
             {
-                SQLiteDataReader dataReader = sqlLiteHelper.Read(_tableName, new string[] { "名称" }, new string[] { "=" }, new string[] { tbName.Text.ToString() });
-                if (dataReader != null && dataReader.HasRows)//判断账号是否已经存在
+                DataTable dt = SQLServerHelper.Read(_tableName, new string[] { "名称" }, new string[] { "=" }, new string[] { tbName.Text.ToString() });
+                if (dt != null && dt.Rows.Count > 0)//判断账号是否已经存在
                 {
                     MessageBox.Show("仓库已经存在");
                     return;
                 }
                 else
                 {
-                    sqlLiteHelper.Insert(_tableName, new string[] { tbName.Text.ToString() });
+                    SQLServerHelper.Insert(_tableName, new string[] { "名称" }, new string[] { tbName.Text.ToString() });
                 }
             }
             if (_fatherForm != null)

@@ -39,7 +39,7 @@ namespace CoatingMgr
 
         private void InitView()
         {
-            List<string> searchContent = SqlLiteHelper.GetInstance().GetValueTypeByColumnFromTable(Common.STORETABLENAME, "名称", null, null, null);
+            List<string> searchContent = SQLServerHelper.GetTypesOfColumn(Common.STORETABLENAME, "名称", null, null, null);
             for (int i = 0; i < searchContent.Count; i++)
             {
                 cbStore.Items.Add(searchContent[i]);

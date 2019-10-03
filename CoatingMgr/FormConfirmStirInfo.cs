@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SQLite;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CoatingMgr
@@ -38,12 +32,10 @@ namespace CoatingMgr
                 return;
             }
 
-            SqlLiteHelper sqlLiteHelper = SqlLiteHelper.GetInstance();
-            SQLiteDataReader dataReader = sqlLiteHelper.Read(Common.ACCOUNTTABLENAME, new string[] { "账号", "密码" }, new string[] { "=", "=" }, new string[] { tbUserName.Text.ToString(), tbPwd.Text.ToString() });
-            if (dataReader != null && dataReader.HasRows)//判断账号是否已经存在
+            DataTable dt = SQLServerHelper.Read(Common.ACCOUNTTABLENAME, new string[] { "账号", "密码" }, new string[] { "=", "=" }, new string[] { tbUserName.Text.ToString(), tbPwd.Text.ToString() });
+            if (dt != null && dt.Rows.Count > 0)//判断账号是否已经存在
             {
-                dataReader.Read();
-                if (dataReader["权限"].ToString().Equals("管理员"))
+                if (dt.Rows[0]["权限"].ToString().Equals("管理员"))
                 {
                     _fatherForm.ManagerConfirmStirInfo(tbUserName.Text);
                     Close();

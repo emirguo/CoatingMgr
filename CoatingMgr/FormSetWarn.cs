@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SQLite;
 using System.Windows.Forms;
 
@@ -7,7 +8,6 @@ namespace CoatingMgr
 {
     public partial class FormSetWarn : Form
     {
-        private static SqlLiteHelper sqlLiteHelper = null;
         private static string _tableName = Common.WARNMANAGERTABLENAME;
         private string _userName = "";
         private FormWarn _fatherForm = null;
@@ -50,15 +50,6 @@ namespace CoatingMgr
             InitData();
         }
 
-        private SqlLiteHelper GetSqlLiteHelper()
-        {
-            if (sqlLiteHelper == null)
-            {
-                sqlLiteHelper = SqlLiteHelper.GetInstance();
-            }
-            return sqlLiteHelper;
-        }
-
         private void InitData()
         {
             if (_modifyModel)
@@ -76,7 +67,7 @@ namespace CoatingMgr
             }
             else
             {
-                _cbSearchType = GetSqlLiteHelper().GetValueTypeByColumnFromTable(Common.STOCKCOUNTTABLENAME, "类型", null, null, null);
+                _cbSearchType = SQLServerHelper.GetTypesOfColumn(Common.STOCKCOUNTTABLENAME, "类型", null, null, null);
                 for (int i = 0; i < _cbSearchType.Count; i++)
                 {
                     cbType.Items.Add(_cbSearchType[i]);
@@ -102,7 +93,7 @@ namespace CoatingMgr
                 cbColor.Items.Clear();
                 cbProduct.Text = "请选择涂料";
                 cbColor.Text = "请选择颜色";
-                _cbSearchProduct = GetSqlLiteHelper().GetValueTypeByColumnFromTable(Common.STOCKCOUNTTABLENAME, "名称", new string[] { "类型" }, new string[] { "=" }, new string[] { cbType.Text.ToString() });
+                _cbSearchProduct = SQLServerHelper.GetTypesOfColumn(Common.STOCKCOUNTTABLENAME, "名称", new string[] { "类型" }, new string[] { "=" }, new string[] { cbType.Text.ToString() });
                 for (int i = 0; i < _cbSearchProduct.Count; i++)
                 {
                     cbProduct.Items.Add(_cbSearchProduct[i]);
@@ -116,7 +107,7 @@ namespace CoatingMgr
             {
                 cbColor.Items.Clear();
                 cbColor.Text = "请选择颜色";
-                _cbSearchColor = GetSqlLiteHelper().GetValueTypeByColumnFromTable(Common.STOCKCOUNTTABLENAME, "颜色", new string[] { "类型", "名称" }, new string[] { "=", "=" }, new string[] { cbType.Text.ToString(), cbProduct.Text.ToString() });
+                _cbSearchColor = SQLServerHelper.GetTypesOfColumn(Common.STOCKCOUNTTABLENAME, "颜色", new string[] { "类型", "名称" }, new string[] { "=", "=" }, new string[] { cbType.Text.ToString(), cbProduct.Text.ToString() });
                 for (int i = 0; i < _cbSearchColor.Count; i++)
                 {
                     cbColor.Items.Add(_cbSearchColor[i]);
@@ -151,15 +142,15 @@ namespace CoatingMgr
             }
 
             //保存告警规则到告警规则表
-            SQLiteDataReader dataReader = GetSqlLiteHelper().Read(_tableName, new string[] { "名称", "颜色", "类型" }, new string[] { "=", "=", "=" }, new string[] { cbProduct.Text, cbColor.Text, cbType.Text });
-            if (dataReader != null && dataReader.HasRows && dataReader.Read())//告警规则已经存在
+            DataTable dt = SQLServerHelper.Read(_tableName, new string[] { "名称", "颜色", "类型" }, new string[] { "=", "=", "=" }, new string[] { cbProduct.Text, cbColor.Text, cbType.Text });
+            if (dt != null && dt.Rows.Count > 0)//告警规则已经存在
             {
-                string id = dataReader["id"].ToString();
-                GetSqlLiteHelper().Update(_tableName, Common.WARNMANAGERTABLECOLUMNS, new string[] { id, cbProduct.Text, cbColor.Text, cbType.Text, tbMaximum.Text, tbMinimum.Text, cbWarnTime.Text, _userName, DateTime.Now.ToString() }, "id", id);
+                string id = dt.Rows[0]["id"].ToString();
+                SQLServerHelper.Update(_tableName, Common.WARNMANAGERTABLECOLUMNS, new string[] { id, cbProduct.Text, cbColor.Text, cbType.Text, tbMaximum.Text, tbMinimum.Text, cbWarnTime.Text, _userName, DateTime.Now.ToString() }, "id", id);
             }
             else
             {
-                GetSqlLiteHelper().Insert(_tableName, new string[] { cbProduct.Text, cbColor.Text, cbType.Text, tbMaximum.Text, tbMinimum.Text, cbWarnTime.Text, _userName, DateTime.Now.ToString() });
+                SQLServerHelper.Insert(_tableName, new string[] { "名称", "颜色", "类型", "库存上限", "库存下限", "告警时间", "规则创建人", "规则创建时间" }, new string[] { cbProduct.Text, cbColor.Text, cbType.Text, tbMaximum.Text, tbMinimum.Text, cbWarnTime.Text, _userName, DateTime.Now.ToString() });
             }
 
             //更新库存告警数据
@@ -176,7 +167,7 @@ namespace CoatingMgr
         private void ModifyWarn()
         {
             //更新告警规则到告警规则表
-            GetSqlLiteHelper().Update(_tableName, Common.WARNMANAGERTABLECOLUMNS, new string[] { _modifyID, cbProduct.Text, cbColor.Text, cbType.Text, tbMaximum.Text, tbMinimum.Text, cbWarnTime.Text, _userName, DateTime.Now.ToString() }, "id", _modifyID + "");
+            SQLServerHelper.Update(_tableName, Common.WARNMANAGERTABLECOLUMNS, new string[] { _modifyID, cbProduct.Text, cbColor.Text, cbType.Text, tbMaximum.Text, tbMinimum.Text, cbWarnTime.Text, _userName, DateTime.Now.ToString() }, "id", _modifyID + "");
 
             //更新库存告警数据
             Common.UpdateStockCountWarn(cbProduct.Text, cbColor.Text, cbType.Text, tbMaximum.Text,tbMinimum.Text, cbWarnTime.Text);

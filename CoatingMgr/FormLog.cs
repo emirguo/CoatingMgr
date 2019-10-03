@@ -1,24 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SQLite;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using NPOI.HSSF.UserModel;
-using NPOI.SS.Formula.Eval;
-using NPOI.SS.UserModel;
-using NPOI.SS.Util;
 
 namespace CoatingMgr
 {
     public partial class FormLog : Form
     {
-        private static SqlLiteHelper sqlLiteHelper = null;
         private string _tableName = Common.STOCKLOGTABLENAME;
 
         private static string[] _cbStockSearchType = { "按仓库查找", "按名称查找", "按颜色查找", "按类型查找", "按适用机型查找", "按生产日期查找", "按有效期查找", "按操作员查找", "按操作类型查找" };
@@ -67,24 +56,15 @@ namespace CoatingMgr
             BindDataGirdView(dgvLogData, _tableName);//绑定数据库表
         }
 
-        private SqlLiteHelper GetSqlLiteHelper()
-        {
-            if (sqlLiteHelper == null)
-            {
-                sqlLiteHelper = SqlLiteHelper.GetInstance();
-            }
-            return sqlLiteHelper;
-        }
-
         private void BindDataGirdView(DataGridView dataGirdView, string table)
         {
             dataGirdView.Rows.Clear();
-            SQLiteDataReader dataReader = GetSqlLiteHelper().Read(table);
-            if (dataReader != null && dataReader.HasRows)
+            DataTable dt = SQLServerHelper.Read(table);
+            if (dt != null && dt.Rows.Count > 0)
             {
                 BindingSource bs = new BindingSource
                 {
-                    DataSource = dataReader
+                    DataSource = dt
                 };
                 dataGirdView.DataSource = bs;
                 if (dataGirdView.ColumnCount > 0)
@@ -111,28 +91,28 @@ namespace CoatingMgr
             }
             string startDate = dateTimePickerStart.CustomFormat.Equals(" ") ? " " : dateTimePickerStart.Value.ToString("yyyyMMdd");
             string endDate = dateTimePickerEnd.CustomFormat.Equals(" ") ? " " : dateTimePickerEnd.Value.ToString("yyyyMMdd");
-            SQLiteDataReader dataReader = null;
+            DataTable dt = null;
             if (!type.Equals("") && !startDate.Equals(" ") && !endDate.Equals(" "))
             {
-                dataReader = GetSqlLiteHelper().Read(table, new string[] { type, "操作日期", "操作日期" }, new string[] { "=", ">=", "<=" }, new string[] { cbSearchContent.SelectedItem.ToString(), startDate, endDate });
+                dt = SQLServerHelper.Read(table, new string[] { type, "操作日期", "操作日期" }, new string[] { "=", ">=", "<=" }, new string[] { cbSearchContent.SelectedItem.ToString(), startDate, endDate });
             }
             else if (type.Equals("") && !startDate.Equals(" ") && !endDate.Equals(" "))
             {
-                dataReader = GetSqlLiteHelper().Read(table, new string[] { "操作日期", "操作日期" }, new string[] { ">=", "<=" }, new string[] { startDate, endDate });
+                dt = SQLServerHelper.Read(table, new string[] { "操作日期", "操作日期" }, new string[] { ">=", "<=" }, new string[] { startDate, endDate });
             }
             else if (!type.Equals("") && startDate.Equals(" ") && endDate.Equals(" "))
             {
-                dataReader = GetSqlLiteHelper().Read(table, new string[] { type }, new string[] { "=" }, new string[] { cbSearchContent.SelectedItem.ToString() });
+                dt = SQLServerHelper.Read(table, new string[] { type }, new string[] { "=" }, new string[] { cbSearchContent.SelectedItem.ToString() });
             }
             else
             {
                 return;
             }
-            if (dataReader != null && dataReader.HasRows)
+            if (dt != null && dt.Rows.Count > 0)
             {
                 BindingSource bs = new BindingSource
                 {
-                    DataSource = dataReader
+                    DataSource = dt
                 };
                 dataGirdView.DataSource = bs;
                 if (dataGirdView.ColumnCount > 0)
@@ -200,26 +180,24 @@ namespace CoatingMgr
             }
             string startDate = dateTimePickerStart.CustomFormat.Equals(" ") ? " " : dateTimePickerStart.Value.ToString("yyyyMMdd");
             string endDate = dateTimePickerEnd.CustomFormat.Equals(" ") ? " " : dateTimePickerEnd.Value.ToString("yyyyMMdd");
-            SQLiteDataReader dataReader = null;
+            DataTable dt = null;
             if (!type.Equals("") && !startDate.Equals(" ") && !endDate.Equals(" "))
             {
-                dataReader = GetSqlLiteHelper().Read(_tableName, new string[] { type, "操作日期", "操作日期" }, new string[] { "=", ">=", "<=" }, new string[] { cbSearchContent.SelectedItem.ToString(), startDate, endDate });
+                dt = SQLServerHelper.Read(_tableName, new string[] { type, "操作日期", "操作日期" }, new string[] { "=", ">=", "<=" }, new string[] { cbSearchContent.SelectedItem.ToString(), startDate, endDate });
             }
             else if (type.Equals("") && !startDate.Equals(" ") && !endDate.Equals(" "))
             {
-                dataReader = GetSqlLiteHelper().Read(_tableName, new string[] { "操作日期", "操作日期" }, new string[] { ">=", "<=" }, new string[] { startDate, endDate });
+                dt = SQLServerHelper.Read(_tableName, new string[] { "操作日期", "操作日期" }, new string[] { ">=", "<=" }, new string[] { startDate, endDate });
             }
             else if (!type.Equals("") && startDate.Equals(" ") && endDate.Equals(" "))
             {
-                dataReader = GetSqlLiteHelper().Read(_tableName, new string[] { type }, new string[] { "=" }, new string[] { cbSearchContent.SelectedItem.ToString() });
+                dt = SQLServerHelper.Read(_tableName, new string[] { type }, new string[] { "=" }, new string[] { cbSearchContent.SelectedItem.ToString() });
             }
             else
             {
-                dataReader = GetSqlLiteHelper().Read(_tableName);
+                dt = SQLServerHelper.Read(_tableName);
             }
 
-            DataTable dt = new DataTable();
-            dt.Load(dataReader);
             ExcelHelper.ExportExcel(dt);
         }
 
@@ -238,7 +216,7 @@ namespace CoatingMgr
                     searchType = _stirSearchType[cbSearchType.SelectedIndex];
                 }
 
-                List<string> searchContent = GetSqlLiteHelper().GetValueTypeByColumnFromTable(_tableName, searchType, null, null, null);
+                List<string> searchContent = SQLServerHelper.GetTypesOfColumn(_tableName, searchType, null, null, null);
                 for (int i = 0; i < searchContent.Count; i++)
                 {
                     cbSearchContent.Items.Add(searchContent[i]);

@@ -20,113 +20,45 @@ namespace CoatingMgr
 
         public static bool DebugLog = false;
 
-        private static readonly string _accountTableName = "account";
-        public static string ACCOUNTTABLENAME
-        {
-            get { return _accountTableName; }
-        }
-        private static readonly string[] _accountTableColumns = { "id", "账号", "密码", "权限" };
-        public static string[] ACCOUNTTABLECOLUMNS
-        {
-            get { return _accountTableColumns; }
-        }
-        private static readonly string[] _accountTableColumnsType = { "INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT", "TEXT", "TEXT" };
-        public static string[] ACCOUNTTABLECOLUMNSTYPE
-        {
-            get { return _accountTableColumnsType; }
-        }
         public static string USER_MANAGER = "管理员";
         public static string USER_WORKER = "操作员";
+
+        public static readonly string ACCOUNTTABLENAME = "account";
+        public static readonly string[] ACCOUNTTABLECOLUMNS = { "id", "账号", "密码", "权限" };
+        public static readonly string[] ACCOUNTTABLECOLUMNSTYPE = { "INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT", "TEXT", "TEXT" };
+        public static readonly string[] ACCOUNTTABLECOLUMNSTYPEFORSQLSERVER = { "INT IDENTITY PRIMARY KEY", "VARCHAR(20)", "VARCHAR(20)", "VARCHAR(10)" };
 
         public static readonly string STORETABLENAME = "store";
         public static readonly string[] STORETABLECOLUMNS = { "id", "名称" };
         public static readonly string[] STORETABLECOLUMNSTYPE = { "INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT" };
+        public static readonly string[] STORETABLECOLUMNSTYPEFORSQLSERVER = { "INT IDENTITY PRIMARY KEY", "VARCHAR(20)" };
 
-        private static readonly string _stockCountTableName = "stockCount";
-        public static string STOCKCOUNTTABLENAME
-        {
-            get { return _stockCountTableName; }
-        }
-        private static readonly string[] _stockCountTableColumns = { "id", "类型", "名称", "颜色", "适用机型", "重量", "库存上限", "库存下限", "告警时间", "备注" };
-        public static string[] STOCKCOUNTTABLECOLUMNS
-        {
-            get { return _stockCountTableColumns; }
-        }
-        private static readonly string[] _stockCountTableColumnsType = { "INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT" };
-        public static string[] STOCKCOUNTTABLECOLUMNSTYPE
-        {
-            get { return _stockCountTableColumnsType; }
-        }
+        public static readonly string STOCKCOUNTTABLENAME = "stockCount";
+        public static readonly string[] STOCKCOUNTTABLECOLUMNS = { "id", "类型", "名称", "颜色", "适用机型", "重量", "库存上限", "库存下限", "告警时间", "备注" };
+        public static readonly string[] STOCKCOUNTTABLECOLUMNSTYPE = { "INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT" };
+        public static readonly string[] STOCKCOUNTTABLECOLUMNSTYPEFORSQLSERVER = { "INT IDENTITY PRIMARY KEY", "VARCHAR(40)", "VARCHAR(40)", "VARCHAR(40)", "VARCHAR(40)", "VARCHAR(10)", "VARCHAR(10)", "VARCHAR(10)", "VARCHAR(20)", "VARCHAR(60)" };
 
-        private static readonly string _inStockTableName = "instock";
-        public static string INSTOCKTABLENAME
-        {
-            get { return _inStockTableName; }
-        }
-        private static readonly string[] _inStockTableColumns = { "id", "条形码", "名称", "颜色", "类型", "重量", "适用机型", "仓库", "生产日期", "有效期", "操作员", "入库日期", "入库时间", "告警时间", "备注" };
-        public static string[] INSTOCKTABLECOLUMNS
-        {
-            get { return _inStockTableColumns; }
-        }
-        private static readonly string[] _inStockTableColumnsType = { "INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT" };
-        public static string[] INSTOCKTABLECOLUMNSTYPE
-        {
-            get { return _inStockTableColumnsType; }
-        }
-       
-        private static readonly string _warnManagerTableName = "warnManager";
-        public static string WARNMANAGERTABLENAME
-        {
-            get { return _warnManagerTableName; }
-        }
-        private static readonly string[] _warnManagerTableColumns = { "id", "名称", "颜色", "类型", "库存上限", "库存下限", "告警时间", "规则创建人", "规则创建时间" };
-        public static string[] WARNMANAGERTABLECOLUMNS
-        {
-            get { return _warnManagerTableColumns; }
-        }
-        private static readonly string[] _warnManagerTableColumnsType = { "INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT" };
-        public static string[] WARNMANAGERTABLECOLUMNSTYPE
-        {
-            get { return _warnManagerTableColumnsType; }
-        }
+        public static readonly string INSTOCKTABLENAME = "instock";
+        public static readonly string[] INSTOCKTABLECOLUMNS = { "id", "条形码", "名称", "颜色", "类型", "重量", "适用机型", "仓库", "生产日期", "有效期", "操作员", "入库日期", "入库时间", "告警时间", "备注" };
+        public static readonly string[] INSTOCKTABLECOLUMNSTYPE = { "INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT" };
+        public static readonly string[] INSTOCKTABLECOLUMNSTYPEFORSQLSERVER = { "INT IDENTITY PRIMARY KEY", "VARCHAR(128)", "VARCHAR(40)", "VARCHAR(40)", "VARCHAR(40)", "VARCHAR(10)", "VARCHAR(40)", "VARCHAR(20)", "VARCHAR(20)", "VARCHAR(20)", "VARCHAR(20)", "VARCHAR(20)", "VARCHAR(20)", "VARCHAR(20)", "VARCHAR(60)" };
 
-        private static readonly string _stockLogTableName = "stockLog";
-        public static string STOCKLOGTABLENAME
-        {
-            get { return _stockLogTableName; }
-        }
-        private static readonly string[] _stocklogTableColumns = { "id", "条形码", "名称", "颜色", "类型", "重量", "适用机型", "仓库", "生产日期", "有效期", "操作员", "操作日期", "操作时间", "操作类型", "告警时间", "备注" };
-        public static string[] STOCKLOGTABLECOLUMNS
-        {
-            get { return _stocklogTableColumns; }
-        }
-        private static readonly string[] _stockLogTableColumnsType = { "INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT" };
-        public static string[] STOCKLOGTABLECOLUMNSTYPE
-        {
-            get { return _stockLogTableColumnsType; }
-        }
+        public static readonly string WARNMANAGERTABLENAME = "warnManager";
+        public static readonly string[] WARNMANAGERTABLECOLUMNS = { "id", "名称", "颜色", "类型", "库存上限", "库存下限", "告警时间", "规则创建人", "规则创建时间" };
+        public static readonly string[] WARNMANAGERTABLECOLUMNSTYPE = { "INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT" };
+        public static readonly string[] WARNMANAGERTABLECOLUMNSTYPEFORSQLSERVER = { "INT IDENTITY PRIMARY KEY", "VARCHAR(40)", "VARCHAR(40)", "VARCHAR(40)", "VARCHAR(20)", "VARCHAR(20)", "VARCHAR(20)", "VARCHAR(20)", "VARCHAR(20)" };
 
-        private static readonly string _stirLogTableName = "stirLog";
-        public static string STIRLOGTABLENAME
-        {
-            get { return _stirLogTableName; }
-        }
-        private static readonly string[] _stirlogTableColumns = { "id", "机种", "製品", "颜色", "涂层", "温度", "湿度", "调和比例", "类型", "名称", "条形码", "设定重量", "倒入重量", "计量时间", "操作员", "操作日期", "操作时间", "确认主管", "备注" };
-        public static string[] STIRLOGTABLECOLUMNS
-        {
-            get { return _stirlogTableColumns; }
-        }
-        private static readonly string[] _stirLogTableColumnsType = { "INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT ", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT" };
-        public static string[] STIRLOGTABLECOLUMNSTYPE
-        {
-            get { return _stirLogTableColumnsType; }
-        }
+        public static readonly string STOCKLOGTABLENAME = "stockLog";
+        public static readonly string[] STOCKLOGTABLECOLUMNS = { "id", "条形码", "名称", "颜色", "类型", "重量", "适用机型", "仓库", "生产日期", "有效期", "操作员", "操作日期", "操作时间", "操作类型", "告警时间", "备注" };
+        public static readonly string[] STOCKLOGTABLECOLUMNSTYPE = { "INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT" };
+        public static readonly string[] STOCKLOGTABLECOLUMNSTYPEFORSQLSERVER = { "INT IDENTITY PRIMARY KEY", "VARCHAR(128)", "VARCHAR(40)", "VARCHAR(40)", "VARCHAR(40)", "VARCHAR(10)", "VARCHAR(40)", "VARCHAR(20)", "VARCHAR(20)", "VARCHAR(20)", "VARCHAR(20)", "VARCHAR(20)", "VARCHAR(20)", "VARCHAR(20)", "VARCHAR(20)", "VARCHAR(60)" };
 
-        private static readonly string _masterTableName = "master";
-        public static string MASTERTABLENAME
-        {
-            get { return _masterTableName; }
-        }
+        public static readonly string STIRLOGTABLENAME = "stirLog";
+        public static readonly string[] STIRLOGTABLECOLUMNS = { "id", "机种", "製品", "颜色", "涂层", "温度", "湿度", "调和比例", "类型", "名称", "条形码", "设定重量", "倒入重量", "计量时间", "操作员", "操作日期", "操作时间", "确认主管", "备注" };
+        public static readonly string[] STIRLOGTABLECOLUMNSTYPE = { "INTEGER PRIMARY KEY AUTOINCREMENT", "TEXT ", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT", "TEXT" };
+        public static readonly string[] STIRLOGTABLECOLUMNSTYPEFORSQLSERVER = { "INT IDENTITY PRIMARY KEY", "VARCHAR(40) ", "VARCHAR(40)", "VARCHAR(40)", "VARCHAR(10)", "VARCHAR(10)", "VARCHAR(10)", "VARCHAR(20)", "VARCHAR(20)", "VARCHAR(40)", "VARCHAR(128)", "VARCHAR(10)", "VARCHAR(10)", "VARCHAR(10)", "VARCHAR(20)", "VARCHAR(20)", "VARCHAR(20)", "VARCHAR(20)", "VARCHAR(60)" };
+
+        public static readonly string MASTERTABLENAME = "master";
 
         public static readonly Dictionary<string, string> COATINGTYPE = new Dictionary<string, string> { { "A", "色漆/清漆" }, { "B", "固化剂" }, { "C", "稀释剂" }, { "D", "清洗剂" }, { "E", "清漆" }, { "F", "前处理液" } };
         public static readonly Dictionary<string, string> FACTORY = new Dictionary<string, string> { { "G1012", "恩碧" }, { "G1013", "关西" }, { "G1014", "佑天" }, { "G1015", "凡净" }, { "G1018", "沌创" } };
@@ -142,35 +74,35 @@ namespace CoatingMgr
         //根据告警规则更新库存上、下限告警数据
         public static void UpdateStockCountWarn(string name, string color, string type, string maximum, string minimum, string expirydate)
         {
-            SQLiteDataReader dataReader = SqlLiteHelper.GetInstance().Read(Common.STOCKCOUNTTABLENAME, new string[] { "名称", "颜色", "类型" }, new string[] { "=", "=", "=" }, new string[] { name, color, type });
-            if (dataReader != null && dataReader.HasRows && dataReader.Read())//色剂已经存在
+            DataTable dt = SQLServerHelper.Read(Common.STOCKCOUNTTABLENAME, new string[] { "名称", "颜色", "类型" }, new string[] { "=", "=", "=" }, new string[] { name, color, type });
+            if (dt != null && dt.Rows.Count > 0)//色剂已经存在
             {
-                SqlLiteHelper.GetInstance().Update(Common.STOCKCOUNTTABLENAME, new string[] { "库存上限", "库存下限", "告警时间" }, new string[] { maximum, minimum, expirydate }, "id", dataReader["id"].ToString());
+                SQLServerHelper.Update(Common.STOCKCOUNTTABLENAME, new string[] { "库存上限", "库存下限", "告警时间" }, new string[] { maximum, minimum, expirydate }, "id", dt.Rows[0]["id"].ToString());
             }
         }
 
         //根据告警规则更新在库有效期告警
         private static void UpdateExpiryDateWarn()
         {
-            SQLiteDataReader warnDR = SqlLiteHelper.GetInstance().Read(WARNMANAGERTABLENAME);
-            if (warnDR != null && warnDR.HasRows)
+            DataTable warnDT = SQLServerHelper.Read(WARNMANAGERTABLENAME);
+            if (warnDT != null && warnDT.Rows.Count > 0)
             {
-                while (warnDR.Read())
+                foreach (DataRow dr in warnDT.Rows)
                 {
-                    string warnDate = warnDR["告警时间"].ToString();
+                    string warnDate = dr["告警时间"].ToString();
                     if (!warnDate.Equals(string.Empty))
                     {
-                        string name = warnDR["名称"].ToString();
-                        string color = warnDR["颜色"].ToString();
-                        string type = warnDR["类型"].ToString();
-                        SQLiteDataReader dataReader = SqlLiteHelper.GetInstance().Read(Common.INSTOCKTABLENAME, new string[] { "名称", "颜色", "类型" }, new string[] { "=", "=", "=" }, new string[] { name, color, type });
-                        while (dataReader.Read())
+                        string name = dr["名称"].ToString();
+                        string color = dr["颜色"].ToString();
+                        string type = dr["类型"].ToString();
+                        DataTable dt = SQLServerHelper.Read(Common.INSTOCKTABLENAME, new string[] { "名称", "颜色", "类型" }, new string[] { "=", "=", "=" }, new string[] { name, color, type });
+                        foreach (DataRow dataRow in dt.Rows)
                         {
-                            DateTime expiryDate = DateTime.ParseExact(dataReader["有效期"].ToString(), "yyyyMMdd", null);
+                            DateTime expiryDate = DateTime.ParseExact(dataRow["有效期"].ToString(), "yyyyMMdd", null);
                             DateTime date = expiryDate.AddDays(Convert.ToInt32(WARNDATE[warnDate]));
-                            if (!date.ToString("yyyyMMdd").Equals(dataReader["告警时间"].ToString()))
+                            if (!date.ToString("yyyyMMdd").Equals(dataRow["告警时间"].ToString()))
                             {
-                                SqlLiteHelper.GetInstance().Update(Common.INSTOCKTABLENAME, new string[] { "告警时间" }, new string[] { date.ToString("yyyyMMdd") }, "id", dataReader["id"].ToString());
+                                SQLServerHelper.Update(Common.INSTOCKTABLENAME, new string[] { "告警时间" }, new string[] { date.ToString("yyyyMMdd") }, "id", dataRow["id"].ToString());
                             }
                         }
                     }
@@ -265,11 +197,9 @@ namespace CoatingMgr
             string MailBody = "<p style=\"font-size: 10pt\">以下内容为系统自动发送，请勿直接回复，谢谢。</p>";
 
             //库存上、下限告警数据
-            DataTable stockWarnData = new DataTable();
-            SQLiteDataReader stockWarnDataReader = SqlLiteHelper.GetInstance().ReadStockWarnFromTable(STOCKCOUNTTABLENAME, new string[] { "重量", "库存上限", "重量", "库存下限" }, new string[] { ">", "!=", "<", "!=" }, new string[] { "库存上限", "''", "库存下限", "''" }, new string[] { "AND", "OR", "AND" });
-            if (stockWarnDataReader != null && stockWarnDataReader.HasRows)
+            DataTable stockWarnData = SQLServerHelper.ReadStockWarnFromTable(STOCKCOUNTTABLENAME, new string[] { "重量", "库存上限", "重量", "库存下限" }, new string[] { ">", "!=", "<", "!=" }, new string[] { "库存上限", "''", "库存下限", "''" }, new string[] { "AND", "OR", "AND" });
+            if (stockWarnData != null && stockWarnData.Rows.Count > 0)
             {
-                stockWarnData.Load(stockWarnDataReader);
                 MailBody += "<p style=\"font-size: 10pt\">库存告警：</p>";
                 MailBody += "<table cellspacing=\"1\" cellpadding=\"3\" border=\"0\" bgcolor=\"000000\" style=\"font-size: 10pt;line-height: 15px;\">";
                 MailBody += "<div align=\"center\">";
@@ -298,11 +228,9 @@ namespace CoatingMgr
             }
 
             //有效期告警数据
-            DataTable expiryWarnData = new DataTable();
-            SQLiteDataReader expiryWarnDataReader = SqlLiteHelper.GetInstance().Read(INSTOCKTABLENAME, new string[] { "告警时间", "告警时间" }, new string[] { ">", "<=" }, new string[] { "0", DateTime.Now.ToString("yyyyMMdd") });
-            if (expiryWarnDataReader != null && expiryWarnDataReader.HasRows)
+            DataTable expiryWarnData = SQLServerHelper.Read(INSTOCKTABLENAME, new string[] { "告警时间", "告警时间" }, new string[] { ">", "<=" }, new string[] { "0", DateTime.Now.ToString("yyyyMMdd") });
+            if (expiryWarnData != null && expiryWarnData.Rows.Count > 0)
             {
-                expiryWarnData.Load(expiryWarnDataReader);
                 MailBody += "<p style=\"font-size: 10pt\">有效期告警：</p>";
                 MailBody += "<table cellspacing=\"1\" cellpadding=\"3\" border=\"0\" bgcolor=\"000000\" style=\"font-size: 10pt;line-height: 15px;\">";
                 MailBody += "<div align=\"center\">";

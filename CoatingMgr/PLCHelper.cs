@@ -1,8 +1,6 @@
 ﻿using HslCommunication;
 using HslCommunication.Profinet.Keyence;
 using System;
-using System.IO.Ports;
-using System.Threading;
 
 namespace CoatingMgr
 {

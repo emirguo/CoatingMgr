@@ -54,14 +54,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CoatingMgr.exe" size="327144">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CoatingMgr.exe" size="335848">
       <assemblyIdentity name="CoatingMgr" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>wBA64ZKGUNt0W16YPl52tgECv+v5FoJMRbge/jc9HaU=</dsig:DigestValue>
+        <dsig:DigestValue>DfEjpsEeM7ZIUaZenQRTPcN9Y7TmGUqiUtjPv2RtQGA=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -197,13 +197,13 @@
       </hash>
     </dependentAssembly>
   </dependency>
-  <file name="CoatingMgr.exe.config" size="2744">
+  <file name="CoatingMgr.exe.config" size="2736">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>5dOptldRke+Or6ri4oXhJZPb36afYVSYj+diOar3Zhk=</dsig:DigestValue>
+      <dsig:DigestValue>0Bv06pIGotSvhZOpVgg5WFOsUsVTx0JI4KjN5EZIx0Q=</dsig:DigestValue>
     </hash>
   </file>
   <file name="SQLite.Interop.dll" size="1413120">

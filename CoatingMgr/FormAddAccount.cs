@@ -51,10 +51,6 @@ namespace CoatingMgr
             btnAdd.Text = "修改";
         }
 
-        private void FormAddAccount_Load(object sender, EventArgs e)
-        {
-        }
-
         private void InitData()
         {
             cbAccountPermission.Items.Add("操作员");
@@ -75,31 +71,31 @@ namespace CoatingMgr
                 return;
             }
 
-            SqlLiteHelper sqlLiteHelper = SqlLiteHelper.GetInstance();
             if (_modifyModel)
             {
-                SQLiteDataReader dataReader = sqlLiteHelper.Read(_tableName, new string[] { "账号" }, new string[] { "=" }, new string[] { tbUserName.Text.ToString() });
-                if (dataReader.Read() && !dataReader.GetString(dataReader.GetOrdinal("账号")).Equals(_name))//判断账号是否已经存在且不是当前账号
+                DataTable dt = SQLServerHelper.Read(_tableName, new string[] { "账号" }, new string[] { "=" }, new string[] { tbUserName.Text.ToString() });
+                if (dt.Rows.Count > 0 && dt.Rows[0]["账号"].Equals(_name))//判断账号是否已经存在且不是当前账号
                 {
                     MessageBox.Show("账户已经存在");
                     return;
                 }
                 else
                 {
-                    sqlLiteHelper.Update(_tableName, new string[] { "账号", "密码", "权限" }, new string[] { tbUserName.Text.ToString(), tbPwd.Text.ToString(), cbAccountPermission.Text.ToString() }, "id", _id + "");
+                    SQLServerHelper.Update(_tableName, new string[] { "账号", "密码", "权限" }, new string[] { tbUserName.Text.ToString(), tbPwd.Text.ToString(), cbAccountPermission.Text.ToString() }, "id", _id + "");
                 }                
             }
             else
             {
-                SQLiteDataReader dataReader = sqlLiteHelper.Read(_tableName, new string[] { "账号" }, new string[] { "=" }, new string[] { tbUserName.Text.ToString() });
-                if (dataReader != null && dataReader.HasRows)//判断账号是否已经存在
+                DataTable dt = SQLServerHelper.Read(_tableName, new string[] { "账号" }, new string[] { "=" }, new string[] { tbUserName.Text.ToString() });
+                if (dt != null && dt.Rows.Count > 0)//判断账号是否已经存在
                 {
                     MessageBox.Show("账户已经存在");
                     return;
                 }
                 else
                 {
-                    sqlLiteHelper.Insert(_tableName, new string[] { tbUserName.Text.ToString(), tbPwd.Text.ToString(), cbAccountPermission.Text.ToString() });
+                    SQLServerHelper.Insert(_tableName, new string[] { "账号", "密码", "权限" },
+                        new string[] { tbUserName.Text.ToString(), tbPwd.Text.ToString(), cbAccountPermission.Text.ToString() });
                 }
             }
             if (_fatherForm != null)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Data.SQLite;
 using System.Drawing;
 using System.Windows.Forms;
@@ -26,24 +27,24 @@ namespace CoatingMgr
 
         private void FormChartFillWindow_Load(object sender, EventArgs e)
         {
-            SQLiteDataReader dr;
+            DataTable dt;
             if (_searchType.Equals("") || _searchContent.Equals(""))
             {
-                dr = SqlLiteHelper.GetInstance().Read(_tableName);
+                dt = SQLServerHelper.Read(_tableName);
             }
             else
             {
-                dr = SqlLiteHelper.GetInstance().Read(_tableName, new string[] { _searchType }, new string[] { "=" }, new string[] { _searchContent });
+                dt = SQLServerHelper.Read(_tableName, new string[] { _searchType }, new string[] { "=" }, new string[] { _searchContent });
             }
-            if (dr != null && dr.HasRows)
+            if (dt != null && dt.Rows.Count > 0)
             {
-                BindChartData(dr);
+                BindChartData(dt);
                 cbShowWarn.Checked = true;
             }
         }
 
         //绑定柱状图数据
-        private void BindChartData(SQLiteDataReader dataReader)
+        private void BindChartData(DataTable dt)
         {
             chartStock.Series.Clear();
             chartStock.ChartAreas[0].AxisX.Title = "色剂名";
@@ -83,13 +84,13 @@ namespace CoatingMgr
             };
             chartStock.Series.Add(maxSerie);
 
-            int i = 0;
-            while (dataReader.Read())
+            for(int i=0;i<dt.Rows.Count;i++)
             {
-                string x = dataReader["名称"].ToString();
-                double yWeight = dataReader["重量"].ToString().Equals("") ? 0 : Convert.ToDouble(dataReader["重量"].ToString());
-                double yMax = dataReader["库存上限"].ToString().Equals("") ? 0 : Convert.ToDouble(dataReader["库存上限"].ToString());
-                double yMin = dataReader["库存下限"].ToString().Equals("") ? 0 : Convert.ToDouble(dataReader["库存下限"].ToString());
+                DataRow dr = dt.Rows[i];
+                string x = dr["名称"].ToString();
+                double yWeight = dr["重量"].ToString().Equals("") ? 0 : Convert.ToDouble(dr["重量"].ToString());
+                double yMax = dr["库存上限"].ToString().Equals("") ? 0 : Convert.ToDouble(dr["库存上限"].ToString());
+                double yMin = dr["库存下限"].ToString().Equals("") ? 0 : Convert.ToDouble(dr["库存下限"].ToString());
 
                 weightSerie.Points.AddXY(x, yWeight);
 

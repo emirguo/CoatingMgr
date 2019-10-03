@@ -1,37 +1,37 @@
-﻿using MySql.Data.MySqlClient;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Windows.Forms;
 
 namespace CoatingMgr
 {
-    class MySQLHelper
+    class SQLServerHelper
     {
         /// <summary>
         /// 创建Access数据库
         /// </summary>
         /// <returns>真为创建成功，假为创建失败或是文件已存在</returns>
-        /// Data Source=localhost;Persist Security Info=yes; UserId=root; PWD=root
+        /// Data Source=.;Initial Catalog=db_bookmanage; Integrated Security=SSPI
         public static bool CreateDB()
         {
             bool result = false;
-            if (Properties.Settings.Default.SQLIP.Equals(string.Empty) 
+            if (Properties.Settings.Default.SQLIP.Equals(string.Empty)
                 || Properties.Settings.Default.SQLPort.Equals(string.Empty)
                 || Properties.Settings.Default.SQLUser.Equals(string.Empty)
                 || Properties.Settings.Default.SQLPwd.Equals(string.Empty))
             {
-                MessageBox.Show("请先设置MySQL数据库信息");
+                MessageBox.Show("请先设置数据库信息");
                 return result;
             }
 
             try
             {
-                string connStr = "Data Source = " + Properties.Settings.Default.SQLIP + ";Persist Security Info = yes; UserId = " + Properties.Settings.Default.SQLUser + "; PWD = " + Properties.Settings.Default.SQLPwd;
-                using (MySqlConnection conn = new MySqlConnection(connStr))
+                string connStr = "Data Source = " + Properties.Settings.Default.SQLIP /* +"," + Properties.Settings.Default.SQLPort */ + ";Persist Security Info = yes; uid = " + Properties.Settings.Default.SQLUser + "; PWD = " + Properties.Settings.Default.SQLPwd;
+                using (SqlConnection conn = new SqlConnection(connStr))
                 {
                     conn.Open();
-                    using (MySqlCommand cmd = new MySqlCommand("CREATE DATABASE " + Common.DBFileName + ";", conn))
+                    using (SqlCommand cmd = new SqlCommand("CREATE DATABASE " + Common.DBFileName + ";", conn))
                     {
                         cmd.ExecuteNonQuery();
                     }
@@ -63,14 +63,14 @@ namespace CoatingMgr
                 || Properties.Settings.Default.SQLUser.Equals(string.Empty)
                 || Properties.Settings.Default.SQLPwd.Equals(string.Empty))
             {
-                MessageBox.Show("请先设置MySQL数据库信息");
+                MessageBox.Show("请先设置数据库信息");
                 return result;
             }
 
-            string connStr = "server = " + Properties.Settings.Default.SQLIP + "; port = " + Properties.Settings.Default.SQLPort
-                + "; user = " + Properties.Settings.Default.SQLUser + "; password = " + Properties.Settings.Default.SQLPwd + "; database = " + Common.DBFileName + ";";
+            string connStr = "Data Source = " + Properties.Settings.Default.SQLIP + "," + Properties.Settings.Default.SQLPort
+                + "; uid = " + Properties.Settings.Default.SQLUser + "; pwd = " + Properties.Settings.Default.SQLPwd + ";Initial Catalog = " + Common.DBFileName;
 
-            string sql = "CREATE TABLE IF NOT EXISTS " + tableName + " (" + colNames[0] + " " + colTypes[0];
+            string sql = "CREATE TABLE " + tableName + " (" + colNames[0] + " " + colTypes[0];
             for (int i = 1; i < colNames.Length; i++)
             {
                 sql += ", " + colNames[i] + " " + colTypes[i];
@@ -79,10 +79,10 @@ namespace CoatingMgr
 
             try
             {
-                using (MySqlConnection conn = new MySqlConnection(connStr))
+                using (SqlConnection conn = new SqlConnection(connStr))
                 {
                     conn.Open();
-                    using (MySqlCommand cmd = new MySqlCommand(sql, conn))
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
                     {
                         cmd.ExecuteNonQuery();
                     }
@@ -113,12 +113,12 @@ namespace CoatingMgr
                 || Properties.Settings.Default.SQLUser.Equals(string.Empty)
                 || Properties.Settings.Default.SQLPwd.Equals(string.Empty))
             {
-                MessageBox.Show("请先设置MySQL数据库信息");
+                MessageBox.Show("请先设置数据库信息");
                 return result;
             }
 
-            string connStr = "server = " + Properties.Settings.Default.SQLIP + "; port = " + Properties.Settings.Default.SQLPort
-                + "; user = " + Properties.Settings.Default.SQLUser + "; password = " + Properties.Settings.Default.SQLPwd + "; database = " + Common.DBFileName + ";";
+            string connStr = "Data Source = " + Properties.Settings.Default.SQLIP + "," + Properties.Settings.Default.SQLPort
+                + "; uid = " + Properties.Settings.Default.SQLUser + "; pwd = " + Properties.Settings.Default.SQLPwd + ";Initial Catalog = " + Common.DBFileName;
 
             string sql = "ALTER TABLE " + tableName + " ADD " + colNames[0] + " " + colTypes[0];
             for (int i = 1; i < colNames.Length; i++)
@@ -128,10 +128,10 @@ namespace CoatingMgr
 
             try
             {
-                using (MySqlConnection conn = new MySqlConnection(connStr))
+                using (SqlConnection conn = new SqlConnection(connStr))
                 {
                     conn.Open();
-                    using (MySqlCommand cmd = new MySqlCommand(sql, conn))
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
                     {
                         cmd.ExecuteNonQuery();
                     }
@@ -154,16 +154,16 @@ namespace CoatingMgr
         public static bool DeleteTable(string tableName)
         {
             bool result = false;
-            string connStr = "server = " + Properties.Settings.Default.SQLIP + "; port = " + Properties.Settings.Default.SQLPort
-                + "; user = " + Properties.Settings.Default.SQLUser + "; password = " + Properties.Settings.Default.SQLPwd + "; database = " + Common.DBFileName + ";";
+            string connStr = "Data Source = " + Properties.Settings.Default.SQLIP + "," + Properties.Settings.Default.SQLPort
+                + "; uid = " + Properties.Settings.Default.SQLUser + "; pwd = " + Properties.Settings.Default.SQLPwd + ";Initial Catalog = " + Common.DBFileName;
 
             string sql = "DROP TABLE " + tableName;
             try
             {
-                using (MySqlConnection conn = new MySqlConnection(connStr))
+                using (SqlConnection conn = new SqlConnection(connStr))
                 {
                     conn.Open();
-                    using (MySqlCommand cmd = new MySqlCommand(sql, conn))
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
                     {
                         cmd.ExecuteNonQuery();
                     }
@@ -186,16 +186,16 @@ namespace CoatingMgr
         public static bool ClearTable(string tableName)
         {
             bool result = false;
-            string connStr = "server = " + Properties.Settings.Default.SQLIP + "; port = " + Properties.Settings.Default.SQLPort
-                + "; user = " + Properties.Settings.Default.SQLUser + "; password = " + Properties.Settings.Default.SQLPwd + "; database = " + Common.DBFileName + ";";
+            string connStr = "Data Source = " + Properties.Settings.Default.SQLIP + "," + Properties.Settings.Default.SQLPort
+                + "; uid = " + Properties.Settings.Default.SQLUser + "; pwd = " + Properties.Settings.Default.SQLPwd + ";Initial Catalog = " + Common.DBFileName;
 
             string sql = "DELETE FROM " + tableName;
             try
             {
-                using (MySqlConnection conn = new MySqlConnection(connStr))
+                using (SqlConnection conn = new SqlConnection(connStr))
                 {
                     conn.Open();
-                    using (MySqlCommand cmd = new MySqlCommand(sql, conn))
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
                     {
                         cmd.ExecuteNonQuery();
                     }
@@ -228,18 +228,18 @@ namespace CoatingMgr
         public static DataTable Read(string tableName)
         {
             DataTable dt = new DataTable();
-            string connStr = "server = " + Properties.Settings.Default.SQLIP + "; port = " + Properties.Settings.Default.SQLPort
-                + "; user = " + Properties.Settings.Default.SQLUser + "; password = " + Properties.Settings.Default.SQLPwd + "; database = " + Common.DBFileName + ";";
+            string connStr = "Data Source = " + Properties.Settings.Default.SQLIP + "," + Properties.Settings.Default.SQLPort
+                + "; uid = " + Properties.Settings.Default.SQLUser + "; pwd = " + Properties.Settings.Default.SQLPwd + ";Initial Catalog = " + Common.DBFileName;
 
             string sql = "SELECT * FROM " + tableName;
             try
             {
-                using (MySqlConnection conn = new MySqlConnection(connStr))
+                using (SqlConnection conn = new SqlConnection(connStr))
                 {
                     conn.Open();
-                    using (MySqlCommand cmd = new MySqlCommand(sql, conn))
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
                     {
-                        MySqlDataAdapter mda = new MySqlDataAdapter(cmd);
+                        SqlDataAdapter mda = new SqlDataAdapter(cmd);
                         mda.Fill(dt);
                     }
                     conn.Close();
@@ -264,8 +264,9 @@ namespace CoatingMgr
         public static DataTable Read(string tableName, string[] colNames, string[] operations, string[] colValues)
         {
             DataTable dt = new DataTable();
-            string connStr = "server = " + Properties.Settings.Default.SQLIP + "; port = " + Properties.Settings.Default.SQLPort
-                + "; user = " + Properties.Settings.Default.SQLUser + "; password = " + Properties.Settings.Default.SQLPwd + "; database = " + Common.DBFileName + ";";
+            string connStr = "Data Source = " + Properties.Settings.Default.SQLIP + "," + Properties.Settings.Default.SQLPort
+                + "; uid = " + Properties.Settings.Default.SQLUser + "; pwd = " + Properties.Settings.Default.SQLPwd + ";Initial Catalog = " + Common.DBFileName;
+
             string sql = "SELECT * FROM " + tableName + " WHERE " + colNames[0] + " " + operations[0] + " '" + colValues[0] + "'";
             for (int i = 1; i < colNames.Length; i++)
             {
@@ -273,12 +274,12 @@ namespace CoatingMgr
             }
             try
             {
-                using (MySqlConnection conn = new MySqlConnection(connStr))
+                using (SqlConnection conn = new SqlConnection(connStr))
                 {
                     conn.Open();
-                    using (MySqlCommand cmd = new MySqlCommand(sql, conn))
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
                     {
-                        MySqlDataAdapter mda = new MySqlDataAdapter(cmd);
+                        SqlDataAdapter mda = new SqlDataAdapter(cmd);
                         mda.Fill(dt);
                     }
                     conn.Close();
@@ -304,8 +305,9 @@ namespace CoatingMgr
         public static DataTable Read(string tableName, string[] colNames, string[] operations, string[] colValues, string[] orAnds)
         {
             DataTable dt = new DataTable();
-            string connStr = "server = " + Properties.Settings.Default.SQLIP + "; port = " + Properties.Settings.Default.SQLPort
-                + "; user = " + Properties.Settings.Default.SQLUser + "; password = " + Properties.Settings.Default.SQLPwd + "; database = " + Common.DBFileName + ";";
+            string connStr = "Data Source = " + Properties.Settings.Default.SQLIP + "," + Properties.Settings.Default.SQLPort
+                + "; uid = " + Properties.Settings.Default.SQLUser + "; pwd = " + Properties.Settings.Default.SQLPwd + ";Initial Catalog = " + Common.DBFileName;
+
             string sql = "SELECT * FROM " + tableName + " WHERE " + colNames[0] + " " + operations[0] + " '" + colValues[0] + "'";
             for (int i = 1; i < colNames.Length; i++)
             {
@@ -313,12 +315,12 @@ namespace CoatingMgr
             }
             try
             {
-                using (MySqlConnection conn = new MySqlConnection(connStr))
+                using (SqlConnection conn = new SqlConnection(connStr))
                 {
                     conn.Open();
-                    using (MySqlCommand cmd = new MySqlCommand(sql, conn))
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
                     {
-                        MySqlDataAdapter mda = new MySqlDataAdapter(cmd);
+                        SqlDataAdapter mda = new SqlDataAdapter(cmd);
                         mda.Fill(dt);
                     }
                     conn.Close();
@@ -342,8 +344,9 @@ namespace CoatingMgr
         public static bool Insert(string tableName, string[] columns, string[] values)
         {
             bool result = false;
-            string connStr = "server = " + Properties.Settings.Default.SQLIP + "; port = " + Properties.Settings.Default.SQLPort
-                + "; user = " + Properties.Settings.Default.SQLUser + "; password = " + Properties.Settings.Default.SQLPwd + "; database = " + Common.DBFileName + ";";
+            string connStr = "Data Source = " + Properties.Settings.Default.SQLIP + "," + Properties.Settings.Default.SQLPort
+                + "; uid = " + Properties.Settings.Default.SQLUser + "; pwd = " + Properties.Settings.Default.SQLPwd + ";Initial Catalog = " + Common.DBFileName;
+
             string sql = "INSERT INTO " + tableName + " (" + columns[0];
             for (int i = 1; i < columns.Length; i++)
             {
@@ -357,10 +360,10 @@ namespace CoatingMgr
             sql += " )";
             try
             {
-                using (MySqlConnection conn = new MySqlConnection(connStr))
+                using (SqlConnection conn = new SqlConnection(connStr))
                 {
                     conn.Open();
-                    using (MySqlCommand cmd = new MySqlCommand(sql, conn))
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
                     {
                         cmd.ExecuteNonQuery();
                     }
@@ -388,8 +391,9 @@ namespace CoatingMgr
         public static bool Delete(string tableName, string[] colNames, string[] colValues, string[] operations, string[] relations)
         {
             bool result = false;
-            string connStr = "server = " + Properties.Settings.Default.SQLIP + "; port = " + Properties.Settings.Default.SQLPort
-                + "; user = " + Properties.Settings.Default.SQLUser + "; password = " + Properties.Settings.Default.SQLPwd + "; database = " + Common.DBFileName + ";";
+            string connStr = "Data Source = " + Properties.Settings.Default.SQLIP + "," + Properties.Settings.Default.SQLPort
+                + "; uid = " + Properties.Settings.Default.SQLUser + "; pwd = " + Properties.Settings.Default.SQLPwd + ";Initial Catalog = " + Common.DBFileName;
+
             string sql = "DELETE FROM " + tableName + " WHERE " + colNames[0] + operations[0] + "'" + colValues[0] + "'";
             for (int i = 1; i < colValues.Length; i++)
             {
@@ -398,10 +402,10 @@ namespace CoatingMgr
 
             try
             {
-                using (MySqlConnection conn = new MySqlConnection(connStr))
+                using (SqlConnection conn = new SqlConnection(connStr))
                 {
                     conn.Open();
-                    using (MySqlCommand cmd = new MySqlCommand(sql, conn))
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
                     {
                         cmd.ExecuteNonQuery();
                     }
@@ -429,8 +433,9 @@ namespace CoatingMgr
         public static bool Update(string tableName, string[] colNames, string[] colValues, string key, string value, string operation = "=")
         {
             bool result = false;
-            string connStr = "server = " + Properties.Settings.Default.SQLIP + "; port = " + Properties.Settings.Default.SQLPort
-                + "; user = " + Properties.Settings.Default.SQLUser + "; password = " + Properties.Settings.Default.SQLPwd + "; database = " + Common.DBFileName + ";";
+            string connStr = "Data Source = " + Properties.Settings.Default.SQLIP + "," + Properties.Settings.Default.SQLPort
+                + "; uid = " + Properties.Settings.Default.SQLUser + "; pwd = " + Properties.Settings.Default.SQLPwd + ";Initial Catalog = " + Common.DBFileName;
+
             string sql = "UPDATE " + tableName + " SET " + colNames[0] + "=" + "'" + colValues[0] + "'";
             for (int i = 1; i < colValues.Length; i++)
             {
@@ -439,10 +444,10 @@ namespace CoatingMgr
             sql += " WHERE " + key + operation + value;
             try
             {
-                using (MySqlConnection conn = new MySqlConnection(connStr))
+                using (SqlConnection conn = new SqlConnection(connStr))
                 {
                     conn.Open();
-                    using (MySqlCommand cmd = new MySqlCommand(sql, conn))
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
                     {
                         cmd.ExecuteNonQuery();
                     }
@@ -469,8 +474,9 @@ namespace CoatingMgr
         {
             List<string> list = new List<string>();
             DataTable dt = new DataTable();
-            string connStr = "server = " + Properties.Settings.Default.SQLIP + "; port = " + Properties.Settings.Default.SQLPort
-                + "; user = " + Properties.Settings.Default.SQLUser + "; password = " + Properties.Settings.Default.SQLPwd + "; database = " + Common.DBFileName + ";";
+            string connStr = "Data Source = " + Properties.Settings.Default.SQLIP + "," + Properties.Settings.Default.SQLPort
+                + "; uid = " + Properties.Settings.Default.SQLUser + "; pwd = " + Properties.Settings.Default.SQLPwd + ";Initial Catalog = " + Common.DBFileName;
+
             string sql = "SELECT " + column + " FROM " + tableName;
             if (colNames != null && colNames.Length > 0)
             {
@@ -483,12 +489,12 @@ namespace CoatingMgr
 
             try
             {
-                using (MySqlConnection conn = new MySqlConnection(connStr))
+                using (SqlConnection conn = new SqlConnection(connStr))
                 {
                     conn.Open();
-                    using (MySqlCommand cmd = new MySqlCommand(sql, conn))
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
                     {
-                        MySqlDataAdapter mda = new MySqlDataAdapter(cmd);
+                        SqlDataAdapter mda = new SqlDataAdapter(cmd);
                         mda.Fill(dt);
                         foreach (DataRow item in dt.Rows)
                         {
@@ -521,11 +527,11 @@ namespace CoatingMgr
 
             DeleteTable(tableName);
             columns.Add("ID");
-            types.Add("INT UNSIGNED AUTO_INCREMENT PRIMARY KEY");//types.Add("AUTOINCREMENT");
+            types.Add("INT IDENTITY PRIMARY KEY");//types.Add("AUTOINCREMENT");
             foreach (DataColumn dc in dataTable.Columns)
             {
                 columns.Add(dc.ColumnName);
-                types.Add("CHAR(128)");
+                types.Add("VARCHAR(128)");
             }
             CreateTable(tableName, columns.ToArray(), types.ToArray());
 
@@ -541,6 +547,50 @@ namespace CoatingMgr
                 }
                 Insert(tableName, columns.ToArray(), values.ToArray());
             }
+        }
+
+        /// <summary>
+        /// Reads the table.
+        /// </summary>
+        /// <returns>The table.</returns>
+        /// <param name="tableName">Table name.</param>
+        /// <param name="items">Items.</param>
+        /// <param name="colNames">Col names.</param>
+        /// <param name="operations">Operations.</param>
+        /// <param name="colValues">Col values.</param>
+        /// select*from stockcount where (重量>库存上限 AND 库存上限!='') OR (重量<库存下限 AND 库存下限!='')
+        public static DataTable ReadStockWarnFromTable(string tableName, string[] colNames, string[] operations, string[] colValues, string[] orAnds)
+        {
+            DataTable dt = new DataTable();
+            string connStr = "Data Source = " + Properties.Settings.Default.SQLIP + "," + Properties.Settings.Default.SQLPort
+                + "; uid = " + Properties.Settings.Default.SQLUser + "; pwd = " + Properties.Settings.Default.SQLPwd + ";Initial Catalog = " + Common.DBFileName;
+
+            string sql = "SELECT * FROM " + tableName + " WHERE ( " + colNames[0] + " " + operations[0] + " " + colValues[0] + " ";
+            for (int i = 1; i < colNames.Length; i++)
+            {
+                sql += (orAnds[i - 1].Equals("OR") ? " ) " + orAnds[i - 1] + " ( " : orAnds[i - 1] + " ") + colNames[i] + " " + operations[i] + " " + colValues[i] + " ";
+            }
+            sql += ")";
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connStr))
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        SqlDataAdapter mda = new SqlDataAdapter(cmd);
+                        mda.Fill(dt);
+                    }
+                    conn.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.WriteLog("读取表" + tableName + "失败," + ex.Message);
+            }
+
+            return dt;
         }
     }
 }

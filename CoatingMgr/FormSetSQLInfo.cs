@@ -4,26 +4,26 @@ using System.Windows.Forms;
 
 namespace CoatingMgr
 {
-    public partial class FormSetMySQLInfo : Form
+    public partial class FormSetSQLInfo : Form
     {
-        public FormSetMySQLInfo()
+        public FormSetSQLInfo()
         {
             InitializeComponent();
-            if (!Properties.Settings.Default.MySQLIP.Equals(string.Empty))
+            if (!Properties.Settings.Default.SQLIP.Equals(string.Empty))
             {
-                this.tbIP.Text = Properties.Settings.Default.MySQLIP;
+                this.tbIP.Text = Properties.Settings.Default.SQLIP;
             }
-            if (Properties.Settings.Default.MySQLPort > 0)
+            if (Properties.Settings.Default.SQLPort > 0)
             {
-                this.tbPort.Text = Properties.Settings.Default.MySQLPort+"";
+                this.tbPort.Text = Properties.Settings.Default.SQLPort+"";
             }
-            if (!Properties.Settings.Default.MySQLUser.Equals(string.Empty))
+            if (!Properties.Settings.Default.SQLUser.Equals(string.Empty))
             {
-                this.tbUser.Text = Properties.Settings.Default.MySQLUser;
+                this.tbUser.Text = Properties.Settings.Default.SQLUser;
             }
-            if (!Properties.Settings.Default.MySQLPwd.Equals(string.Empty))
+            if (!Properties.Settings.Default.SQLPwd.Equals(string.Empty))
             {
-                this.tbPwd.Text = Properties.Settings.Default.MySQLPwd;
+                this.tbPwd.Text = Properties.Settings.Default.SQLPwd;
             }
         }
 
@@ -63,10 +63,10 @@ namespace CoatingMgr
                 return;
             }
 
-            Properties.Settings.Default.MySQLIP = this.tbIP.Text;
-            Properties.Settings.Default.MySQLPort = port;
-            Properties.Settings.Default.MySQLUser = this.tbUser.Text;
-            Properties.Settings.Default.MySQLPwd = this.tbPwd.Text;
+            Properties.Settings.Default.SQLIP = this.tbIP.Text;
+            Properties.Settings.Default.SQLPort = port;
+            Properties.Settings.Default.SQLUser = this.tbUser.Text;
+            Properties.Settings.Default.SQLPwd = this.tbPwd.Text;
             Properties.Settings.Default.Save();
 
             MySQLHelper.CreateDB();//创建数据库

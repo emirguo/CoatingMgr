@@ -340,6 +340,7 @@ namespace CoatingMgr
             return ExecuteQuery(queryString);
         }
 
+        /*
         /// <summary>
         /// 向指定数据表中插入另一张表的数据
         /// </summary>
@@ -370,6 +371,7 @@ namespace CoatingMgr
             queryString += " FROM " + sourceTable;
             return ExecuteQuery(queryString);
         }
+        */
 
         /// <summary>
         /// 获取某个字段所有不同值的数据
@@ -379,7 +381,7 @@ namespace CoatingMgr
         /// <param name="column">字段</param>
         ///SELECT column FROM TableName;
         ///SELECT column FROM TableName WHERE 色番='YR-614P' AND 涂层='下涂'
-        public List<string> GetValueTypeByColumnFromTable(string tableName, string column, string[] colNames, string[] operations, string[] colValues)
+        public List<string> GetTypesOfColumn(string tableName, string column, string[] colNames, string[] operations, string[] colValues)
         {
             List<string> list = new List<string>();
             string queryString = "SELECT " + column + " FROM " + tableName;

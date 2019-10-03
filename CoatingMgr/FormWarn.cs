@@ -1,20 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SQLite;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CoatingMgr
 {
     public partial class FormWarn : Form
     {
-        private static SqlLiteHelper sqlLiteHelper = null;
         private static string _tableName = Common.WARNMANAGERTABLENAME;
         private string _userName = "";
 
@@ -38,15 +32,6 @@ namespace CoatingMgr
             InitData();
         }
 
-        private SqlLiteHelper GetSqlLiteHelper()
-        {
-            if (sqlLiteHelper == null)
-            {
-                sqlLiteHelper = SqlLiteHelper.GetInstance();
-            }
-            return sqlLiteHelper;
-        }
-
         private void InitData()
         {
             for (int i = 0; i < _cbSearchType.Length; i++)
@@ -60,12 +45,12 @@ namespace CoatingMgr
         private void BindDataGirdView(DataGridView dataGirdView, string table)
         {
             dataGirdView.Rows.Clear();
-            SQLiteDataReader dataReader = GetSqlLiteHelper().Read(table);
-            if (dataReader != null && dataReader.HasRows)
+            DataTable dt = SQLServerHelper.Read(table);
+            if (dt != null && dt.Rows.Count > 0)
             {
                 BindingSource bs = new BindingSource
                 {
-                    DataSource = dataReader
+                    DataSource = dt
                 };
                 dataGirdView.DataSource = bs;
                 if (dataGirdView.ColumnCount > 0)
@@ -79,12 +64,12 @@ namespace CoatingMgr
 
         private void BindDataGirdViewBySearch(DataGridView dataGirdView, string table, string type, string content)
         {
-            SQLiteDataReader dataReader = GetSqlLiteHelper().Read(table, new string[] { type }, new string[] { "=" }, new string[] { content });
-            if (dataReader != null && dataReader.HasRows)
+            DataTable dt = SQLServerHelper.Read(table, new string[] { type }, new string[] { "=" }, new string[] { content });
+            if (dt != null && dt.Rows.Count > 0)
             {
                 BindingSource bs = new BindingSource
                 {
-                    DataSource = dataReader
+                    DataSource = dt
                 };
                 dataGirdView.DataSource = bs;
                 if (dataGirdView.ColumnCount > 0)
@@ -162,7 +147,7 @@ namespace CoatingMgr
                     if (!row.IsNewRow)
                     {
                         string id = row.Cells[0].Value.ToString();
-                        GetSqlLiteHelper().DeleteValuesAND(_tableName, new string[] { "id" }, new string[] { id }, new string[] { "=" });
+                        SQLServerHelper.Delete(_tableName, new string[] { "id" }, new string[] { id }, new string[] { "=" }, null);
 
                         dgvWarnMgr.Rows.Remove(row);
                     }
@@ -189,7 +174,7 @@ namespace CoatingMgr
             if (cbSearchType.SelectedIndex >= 0)
             {
                 cbSearchContent.Items.Clear();
-                List<string> searchContent = GetSqlLiteHelper().GetValueTypeByColumnFromTable(_tableName, _searchType[cbSearchType.SelectedIndex], null, null, null);
+                List<string> searchContent = SQLServerHelper.GetTypesOfColumn(_tableName, _searchType[cbSearchType.SelectedIndex], null, null, null);
                 for (int i = 0; i < searchContent.Count; i++)
                 {
                     cbSearchContent.Items.Add(searchContent[i]);

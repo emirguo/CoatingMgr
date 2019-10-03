@@ -198,7 +198,7 @@ namespace CoatingMgr
             DataTable dt = RenderDataTableFromExcel(fileName, 0, true);
             if (dt != null)
             {
-                SqlLiteHelper.GetInstance().SaveDataTableToDB(dt, Common.MASTERTABLENAME);
+                SQLServerHelper.SaveDataTableToDB(dt, Common.MASTERTABLENAME);
             }
         }
 

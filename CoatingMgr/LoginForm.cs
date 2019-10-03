@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SQLite;
 using System.IO;
+using System.Data;
 
 namespace CoatingMgr
 {
@@ -46,12 +41,10 @@ namespace CoatingMgr
             }
             try
             {
-                SqlLiteHelper sqlLiteHelper = SqlLiteHelper.GetInstance();
-                string query = "select * from account where 账号=" + "'" + name + "'" + " and 密码=" + "'" + pwd + "'";
-                SQLiteDataReader dataReader = sqlLiteHelper.ExecuteQuery(query);
-                if (dataReader != null && dataReader.HasRows && dataReader.Read())
+                DataTable dt = SQLServerHelper.Read(Common.ACCOUNTTABLENAME, new string[] { "账号", "密码" }, new string[] { "=", "=" }, new string[] { name,pwd });
+                if (dt != null && dt.Rows.Count > 0)
                 {
-                    userPermission = dataReader["权限"].ToString();
+                    userPermission = dt.Rows[0]["权限"].ToString();
                     result = true;
                 }
             }
@@ -95,7 +88,7 @@ namespace CoatingMgr
 
         private void TslSetDBInfo_Click(object sender, EventArgs e)
         {
-            FormSetMySQLInfo formSetMySQLInfo = new FormSetMySQLInfo();
+            FormSetSQLInfo formSetMySQLInfo = new FormSetSQLInfo();
             formSetMySQLInfo.Show();
         }
 

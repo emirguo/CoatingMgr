@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Data.SQLite;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,7 +10,6 @@ namespace CoatingMgr
 {
     public partial class MainForm : Form
     {
-        private SqlLiteHelper sqlLiteHelper = null;
         private string _userName = "";
         private string _userPermission = "";
 
@@ -60,10 +60,11 @@ namespace CoatingMgr
 
         private void AnalysisWarn()
         {
-            SQLiteDataReader dataReader = GetSqlLiteHelper().Read(Common.MASTERTABLENAME);
-            if (dataReader == null || !dataReader.HasRows)
+            DataTable dt = SQLServerHelper.Read(Common.MASTERTABLENAME);
+            if (dt == null || dt.Rows.Count <= 0)
             {
                 MessageBox.Show("Master文件不存在，请先导入Master文件！");
+                return;
             }
 
             Common.AnalysisWarn();
@@ -90,15 +91,6 @@ namespace CoatingMgr
             }
         }
 
-        private SqlLiteHelper GetSqlLiteHelper()
-        {
-            if (sqlLiteHelper == null)
-            {
-                sqlLiteHelper = SqlLiteHelper.GetInstance();
-            }
-            return sqlLiteHelper;
-        }
-
         private void InitView()
         {
             FormStock formStock = new FormStock(_userName, _userPermission)
@@ -118,21 +110,21 @@ namespace CoatingMgr
             try
             {
                 //创建账户数据表
-                GetSqlLiteHelper().CreateTable(Common.ACCOUNTTABLENAME, Common.ACCOUNTTABLECOLUMNS, Common.ACCOUNTTABLECOLUMNSTYPE);
+                SQLServerHelper.CreateTable(Common.ACCOUNTTABLENAME, Common.ACCOUNTTABLECOLUMNS, Common.ACCOUNTTABLECOLUMNSTYPEFORSQLSERVER);
                 //创建仓库数据表
-                GetSqlLiteHelper().CreateTable(Common.STORETABLENAME, Common.STORETABLECOLUMNS, Common.STORETABLECOLUMNSTYPE);
+                SQLServerHelper.CreateTable(Common.STORETABLENAME, Common.STORETABLECOLUMNS, Common.STORETABLECOLUMNSTYPEFORSQLSERVER);
                 //创建入库数据表
-                GetSqlLiteHelper().CreateTable(Common.INSTOCKTABLENAME, Common.INSTOCKTABLECOLUMNS, Common.INSTOCKTABLECOLUMNSTYPE);
+                SQLServerHelper.CreateTable(Common.INSTOCKTABLENAME, Common.INSTOCKTABLECOLUMNS, Common.INSTOCKTABLECOLUMNSTYPEFORSQLSERVER);
                 //创建出库数据表
-                //GetSqlLiteHelper().CreateTable(Common.OUTSTOCKTABLENAME, Common.OUTSTOCKTABLECOLUMNS, Common.OUTSTOCKTABLECOLUMNSTYPE);
+                //SQLServerHelper.CreateTable(Common.OUTSTOCKTABLENAME, Common.OUTSTOCKTABLECOLUMNS, Common.OUTSTOCKTABLECOLUMNSTYPE);
                 //创建库存管理数据表
-                GetSqlLiteHelper().CreateTable(Common.STOCKCOUNTTABLENAME, Common.STOCKCOUNTTABLECOLUMNS, Common.STOCKCOUNTTABLECOLUMNSTYPE);
+                SQLServerHelper.CreateTable(Common.STOCKCOUNTTABLENAME, Common.STOCKCOUNTTABLECOLUMNS, Common.STOCKCOUNTTABLECOLUMNSTYPEFORSQLSERVER);
                 //创建告警数据表
-                GetSqlLiteHelper().CreateTable(Common.WARNMANAGERTABLENAME, Common.WARNMANAGERTABLECOLUMNS, Common.WARNMANAGERTABLECOLUMNSTYPE);
+                SQLServerHelper.CreateTable(Common.WARNMANAGERTABLENAME, Common.WARNMANAGERTABLECOLUMNS, Common.WARNMANAGERTABLECOLUMNSTYPEFORSQLSERVER);
                 //创建库存日志数据表
-                GetSqlLiteHelper().CreateTable(Common.STOCKLOGTABLENAME, Common.STOCKLOGTABLECOLUMNS, Common.STOCKLOGTABLECOLUMNSTYPE);
+                SQLServerHelper.CreateTable(Common.STOCKLOGTABLENAME, Common.STOCKLOGTABLECOLUMNS, Common.STOCKLOGTABLECOLUMNSTYPEFORSQLSERVER);
                 //创建调和日志数据表
-                GetSqlLiteHelper().CreateTable(Common.STIRLOGTABLENAME, Common.STIRLOGTABLECOLUMNS, Common.STIRLOGTABLECOLUMNSTYPE);
+                SQLServerHelper.CreateTable(Common.STIRLOGTABLENAME, Common.STIRLOGTABLECOLUMNS, Common.STIRLOGTABLECOLUMNSTYPEFORSQLSERVER);
             }
             catch (Exception e)
             {
@@ -478,7 +470,6 @@ namespace CoatingMgr
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             barcodeListener.Stop();
-            GetSqlLiteHelper().CloseConnection();
             Application.Exit();
         }
     }

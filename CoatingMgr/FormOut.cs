@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SQLite;
 using System.Threading;
 using System.Windows.Forms;
@@ -8,7 +9,6 @@ namespace CoatingMgr
 {
     public partial class FormOut : Form
     {
-        private static SqlLiteHelper sqlLiteHelper = null;
         private string _userName = "";
 
         public FormOut()
@@ -25,15 +25,6 @@ namespace CoatingMgr
         private void FormOut_Load(object sender, EventArgs e)
         {
             InitData();
-        }
-
-        private SqlLiteHelper GetSqlLiteHelper()
-        {
-            if (sqlLiteHelper == null)
-            {
-                sqlLiteHelper = SqlLiteHelper.GetInstance();
-            }
-            return sqlLiteHelper;
         }
 
         private void InitData()
@@ -151,10 +142,10 @@ namespace CoatingMgr
         private bool IsBarCodeInStock(string barcode)
         {
             bool result = false;
-            SQLiteDataReader dataReader = GetSqlLiteHelper().Read(Common.INSTOCKTABLENAME, new string[] { "条形码" }, new string[] { "=" }, new string[] { barcode });
-            if (dataReader != null && dataReader.HasRows && dataReader.Read())
+            DataTable dt = SQLServerHelper.Read(Common.INSTOCKTABLENAME, new string[] { "条形码" }, new string[] { "=" }, new string[] { barcode });
+            if (dt != null && dt.Rows.Count > 0)
             {
-                tbStore.Text = dataReader["仓库"].ToString();
+                tbStore.Text = dt.Rows[0]["仓库"].ToString();
                 result = true;
             }
             return result;
@@ -174,14 +165,14 @@ namespace CoatingMgr
                     tbProductionDate.Text = sArray[4];
                     tbExpiryDate.Text = sArray[6];
 
-                    SQLiteDataReader dataReader = GetSqlLiteHelper().Read(Common.MASTERTABLENAME, new string[] { "SAP品番" }, new string[] { "=" }, new string[] { tbName.Text });
-                    if (dataReader != null && dataReader.HasRows)
+                    DataTable dt = SQLServerHelper.Read(Common.MASTERTABLENAME, new string[] { "SAP品番" }, new string[] { "=" }, new string[] { tbName.Text });
+                    if (dt != null && dt.Rows.Count > 0)
                     {
-                        while (dataReader.Read())
+                        foreach(DataRow dr in dt.Rows)
                         {
-                            tbColor.Text += dataReader["色番"].ToString()+";";
-                            tbModel.Text += dataReader["适用机种"].ToString()+";";
-                            tbType.Text = dataReader["种类"].ToString();
+                            tbColor.Text += dr["色番"].ToString()+";";
+                            tbModel.Text += dr["适用机种"].ToString()+";";
+                            tbType.Text = dr["种类"].ToString();
                         }
                         if (tbType.Text.Equals(string.Empty))
                         {
@@ -238,24 +229,24 @@ namespace CoatingMgr
 
             //从库存统计数量中减去出库
             //"id", "类型", "名称", "颜色", "适用机型", "重量", "库存上限", "库存下限", "告警时间", "备注"
-            SQLiteDataReader dataReader = GetSqlLiteHelper().Read(Common.STOCKCOUNTTABLENAME, new string[] { "类型", "名称", "颜色", "适用机型" }, new string[] { "=", "=", "=", "=" }, new string[] { type, name, color, model });
-            if (dataReader != null && dataReader.HasRows && dataReader.Read())//色剂已经存在
+            DataTable dt = SQLServerHelper.Read(Common.STOCKCOUNTTABLENAME, new string[] { "类型", "名称", "颜色", "适用机型" }, new string[] { "=", "=", "=", "=" }, new string[] { type, name, color, model });
+            if (dt != null && dt.Rows.Count > 0)//色剂已经存在
             {
-                double inStockWeight = Convert.ToSingle(Common.FilterChar(dataReader["重量"].ToString()));
+                double inStockWeight = Convert.ToSingle(Common.FilterChar(dt.Rows[0]["重量"].ToString()));
                 double outputWeight = Convert.ToSingle(Common.FilterChar(weight));
                 inStockWeight -= outputWeight;
                 if (inStockWeight < 0.000001)//总量 < 0，删除
                 {
-                    GetSqlLiteHelper().DeleteValuesAND(Common.STOCKCOUNTTABLENAME, new string[] { "类型", "名称", "颜色", "适用机型" }, new string[] { type, name, color, model }, new string[] { "=", "=", "=", "=" });
+                    SQLServerHelper.Delete(Common.STOCKCOUNTTABLENAME, new string[] { "类型", "名称", "颜色", "适用机型" }, new string[] { type, name, color, model }, new string[] { "=", "=", "=", "=" }, new string[] { "AND", "AND", "AND" });
                 }
                 else
                 {
-                    GetSqlLiteHelper().Update(Common.STOCKCOUNTTABLENAME, new string[] { "重量" }, new string[] { inStockWeight.ToString() }, "id", dataReader["id"].ToString());
+                    SQLServerHelper.Update(Common.STOCKCOUNTTABLENAME, new string[] { "重量" }, new string[] { inStockWeight.ToString() }, "id", dt.Rows[0]["id"].ToString());
                 }
             }
 
             //从在库表中删除
-            GetSqlLiteHelper().DeleteValuesAND(Common.INSTOCKTABLENAME, new string[] { "条形码" }, new string[] { barcode }, new string[] { "=" });
+            SQLServerHelper.Delete(Common.INSTOCKTABLENAME, new string[] { "条形码" }, new string[] { barcode }, new string[] { "=" }, null);
 
             //存入日志 
             List<string> values = new List<string>();
@@ -264,7 +255,7 @@ namespace CoatingMgr
                 values.Add(dataRow.Cells[i].Value.ToString());
             }
             values.Insert(12, "出库");
-            GetSqlLiteHelper().Insert(Common.STOCKLOGTABLENAME, values);
+            SQLServerHelper.Insert(Common.STOCKLOGTABLENAME, new string[] { "条形码", "名称", "颜色", "类型", "重量", "适用机型", "仓库", "生产日期", "有效期", "操作员", "操作日期", "操作时间", "操作类型", "告警时间", "备注" }, values.ToArray());
         }
 
         private void DgvData_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
@@ -295,17 +286,17 @@ namespace CoatingMgr
 
                         //从库存统计数量中还原已出库数据
                         //"id", "类型", "名称", "颜色", "适用机型", "重量", "库存上限", "库存下限", "告警时间", "备注"
-                        SQLiteDataReader dataReader = GetSqlLiteHelper().Read(Common.STOCKCOUNTTABLENAME, new string[] { "类型", "名称", "颜色", "适用机型" }, new string[] { "=", "=", "=", "=" }, new string[] { type, name, color, model });
-                        if (dataReader != null && dataReader.HasRows && dataReader.Read())//色剂已经存在
+                        DataTable dt = SQLServerHelper.Read(Common.STOCKCOUNTTABLENAME, new string[] { "类型", "名称", "颜色", "适用机型" }, new string[] { "=", "=", "=", "=" }, new string[] { type, name, color, model });
+                        if (dt != null && dt.Rows.Count > 0)//色剂已经存在
                         {
-                            double inStockWeight = Convert.ToSingle(Common.FilterChar(dataReader["重量"].ToString()));
+                            double inStockWeight = Convert.ToSingle(Common.FilterChar(dt.Rows[0]["重量"].ToString()));
                             double inputWeight = Convert.ToSingle(Common.FilterChar(weight));
                             inStockWeight += inputWeight;
-                            GetSqlLiteHelper().Update(Common.STOCKCOUNTTABLENAME, new string[] { "重量" }, new string[] { inStockWeight.ToString() }, "id", dataReader["id"].ToString());
+                            SQLServerHelper.Update(Common.STOCKCOUNTTABLENAME, new string[] { "重量" }, new string[] { inStockWeight.ToString() }, "id", dt.Rows[0]["id"].ToString());
                         }
                         else
                         {
-                            GetSqlLiteHelper().Insert(Common.STOCKCOUNTTABLENAME, new string[] { type, name, color, model, weight, string.Empty, string.Empty, string.Empty, string.Empty });
+                            SQLServerHelper.Insert(Common.STOCKCOUNTTABLENAME, new string[] { "类型", "名称", "颜色", "适用机型", "重量", "库存上限", "库存下限", "告警时间", "备注" }, new string[] { type, name, color, model, weight, string.Empty, string.Empty, string.Empty, string.Empty });
                         }
                         
                         List<string> values = new List<string>();
@@ -315,11 +306,11 @@ namespace CoatingMgr
                         }
 
                         //添加到入库表中
-                        GetSqlLiteHelper().Insert(Common.INSTOCKTABLENAME, values);
+                        SQLServerHelper.Insert(Common.INSTOCKTABLENAME, new string[] { "条形码", "名称", "颜色", "类型", "重量", "适用机型", "仓库", "生产日期", "有效期", "操作员", "入库日期", "入库时间", "告警时间", "备注" }, values.ToArray());
                         
                         //存入日志
                         values.Insert(12, "出库后删除出库");
-                        GetSqlLiteHelper().Insert(Common.STOCKLOGTABLENAME, values);
+                        SQLServerHelper.Insert(Common.STOCKLOGTABLENAME, new string[] { "条形码", "名称", "颜色", "类型", "重量", "适用机型", "仓库", "生产日期", "有效期", "操作员", "操作日期", "操作时间", "操作类型", "告警时间", "备注" }, values.ToArray());
 
                         dgvData.Rows.Remove(dataRow);
                     }

@@ -182,48 +182,48 @@ namespace CoatingMgr.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("localhost")]
-        public string MySQLIP {
+        public string SQLIP {
             get {
-                return ((string)(this["MySQLIP"]));
+                return ((string)(this["SQLIP"]));
             }
             set {
-                this["MySQLIP"] = value;
+                this["SQLIP"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("3306")]
-        public int MySQLPort {
+        [global::System.Configuration.DefaultSettingValueAttribute("1433")]
+        public int SQLPort {
             get {
-                return ((int)(this["MySQLPort"]));
+                return ((int)(this["SQLPort"]));
             }
             set {
-                this["MySQLPort"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string MySQLUser {
-            get {
-                return ((string)(this["MySQLUser"]));
-            }
-            set {
-                this["MySQLUser"] = value;
+                this["SQLPort"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string MySQLPwd {
+        public string SQLUser {
             get {
-                return ((string)(this["MySQLPwd"]));
+                return ((string)(this["SQLUser"]));
             }
             set {
-                this["MySQLPwd"] = value;
+                this["SQLUser"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SQLPwd {
+            get {
+                return ((string)(this["SQLPwd"]));
+            }
+            set {
+                this["SQLPwd"] = value;
             }
         }
     }

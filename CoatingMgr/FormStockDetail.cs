@@ -9,7 +9,6 @@ namespace CoatingMgr
 {
     public partial class FormStockDetail : Form
     {
-        private static SqlLiteHelper sqlLiteHelper = null;
         private static string _tableName = Common.INSTOCKTABLENAME;
         private string _userName = "";
         private string _userPermission = "";
@@ -32,15 +31,6 @@ namespace CoatingMgr
         private void FormStockDetail_Load(object sender, EventArgs e)
         {
             InitData();
-        }
-
-        private SqlLiteHelper GetSqlLiteHelper()
-        {
-            if (sqlLiteHelper == null)
-            {
-                sqlLiteHelper = SqlLiteHelper.GetInstance();
-            }
-            return sqlLiteHelper;
         }
 
         //显示当前时间
@@ -79,12 +69,12 @@ namespace CoatingMgr
         private void BindDataGirdView(DataGridView dataGirdView, string table)
         {
             dataGirdView.Rows.Clear();
-            SQLiteDataReader dataReader = GetSqlLiteHelper().Read(table);
-            if (dataReader != null && dataReader.HasRows)
+            DataTable dt = SQLServerHelper.Read(table);
+            if (dt != null && dt.Rows.Count > 0)
             {
                 BindingSource bs = new BindingSource
                 {
-                    DataSource = dataReader
+                    DataSource = dt
                 };
                 dataGirdView.DataSource = bs;
                 if (dataGirdView.ColumnCount > 0)
@@ -97,12 +87,12 @@ namespace CoatingMgr
 
         private void BindDataGirdViewBySearch(DataGridView dataGirdView, string table, string type, string content)
         {
-            SQLiteDataReader dataReader = GetSqlLiteHelper().Read(table, new string[] { type }, new string[] { "=" }, new string[] { content });
-            if (dataReader != null && dataReader.HasRows)
+            DataTable dt = SQLServerHelper.Read(table, new string[] { type }, new string[] { "=" }, new string[] { content });
+            if (dt != null && dt.Rows.Count > 0)
             {
                 BindingSource bs = new BindingSource
                 {
-                    DataSource = dataReader
+                    DataSource = dt
                 };
                 dataGirdView.DataSource = bs;
                 if (dataGirdView.ColumnCount > 0)
@@ -184,29 +174,30 @@ namespace CoatingMgr
                             string warnDate = row.Cells[13].Value.ToString();
                             string tips = row.Cells[14].Value.ToString();
                             //删除库存表中数据
-                            GetSqlLiteHelper().DeleteValuesAND(_tableName, new string[] { "id" }, new string[] { id }, new string[] { "=" });
+                            SQLServerHelper.Delete(_tableName, new string[] { "id" }, new string[] { id }, new string[] { "=" }, null);
 
                             //更新库存统计表中的数据
                             // "id", "类型", "名称", "颜色", "适用机型", "重量", "库存上限", "库存下限", "告警时间", "备注"
-                            SQLiteDataReader dataReader = GetSqlLiteHelper().Read(Common.STOCKCOUNTTABLENAME, new string[] { "类型", "名称", "颜色", "适用机型" }, new string[] { "=", "=", "=", "=" }, new string[] { type,name,color,model });
-                            if (dataReader != null && dataReader.HasRows && dataReader.Read())
+                            DataTable dt = SQLServerHelper.Read(Common.STOCKCOUNTTABLENAME, new string[] { "类型", "名称", "颜色", "适用机型" }, new string[] { "=", "=", "=", "=" }, new string[] { type,name,color,model });
+                            if (dt != null && dt.Rows.Count > 0)
                             {
-                                double inStockWeight = Convert.ToSingle(Common.FilterChar(dataReader["重量"].ToString()));
+                                double inStockWeight = Convert.ToSingle(Common.FilterChar(dt.Rows[0]["重量"].ToString()));
                                 double inputWeight = Convert.ToSingle(Common.FilterChar(weight));
                                 inStockWeight -= inputWeight;
                                 if (inStockWeight < 0.000001)//总量 < 0，删除
                                 {
-                                    GetSqlLiteHelper().DeleteValuesAND(Common.STOCKCOUNTTABLENAME, new string[] { "类型", "名称", "颜色", "适用机型" }, new string[] { type, name, color, model }, new string[] { "=", "=", "=", "=" });
+                                    SQLServerHelper.Delete(Common.STOCKCOUNTTABLENAME, new string[] { "类型", "名称", "颜色", "适用机型" }, new string[] { type, name, color, model }, new string[] { "=", "=", "=", "=" }, new string[] { "AND", "AND", "AND" });
                                 }
                                 else
                                 {
-                                    GetSqlLiteHelper().Update(Common.STOCKCOUNTTABLENAME, new string[] { "重量" }, new string[] { inStockWeight.ToString() }, "id", dataReader["id"].ToString());
+                                    SQLServerHelper.Update(Common.STOCKCOUNTTABLENAME, new string[] { "重量" }, new string[] { inStockWeight.ToString() }, "id", dt.Rows[0]["id"].ToString());
                                 }
                             }
 
                             //记录删除日志
                             //库存日志表："id", "条形码", "名称", "颜色", "类型", "重量", "适用机型", "仓库", "生产日期", "有效期", "操作员", "操作日期", "操作时间", "操作类型", "告警时间", "备注"
-                            GetSqlLiteHelper().Insert(Common.STOCKLOGTABLENAME, new string[] { barcode, name, color, type, weight, model, store, productDate, expiryDate, _userName, DateTime.Now.ToString("yyyyMMdd"), DateTime.Now.ToString("HH:mm:ss"), "删除", warnDate, tips });
+                            SQLServerHelper.Insert(Common.STOCKLOGTABLENAME, new string[] { "条形码", "名称", "颜色", "类型", "重量", "适用机型", "仓库", "生产日期", "有效期", "操作员", "操作日期", "操作时间", "操作类型", "告警时间", "备注" },
+                                        new string[] { barcode, name, color, type, weight, model, store, productDate, expiryDate, _userName, DateTime.Now.ToString("yyyyMMdd"), DateTime.Now.ToString("HH:mm:ss"), "删除", warnDate, tips });
 
                             this.dgvData.Rows.Remove(row);
                         }
@@ -254,17 +245,17 @@ namespace CoatingMgr
                 if (!curWeight.Equals(weight) || !curStore.Equals(store) || !curTips.Equals(tips))//修改任一数据都需要更新在库表
                 {
                     //更新库存表
-                    GetSqlLiteHelper().Update(_tableName, new string[] { "重量", "仓库", "备注" }, new string[] { weight, store, tips }, "id", dgvData.CurrentRow.Cells[0].Value.ToString());
+                    SQLServerHelper.Update(_tableName, new string[] { "重量", "仓库", "备注" }, new string[] { weight, store, tips }, "id", dgvData.CurrentRow.Cells[0].Value.ToString());
                     UpdateData();
 
                     //如果更新了重量，则更新库存统计表中的重量
                     if (!curWeight.Equals(weight))
                     {
                         // "id", "类型", "名称", "颜色", "适用机型", "重量", "库存上限", "库存下限", "告警时间", "备注"
-                        SQLiteDataReader dataReader = GetSqlLiteHelper().Read(Common.STOCKCOUNTTABLENAME, new string[] { "类型", "名称", "颜色", "适用机型" }, new string[] { "=", "=", "=", "=" }, new string[] { type, name, color, model });
-                        if (dataReader != null && dataReader.HasRows && dataReader.Read())
+                        DataTable dt = SQLServerHelper.Read(Common.STOCKCOUNTTABLENAME, new string[] { "类型", "名称", "颜色", "适用机型" }, new string[] { "=", "=", "=", "=" }, new string[] { type, name, color, model });
+                        if (dt != null && dt.Rows.Count > 0)
                         {
-                            double inStockWeight = Convert.ToSingle(Common.FilterChar(dataReader["重量"].ToString()));
+                            double inStockWeight = Convert.ToSingle(Common.FilterChar(dt.Rows[0]["重量"].ToString()));
                             double oldWeight = Convert.ToSingle(Common.FilterChar(curWeight));
                             double newWeight = Convert.ToSingle(Common.FilterChar(weight));
                             if (newWeight > oldWeight)
@@ -277,11 +268,11 @@ namespace CoatingMgr
                             }
                             if (inStockWeight < 0.000001)//总量 < 0，删除
                             {
-                                GetSqlLiteHelper().DeleteValuesAND(Common.STOCKCOUNTTABLENAME, new string[] { "类型", "名称", "颜色", "适用机型" }, new string[] { type, name, color, model }, new string[] { "=", "=", "=", "=" });
+                                SQLServerHelper.Delete(Common.STOCKCOUNTTABLENAME, new string[] { "类型", "名称", "颜色", "适用机型" }, new string[] { type, name, color, model }, new string[] { "=", "=", "=", "=" }, new string[] { "AND", "AND", "AND" });
                             }
                             else
                             {
-                                GetSqlLiteHelper().Update(Common.STOCKCOUNTTABLENAME, new string[] { "重量" }, new string[] { inStockWeight.ToString() }, "id", dataReader["id"].ToString());
+                                SQLServerHelper.Update(Common.STOCKCOUNTTABLENAME, new string[] { "重量" }, new string[] { inStockWeight.ToString() }, "id", dt.Rows[0]["id"].ToString());
                             }
                         }
                     }
@@ -299,7 +290,8 @@ namespace CoatingMgr
                             stockLogTip += "库存重量从" + curWeight + "kg修改为" + weight + "kg";
                         }
                         //"id", "条形码", "名称", "颜色", "类型", "重量", "适用机型", "仓库", "生产日期", "有效期", "操作员", "操作日期", "操作时间", "操作类型", "告警时间", "备注" 
-                        GetSqlLiteHelper().Insert(Common.STOCKLOGTABLENAME, new string[] { curBarCode, curName, curColor, curType, weight, curModel, store, curProductDate, curExpiryDate, _userName, DateTime.Now.ToString("yyyyMMdd"), DateTime.Now.ToString("HH:mm:ss"), "修改", curWarnDate, stockLogTip });
+                        SQLServerHelper.Insert(Common.STOCKLOGTABLENAME, new string[] { "条形码", "名称", "颜色", "类型", "重量", "适用机型", "仓库", "生产日期", "有效期", "操作员", "操作日期", "操作时间", "操作类型", "告警时间", "备注" },
+                                new string[] { curBarCode, curName, curColor, curType, weight, curModel, store, curProductDate, curExpiryDate, _userName, DateTime.Now.ToString("yyyyMMdd"), DateTime.Now.ToString("HH:mm:ss"), "修改", curWarnDate, stockLogTip });
                     }
                 }
             }
@@ -310,7 +302,7 @@ namespace CoatingMgr
             if (cbSearchType.SelectedIndex >= 0)
             {
                 cbSearchContent.Items.Clear();
-                List<string> searchContent = GetSqlLiteHelper().GetValueTypeByColumnFromTable(_tableName, _searchType[cbSearchType.SelectedIndex], null, null, null);
+                List<string> searchContent = SQLServerHelper.GetTypesOfColumn(_tableName, _searchType[cbSearchType.SelectedIndex], null, null, null);
                 for (int i = 0; i < searchContent.Count; i++)
                 {
                     cbSearchContent.Items.Add(searchContent[i]);
@@ -339,8 +331,7 @@ namespace CoatingMgr
 
         private void BtExport_Click(object sender, EventArgs e)
         {
-            DataTable dt = new DataTable();
-            dt.Load(GetSqlLiteHelper().Read(_tableName));
+            DataTable dt = SQLServerHelper.Read(_tableName);
             ExcelHelper.ExportExcel(dt);
         }
     }

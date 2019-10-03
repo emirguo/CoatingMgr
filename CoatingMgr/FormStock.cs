@@ -11,7 +11,6 @@ namespace CoatingMgr
 {
     public partial class FormStock : Form
     {
-        private static SqlLiteHelper sqlLiteHelper = null;
         private static string _tableName = Common.STOCKCOUNTTABLENAME;
         private string _userName = "";
         private string _userPermission = "";
@@ -36,15 +35,6 @@ namespace CoatingMgr
         private void FormStock_Load(object sender, EventArgs e)
         {
             InitData();
-        }
-
-        private SqlLiteHelper GetSqlLiteHelper()
-        {
-            if (sqlLiteHelper == null)
-            {
-                sqlLiteHelper = SqlLiteHelper.GetInstance();
-            }
-            return sqlLiteHelper;
         }
 
         //显示当前时间
@@ -84,12 +74,12 @@ namespace CoatingMgr
         private void BindDataGirdView(DataGridView dataGirdView, string table)
         {
             dataGirdView.Rows.Clear();
-            SQLiteDataReader dataReader = GetSqlLiteHelper().Read(table);
-            if (dataReader != null && dataReader.HasRows)
+            DataTable dt = SQLServerHelper.Read(table);
+            if (dt != null && dt.Rows.Count > 0)
             {
                 BindingSource bs = new BindingSource
                 {
-                    DataSource = dataReader
+                    DataSource = dt
                 };
                 dataGirdView.DataSource = bs;
                 if (dataGirdView.ColumnCount > 0)
@@ -97,8 +87,8 @@ namespace CoatingMgr
                     dataGirdView.Columns[0].Visible = false;
                 }
 
-                SQLiteDataReader dr = GetSqlLiteHelper().Read(table);
-                BindChartData(dr);
+                //SQLiteDataReader dr = SQLServerHelper.Read(table);
+                BindChartData(dt);
                 cbShowWarn.Checked = true;
                 cbShowTable.Visible = true;
                 _chartSearchType = "";
@@ -109,12 +99,12 @@ namespace CoatingMgr
 
         private void BindDataGirdViewBySearch(DataGridView dataGirdView, string table, string type, string content)
         {
-            SQLiteDataReader dataReader = GetSqlLiteHelper().Read(table, new string[] { type }, new string[] { "=" }, new string[] { content });
-            if (dataReader != null && dataReader.HasRows)
+            DataTable dt = SQLServerHelper.Read(table, new string[] { type }, new string[] { "=" }, new string[] { content });
+            if (dt != null && dt.Rows.Count > 0)
             {
                 BindingSource bs = new BindingSource
                 {
-                    DataSource = dataReader
+                    DataSource = dt
                 };
                 dataGirdView.DataSource = bs;
                 if (dataGirdView.ColumnCount > 0)
@@ -122,8 +112,8 @@ namespace CoatingMgr
                     dataGirdView.Columns[0].Visible = false;
                 }
                 
-                SQLiteDataReader dr = GetSqlLiteHelper().Read(table, new string[] { type }, new string[] { "=" }, new string[] { content });
-                BindChartData(dr);
+                //SQLiteDataReader dr = SQLServerHelper.Read(table, new string[] { type }, new string[] { "=" }, new string[] { content });
+                BindChartData(dt);
                 cbShowWarn.Checked = true;
                 _chartSearchType = type;
                 _chartSearchContent = content;
@@ -162,7 +152,7 @@ namespace CoatingMgr
             if (cbSearchType.SelectedIndex >= 0)
             {
                 cbSearchContent.Items.Clear();
-                List<string> searchContent = GetSqlLiteHelper().GetValueTypeByColumnFromTable(_tableName, _searchType[cbSearchType.SelectedIndex], null , null, null);
+                List<string> searchContent = SQLServerHelper.GetTypesOfColumn(_tableName, _searchType[cbSearchType.SelectedIndex], null , null, null);
                 for (int i = 0; i < searchContent.Count; i++)
                 {
                     cbSearchContent.Items.Add(searchContent[i]);
@@ -225,10 +215,10 @@ namespace CoatingMgr
                         {
                             string id = row.Cells[0].Value.ToString();
                             //删除库存统计表中数据
-                            GetSqlLiteHelper().DeleteValuesAND(_tableName, new string[] { "id" }, new string[] { id }, new string[] { "=" });
+                            SQLServerHelper.DeleteValuesAND(_tableName, new string[] { "id" }, new string[] { id }, new string[] { "=" });
 
                             //记录删除日志
-                            GetSqlLiteHelper().InsertValues(Common.STOCKLOGTABLENAME, new string[] { "", row.Cells[2].Value.ToString(), row.Cells[3].Value.ToString(), row.Cells[1].Value.ToString(), row.Cells[6].Value.ToString(), row.Cells[4].Value.ToString(), row.Cells[5].Value.ToString(), "", "", _userName, DateTime.Now.ToString("yyyyMMdd"), DateTime.Now.ToString("HH:mm:ss"), "删除", "", "" });
+                            SQLServerHelper.InsertValues(Common.STOCKLOGTABLENAME, new string[] { "", row.Cells[2].Value.ToString(), row.Cells[3].Value.ToString(), row.Cells[1].Value.ToString(), row.Cells[6].Value.ToString(), row.Cells[4].Value.ToString(), row.Cells[5].Value.ToString(), "", "", _userName, DateTime.Now.ToString("yyyyMMdd"), DateTime.Now.ToString("HH:mm:ss"), "删除", "", "" });
 
                             this.dgvData.Rows.Remove(row);
                         }
@@ -277,21 +267,22 @@ namespace CoatingMgr
                 if (!curTips.Equals(tips) || !curMaximum.Equals(maximum) || !curMinimum.Equals(minimum) || !curWarnTime.Equals(warnTime))//修改任一数据都需要更新库存统计表
                 {
                     //更新库存统计表
-                    GetSqlLiteHelper().Update(Common.STOCKCOUNTTABLENAME, new string[] { "类型", "名称", "颜色", "适用机型", "重量", "库存上限", "库存下限", "告警时间", "备注" }, new string[] { type, name, color, model, curWeight, maximum, minimum, warnTime, tips }, "id", dgvData.CurrentRow.Cells[0].Value.ToString());
+                    SQLServerHelper.Update(Common.STOCKCOUNTTABLENAME, new string[] { "类型", "名称", "颜色", "适用机型", "重量", "库存上限", "库存下限", "告警时间", "备注" }, new string[] { type, name, color, model, curWeight, maximum, minimum, warnTime, tips }, "id", dgvData.CurrentRow.Cells[0].Value.ToString());
                     UpdateData();
 
                     //如果修改了告警数据，则更新告警规则表
                     // "id", "名称", "颜色", "类型", "库存上限", "库存下限", "告警时间", "规则创建人", "规则创建时间"
                     if (!curMaximum.Equals(maximum) || !curMinimum.Equals(minimum) || !curWarnTime.Equals(warnTime))
                     {
-                        SQLiteDataReader dataReader = GetSqlLiteHelper().Read(Common.WARNMANAGERTABLENAME, new string[] { "名称", "颜色", "类型", }, new string[] { "=", "=", "=" }, new string[] { name, color, type });
-                        if (dataReader != null && dataReader.HasRows && dataReader.Read())//告警规则存在，更新告警规则
+                        DataTable dt = SQLServerHelper.Read(Common.WARNMANAGERTABLENAME, new string[] { "名称", "颜色", "类型", }, new string[] { "=", "=", "=" }, new string[] { name, color, type });
+                        if (dt != null && dt.Rows.Count > 0)//告警规则存在，更新告警规则
                         {
-                            GetSqlLiteHelper().Update(Common.WARNMANAGERTABLENAME, new string[] { "库存上限", "库存下限", "告警时间" }, new string[] { maximum, minimum, warnTime }, "id", dataReader["id"].ToString());
+                            SQLServerHelper.Update(Common.WARNMANAGERTABLENAME, new string[] { "库存上限", "库存下限", "告警时间" }, new string[] { maximum, minimum, warnTime }, "id", dt.Rows[0]["id"].ToString());
                         }
                         else //告警规则不存在，创建告警规则
                         {
-                            GetSqlLiteHelper().Insert(Common.WARNMANAGERTABLENAME, new string[] { name, color, type, maximum, minimum, warnTime, _userName, DateTime.Now.ToString() });
+                            SQLServerHelper.Insert(Common.WARNMANAGERTABLENAME, new string[] { "名称", "颜色", "类型", "库存上限", "库存下限", "告警时间", "规则创建人", "规则创建时间" },
+                                new string[] { name, color, type, maximum, minimum, warnTime, _userName, DateTime.Now.ToString() });
                         }
                     }
 
@@ -299,14 +290,14 @@ namespace CoatingMgr
                     // "id", "条形码", "名称", "颜色", "类型", "重量", "适用机型", "仓库", "生产日期", "有效期", "操作员", "入库日期", "入库时间", "告警时间", "备注"
                     if (!curWarnTime.Equals(warnTime))
                     {
-                        SQLiteDataReader dataReader = GetSqlLiteHelper().Read(Common.INSTOCKTABLENAME, new string[] { "名称", "颜色", "类型" }, new string[] { "=", "=", "=" }, new string[] { name, color, type });
-                        while (dataReader.Read())
+                        DataTable dt = SQLServerHelper.Read(Common.INSTOCKTABLENAME, new string[] { "名称", "颜色", "类型" }, new string[] { "=", "=", "=" }, new string[] { name, color, type });
+                        foreach(DataRow dr in dt.Rows)
                         {
-                            DateTime expiryDate = DateTime.ParseExact(dataReader["有效期"].ToString(), "yyyyMMdd", null);
+                            DateTime expiryDate = DateTime.ParseExact(dr["有效期"].ToString(), "yyyyMMdd", null);
                             DateTime date = expiryDate.AddDays(Convert.ToInt32(Common.WARNDATE[warnTime]));
-                            if (!date.ToString("yyyyMMdd").Equals(dataReader["告警时间"].ToString()))
+                            if (!date.ToString("yyyyMMdd").Equals(dr["告警时间"].ToString()))
                             {
-                                SqlLiteHelper.GetInstance().Update(Common.INSTOCKTABLENAME, new string[] { "告警时间" }, new string[] { date.ToString("yyyyMMdd") }, "id", dataReader["id"].ToString());
+                                SQLServerHelper.Update(Common.INSTOCKTABLENAME, new string[] { "告警时间" }, new string[] { date.ToString("yyyyMMdd") }, "id", dr["id"].ToString());
                             }
                         }
                     }
@@ -332,7 +323,7 @@ namespace CoatingMgr
         }
 
         //绑定柱状图数据
-        private void BindChartData(SQLiteDataReader dataReader)
+        private void BindChartData(DataTable dt)
         {
             chartStock.Series.Clear();
             chartStock.ChartAreas[0].AxisX.Title = "色剂名";
@@ -372,13 +363,12 @@ namespace CoatingMgr
             };
             chartStock.Series.Add(maxSerie);
 
-            int i = 0;
-            while (dataReader.Read())
+            for(int i=0;i<dt.Rows.Count;i++)
             {
-                string x = dataReader["名称"].ToString();
-                double yWeight = dataReader["重量"].ToString().Equals("")?0: Convert.ToDouble(dataReader["重量"].ToString());
-                double yMax = dataReader["库存上限"].ToString().Equals("") ? 0 : Convert.ToDouble(dataReader["库存上限"].ToString());
-                double yMin = dataReader["库存下限"].ToString().Equals("") ? 0 : Convert.ToDouble(dataReader["库存下限"].ToString());
+                string x = dt.Rows[0]["名称"].ToString();
+                double yWeight = dt.Rows[0]["重量"].ToString().Equals("")?0: Convert.ToDouble(dt.Rows[0]["重量"].ToString());
+                double yMax = dt.Rows[0]["库存上限"].ToString().Equals("") ? 0 : Convert.ToDouble(dt.Rows[0]["库存上限"].ToString());
+                double yMin = dt.Rows[0]["库存下限"].ToString().Equals("") ? 0 : Convert.ToDouble(dt.Rows[0]["库存下限"].ToString());
 
                 weightSerie.Points.AddXY(x, yWeight);
                 
@@ -501,8 +491,7 @@ namespace CoatingMgr
 
         private void BtnExport_Click(object sender, EventArgs e)
         {
-            DataTable dt = new DataTable();
-            dt.Load(GetSqlLiteHelper().Read(_tableName));
+            DataTable dt = SQLServerHelper.Read(_tableName);
             ExcelHelper.ExportExcel(dt);
         }
 

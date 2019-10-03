@@ -168,11 +168,11 @@
     <Compile Include="FormSetDebugLog.Designer.cs">
       <DependentUpon>FormSetDebugLog.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormSetMySQLInfo.cs">
+    <Compile Include="FormSetSQLInfo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormSetMySQLInfo.Designer.cs">
-      <DependentUpon>FormSetMySQLInfo.cs</DependentUpon>
+    <Compile Include="FormSetSQLInfo.Designer.cs">
+      <DependentUpon>FormSetSQLInfo.cs</DependentUpon>
     </Compile>
     <Compile Include="FormSetPLCIP.cs">
       <SubType>Form</SubType>
@@ -282,6 +282,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SQLServerHelper.cs" />
     <Compile Include="VerticalProgressBar.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -329,6 +330,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormProgress.resx">
       <DependentUpon>FormProgress.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormSetSQLInfo.resx">
+      <DependentUpon>FormSetSQLInfo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormSetStirData.resx">
       <DependentUpon>FormSetStirData.cs</DependentUpon>

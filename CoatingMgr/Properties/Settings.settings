@@ -41,16 +41,16 @@
     <Setting Name="BCResponseTime" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">500</Value>
     </Setting>
-    <Setting Name="MySQLIP" Type="System.String" Scope="User">
+    <Setting Name="SQLIP" Type="System.String" Scope="User">
       <Value Profile="(Default)">localhost</Value>
     </Setting>
-    <Setting Name="MySQLPort" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">3306</Value>
+    <Setting Name="SQLPort" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1433</Value>
     </Setting>
-    <Setting Name="MySQLUser" Type="System.String" Scope="User">
+    <Setting Name="SQLUser" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="MySQLPwd" Type="System.String" Scope="User">
+    <Setting Name="SQLPwd" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
   </Settings>
