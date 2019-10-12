@@ -69,7 +69,7 @@ namespace CoatingMgr
             Properties.Settings.Default.SQLPwd = this.tbPwd.Text;
             Properties.Settings.Default.Save();
 
-            MySQLHelper.CreateDB();//创建数据库
+            //MySQLHelper.CreateDB();//创建数据库
 
             Close();
         }

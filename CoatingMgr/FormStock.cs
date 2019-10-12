@@ -73,7 +73,6 @@ namespace CoatingMgr
 
         private void BindDataGirdView(DataGridView dataGirdView, string table)
         {
-            dataGirdView.Rows.Clear();
             DataTable dt = SQLServerHelper.Read(table);
             if (dt != null && dt.Rows.Count > 0)
             {
@@ -365,10 +364,11 @@ namespace CoatingMgr
 
             for(int i=0;i<dt.Rows.Count;i++)
             {
-                string x = dt.Rows[0]["名称"].ToString();
-                double yWeight = dt.Rows[0]["重量"].ToString().Equals("")?0: Convert.ToDouble(dt.Rows[0]["重量"].ToString());
-                double yMax = dt.Rows[0]["库存上限"].ToString().Equals("") ? 0 : Convert.ToDouble(dt.Rows[0]["库存上限"].ToString());
-                double yMin = dt.Rows[0]["库存下限"].ToString().Equals("") ? 0 : Convert.ToDouble(dt.Rows[0]["库存下限"].ToString());
+                DataRow dr = dt.Rows[i];
+                string x = dr["名称"].ToString();
+                double yWeight = dr["重量"].ToString().Equals("")?0: Convert.ToDouble(dr["重量"].ToString());
+                double yMax = dr["库存上限"].ToString().Equals("") ? 0 : Convert.ToDouble(dr["库存上限"].ToString());
+                double yMin = dr["库存下限"].ToString().Equals("") ? 0 : Convert.ToDouble(dr["库存下限"].ToString());
 
                 weightSerie.Points.AddXY(x, yWeight);
                 
@@ -462,7 +462,6 @@ namespace CoatingMgr
                     maxSerie.Points[i].Label = yMin + "";
                     maxSerie.Points[i].ToolTip = "库存下限:" + yMin + "";
                 }
-                i++;
             }
 
             weightSerie.XValueType = ChartValueType.String;  //设置X轴上的值类型

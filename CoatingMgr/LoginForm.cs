@@ -110,25 +110,16 @@ namespace CoatingMgr
 
         private bool IsDBPathValid(string path)
         {
-            bool result = false;
-            if (path == null || path.Length == 0 || path.Equals(""))
+            if (Properties.Settings.Default.SQLIP.Equals(string.Empty)
+                || Properties.Settings.Default.SQLPort.Equals(string.Empty)
+                || Properties.Settings.Default.SQLUser.Equals(string.Empty)
+                || Properties.Settings.Default.SQLPwd.Equals(string.Empty))
             {
-                MessageBox.Show("数据库未设置，请先设置数据库文件路径");
-            }
-            else if (!File.Exists(path))
-            {
-                MessageBox.Show("数据库文件不存在，请设置数据库文件路径");
-            }
-            else if (!path.EndsWith(".db"))
-            {
-                MessageBox.Show("数据库文件无效，请选择后缀名为.db的数据库文件");
-            }
-            else
-            {
-                result = true;
+                MessageBox.Show("数据库信息未设置，请先设置数据库信息");
+                return false;
             }
 
-            return result;
+            return true;
         }
 
         private void TbPwd_KeyDown(object sender, KeyEventArgs e)

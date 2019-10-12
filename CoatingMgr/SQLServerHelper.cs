@@ -70,10 +70,10 @@ namespace CoatingMgr
             string connStr = "Data Source = " + Properties.Settings.Default.SQLIP + "," + Properties.Settings.Default.SQLPort
                 + "; uid = " + Properties.Settings.Default.SQLUser + "; pwd = " + Properties.Settings.Default.SQLPwd + ";Initial Catalog = " + Common.DBFileName;
 
-            string sql = "CREATE TABLE " + tableName + " (" + colNames[0] + " " + colTypes[0];
+            string sql = "CREATE TABLE " + tableName + " ([" + colNames[0] + "] " + colTypes[0];
             for (int i = 1; i < colNames.Length; i++)
             {
-                sql += ", " + colNames[i] + " " + colTypes[i];
+                sql += ", [" + colNames[i] + "] " + colTypes[i];
             }
             sql += ")";
 
@@ -347,12 +347,12 @@ namespace CoatingMgr
             string connStr = "Data Source = " + Properties.Settings.Default.SQLIP + "," + Properties.Settings.Default.SQLPort
                 + "; uid = " + Properties.Settings.Default.SQLUser + "; pwd = " + Properties.Settings.Default.SQLPwd + ";Initial Catalog = " + Common.DBFileName;
 
-            string sql = "INSERT INTO " + tableName + " (" + columns[0];
+            string sql = "INSERT INTO " + tableName + " ([" + columns[0];
             for (int i = 1; i < columns.Length; i++)
             {
-                sql += ", " + columns[i];
+                sql += "], [" + columns[i];
             }
-            sql += ")" + " VALUES ('" + values[0] + "'";
+            sql += "])" + " VALUES ('" + values[0] + "'";
             for (int i = 1; i < values.Length; i++)
             {
                 sql += ", '" + values[i] + "'";
@@ -526,7 +526,7 @@ namespace CoatingMgr
             List<string> types = new List<string>();
 
             DeleteTable(tableName);
-            columns.Add("ID");
+            columns.Add("id"); 
             types.Add("INT IDENTITY PRIMARY KEY");//types.Add("AUTOINCREMENT");
             foreach (DataColumn dc in dataTable.Columns)
             {

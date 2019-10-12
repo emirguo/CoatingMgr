@@ -56,6 +56,7 @@
             // 
             // dgvAccountData
             // 
+            this.dgvAccountData.AllowUserToAddRows = false;
             this.dgvAccountData.AllowUserToOrderColumns = true;
             this.dgvAccountData.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 

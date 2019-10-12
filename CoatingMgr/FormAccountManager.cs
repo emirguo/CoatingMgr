@@ -35,7 +35,6 @@ namespace CoatingMgr
 
         private void BindDataGirdView(DataGridView dataGirdView, string table)
         {
-            dataGirdView.Rows.Clear();
             DataTable dt = SQLServerHelper.Read(table);
             if (dt != null && dt.Rows.Count > 0)
             {

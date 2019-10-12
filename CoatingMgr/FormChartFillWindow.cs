@@ -184,7 +184,6 @@ namespace CoatingMgr
                     maxSerie.Points[i].Label = yMin + "";
                     maxSerie.Points[i].ToolTip = "库存下限:" + yMin + "";
                 }
-                i++;
             }
 
             weightSerie.XValueType = ChartValueType.String;  //设置X轴上的值类型

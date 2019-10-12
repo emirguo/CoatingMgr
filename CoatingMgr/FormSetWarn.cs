@@ -146,7 +146,7 @@ namespace CoatingMgr
             if (dt != null && dt.Rows.Count > 0)//告警规则已经存在
             {
                 string id = dt.Rows[0]["id"].ToString();
-                SQLServerHelper.Update(_tableName, Common.WARNMANAGERTABLECOLUMNS, new string[] { id, cbProduct.Text, cbColor.Text, cbType.Text, tbMaximum.Text, tbMinimum.Text, cbWarnTime.Text, _userName, DateTime.Now.ToString() }, "id", id);
+                SQLServerHelper.Update(_tableName, new string[] { "库存上限", "库存下限", "告警时间", "规则创建人", "规则创建时间" }, new string[] { tbMaximum.Text, tbMinimum.Text, cbWarnTime.Text, _userName, DateTime.Now.ToString() }, "id", id);
             }
             else
             {
@@ -167,7 +167,7 @@ namespace CoatingMgr
         private void ModifyWarn()
         {
             //更新告警规则到告警规则表
-            SQLServerHelper.Update(_tableName, Common.WARNMANAGERTABLECOLUMNS, new string[] { _modifyID, cbProduct.Text, cbColor.Text, cbType.Text, tbMaximum.Text, tbMinimum.Text, cbWarnTime.Text, _userName, DateTime.Now.ToString() }, "id", _modifyID + "");
+            SQLServerHelper.Update(_tableName, new string[] { "库存上限", "库存下限", "告警时间", "规则创建人", "规则创建时间" }, new string[] { tbMaximum.Text, tbMinimum.Text, cbWarnTime.Text, _userName, DateTime.Now.ToString() }, "id", _modifyID + "");
 
             //更新库存告警数据
             Common.UpdateStockCountWarn(cbProduct.Text, cbColor.Text, cbType.Text, tbMaximum.Text,tbMinimum.Text, cbWarnTime.Text);

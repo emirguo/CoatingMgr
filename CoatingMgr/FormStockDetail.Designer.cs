@@ -243,6 +243,7 @@
             // 
             // dgvData
             // 
+            this.dgvData.AllowUserToAddRows = false;
             this.dgvData.AllowUserToOrderColumns = true;
             this.dgvData.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 

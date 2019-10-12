@@ -90,10 +90,10 @@ namespace CoatingMgr
         {
             if (!barcode.Equals(""))
             {
-                this.tbBarCode.Text = barcode;
                 if (!IsBarCodeInStock(barcode))
                 {
                     MessageBox.Show("此条形码涂料还未入库，请先入库");
+                    this.tbBarCode.Text = string.Empty;
                     return;
                 }
                 if (AnalysisBarCode(barcode))
@@ -106,6 +106,7 @@ namespace CoatingMgr
                     lbCount.Text = count + "";
                     SaveRowToDB(dgvData.CurrentRow);
                 }
+                this.tbBarCode.Text = string.Empty;
             }
         }
 
@@ -124,6 +125,7 @@ namespace CoatingMgr
                         if (!IsBarCodeInStock(tbBarCode.Text))
                         {
                             MessageBox.Show("此条形码涂料还未入库，请先入库");
+                            this.tbBarCode.Text = string.Empty;
                             return;
                         }
                         if (AnalysisBarCode(tbBarCode.Text))
@@ -134,6 +136,7 @@ namespace CoatingMgr
                             lbCount.Text = count + "";
                             SaveRowToDB(dgvData.CurrentRow);
                         }
+                        this.tbBarCode.Text = string.Empty;
                     }
                 }
             }
@@ -168,12 +171,9 @@ namespace CoatingMgr
                     DataTable dt = SQLServerHelper.Read(Common.MASTERTABLENAME, new string[] { "SAP品番" }, new string[] { "=" }, new string[] { tbName.Text });
                     if (dt != null && dt.Rows.Count > 0)
                     {
-                        foreach(DataRow dr in dt.Rows)
-                        {
-                            tbColor.Text += dr["色番"].ToString()+";";
-                            tbModel.Text += dr["适用机种"].ToString()+";";
-                            tbType.Text = dr["种类"].ToString();
-                        }
+                        tbColor.Text = dt.Rows[0]["色番"].ToString();
+                        tbModel.Text = dt.Rows[0]["适用机种"].ToString();
+                        tbType.Text = dt.Rows[0]["种类"].ToString();
                         if (tbType.Text.Equals(string.Empty))
                         {
                             tbType.Text = Common.COATINGTYPE[sArray[1]];

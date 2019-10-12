@@ -44,7 +44,6 @@ namespace CoatingMgr
 
         private void BindDataGirdView(DataGridView dataGirdView, string table)
         {
-            dataGirdView.Rows.Clear();
             DataTable dt = SQLServerHelper.Read(table);
             if (dt != null && dt.Rows.Count > 0)
             {
@@ -148,7 +147,7 @@ namespace CoatingMgr
                     {
                         string id = row.Cells[0].Value.ToString();
                         SQLServerHelper.Delete(_tableName, new string[] { "id" }, new string[] { id }, new string[] { "=" }, null);
-
+                        SQLServerHelper.Update(Common.STOCKCOUNTTABLENAME, new string[] { "库存上限", "库存下限", "告警时间" }, new string[] { string.Empty, string.Empty, string.Empty }, "名称", row.Cells[1].Value.ToString());
                         dgvWarnMgr.Rows.Remove(row);
                     }
                 }

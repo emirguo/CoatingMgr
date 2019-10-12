@@ -117,9 +117,6 @@ D:\VSProjects\CoatingMgr\CoatingMgr\bin\Debug\NPOI.OpenXmlFormats.dll
 D:\VSProjects\CoatingMgr\CoatingMgr\bin\Debug\HslCommunication.xml
 D:\VSProjects\CoatingMgr\CoatingMgr\bin\Debug\ICSharpCode.SharpZipLib.xml
 D:\VSProjects\CoatingMgr\CoatingMgr\bin\Debug\Newtonsoft.Json.xml
-D:\VSProjects\CoatingMgr\CoatingMgr\bin\Debug\System.Data.SQLite.pdb
-D:\VSProjects\CoatingMgr\CoatingMgr\bin\Debug\System.Data.SQLite.dll.config
-D:\VSProjects\CoatingMgr\CoatingMgr\obj\Debug\CoatingMgr.csprojResolveAssemblyReference.cache
 D:\VSProjects\CoatingMgr\CoatingMgr\obj\Debug\CoatingMgr.FormAbout.resources
 D:\VSProjects\CoatingMgr\CoatingMgr\obj\Debug\CoatingMgr.FormAccountManager.resources
 D:\VSProjects\CoatingMgr\CoatingMgr\obj\Debug\CoatingMgr.FormAddAccount.resources
@@ -157,3 +154,4 @@ D:\VSProjects\CoatingMgr\CoatingMgr\bin\Debug\Renci.SshNet.dll
 D:\VSProjects\CoatingMgr\CoatingMgr\bin\Debug\BouncyCastle.Crypto.dll
 D:\VSProjects\CoatingMgr\CoatingMgr\bin\Debug\MySql.Data.xml
 D:\VSProjects\CoatingMgr\CoatingMgr\obj\Debug\CoatingMgr.FormSetSQLInfo.resources
+D:\VSProjects\CoatingMgr\CoatingMgr\obj\Debug\CoatingMgr.csprojResolveAssemblyReference.cache

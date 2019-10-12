@@ -99,15 +99,16 @@ namespace CoatingMgr
             if (cbSearchStock.Text.Equals(string.Empty))
             {
                 MessageBox.Show("请先选择仓库");
+                this.tbBarCode.Text = string.Empty;
                 return;
             }
             
             if (!barcode.Equals(string.Empty))
             {
-                this.tbBarCode.Text = barcode;
                 if (IsBarCodeInStock(barcode))
                 {
                     MessageBox.Show("此条形码涂料已入库，无法重复入库");
+                    this.tbBarCode.Text = string.Empty;
                     return;
                 }
                 if (AnalysisBarCode(barcode))
@@ -120,7 +121,7 @@ namespace CoatingMgr
                     lbCount.Text = count + "";
                     SaveRowToDB(dgvData.CurrentRow);
                 }
-                
+                this.tbBarCode.Text = string.Empty;
             }
         }
 
@@ -137,6 +138,7 @@ namespace CoatingMgr
                     if (cbSearchStock.Text.Equals(string.Empty))
                     {
                         MessageBox.Show("请先选择仓库");
+                        this.tbBarCode.Text = string.Empty;
                         return;
                     }
 
@@ -145,6 +147,7 @@ namespace CoatingMgr
                         if (IsBarCodeInStock(tbBarCode.Text))
                         {
                             MessageBox.Show("此条形码涂料已入库，无法重复入库");
+                            this.tbBarCode.Text = string.Empty;
                             return;
                         }
                         if (AnalysisBarCode(tbBarCode.Text))
@@ -156,6 +159,7 @@ namespace CoatingMgr
                             lbCount.Text = count + "";
                             SaveRowToDB(dgvData.CurrentRow);
                         }
+                        this.tbBarCode.Text = string.Empty;
                     }
                 }
             }
@@ -172,7 +176,7 @@ namespace CoatingMgr
             return result;
         }
 
-        //SAP品番*种类*厂家*重量*批次号*连番*使用期限,例如：R-255 HARDENER  (TAP)*A*G1000*18*20180219*0001*20190318
+        //SAP品番*种类*厂家*重量*批次号*连番*使用期限,例如：CL-5000H(TAP)*A*G1012*18*20180219*0001*20190318
         private bool AnalysisBarCode(string barcode)
         {
             bool result = false;
@@ -189,12 +193,9 @@ namespace CoatingMgr
                     DataTable dt = SQLServerHelper.Read(Common.MASTERTABLENAME, new string[] { "SAP品番" }, new string[] { "=" }, new string[] { tbName.Text });
                     if (dt != null && dt.Rows.Count > 0)
                     {
-                        foreach(DataRow dr in dt.Rows)
-                        {
-                            tbColor.Text += dr["色番"].ToString() + ";";
-                            tbModel.Text += dr["适用机种"].ToString() + ";";
-                            tbType.Text = dr["种类"].ToString();
-                        }
+                        tbColor.Text = dt.Rows[0]["色番"].ToString();
+                        tbModel.Text = dt.Rows[0]["适用机种"].ToString();
+                        tbType.Text = dt.Rows[0]["种类"].ToString();
                         if (tbType.Text.Equals(string.Empty))
                         {
                             tbType.Text = Common.COATINGTYPE[sArray[1]];
