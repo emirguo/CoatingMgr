@@ -16,6 +16,8 @@ namespace CoatingMgr
         private static string[] _cbStirSearchType = { "按机种查找", "按製品查找", "按色番查找", "按涂层查找", "按调和比例查找", "按类型查找", "按名称查找", "按操作员查找", "按确认主管查找" };
         private static string[] _stirSearchType = { "机种", "製品", "色番", "涂层", "调和比例", "类型", "名称", "操作员", "确认主管", };
 
+        AutoSize asc = new AutoSize();
+
         public FormLog()
         {
             InitializeComponent();
@@ -53,7 +55,13 @@ namespace CoatingMgr
 
         private void FormLog_Load(object sender, EventArgs e)
         {
+            asc.controllInitializeSize(this);
             BindDataGirdView(dgvLogData, _tableName);//绑定数据库表
+        }
+
+        private void FormLog_SizeChanged(object sender, EventArgs e)
+        {
+            asc.controlAutoSize(this);
         }
 
         private void BindDataGirdView(DataGridView dataGirdView, string table)
@@ -259,5 +267,6 @@ namespace CoatingMgr
             dateTimePickerEnd.CustomFormat = "yyyyMMdd";
             BindDataGirdViewBySearch(dgvLogData, _tableName);
         }
+
     }
 }

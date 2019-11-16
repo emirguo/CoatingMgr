@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
+using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -10,6 +11,8 @@ namespace CoatingMgr
     public partial class FormIn : Form
     {
         private string _userName = "";
+
+        AutoSize asc = new AutoSize();
 
         public FormIn()
         {
@@ -24,7 +27,13 @@ namespace CoatingMgr
 
         private void FormIn_Load(object sender, EventArgs e)
         {
+            asc.controllInitializeSize(this);
             InitData();
+        }
+
+        private void FormIn_SizeChanged(object sender, EventArgs e)
+        {
+            asc.controlAutoSize(this);
         }
 
         private void InitData()
@@ -92,6 +101,8 @@ namespace CoatingMgr
             lbProDescription.Text = string.Empty;
             lbCount.Text = 0 + string.Empty;
             dgvData.Rows.Clear();
+            lbResult.Text = string.Empty;
+            panelResult.BackColor = Color.Gainsboro;
         }
 
         public void BarCodeInputEnd(string barcode)
@@ -119,7 +130,16 @@ namespace CoatingMgr
                     int count = this.dgvData.RowCount;
                     this.dgvData.CurrentCell = this.dgvData[1, (count > 1) ? (count - 1) : 0];
                     lbCount.Text = count + "";
+                    this.lbResult.Text = "OK";
+                    this.panelResult.BackColor = Color.Green;
+                    Common.PlayVoice(1);
                     SaveRowToDB(dgvData.CurrentRow);
+                }
+                else
+                {
+                    this.lbResult.Text = "NG";
+                    this.panelResult.BackColor = Color.Red;
+                    Common.PlayVoice(2);
                 }
                 this.tbBarCode.Text = string.Empty;
             }
@@ -157,7 +177,16 @@ namespace CoatingMgr
                             int count = this.dgvData.RowCount;
                             this.dgvData.CurrentCell = this.dgvData[1, (count > 1) ? (count - 1) : 0];
                             lbCount.Text = count + "";
+                            this.lbResult.Text = "OK";
+                            this.panelResult.BackColor = Color.Green;
+                            Common.PlayVoice(1);
                             SaveRowToDB(dgvData.CurrentRow);
+                        }
+                        else
+                        {
+                            this.lbResult.Text = "NG";
+                            this.panelResult.BackColor = Color.Red;
+                            Common.PlayVoice(2);
                         }
                         this.tbBarCode.Text = string.Empty;
                     }

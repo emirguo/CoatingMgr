@@ -63,7 +63,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvAccountData.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvAccountData.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            this.dgvAccountData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvAccountData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dgvAccountData.Location = new System.Drawing.Point(2, 2);
             this.dgvAccountData.Name = "dgvAccountData";
             this.dgvAccountData.RowTemplate.Height = 23;
@@ -231,6 +231,7 @@
             this.Text = "账户管理";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.FormAccountManager_Load);
+            this.SizeChanged += new System.EventHandler(this.FormAccountManager_SizeChanged);
             ((System.ComponentModel.ISupportInitialize)(this.dgvAccountData)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel4.ResumeLayout(false);

@@ -17,6 +17,8 @@ namespace CoatingMgr
         private static string[] _searchType = { "SAP品番", "种类", "制造商", "适用机种", "适用制品", "色番" };
         private int rowIndex = 0;
 
+        AutoSize asc = new AutoSize();
+
         public FormMaster()
         {
             InitializeComponent();
@@ -31,7 +33,13 @@ namespace CoatingMgr
 
         private void FormMaster_Load(object sender, EventArgs e)
         {
+            asc.controllInitializeSize(this);
             InitData();
+        }
+
+        private void FormMaster_SizeChanged(object sender, EventArgs e)
+        {
+            asc.controlAutoSize(this);
         }
 
         private void InitData()
@@ -228,5 +236,6 @@ namespace CoatingMgr
             cbSearchContent.Items.Clear();
             BindDataGirdView(dgvMasterData, _tableName);
         }
+
     }
 }

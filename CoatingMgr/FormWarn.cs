@@ -16,6 +16,8 @@ namespace CoatingMgr
         private static string[] _cbSearchType = { "按名称查找", "按颜色查找", "按类型查找", "按库存上限查找", "按库存下限查找", "按告警时间查找", "按规则创建人查找", "按规则创建时间查找" };
         private static string[] _searchType = { "名称", "颜色", "类型", "库存上限", "库存下限", "告警时间", "规则创建人", "规则创建时间" };
 
+        AutoSize asc = new AutoSize();
+
         public FormWarn()
         {
             InitializeComponent();
@@ -29,7 +31,13 @@ namespace CoatingMgr
 
         private void FormWarn_Load(object sender, EventArgs e)
         {
+            asc.controllInitializeSize(this);
             InitData();
+        }
+
+        private void FormWarn_SizeChanged(object sender, EventArgs e)
+        {
+            asc.controlAutoSize(this);
         }
 
         private void InitData()
@@ -205,5 +213,6 @@ namespace CoatingMgr
             FormSetWarn formSetWarn = new FormSetWarn(this, _userName);
             formSetWarn.Show();
         }
+
     }
 }

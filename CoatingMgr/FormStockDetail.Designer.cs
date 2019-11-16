@@ -250,7 +250,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvData.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvData.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            this.dgvData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dgvData.Location = new System.Drawing.Point(2, 2);
             this.dgvData.Name = "dgvData";
             this.dgvData.RowTemplate.Height = 23;
@@ -269,6 +269,7 @@
             this.Name = "FormStockDetail";
             this.Text = "库存明细";
             this.Load += new System.EventHandler(this.FormStockDetail_Load);
+            this.SizeChanged += new System.EventHandler(this.FormStockDetail_SizeChanged);
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             this.panel1.ResumeLayout(false);

@@ -50,6 +50,8 @@ namespace CoatingMgr
 
         private bool isStirInfoConfirmed = false;
 
+        AutoSize asc = new AutoSize();
+
         public FormStir()
         {
             InitializeComponent();
@@ -65,7 +67,13 @@ namespace CoatingMgr
 
         private void FormStir_Load(object sender, EventArgs e)
         {
+            asc.controllInitializeSize(this);
             InitData();
+        }
+
+        private void FormStir_SizeChanged(object sender, EventArgs e)
+        {
+            asc.controlAutoSize(this);
         }
 
         private void InitData()

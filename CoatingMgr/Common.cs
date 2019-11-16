@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
+using System.Media;
 using System.Net.Mail;
 using System.Text.RegularExpressions;
+using System.Threading;
 
 namespace CoatingMgr
 {
@@ -277,6 +279,40 @@ namespace CoatingMgr
         {
             formProgress.Close();
             formProgress = null;
+        }
+
+        public static SoundPlayer player = new SoundPlayer();
+        public static void PlayVoice(int type)
+        {
+            Thread t = new Thread(new ParameterizedThreadStart(Play));//起线程导入excel并存表
+            t.Start(type);//线程传递文件名
+        }
+
+        private static void Play(object type)
+        {
+            switch (type)
+            {
+                case 1:
+                    player.Stream = Properties.Resources.成功;
+                    player.Play();
+                    break;
+                case 2:
+                    player.Stream = Properties.Resources.失败;
+                    player.Play();
+                    break;
+                case 3:
+                    player.Stream = Properties.Resources.失败;
+                    player.Play();
+                    player.PlayLooping();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        public static void StopVoice()
+        {
+            player.Stop();
         }
     }
 }

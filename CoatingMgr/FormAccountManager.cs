@@ -13,6 +13,8 @@ namespace CoatingMgr
         private static string[] _cbSearchType = {"按账号查找","按权限查找"};
         private static string[] _searchType = { "账号", "权限" };
 
+        AutoSize asc = new AutoSize();
+
         public FormAccountManager()
         {
             InitializeComponent();
@@ -20,7 +22,13 @@ namespace CoatingMgr
 
         private void FormAccountManager_Load(object sender, EventArgs e)
         {
+            asc.controllInitializeSize(this);
             InitData();
+        }
+
+        private void FormAccountManager_SizeChanged(object sender, EventArgs e)
+        {
+            asc.controlAutoSize(this);
         }
 
         private void InitData()
@@ -191,5 +199,6 @@ namespace CoatingMgr
             cbSearchContent.Items.Clear();
             BindDataGirdView(dgvAccountData, _tableName);
         }
+
     }
 }

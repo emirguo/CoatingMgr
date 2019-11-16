@@ -16,6 +16,8 @@ namespace CoatingMgr
         private static string[] _cbSearchType = { "按名称查找", "按颜色查找", "按类型查找", "按适用机型查找", "按仓库查找", "按生产日期查找", "按有效期查找", "按入库操作员查找", "按入库日期查找", "按告警时间查找" };
         private static string[] _searchType = { "名称", "颜色", "类型", "适用机型", "仓库", "生产日期", "有效期", "操作员", "入库日期", "告警时间" };
 
+        AutoSize asc = new AutoSize();
+
         public FormStockDetail()
         {
             InitializeComponent();
@@ -30,7 +32,13 @@ namespace CoatingMgr
 
         private void FormStockDetail_Load(object sender, EventArgs e)
         {
+            asc.controllInitializeSize(this);
             InitData();
+        }
+
+        private void FormStockDetail_SizeChanged(object sender, EventArgs e)
+        {
+            asc.controlAutoSize(this);
         }
 
         //显示当前时间
@@ -333,5 +341,6 @@ namespace CoatingMgr
             DataTable dt = SQLServerHelper.Read(_tableName);
             ExcelHelper.ExportExcel(dt);
         }
+
     }
 }

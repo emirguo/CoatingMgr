@@ -105,7 +105,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvWarnMgr.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvWarnMgr.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            this.dgvWarnMgr.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvWarnMgr.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dgvWarnMgr.Location = new System.Drawing.Point(2, 2);
             this.dgvWarnMgr.Name = "dgvWarnMgr";
             this.dgvWarnMgr.RowTemplate.Height = 23;
@@ -226,6 +226,7 @@
             this.Text = "FormWarn";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.FormWarn_Load);
+            this.SizeChanged += new System.EventHandler(this.FormWarn_SizeChanged);
             this.panel2.ResumeLayout(false);
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();

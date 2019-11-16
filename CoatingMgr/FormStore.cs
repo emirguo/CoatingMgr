@@ -10,10 +10,18 @@ namespace CoatingMgr
     {
         private static string _tableName = Common.STORETABLENAME;
 
+        AutoSize asc = new AutoSize();
+
         public FormStore()
         {
             InitializeComponent();
+            asc.controllInitializeSize(this);
             InitData();
+        }
+
+        private void FormStore_SizeChanged(object sender, EventArgs e)
+        {
+            asc.controlAutoSize(this);
         }
 
         private void InitData()

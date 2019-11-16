@@ -234,10 +234,10 @@
             // tbSlowWeight
             // 
             this.tbSlowWeight.Font = new System.Drawing.Font("宋体", 12F);
-            this.tbSlowWeight.Location = new System.Drawing.Point(736, 23);
+            this.tbSlowWeight.Location = new System.Drawing.Point(742, 23);
             this.tbSlowWeight.MaxLength = 10;
             this.tbSlowWeight.Name = "tbSlowWeight";
-            this.tbSlowWeight.Size = new System.Drawing.Size(56, 26);
+            this.tbSlowWeight.Size = new System.Drawing.Size(50, 26);
             this.tbSlowWeight.TabIndex = 63;
             this.tbSlowWeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -407,10 +407,10 @@
             // tbInputWeight
             // 
             this.tbInputWeight.Font = new System.Drawing.Font("宋体", 12F);
-            this.tbInputWeight.Location = new System.Drawing.Point(566, 23);
+            this.tbInputWeight.Location = new System.Drawing.Point(572, 23);
             this.tbInputWeight.MaxLength = 10;
             this.tbInputWeight.Name = "tbInputWeight";
-            this.tbInputWeight.Size = new System.Drawing.Size(68, 26);
+            this.tbInputWeight.Size = new System.Drawing.Size(62, 26);
             this.tbInputWeight.TabIndex = 8;
             this.tbInputWeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -1564,6 +1564,7 @@
             this.Name = "FormStir";
             this.Text = "调和工程";
             this.Load += new System.EventHandler(this.FormStir_Load);
+            this.SizeChanged += new System.EventHandler(this.FormStir_SizeChanged);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.panel9.ResumeLayout(false);

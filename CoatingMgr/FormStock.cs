@@ -20,6 +20,8 @@ namespace CoatingMgr
         private static string[] _cbSearchType = { "按名称查找", "按颜色查找", "按类型查找", "按适用机型查找" };
         private static string[] _searchType = { "名称", "颜色", "类型", "适用机型" };
 
+        AutoSize asc = new AutoSize();
+
         public FormStock()
         {
             InitializeComponent();
@@ -34,7 +36,13 @@ namespace CoatingMgr
 
         private void FormStock_Load(object sender, EventArgs e)
         {
+            asc.controllInitializeSize(this);
             InitData();
+        }
+
+        private void FormStock_SizeChanged(object sender, EventArgs e)
+        {
+            asc.controlAutoSize(this);
         }
 
         //显示当前时间
@@ -525,5 +533,6 @@ namespace CoatingMgr
                 chartStock.Legends[1].Enabled = false;
             }
         }
+
     }
 }

@@ -58,7 +58,9 @@
             this.dgvLogData.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.dgvLogData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvLogData.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvLogData.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.dgvLogData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dgvLogData.Location = new System.Drawing.Point(2, 0);
             this.dgvLogData.Name = "dgvLogData";
             this.dgvLogData.RowTemplate.Height = 23;
@@ -108,9 +110,9 @@
             // btnExport
             // 
             this.btnExport.Font = new System.Drawing.Font("宋体", 12F);
-            this.btnExport.Location = new System.Drawing.Point(1041, 25);
+            this.btnExport.Location = new System.Drawing.Point(1010, 25);
             this.btnExport.Name = "btnExport";
-            this.btnExport.Size = new System.Drawing.Size(121, 26);
+            this.btnExport.Size = new System.Drawing.Size(152, 26);
             this.btnExport.TabIndex = 5;
             this.btnExport.Text = "导出Excel表格";
             this.btnExport.UseVisualStyleBackColor = true;
@@ -120,11 +122,11 @@
             // 
             this.dateTimePickerEnd.Font = new System.Drawing.Font("宋体", 12F);
             this.dateTimePickerEnd.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePickerEnd.Location = new System.Drawing.Point(566, 25);
+            this.dateTimePickerEnd.Location = new System.Drawing.Point(582, 25);
             this.dateTimePickerEnd.MaxDate = new System.DateTime(2099, 12, 31, 0, 0, 0, 0);
             this.dateTimePickerEnd.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
             this.dateTimePickerEnd.Name = "dateTimePickerEnd";
-            this.dateTimePickerEnd.Size = new System.Drawing.Size(120, 26);
+            this.dateTimePickerEnd.Size = new System.Drawing.Size(136, 26);
             this.dateTimePickerEnd.TabIndex = 65;
             this.dateTimePickerEnd.Value = new System.DateTime(2019, 4, 10, 23, 20, 15, 0);
             this.dateTimePickerEnd.ValueChanged += new System.EventHandler(this.DateTimePickerEnd_ValueChanged);
@@ -148,7 +150,7 @@
             this.dateTimePickerStart.MaxDate = new System.DateTime(2099, 12, 31, 0, 0, 0, 0);
             this.dateTimePickerStart.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
             this.dateTimePickerStart.Name = "dateTimePickerStart";
-            this.dateTimePickerStart.Size = new System.Drawing.Size(120, 26);
+            this.dateTimePickerStart.Size = new System.Drawing.Size(136, 26);
             this.dateTimePickerStart.TabIndex = 64;
             this.dateTimePickerStart.Value = new System.DateTime(2019, 4, 10, 23, 17, 23, 0);
             this.dateTimePickerStart.ValueChanged += new System.EventHandler(this.DateTimePickerStart_ValueChanged);
@@ -156,7 +158,7 @@
             // btShowAll
             // 
             this.btShowAll.Font = new System.Drawing.Font("宋体", 12F);
-            this.btShowAll.Location = new System.Drawing.Point(696, 25);
+            this.btShowAll.Location = new System.Drawing.Point(733, 25);
             this.btShowAll.Name = "btShowAll";
             this.btShowAll.Size = new System.Drawing.Size(122, 26);
             this.btShowAll.TabIndex = 58;
@@ -168,7 +170,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("宋体", 12F);
-            this.label2.Location = new System.Drawing.Point(541, 29);
+            this.label2.Location = new System.Drawing.Point(557, 29);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(24, 16);
             this.label2.TabIndex = 62;
@@ -253,6 +255,7 @@
             this.Text = "日志查询";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.FormLog_Load);
+            this.SizeChanged += new System.EventHandler(this.FormLog_SizeChanged);
             ((System.ComponentModel.ISupportInitialize)(this.dgvLogData)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

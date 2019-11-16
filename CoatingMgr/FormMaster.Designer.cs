@@ -150,7 +150,7 @@
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgvMasterData.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.dgvMasterData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvMasterData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dgvMasterData.Location = new System.Drawing.Point(2, 2);
             this.dgvMasterData.Name = "dgvMasterData";
             this.dgvMasterData.RowTemplate.Height = 23;
@@ -269,6 +269,7 @@
             this.Text = "FormMaster";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.FormMaster_Load);
+            this.SizeChanged += new System.EventHandler(this.FormMaster_SizeChanged);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel3.ResumeLayout(false);
