@@ -11,7 +11,7 @@ namespace CoatingMgr
     public partial class FormOut : Form
     {
         private string _userName = "";
-
+        private string errorMessage = string.Empty;
         AutoSize asc = new AutoSize();
 
         public FormOut()
@@ -99,10 +99,14 @@ namespace CoatingMgr
         {
             if (!barcode.Equals(""))
             {
+                errorMessage = string.Empty;
                 if (!IsBarCodeInStock(barcode))
                 {
-                    MessageBox.Show("此条形码涂料还未入库，请先入库");
                     this.tbBarCode.Text = string.Empty;
+                    this.lbResult.Text = "NG";
+                    this.panelResult.BackColor = Color.Red;
+                    Common.PlayVoice(2);
+                    MessageBox.Show("此条形码涂料还未入库，请先入库");
                     return;
                 }
                 if (AnalysisBarCode(barcode))
@@ -123,8 +127,10 @@ namespace CoatingMgr
                     this.lbResult.Text = "NG";
                     this.panelResult.BackColor = Color.Red;
                     Common.PlayVoice(2);
+                    MessageBox.Show(errorMessage);
                 }
                 this.tbBarCode.Text = string.Empty;
+                errorMessage = string.Empty;
             }
         }
 
@@ -140,10 +146,14 @@ namespace CoatingMgr
                 {
                     if (!tbBarCode.Text.Equals(string.Empty))
                     {
+                        errorMessage = string.Empty;
                         if (!IsBarCodeInStock(tbBarCode.Text))
                         {
-                            MessageBox.Show("此条形码涂料还未入库，请先入库");
                             this.tbBarCode.Text = string.Empty;
+                            this.lbResult.Text = "NG";
+                            this.panelResult.BackColor = Color.Red;
+                            Common.PlayVoice(2);
+                            MessageBox.Show("此条形码涂料还未入库，请先入库");
                             return;
                         }
                         if (AnalysisBarCode(tbBarCode.Text))
@@ -162,8 +172,10 @@ namespace CoatingMgr
                             this.lbResult.Text = "NG";
                             this.panelResult.BackColor = Color.Red;
                             Common.PlayVoice(2);
+                            MessageBox.Show(errorMessage);
                         }
                         this.tbBarCode.Text = string.Empty;
+                        errorMessage = string.Empty;
                     }
                 }
             }
@@ -215,7 +227,7 @@ namespace CoatingMgr
                         tbExpiryDate.Text = string.Empty;
                         tbColor.Text = string.Empty;
                         tbModel.Text = string.Empty;
-                        MessageBox.Show("Master文件中未找到此涂料");
+                        errorMessage = "Master文件中未找到此涂料";
                         return result;
                     }
 
@@ -233,12 +245,12 @@ namespace CoatingMgr
                 }
                 else
                 {
-                    MessageBox.Show("条形码无效");
+                    errorMessage = "条形码无效";
                 }
             }
             else
             {
-                MessageBox.Show("条形码无效");
+                errorMessage = "条形码无效";
             }
             return result;
         }

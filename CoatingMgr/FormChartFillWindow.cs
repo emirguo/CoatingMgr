@@ -51,6 +51,9 @@ namespace CoatingMgr
             chartStock.ChartAreas[0].AxisX.TitleFont = new Font("微软雅黑", 12f, FontStyle.Regular);
             chartStock.ChartAreas[0].AxisY.Title = "库存量（kg）";
             chartStock.ChartAreas[0].AxisY.TitleFont = new Font("微软雅黑", 12f, FontStyle.Regular);
+            chartStock.ChartAreas[0].AxisX.Interval = 1;
+            chartStock.ChartAreas[0].AxisX.IntervalOffset = 1;
+            chartStock.ChartAreas[0].AxisX.IntervalAutoMode = IntervalAutoMode.VariableCount;
 
             //重量柱状图
             Series weightSerie = new Series
