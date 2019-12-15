@@ -27,7 +27,7 @@ namespace CoatingMgr
             }
         }
 
-        private void BtnConfirm_Click(object sender, EventArgs e)
+        private void SaveInfo()
         {
             if (this.tbIP.Text.Equals(string.Empty))
             {
@@ -74,9 +74,22 @@ namespace CoatingMgr
             Close();
         }
 
+        private void BtnConfirm_Click(object sender, EventArgs e)
+        {
+            SaveInfo();
+        }
+
         private void BtnCancel_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void TbPwd_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                SaveInfo();
+            }
         }
     }
 }

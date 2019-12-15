@@ -95,9 +95,9 @@
             // btShowAll
             // 
             this.btShowAll.Font = new System.Drawing.Font("宋体", 12F);
-            this.btShowAll.Location = new System.Drawing.Point(405, 23);
+            this.btShowAll.Location = new System.Drawing.Point(405, 20);
             this.btShowAll.Name = "btShowAll";
-            this.btShowAll.Size = new System.Drawing.Size(122, 27);
+            this.btShowAll.Size = new System.Drawing.Size(122, 30);
             this.btShowAll.TabIndex = 11;
             this.btShowAll.Text = "显示全部库存";
             this.btShowAll.UseVisualStyleBackColor = true;
@@ -117,9 +117,9 @@
             // btExport
             // 
             this.btExport.Font = new System.Drawing.Font("宋体", 12F);
-            this.btExport.Location = new System.Drawing.Point(1010, 23);
+            this.btExport.Location = new System.Drawing.Point(1019, 20);
             this.btExport.Name = "btExport";
-            this.btExport.Size = new System.Drawing.Size(136, 27);
+            this.btExport.Size = new System.Drawing.Size(136, 30);
             this.btExport.TabIndex = 5;
             this.btExport.Text = "导出Excel表格";
             this.btExport.UseVisualStyleBackColor = true;

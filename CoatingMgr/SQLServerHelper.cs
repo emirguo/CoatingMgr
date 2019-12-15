@@ -248,6 +248,7 @@ namespace CoatingMgr
             catch (Exception ex)
             {
                 Logger.Instance.WriteLog("读取表" + tableName + "失败," + ex.Message);
+                return null;
             }
             return dt;
         }
@@ -288,6 +289,7 @@ namespace CoatingMgr
             catch (Exception ex)
             {
                 Logger.Instance.WriteLog("读取表" + tableName + "失败," + ex.Message);
+                return null;
             }
             return dt;
         }
@@ -329,6 +331,7 @@ namespace CoatingMgr
             catch (Exception ex)
             {
                 Logger.Instance.WriteLog("读取表" + tableName + "失败," + ex.Message);
+                return null;
             }
 
             return dt;

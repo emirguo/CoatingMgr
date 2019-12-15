@@ -56,7 +56,12 @@ namespace CoatingMgr
         private void FormLog_Load(object sender, EventArgs e)
         {
             asc.controllInitializeSize(this);
-            BindDataGirdView(dgvLogData, _tableName);//绑定数据库表
+            dateTimePickerStart.CustomFormat = "yyyy/MM/dd";
+            dateTimePickerEnd.CustomFormat = "yyyy/MM/dd";
+            DateTime dt = DateTime.Now;
+            dateTimePickerEnd.Value = dt;
+            dateTimePickerStart.Value = dt.AddDays(-7);
+            BindDataGirdViewBySearch(dgvLogData, _tableName);
         }
 
         private void FormLog_SizeChanged(object sender, EventArgs e)

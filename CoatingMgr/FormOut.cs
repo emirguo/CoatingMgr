@@ -237,7 +237,7 @@ namespace CoatingMgr
                     string weight = "重量：" + tbWeight.Text + "kg" + "\n";
                     string color = "颜色：" + tbColor.Text + "\n";
                     string model = "适用机种：" + tbModel.Text + "\n";
-                    string manufacturer = "厂商：" + Common.FACTORY[sArray[2]] + "\n";
+                    string manufacturer = "厂商：" + dt.Rows[0]["制造商"].ToString() + "\n";//Common.FACTORY[sArray[2]] + "\n";
                     string productionDate = "生产日期：" + tbProductionDate.Text + "\n";
                     string expiryDate = "有效期：" + tbExpiryDate.Text + "\n";
                     this.lbProDescription.Text = title + name + type + color + weight + model + manufacturer + productionDate + expiryDate;

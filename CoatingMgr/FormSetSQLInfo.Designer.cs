@@ -43,9 +43,9 @@
             // btnCancel
             // 
             this.btnCancel.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnCancel.Location = new System.Drawing.Point(258, 173);
+            this.btnCancel.Location = new System.Drawing.Point(238, 173);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(70, 32);
+            this.btnCancel.Size = new System.Drawing.Size(90, 32);
             this.btnCancel.TabIndex = 5;
             this.btnCancel.Text = "取消";
             this.btnCancel.UseVisualStyleBackColor = true;
@@ -56,7 +56,7 @@
             this.btnConfirm.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btnConfirm.Location = new System.Drawing.Point(39, 173);
             this.btnConfirm.Name = "btnConfirm";
-            this.btnConfirm.Size = new System.Drawing.Size(70, 32);
+            this.btnConfirm.Size = new System.Drawing.Size(90, 32);
             this.btnConfirm.TabIndex = 4;
             this.btnConfirm.Text = "确认";
             this.btnConfirm.UseVisualStyleBackColor = true;
@@ -91,6 +91,7 @@
             this.tbPwd.Name = "tbPwd";
             this.tbPwd.Size = new System.Drawing.Size(211, 26);
             this.tbPwd.TabIndex = 3;
+            this.tbPwd.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TbPwd_KeyDown);
             // 
             // label1
             // 

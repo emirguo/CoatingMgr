@@ -152,9 +152,9 @@
             // btAdd
             // 
             this.btAdd.Font = new System.Drawing.Font("宋体", 12F);
-            this.btAdd.Location = new System.Drawing.Point(1036, 24);
+            this.btAdd.Location = new System.Drawing.Point(1035, 22);
             this.btAdd.Name = "btAdd";
-            this.btAdd.Size = new System.Drawing.Size(122, 27);
+            this.btAdd.Size = new System.Drawing.Size(122, 30);
             this.btAdd.TabIndex = 40;
             this.btAdd.Text = "添加告警规则";
             this.btAdd.UseVisualStyleBackColor = true;
@@ -174,9 +174,9 @@
             // btShowAll
             // 
             this.btShowAll.Font = new System.Drawing.Font("宋体", 12F);
-            this.btShowAll.Location = new System.Drawing.Point(574, 24);
+            this.btShowAll.Location = new System.Drawing.Point(573, 22);
             this.btShowAll.Name = "btShowAll";
-            this.btShowAll.Size = new System.Drawing.Size(122, 27);
+            this.btShowAll.Size = new System.Drawing.Size(122, 30);
             this.btShowAll.TabIndex = 11;
             this.btShowAll.Text = "显示全部规则";
             this.btShowAll.UseVisualStyleBackColor = true;

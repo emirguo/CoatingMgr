@@ -133,9 +133,9 @@
             // btAdd
             // 
             this.btAdd.Font = new System.Drawing.Font("宋体", 12F);
-            this.btAdd.Location = new System.Drawing.Point(1036, 23);
+            this.btAdd.Location = new System.Drawing.Point(1040, 20);
             this.btAdd.Name = "btAdd";
-            this.btAdd.Size = new System.Drawing.Size(114, 27);
+            this.btAdd.Size = new System.Drawing.Size(116, 30);
             this.btAdd.TabIndex = 5;
             this.btAdd.Text = "添加账户";
             this.btAdd.UseVisualStyleBackColor = true;
@@ -158,9 +158,9 @@
             // btShowAll
             // 
             this.btShowAll.Font = new System.Drawing.Font("宋体", 12F);
-            this.btShowAll.Location = new System.Drawing.Point(405, 23);
+            this.btShowAll.Location = new System.Drawing.Point(406, 20);
             this.btShowAll.Name = "btShowAll";
-            this.btShowAll.Size = new System.Drawing.Size(122, 27);
+            this.btShowAll.Size = new System.Drawing.Size(122, 30);
             this.btShowAll.TabIndex = 11;
             this.btShowAll.Text = "显示全部账号";
             this.btShowAll.UseVisualStyleBackColor = true;

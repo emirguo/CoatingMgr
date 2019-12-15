@@ -335,9 +335,9 @@
             // btnResetStirValues
             // 
             this.btnResetStirValues.Font = new System.Drawing.Font("宋体", 12F);
-            this.btnResetStirValues.Location = new System.Drawing.Point(941, 23);
+            this.btnResetStirValues.Location = new System.Drawing.Point(943, 20);
             this.btnResetStirValues.Name = "btnResetStirValues";
-            this.btnResetStirValues.Size = new System.Drawing.Size(114, 28);
+            this.btnResetStirValues.Size = new System.Drawing.Size(114, 32);
             this.btnResetStirValues.TabIndex = 59;
             this.btnResetStirValues.Text = "修改调和数据";
             this.btnResetStirValues.UseVisualStyleBackColor = true;
@@ -356,9 +356,9 @@
             // btnGetStirValues
             // 
             this.btnGetStirValues.Font = new System.Drawing.Font("宋体", 12F);
-            this.btnGetStirValues.Location = new System.Drawing.Point(822, 23);
+            this.btnGetStirValues.Location = new System.Drawing.Point(823, 20);
             this.btnGetStirValues.Name = "btnGetStirValues";
-            this.btnGetStirValues.Size = new System.Drawing.Size(114, 28);
+            this.btnGetStirValues.Size = new System.Drawing.Size(114, 32);
             this.btnGetStirValues.TabIndex = 58;
             this.btnGetStirValues.Text = "计算调和数据";
             this.btnGetStirValues.UseVisualStyleBackColor = true;
@@ -1322,9 +1322,9 @@
             // btnStop
             // 
             this.btnStop.Font = new System.Drawing.Font("宋体", 12F);
-            this.btnStop.Location = new System.Drawing.Point(668, 632);
+            this.btnStop.Location = new System.Drawing.Point(623, 630);
             this.btnStop.Name = "btnStop";
-            this.btnStop.Size = new System.Drawing.Size(71, 29);
+            this.btnStop.Size = new System.Drawing.Size(116, 30);
             this.btnStop.TabIndex = 38;
             this.btnStop.Text = "停止";
             this.btnStop.UseVisualStyleBackColor = true;

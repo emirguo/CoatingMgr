@@ -47,9 +47,9 @@
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnCancel.Location = new System.Drawing.Point(240, 213);
+            this.btnCancel.Location = new System.Drawing.Point(249, 213);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(99, 32);
+            this.btnCancel.Size = new System.Drawing.Size(90, 32);
             this.btnCancel.TabIndex = 20;
             this.btnCancel.Text = "取消";
             this.btnCancel.UseVisualStyleBackColor = true;
@@ -60,7 +60,7 @@
             this.btnModify.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btnModify.Location = new System.Drawing.Point(37, 213);
             this.btnModify.Name = "btnModify";
-            this.btnModify.Size = new System.Drawing.Size(99, 32);
+            this.btnModify.Size = new System.Drawing.Size(90, 32);
             this.btnModify.TabIndex = 19;
             this.btnModify.Text = "修改";
             this.btnModify.UseVisualStyleBackColor = true;

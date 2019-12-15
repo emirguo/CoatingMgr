@@ -41,9 +41,9 @@
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnCancel.Location = new System.Drawing.Point(213, 106);
+            this.btnCancel.Location = new System.Drawing.Point(193, 106);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(70, 32);
+            this.btnCancel.Size = new System.Drawing.Size(90, 32);
             this.btnCancel.TabIndex = 26;
             this.btnCancel.Text = "取消";
             this.btnCancel.UseVisualStyleBackColor = true;
@@ -54,7 +54,7 @@
             this.btnConfirm.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btnConfirm.Location = new System.Drawing.Point(24, 106);
             this.btnConfirm.Name = "btnConfirm";
-            this.btnConfirm.Size = new System.Drawing.Size(70, 32);
+            this.btnConfirm.Size = new System.Drawing.Size(90, 32);
             this.btnConfirm.TabIndex = 25;
             this.btnConfirm.Text = "确认";
             this.btnConfirm.UseVisualStyleBackColor = true;
@@ -118,7 +118,7 @@
             this.label1.TabIndex = 27;
             this.label1.Text = "（默认端口5000）";
             // 
-            // FormPLCIP
+            // FormSetPLCIP
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -130,7 +130,7 @@
             this.Controls.Add(this.tbIPAddr);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
-            this.Name = "FormPLCIP";
+            this.Name = "FormSetPLCIP";
             this.Text = "设置PLC IP信息";
             this.ResumeLayout(false);
             this.PerformLayout();

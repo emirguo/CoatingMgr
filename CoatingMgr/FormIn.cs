@@ -117,13 +117,21 @@ namespace CoatingMgr
             if (!barcode.Equals(string.Empty))
             {
                 errorMessage = string.Empty;
-                if (IsBarCodeInStock(barcode))
+                int checkResult = CheckBarCodeInStock(barcode);
+                if (checkResult > 0)
                 {
                     this.tbBarCode.Text = string.Empty;
                     this.lbResult.Text = "NG";
                     this.panelResult.BackColor = Color.Red;
+                    if (checkResult == 1)
+                    {
+                        MessageBox.Show("此条形码涂料已入库，无法重复入库");
+                    }
+                    else if (checkResult == 2)
+                    {
+                        MessageBox.Show("数据库读取失败，请检查网络是否正常或者再次一次");
+                    }
                     Common.PlayVoice(2);
-                    MessageBox.Show("此条形码涂料已入库，无法重复入库");
                     return;
                 }
                 if (AnalysisBarCode(barcode))
@@ -143,8 +151,8 @@ namespace CoatingMgr
                 {
                     this.lbResult.Text = "NG";
                     this.panelResult.BackColor = Color.Red;
-                    Common.PlayVoice(2);
                     MessageBox.Show(errorMessage);
+                    Common.PlayVoice(2);
                 }
                 this.tbBarCode.Text = string.Empty;
                 errorMessage = string.Empty;
@@ -171,13 +179,21 @@ namespace CoatingMgr
                     if (!tbBarCode.Text.Equals(string.Empty))
                     {
                         errorMessage = string.Empty;
-                        if (IsBarCodeInStock(tbBarCode.Text))
+                        int checkResult = CheckBarCodeInStock(tbBarCode.Text);
+                        if (checkResult > 0)
                         {
                             this.tbBarCode.Text = string.Empty;
                             this.lbResult.Text = "NG";
                             this.panelResult.BackColor = Color.Red;
+                            if (checkResult == 1)
+                            {
+                                MessageBox.Show("此条形码涂料已入库，无法重复入库");
+                            }
+                            else if (checkResult == 2)
+                            {
+                                MessageBox.Show("数据库读取失败，请检查网络是否正常或者再次一次");
+                            }
                             Common.PlayVoice(2);
-                            MessageBox.Show("此条形码涂料已入库，无法重复入库");
                             return;
                         }
                         if (AnalysisBarCode(tbBarCode.Text))
@@ -206,13 +222,17 @@ namespace CoatingMgr
             }
         }
 
-        private bool IsBarCodeInStock(string barcode)
+        private int CheckBarCodeInStock(string barcode)
         {
-            bool result = false;
+            int result = 0;
             DataTable dt = SQLServerHelper.Read(Common.INSTOCKTABLENAME, new string[] { "条形码" }, new string[] { "=" }, new string[] { barcode });
             if (dt != null && dt.Rows.Count > 0)
             {
-                result = true;
+                result = 1;
+            }
+            if (dt == null)//数据库读取失败
+            {
+                result = 2;
             }
             return result;
         }
@@ -261,7 +281,7 @@ namespace CoatingMgr
                     string weight = "重量：" + tbWeight.Text + "kg" + "\n";
                     string color = "颜色：" + tbColor.Text + "\n";
                     string model = "适用机种：" + tbModel.Text + "\n";
-                    string manufacturer = "厂商：" + Common.FACTORY[sArray[2]] + "\n";
+                    string manufacturer = "厂商：" + dt.Rows[0]["制造商"].ToString() + "\n";//Common.FACTORY[sArray[2]] + "\n";
                     string productionDate = "生产日期：" + tbProductionDate.Text + "\n";
                     string expiryDate = "有效期：" + tbExpiryDate.Text + "\n";
                     this.lbProDescription.Text = title + name + type + color + weight + model + manufacturer + productionDate + expiryDate;

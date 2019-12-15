@@ -43,9 +43,9 @@
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnCancel.Location = new System.Drawing.Point(209, 161);
+            this.btnCancel.Location = new System.Drawing.Point(191, 161);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(70, 32);
+            this.btnCancel.Size = new System.Drawing.Size(90, 32);
             this.btnCancel.TabIndex = 20;
             this.btnCancel.Text = "取消";
             this.btnCancel.UseVisualStyleBackColor = true;
@@ -56,7 +56,7 @@
             this.btnConfirm.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btnConfirm.Location = new System.Drawing.Point(20, 161);
             this.btnConfirm.Name = "btnConfirm";
-            this.btnConfirm.Size = new System.Drawing.Size(70, 32);
+            this.btnConfirm.Size = new System.Drawing.Size(90, 32);
             this.btnConfirm.TabIndex = 19;
             this.btnConfirm.Text = "确认";
             this.btnConfirm.UseVisualStyleBackColor = true;
@@ -70,7 +70,7 @@
             this.tbPwd.Location = new System.Drawing.Point(111, 116);
             this.tbPwd.MaxLength = 32;
             this.tbPwd.Name = "tbPwd";
-            this.tbPwd.Size = new System.Drawing.Size(168, 26);
+            this.tbPwd.Size = new System.Drawing.Size(170, 26);
             this.tbPwd.TabIndex = 18;
             // 
             // tbUserName
@@ -81,7 +81,7 @@
             this.tbUserName.Location = new System.Drawing.Point(111, 78);
             this.tbUserName.MaxLength = 32;
             this.tbUserName.Name = "tbUserName";
-            this.tbUserName.Size = new System.Drawing.Size(168, 26);
+            this.tbUserName.Size = new System.Drawing.Size(170, 26);
             this.tbUserName.TabIndex = 17;
             // 
             // label3
@@ -132,7 +132,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(306, 205);
+            this.ClientSize = new System.Drawing.Size(308, 205);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnConfirm);

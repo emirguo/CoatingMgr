@@ -93,9 +93,9 @@
             // btImportMaster
             // 
             this.btImportMaster.Font = new System.Drawing.Font("宋体", 12F);
-            this.btImportMaster.Location = new System.Drawing.Point(1016, 24);
+            this.btImportMaster.Location = new System.Drawing.Point(1020, 21);
             this.btImportMaster.Name = "btImportMaster";
-            this.btImportMaster.Size = new System.Drawing.Size(148, 27);
+            this.btImportMaster.Size = new System.Drawing.Size(148, 30);
             this.btImportMaster.TabIndex = 13;
             this.btImportMaster.Text = "导入Master文件";
             this.btImportMaster.UseVisualStyleBackColor = true;
@@ -104,9 +104,9 @@
             // btShowAll
             // 
             this.btShowAll.Font = new System.Drawing.Font("宋体", 12F);
-            this.btShowAll.Location = new System.Drawing.Point(417, 24);
+            this.btShowAll.Location = new System.Drawing.Point(421, 21);
             this.btShowAll.Name = "btShowAll";
-            this.btShowAll.Size = new System.Drawing.Size(122, 27);
+            this.btShowAll.Size = new System.Drawing.Size(122, 30);
             this.btShowAll.TabIndex = 11;
             this.btShowAll.Text = "显示全部";
             this.btShowAll.UseVisualStyleBackColor = true;

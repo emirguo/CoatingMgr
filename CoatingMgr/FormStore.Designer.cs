@@ -76,9 +76,9 @@
             // btShowAll
             // 
             this.btShowAll.Font = new System.Drawing.Font("宋体", 12F);
-            this.btShowAll.Location = new System.Drawing.Point(224, 23);
+            this.btShowAll.Location = new System.Drawing.Point(233, 20);
             this.btShowAll.Name = "btShowAll";
-            this.btShowAll.Size = new System.Drawing.Size(122, 27);
+            this.btShowAll.Size = new System.Drawing.Size(122, 30);
             this.btShowAll.TabIndex = 11;
             this.btShowAll.Text = "显示全部仓库";
             this.btShowAll.UseVisualStyleBackColor = true;
@@ -98,9 +98,9 @@
             // 
             this.btAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btAdd.Font = new System.Drawing.Font("宋体", 12F);
-            this.btAdd.Location = new System.Drawing.Point(1036, 23);
+            this.btAdd.Location = new System.Drawing.Point(1038, 20);
             this.btAdd.Name = "btAdd";
-            this.btAdd.Size = new System.Drawing.Size(114, 27);
+            this.btAdd.Size = new System.Drawing.Size(116, 30);
             this.btAdd.TabIndex = 5;
             this.btAdd.Text = "添加仓库";
             this.btAdd.UseVisualStyleBackColor = true;
@@ -160,7 +160,7 @@
             this.panel4.Controls.Add(this.lbCount);
             this.panel4.Controls.Add(this.label4);
             this.panel4.Font = new System.Drawing.Font("宋体", 12F);
-            this.panel4.Location = new System.Drawing.Point(200, 450);
+            this.panel4.Location = new System.Drawing.Point(202, 450);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(983, 28);
             this.panel4.TabIndex = 15;
@@ -174,7 +174,7 @@
             this.panel2.Controls.Add(this.dgvData);
             this.panel2.Location = new System.Drawing.Point(0, 84);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1182, 478);
+            this.panel2.Size = new System.Drawing.Size(1184, 478);
             this.panel2.TabIndex = 5;
             // 
             // dgvData
@@ -192,7 +192,7 @@
             this.dgvData.ReadOnly = true;
             this.dgvData.RowTemplate.Height = 23;
             this.dgvData.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvData.Size = new System.Drawing.Size(1178, 448);
+            this.dgvData.Size = new System.Drawing.Size(1180, 448);
             this.dgvData.TabIndex = 0;
             this.dgvData.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DgvData_CellMouseUp);
             // 

@@ -110,9 +110,9 @@
             // btnExport
             // 
             this.btnExport.Font = new System.Drawing.Font("宋体", 12F);
-            this.btnExport.Location = new System.Drawing.Point(1010, 25);
+            this.btnExport.Location = new System.Drawing.Point(1016, 22);
             this.btnExport.Name = "btnExport";
-            this.btnExport.Size = new System.Drawing.Size(152, 26);
+            this.btnExport.Size = new System.Drawing.Size(152, 30);
             this.btnExport.TabIndex = 5;
             this.btnExport.Text = "导出Excel表格";
             this.btnExport.UseVisualStyleBackColor = true;
@@ -128,7 +128,7 @@
             this.dateTimePickerEnd.Name = "dateTimePickerEnd";
             this.dateTimePickerEnd.Size = new System.Drawing.Size(136, 26);
             this.dateTimePickerEnd.TabIndex = 65;
-            this.dateTimePickerEnd.Value = new System.DateTime(2019, 4, 10, 23, 20, 15, 0);
+            this.dateTimePickerEnd.Value = new System.DateTime(2019, 12, 15, 0, 0, 0, 0);
             this.dateTimePickerEnd.ValueChanged += new System.EventHandler(this.DateTimePickerEnd_ValueChanged);
             // 
             // cbSearchType
@@ -152,15 +152,15 @@
             this.dateTimePickerStart.Name = "dateTimePickerStart";
             this.dateTimePickerStart.Size = new System.Drawing.Size(136, 26);
             this.dateTimePickerStart.TabIndex = 64;
-            this.dateTimePickerStart.Value = new System.DateTime(2019, 4, 10, 23, 17, 23, 0);
+            this.dateTimePickerStart.Value = new System.DateTime(2019, 12, 15, 0, 0, 0, 0);
             this.dateTimePickerStart.ValueChanged += new System.EventHandler(this.DateTimePickerStart_ValueChanged);
             // 
             // btShowAll
             // 
             this.btShowAll.Font = new System.Drawing.Font("宋体", 12F);
-            this.btShowAll.Location = new System.Drawing.Point(733, 25);
+            this.btShowAll.Location = new System.Drawing.Point(737, 21);
             this.btShowAll.Name = "btShowAll";
-            this.btShowAll.Size = new System.Drawing.Size(122, 26);
+            this.btShowAll.Size = new System.Drawing.Size(122, 30);
             this.btShowAll.TabIndex = 58;
             this.btShowAll.Text = "显示全部日志";
             this.btShowAll.UseVisualStyleBackColor = true;
