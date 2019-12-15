@@ -110,7 +110,7 @@
             // btnExport
             // 
             this.btnExport.Font = new System.Drawing.Font("宋体", 12F);
-            this.btnExport.Location = new System.Drawing.Point(1016, 22);
+            this.btnExport.Location = new System.Drawing.Point(1003, 22);
             this.btnExport.Name = "btnExport";
             this.btnExport.Size = new System.Drawing.Size(152, 30);
             this.btnExport.TabIndex = 5;
@@ -158,11 +158,11 @@
             // btShowAll
             // 
             this.btShowAll.Font = new System.Drawing.Font("宋体", 12F);
-            this.btShowAll.Location = new System.Drawing.Point(737, 21);
+            this.btShowAll.Location = new System.Drawing.Point(739, 22);
             this.btShowAll.Name = "btShowAll";
-            this.btShowAll.Size = new System.Drawing.Size(122, 30);
+            this.btShowAll.Size = new System.Drawing.Size(139, 30);
             this.btShowAll.TabIndex = 58;
-            this.btShowAll.Text = "显示全部日志";
+            this.btShowAll.Text = "显示近一周日志";
             this.btShowAll.UseVisualStyleBackColor = true;
             this.btShowAll.Click += new System.EventHandler(this.BtShowAll_Click);
             // 
